@@ -83,5 +83,8 @@
     "webpack-manifest-plugin": "4.0.2",
     "webpack-merge": "5.8.0",
     "webpack-remove-empty-scripts": "0.7.1"
+  },
+  "engines": {
+    "node": ">=12.13.0"
   }
 }
