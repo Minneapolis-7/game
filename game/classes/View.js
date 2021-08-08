@@ -1,7 +1,7 @@
 import {
-  SPRITE_ITEM_SIZE,
   CANVAS_SIZE,
   CANVAS_BACKGROUND,
+  SPRITE_SIZE,
   TILES
 } from '../utils/constants.js';
 
@@ -10,7 +10,7 @@ export default class View {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext('2d');
     const [canvasWidth, canvasHeight] = CANVAS_SIZE;
-    const [spriteWidth, spriteHeight] = SPRITE_ITEM_SIZE;
+    const [spriteWidth, spriteHeight] = SPRITE_SIZE;
     canvas.width  = canvasWidth;
     canvas.height = canvasHeight;
     this.spriteWidth = spriteWidth;
