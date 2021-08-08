@@ -1,4 +1,10 @@
-import {GAME_CONFIG, PLAYER_DIRECTION, SPRITE_PLAYER, SPRITE_SIZE} from '../utils/constants.js';
+import {
+  GAME_CONFIG,
+  PLAYER_DIRECTION,
+  SPRITE_PLAYER,
+  SPRITE_SIZE_X,
+  SPRITE_SIZE_Y
+} from '../utils/constants.js';
 
 export default class Player {
   constructor() {
@@ -20,21 +26,19 @@ export default class Player {
     }
   }
 
-  get t() {
-    return {
-      x: Math.floor(this.x / SPRITE_SIZE[0]),
-      y: Math.floor(this.y / SPRITE_SIZE[1]),
-    }
-  }
-
   get position() {
+    const x = Math.floor(this.x / SPRITE_SIZE_X);
+    const y = Math.floor(this.y / SPRITE_SIZE_Y);
+
     return {
-      x: this.t.x,
-      y: this.t.y,
-      top: this.t.y - 1,
-      right: this.t.x + 1,
-      bottom: this.t.y + 1,
-      left: this.t.x - 1,
+      // Положение игрока (координаты по тайлам)
+      x,
+      y,
+      // Соседние тайлы с игроком (координаты по тайлам)
+      top: y - 1,
+      right: x + 1,
+      bottom: y + 1,
+      left: x - 1,
     }
   }
 
@@ -52,51 +56,55 @@ export default class Player {
   }
 
   update() {
+    // Прыжок
     if (!this.isJump) {
-      this.isJump = true
-      this.velocityY = -this.speed * GAME_CONFIG.PLAYER_JUMP_POWER
+      this.isJump = true;
+      this.velocityY = -this.speed * GAME_CONFIG.PLAYER_JUMP_POWER;
     }
 
+    // Движение влево
     if (this.direction === PLAYER_DIRECTION.LEFT) {
       if (this.velocityX > -this.speed) {
-        this.velocityX--
+        this.velocityX--;
       }
     }
 
+    // Движение вправо
     if (this.direction === PLAYER_DIRECTION.RIGHT) {
       if (this.velocityX < this.speed) {
-        this.velocityX++
+        this.velocityX++;
       }
     }
 
-    this.velocityX *= GAME_CONFIG.FRICTION
-    this.velocityY += GAME_CONFIG.GRAVITY
+    this.velocityX *= GAME_CONFIG.FRICTION;
+    this.velocityY += GAME_CONFIG.GRAVITY;
 
-    this.x += this.velocityX
-    this.y += this.velocityY
+    this.x += this.velocityX;
+    this.y += this.velocityY;
 
-    // Коллизия
-    if (this.x >= this.collision.right - 32) {
-      this.x = this.collision.right - 32
+    // Коллизия слева и справа
+    if (this.x >= this.collision.right - SPRITE_SIZE_X) {
+      this.x = this.collision.right - SPRITE_SIZE_X
     } else if (this.x <= this.collision.left) {
       this.x = this.collision.left;
     }
 
-    if (this.y >= this.collision.bottom - 32) {
-      this.y = this.collision.bottom - 32
-      this.isJump = false
+    // Коллизия сверху и снизу
+    if (this.y >= this.collision.bottom - SPRITE_SIZE_Y) {
+      this.y = this.collision.bottom - SPRITE_SIZE_Y;
+      this.isJump = false;
     } else if (this.y <= this.collision.top) {
       this.y = this.collision.top;
-      this.velocityY = 0
+      this.velocityY = 0;
     }
 
-    // Спрайт
+    // Спрайт при движении
     if (this.velocityX > 0.2) {
-      this.sprite = SPRITE_PLAYER.RIGHT
+      this.sprite = SPRITE_PLAYER.RIGHT;
     } else if (this.velocityX < -0.2) {
-      this.sprite = SPRITE_PLAYER.LEFT
+      this.sprite = SPRITE_PLAYER.LEFT;
     } else {
-      this.sprite = SPRITE_PLAYER.STAY
+      this.sprite = SPRITE_PLAYER.STAY;
     }
   }
 }

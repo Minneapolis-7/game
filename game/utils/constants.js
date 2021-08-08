@@ -1,8 +1,10 @@
 export const APP_SELECTOR = '.app';
-export const CANVAS_SIZE = [640, 480];
+export const CANVAS_SIZE_X = 640;
+export const CANVAS_SIZE_Y = 480;
 export const CANVAS_BACKGROUND = '#000'
 export const SPRITES_FILE = './assets/sprites.png';
-export const SPRITE_SIZE = [32, 32];
+export const SPRITE_SIZE_X = 32;
+export const SPRITE_SIZE_Y = 32;
 
 // Персонаж игрока на спрайтовой карте [x, y]
 export const SPRITE_PLAYER = {
