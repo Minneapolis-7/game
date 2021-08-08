@@ -53,6 +53,10 @@ export default class View {
       // Положение и размер игрока на Canvas
       player.x, player.y, SPRITE_SIZE_X, SPRITE_SIZE_Y,
     );
+
+    this.ctx.strokeStyle = 'yellow';
+    const { top, right, bottom, left } = player.collision
+    this.ctx.strokeRect(left, top, right - left, bottom - top);
   }
 
   // Очистка экрана

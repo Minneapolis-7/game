@@ -15,14 +15,8 @@ export default class World {
   }
 
   update() {
-    const {
-      x,
-      y,
-      top,
-      right,
-      bottom,
-      left
-    } = this.player.position;
+    const { x, y } = this.player.position;
+    console.log(`x: ${x}, y: ${y} | x: ${this.player.x} | y: ${this.player.y}`)
 
     let collision = {
       top: 0,
@@ -32,24 +26,24 @@ export default class World {
     };
 
     // Взаимодействие с кирпичом
-    if (this.level.tiles[y][left] === 1) {
-      collision.left = (left + 1) * SPRITE_SIZE_X;
+    if (this.level.tiles[y][x - 1] === 1) {
+      collision.left = (x) * SPRITE_SIZE_X;
     }
 
-    if (this.level.tiles[y][right] === 1) {
-      collision.right = right * SPRITE_SIZE_X;
+    if (this.level.tiles[y][x + 1] === 1) {
+      collision.right = (x + 1) * SPRITE_SIZE_X;
     }
 
-    if (this.level.tiles[top][x] === 1) {
-      collision.top = (top + 1) * SPRITE_SIZE_Y;
+    if (this.level.tiles[y - 1][x] === 1) {
+      collision.top = (y) * SPRITE_SIZE_Y;
     }
 
-    if (this.level.tiles[bottom][x] === 1) {
-      collision.bottom = bottom * SPRITE_SIZE_Y;
+    if (this.level.tiles[y + 1][x] === 1) {
+      collision.bottom = (y + 1) * SPRITE_SIZE_Y;
     }
 
     // Взаимодействие с прыгалкой
-    if (this.level.tiles[bottom][x] === 4) {
+    if (this.level.tiles[y + 1][x] === 4) {
       this.player.velocityY *= 1.2;
     }
 

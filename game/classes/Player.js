@@ -10,11 +10,11 @@ export default class Player {
   constructor() {
     this.direction = null;
     // Стартовые координаты персонажа
-    this.x = 32;
-    this.y = 160;
+    this.x = 56;
+    this.y = 416;
     this.speed = GAME_CONFIG.PLAYER_SPEED;
     // Стартовое ускорение персонажа
-    this.velocityX = 3;
+    this.velocityX = 0;
     this.velocityY = 0;
     this.isJump = false;
     this.sprite = SPRITE_PLAYER.STAY;
@@ -27,8 +27,8 @@ export default class Player {
   }
 
   get position() {
-    const x = Math.floor(this.x / SPRITE_SIZE_X);
-    const y = Math.floor(this.y / SPRITE_SIZE_Y);
+    const x = Math.round(this.x / SPRITE_SIZE_X);
+    const y = Math.round(this.y / SPRITE_SIZE_Y);
 
     return {
       // Положение игрока (координаты по тайлам)

@@ -38,7 +38,7 @@ export const GAME_CONFIG = {
   // Гравитация
   GRAVITY: 0.2,
   // Сопротивление
-  FRICTION: 0.95,
+  FRICTION: 0.8,
   // Скорость персонажа
   PLAYER_SPEED: 3,
   // Мощность прыжка

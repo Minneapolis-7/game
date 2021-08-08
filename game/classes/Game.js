@@ -20,6 +20,9 @@ export default class Game {
         case 'ArrowRight':
           player.moveRight();
           break;
+        case 'Space':
+          player.jump();
+          break;
       }
     });
 
