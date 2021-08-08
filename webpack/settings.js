@@ -9,11 +9,9 @@ module.exports = {
     },
     dist: {
       base: './dist',
-      css: './css',
-      js: './js',
     },
-    www: {
-      base: './www',
+    static: {
+      base: './static',
       assets: './assets',
     },
   },

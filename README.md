@@ -1,6 +1,5 @@
 # game
 
-
 ## Установка
 
 Для работы необходим [Node.js >=12.13.0](https://nodejs.org/en/), установленный на вашем компьютере. А также [git](https://git-scm.com/downloads) (не забудьте добавить его в `PATH`).
@@ -31,4 +30,7 @@
 
 Сборка:
 
-[webpack](https://webpack.js.org/)
+- [webpack](https://webpack.js.org/)
+
+## Авторы проекта
+[@mukhindev](https://github.com/mukhindev), [@DariaZherebtsova](https://github.com/DariaZherebtsova/), [@andreyvolokitin](https://github.com/andreyvolokitin/)

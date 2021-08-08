@@ -2,13 +2,11 @@
 const path = require('path');
 const settings = require('./settings');
 
-const jsDist = path.normalize(settings.paths.dist.js);
-
 // eslint-disable-next-line no-unused-vars
 module.exports = (env) => ({
   output: {
-    filename: `${jsDist}/[name].bundle.js`,
-    chunkFilename: `${jsDist}/[name].chunk.js`,
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].chunk.js',
   },
   plugins: [],
   devtool: 'eval-cheap-module-source-map',
@@ -17,7 +15,7 @@ module.exports = (env) => ({
   // https://github.com/webpack/webpack-dev-server/blob/master/migration-v4.md
   devServer: {
     static: {
-      directory: path.resolve(settings.paths.www.base),
+      directory: path.resolve(settings.paths.static.base),
       watch: true,
     },
     hot: true,
