@@ -13,6 +13,12 @@ export const SPRITE_PLAYER = {
   LEFT: [64, 0],
 }
 
+export const CONTROL = {
+  LEFT: 'left',
+  RIGHT: 'right',
+  SPACE: 'space',
+}
+
 // TODO: Возможность помещать на задний и передний план
 // TODO: Придумать класс для регистрации тайлов в игре
 export const TILES = {

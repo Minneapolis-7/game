@@ -1,46 +1,19 @@
+import { CONTROL } from '../utils/constants.js';
+
 export default class Game {
-  constructor({ world, view }) {
+  constructor({ world, view, control }) {
     this.world = world;
     this.view = view;
+    this.control = control;
     this.loop = this.loop.bind(this);
     this.requestAnimationId = 0;
-    this.control = {
-      left: false,
-      right: false,
-      space: false,
-    }
   }
 
   async init() {
-    document.addEventListener('keydown', (evt) => {
-      evt.preventDefault();
-      switch (evt.code) {
-        case 'ArrowLeft':
-          this.control.left = true;
-          break;
-        case 'ArrowRight':
-          this.control.right = true;
-          break;
-        case 'Space':
-          this.control.space = true;
-          break;
-      }
-    });
-
-    document.addEventListener('keyup', (evt) => {
-      evt.preventDefault();
-      switch (evt.code) {
-        case 'ArrowLeft':
-          this.control.left = false;
-          break;
-        case 'ArrowRight':
-          this.control.right = false;
-          break;
-        case 'Space':
-          this.control.space = false;
-          break;
-      }
-    });
+    // Клавиши управления игрой (код клавиши, ключ состояния клавиши)
+    this.control.addKey('ArrowLeft', CONTROL.LEFT);
+    this.control.addKey('ArrowRight', CONTROL.RIGHT);
+    this.control.addKey('Space', CONTROL.SPACE);
 
     await this.view.init();
     this.start();
@@ -55,7 +28,8 @@ export default class Game {
   }
 
   loop() {
-    this.world.update(this.control);
+    // Обновляется мир, в мир передаётся текущее состояние клавиш
+    this.world.update(this.control.keys);
     this.view.update(this.world);
     this.requestAnimationId = window.requestAnimationFrame(this.loop);
   }
