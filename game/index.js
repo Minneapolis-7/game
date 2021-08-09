@@ -14,7 +14,10 @@ const sprite = new Sprite(SPRITES_FILE);
 const game = new Game({
   world: new World(levels),
   view: new View(canvas, sprite),
+  levels,
   control: new Control(),
+  // Отрисовывать отладочную графику
+  isDebugDraw: true,
 });
 
 game.init();

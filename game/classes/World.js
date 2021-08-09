@@ -1,5 +1,6 @@
 import Player from './Player.js';
 import {
+  GAME_CONFIG,
   CANVAS_SIZE_X,
   CANVAS_SIZE_Y,
   SPRITE_SIZE_X,
@@ -7,16 +8,51 @@ import {
 } from '../utils/constants.js';
 
 export default class World {
-  constructor(levels) {
+  constructor() {
     this.player = new Player();
-    this.levels = levels;
-    this.levelNumber = 0;
-    this.level = this.levels[this.levelNumber];
+    this.levelObjects = [];
+    this.lastPlayerPosition = [-1, -1];
+    this.lastActionPosition = [-1, -1];
+    this.friction = 0;
+    this.gravity = 0;
+    this.resetToDefault();
+  }
+
+  resetToDefault() {
+    this.friction = GAME_CONFIG.FRICTION;
+    this.gravity = GAME_CONFIG.GRAVITY;
+  }
+
+  setLevelObjects(levelObjects) {
+    this.levelObjects = levelObjects
+  }
+
+  // Обновление на смену позиции (по тайлам)
+  onPositionUpdate(object, control) {
+    const { x, y } = this.player.position;
+    const isOver = this.lastActionPosition[0] === x && this.lastActionPosition[1] === y;
+    this.resetToDefault();
+
+    // Колбэк при пересечении
+    if (object.onOver && !isOver) {
+      object.onOver(this.player);
+      this.lastActionPosition = [x, y]
+    }
+
+    // Колбэк выходе
+    if (object.onOut && isOver ) {
+      object.onOut(this.player);
+      this.lastActionPosition = [-1, -1]
+    }
+
+    // Колбэк при перемещении сверху
+    if (object.onAbove && !isOver) {
+      object.onAbove(this.player);
+    }
   }
 
   update(control) {
     const { x, y } = this.player.position;
-    console.log(`x: ${x}, y: ${y} | x: ${this.player.x} | y: ${this.player.y}`)
 
     let collision = {
       top: 0,
@@ -25,29 +61,29 @@ export default class World {
       left: 0,
     };
 
-    // Взаимодействие с кирпичом
-    if (this.level.tiles[y][x - 1] === 1) {
+    // Взаимодействие с коллизией
+    if (this.levelObjects[y][x - 1].isUseCollision) {
       collision.left = (x) * SPRITE_SIZE_X;
     }
 
-    if (this.level.tiles[y][x + 1] === 1) {
+    if (this.levelObjects[y][x + 1].isUseCollision) {
       collision.right = (x + 1) * SPRITE_SIZE_X;
     }
 
-    if (this.level.tiles[y - 1][x] === 1) {
+    if (this.levelObjects[y - 1][x].isUseCollision) {
       collision.top = (y) * SPRITE_SIZE_Y;
     }
 
-    if (this.level.tiles[y + 1][x] === 1) {
+    if (this.levelObjects[y + 1][x].isUseCollision) {
       collision.bottom = (y + 1) * SPRITE_SIZE_Y;
     }
 
-    // Взаимодействие с прыгалкой
-    if (this.level.tiles[y + 1][x] === 4) {
-      this.player.velocityY *= 1.2;
+    if (this.lastPlayerPosition[0] !== x || this.lastPlayerPosition[1] !== y) {
+      this.onPositionUpdate(this.levelObjects[y + 1][x], control);
+      this.lastPlayerPosition = [x, y];
     }
 
     this.player.setCollision(collision);
-    this.player.update(control);
+    this.player.update(this, control);
   }
 }

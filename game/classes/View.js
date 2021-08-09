@@ -4,7 +4,6 @@ import {
   CANVAS_BACKGROUND,
   SPRITE_SIZE_X,
   SPRITE_SIZE_Y,
-  TILES
 } from '../utils/constants.js';
 
 export default class View {
@@ -15,6 +14,7 @@ export default class View {
     canvas.width  = CANVAS_SIZE_X;
     canvas.height = CANVAS_SIZE_Y;
     this.sprite = sprite;
+    this.isDebugDraw = false;
     this.cleanScreen();
   }
 
@@ -25,19 +25,18 @@ export default class View {
 
   update(world) {
     this.cleanScreen();
-    this.renderLevel(world.level);
+    this.renderLevelObjects(world.levelObjects);
     this.renderPlayer(world.player);
   }
 
   // Получает данные о уровне и отрисовывает его
-  // TODO: Не перерисовывать уровень на каждый кадр
-  renderLevel(level) {
-    level.tiles.forEach((row, rowIndex) => {
-      row.forEach((id, colIndex) => {
+  renderLevelObjects(levelObjects) {
+    levelObjects.forEach((row, rowIndex) => {
+      row.forEach((object, colIndex) => {
         this.ctx.drawImage(
           this.sprite.image,
-          // По ключу получаем координаты тайла
-          ...TILES[id], SPRITE_SIZE_X, SPRITE_SIZE_Y,
+          // Получаем координаты спрайта из игрового объекта
+          ...object.sprite, SPRITE_SIZE_X, SPRITE_SIZE_Y,
           colIndex * SPRITE_SIZE_X, rowIndex * SPRITE_SIZE_Y, SPRITE_SIZE_X, SPRITE_SIZE_Y,
         );
       })
@@ -54,11 +53,13 @@ export default class View {
       player.x, player.y, SPRITE_SIZE_X, SPRITE_SIZE_Y,
     );
 
-    this.ctx.beginPath();
-    this.ctx.lineWidth = 2;
-    this.ctx.strokeStyle = 'yellow';
-    const { top, right, bottom, left } = player.collision
-    this.ctx.strokeRect(left, top, right - left, bottom - top);
+    if (this.isDebugDraw) {
+      this.ctx.beginPath();
+      this.ctx.lineWidth = 2;
+      this.ctx.strokeStyle = 'yellow';
+      const { top, right, bottom, left } = player.collision
+      this.ctx.strokeRect(left, top, right - left, bottom - top);
+    }
   }
 
   // Очистка экрана

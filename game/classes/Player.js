@@ -7,11 +7,11 @@ import {
 
 export default class Player {
   constructor() {
-    this.direction = null;
     // Стартовые координаты персонажа
-    this.x = 191;
+    this.x = 32;
     this.y = 256;
-    this.speed = GAME_CONFIG.PLAYER_SPEED;
+    this.speed = 0;
+    this.jumpPower = 0;
     // Стартовое ускорение персонажа
     this.velocityX = 0;
     this.velocityY = 0;
@@ -23,6 +23,12 @@ export default class Player {
       bottom: 0,
       left: 0,
     }
+    this.resetToDefault();
+  }
+
+  resetToDefault() {
+    this.speed = GAME_CONFIG.PLAYER_SPEED;
+    this.jumpPower = GAME_CONFIG.PLAYER_JUMP_POWER;
   }
 
   get position() {
@@ -50,13 +56,13 @@ export default class Player {
     }
   }
 
-  update(control) {
+  update(world, control) {
     // Управление игроком
     if (control.space) {
       // Прыжок
       if (!this.isJump) {
         this.isJump = true;
-        this.velocityY = -this.speed * GAME_CONFIG.PLAYER_JUMP_POWER;
+        this.velocityY = -this.speed * this.jumpPower;
       }
     }
 
@@ -74,8 +80,8 @@ export default class Player {
       }
     }
 
-    this.velocityX *= GAME_CONFIG.FRICTION;
-    this.velocityY += GAME_CONFIG.GRAVITY;
+    this.velocityX *= world.friction;
+    this.velocityY += world.gravity;
 
     this.x += this.velocityX;
     this.y += this.velocityY;

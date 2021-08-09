@@ -1,12 +1,51 @@
 import { CONTROL } from '../utils/constants.js';
+import GameObject from './GameObject.js';
 
 export default class Game {
-  constructor({ world, view, control }) {
+  constructor(options) {
+    const {
+      world,
+      levels,
+      view,
+      control,
+      isDebugDraw = false
+    } = options;
+
     this.world = world;
     this.view = view;
+    this.view.isDebugDraw = isDebugDraw;
     this.control = control;
     this.loop = this.loop.bind(this);
     this.requestAnimationId = 0;
+    this.levels = levels
+
+    this.objects = {
+      // Воздух
+      0: { sprite: [480, 480] },
+      // Кирпич
+      1: { sprite: [480, 0], isUseCollision: true },
+      // Бетон
+      2: { sprite: [448, 0], isUseCollision: true },
+      // Куст
+      3: { sprite: [480, 32] },
+      // Прыгалка
+      4: {
+        sprite: [480, 64],
+        isUseCollision: true,
+        onAbove: (player) => {
+          player.velocityY = -10;
+        },
+      },
+      // Лёд
+      5: {
+        sprite: [480, 96],
+        isUseCollision: true,
+        onAbove: () => {
+          // Скольжение
+          this.world.friction = 0.99;
+        },
+      },
+    }
   }
 
   async init() {
@@ -16,7 +55,15 @@ export default class Game {
     this.control.addKey('Space', CONTROL.SPACE);
 
     await this.view.init();
+    const levelObjects = this.buildLevelObjects(this.levels[0]);
+    this.world.setLevelObjects(levelObjects);
     this.start();
+  }
+
+  buildLevelObjects(level) {
+    return level.tiles.map((row) => {
+      return row.map((tile) => new GameObject(this.objects[tile]))
+    });
   }
 
   start() {
