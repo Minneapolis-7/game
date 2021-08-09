@@ -4,24 +4,25 @@ export default class Game {
     this.view = view;
     this.loop = this.loop.bind(this);
     this.requestAnimationId = 0;
+    this.control = {
+      left: false,
+      right: false,
+      space: false,
+    }
   }
 
   async init() {
-    await this.view.init();
-
-    const { player } = this.world;
-
     document.addEventListener('keydown', (evt) => {
       evt.preventDefault();
       switch (evt.code) {
         case 'ArrowLeft':
-          player.moveLeft();
+          this.control.left = true;
           break;
         case 'ArrowRight':
-          player.moveRight();
+          this.control.right = true;
           break;
         case 'Space':
-          player.jump();
+          this.control.space = true;
           break;
       }
     });
@@ -30,14 +31,18 @@ export default class Game {
       evt.preventDefault();
       switch (evt.code) {
         case 'ArrowLeft':
-          player.stop();
+          this.control.left = false;
           break;
         case 'ArrowRight':
-          player.stop();
+          this.control.right = false;
+          break;
+        case 'Space':
+          this.control.space = false;
           break;
       }
     });
 
+    await this.view.init();
     this.start();
   }
 
@@ -50,7 +55,7 @@ export default class Game {
   }
 
   loop() {
-    this.world.update();
+    this.world.update(this.control);
     this.view.update(this.world);
     this.requestAnimationId = window.requestAnimationFrame(this.loop);
   }

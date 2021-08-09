@@ -54,6 +54,8 @@ export default class View {
       player.x, player.y, SPRITE_SIZE_X, SPRITE_SIZE_Y,
     );
 
+    this.ctx.beginPath();
+    this.ctx.lineWidth = 2;
     this.ctx.strokeStyle = 'yellow';
     const { top, right, bottom, left } = player.collision
     this.ctx.strokeRect(left, top, right - left, bottom - top);

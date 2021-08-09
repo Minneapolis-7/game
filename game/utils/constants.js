@@ -28,11 +28,6 @@ export const TILES = {
   4: [480, 64],
 }
 
-export const PLAYER_DIRECTION = {
-  LEFT: 'left',
-  RIGHT: 'right',
-}
-
 // Настройки баланса игры
 export const GAME_CONFIG = {
   // Гравитация
@@ -40,7 +35,7 @@ export const GAME_CONFIG = {
   // Сопротивление
   FRICTION: 0.8,
   // Скорость персонажа
-  PLAYER_SPEED: 3,
+  PLAYER_SPEED: 2,
   // Мощность прыжка
-  PLAYER_JUMP_POWER: 2,
+  PLAYER_JUMP_POWER: 2.5,
 }

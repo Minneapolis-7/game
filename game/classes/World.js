@@ -14,7 +14,7 @@ export default class World {
     this.level = this.levels[this.levelNumber];
   }
 
-  update() {
+  update(control) {
     const { x, y } = this.player.position;
     console.log(`x: ${x}, y: ${y} | x: ${this.player.x} | y: ${this.player.y}`)
 
@@ -48,6 +48,6 @@ export default class World {
     }
 
     this.player.setCollision(collision);
-    this.player.update();
+    this.player.update(control);
   }
 }

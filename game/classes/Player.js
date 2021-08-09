@@ -1,6 +1,5 @@
 import {
   GAME_CONFIG,
-  PLAYER_DIRECTION,
   SPRITE_PLAYER,
   SPRITE_SIZE_X,
   SPRITE_SIZE_Y
@@ -10,8 +9,8 @@ export default class Player {
   constructor() {
     this.direction = null;
     // Стартовые координаты персонажа
-    this.x = 56;
-    this.y = 416;
+    this.x = 191;
+    this.y = 256;
     this.speed = GAME_CONFIG.PLAYER_SPEED;
     // Стартовое ускорение персонажа
     this.velocityX = 0;
@@ -42,10 +41,6 @@ export default class Player {
     }
   }
 
-  moveLeft() { this.direction = PLAYER_DIRECTION.LEFT; }
-  moveRight() { this.direction = PLAYER_DIRECTION.RIGHT; }
-  stop() { this.direction = null; }
-
   setCollision({ top, right, bottom, left }) {
     this.collision = {
       top,
@@ -55,22 +50,25 @@ export default class Player {
     }
   }
 
-  update() {
-    // Прыжок
-    if (!this.isJump) {
-      this.isJump = true;
-      this.velocityY = -this.speed * GAME_CONFIG.PLAYER_JUMP_POWER;
+  update(control) {
+    // Управление игроком
+    if (control.space) {
+      // Прыжок
+      if (!this.isJump) {
+        this.isJump = true;
+        this.velocityY = -this.speed * GAME_CONFIG.PLAYER_JUMP_POWER;
+      }
     }
 
     // Движение влево
-    if (this.direction === PLAYER_DIRECTION.LEFT) {
+    if (control.left) {
       if (this.velocityX > -this.speed) {
         this.velocityX--;
       }
     }
 
     // Движение вправо
-    if (this.direction === PLAYER_DIRECTION.RIGHT) {
+    if (control.right) {
       if (this.velocityX < this.speed) {
         this.velocityX++;
       }
