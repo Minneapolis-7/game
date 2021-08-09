@@ -17,7 +17,7 @@ const game = new Game({
   levels,
   control: new Control(),
   // Отрисовывать отладочную графику
-  isDebugDraw: true,
+  isDebugDraw: false,
 });
 
 game.init();

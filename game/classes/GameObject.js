@@ -5,7 +5,6 @@ export default class GameObject {
       isUseCollision = false,
       z = 0,
       onOver = null,
-      onOut = null,
       onAbove = null,
     } = options;
 
@@ -13,7 +12,6 @@ export default class GameObject {
     this.isUseCollision = isUseCollision;
     this.z = z;
     this.onOver = onOver;
-    this.onOut = onOut;
     this.onAbove = onAbove;
   }
 }

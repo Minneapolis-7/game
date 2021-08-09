@@ -18,6 +18,7 @@ export default class Game {
     this.loop = this.loop.bind(this);
     this.requestAnimationId = 0;
     this.levels = levels
+    this.isDoorUnlock = false;
 
     this.objects = {
       // Воздух
@@ -32,7 +33,7 @@ export default class Game {
       4: {
         sprite: [480, 64],
         isUseCollision: true,
-        onAbove: (player) => {
+        onAbove: ({ player }) => {
           player.velocityY = -10;
         },
       },
@@ -45,6 +46,23 @@ export default class Game {
           this.world.friction = 0.99;
         },
       },
+      // Ключ
+      6: {
+        sprite: [0, 64],
+        onOver: ({ object }) => {
+          object.sprite = [32, 64]
+          this.isDoorUnlock = true;
+        },
+      },
+      // Дверь
+      7: {
+        sprite: [0, 96],
+        onOver: ({ object }) => {
+          if (this.isDoorUnlock) {
+            object.sprite = [32, 96]
+          }
+        },
+      }
     }
   }
 

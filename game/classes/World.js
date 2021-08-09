@@ -28,26 +28,20 @@ export default class World {
   }
 
   // Обновление на смену позиции (по тайлам)
-  onPositionUpdate(object, control) {
+  onPositionUpdate(object, bottomObject, control) {
     const { x, y } = this.player.position;
     const isOver = this.lastActionPosition[0] === x && this.lastActionPosition[1] === y;
     this.resetToDefault();
 
     // Колбэк при пересечении
-    if (object.onOver && !isOver) {
-      object.onOver(this.player);
+    if (object.onOver) {
+      object.onOver({ object, player: this.player });
       this.lastActionPosition = [x, y]
     }
 
-    // Колбэк выходе
-    if (object.onOut && isOver ) {
-      object.onOut(this.player);
-      this.lastActionPosition = [-1, -1]
-    }
-
     // Колбэк при перемещении сверху
-    if (object.onAbove && !isOver) {
-      object.onAbove(this.player);
+    if (bottomObject.onAbove && !isOver) {
+      bottomObject.onAbove({ bottomObject, player: this.player });
     }
   }
 
@@ -63,7 +57,7 @@ export default class World {
 
     // Взаимодействие с коллизией
     if (this.levelObjects[y][x - 1].isUseCollision) {
-      collision.left = (x) * SPRITE_SIZE_X;
+      collision.left = x * SPRITE_SIZE_X;
     }
 
     if (this.levelObjects[y][x + 1].isUseCollision) {
@@ -71,7 +65,7 @@ export default class World {
     }
 
     if (this.levelObjects[y - 1][x].isUseCollision) {
-      collision.top = (y) * SPRITE_SIZE_Y;
+      collision.top = y * SPRITE_SIZE_Y;
     }
 
     if (this.levelObjects[y + 1][x].isUseCollision) {
@@ -79,7 +73,11 @@ export default class World {
     }
 
     if (this.lastPlayerPosition[0] !== x || this.lastPlayerPosition[1] !== y) {
-      this.onPositionUpdate(this.levelObjects[y + 1][x], control);
+      this.onPositionUpdate(
+        this.levelObjects[y][x],
+        this.levelObjects[y + 1][x],
+        control
+      );
       this.lastPlayerPosition = [x, y];
     }
 

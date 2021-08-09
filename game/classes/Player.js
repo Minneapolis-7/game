@@ -9,7 +9,7 @@ export default class Player {
   constructor() {
     // Стартовые координаты персонажа
     this.x = 32;
-    this.y = 256;
+    this.y = 128;
     this.speed = 0;
     this.jumpPower = 0;
     // Стартовое ускорение персонажа
