@@ -146,3 +146,18 @@ $input-error-line-height: 1.3em;
   padding-top: calc(#{$field-gap-y} + #{$input-hint-float-shift});
   padding-bottom: calc(#{$field-gap-y} - #{$input-hint-float-shift});
 }
+
+
+// Размеры
+.input_sizing_sm > .input__field,
+.input_sizing_sm > .input__hint {
+  @include field-base_sizing_sm;
+}
+.input_sizing_lg > .input__field,
+.input_sizing_lg > .input__hint {
+  @include field-base_sizing_lg;
+}
+.input_sizing_xl > .input__field,
+.input_sizing_xl > .input__hint {
+  @include field-base_sizing_xl;
+}

@@ -14,6 +14,17 @@ $field-bg-color: transparent;
   font-size: $field-font-size;
   line-height: $field-line-height;
 }
+
+@mixin field-base_sizing_sm {
+  font-size: $font-size-sm;
+}
+@mixin field-base_sizing_lg {
+  font-size: $font-size-lg;
+}
+@mixin field-base_sizing_xl {
+  font-size: $font-size-xl;
+}
+
 @mixin field-skin {
   border-style: solid;
   border-color: $brand-color;
