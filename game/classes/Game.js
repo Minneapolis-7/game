@@ -71,7 +71,34 @@ export default class Game {
             object.sprite = [32, 96]
           }
         },
-      }
+      },
+      // Шипы
+      8: {
+        sprite: [448, 64],
+        onOver: ({ player }) => {
+          player.velocityY = -2;
+          if (player.velocityX > 0) {
+            player.velocityX = -10;
+          } else {
+            player.velocityX = 10;
+          }
+        },
+      },
+      // Оранжевый портал
+      // TODO: Придумать телепортирование в друг-друга, здесь нельзя хардкодить координаты
+      9: {
+        sprite: [416, 64],
+      },
+      // Голубой портал
+      10: {
+        sprite: [384, 64],
+        onOver: ({ player }) => {
+          console.log('голубой портал')
+          player.velocityY = 0;
+          player.x = 32;
+          player.y = 128;
+        },
+      },
     }
   }
 
