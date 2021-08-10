@@ -20,9 +20,18 @@ export default class Game {
     this.levels = levels
     this.isDoorUnlock = false;
 
+    // Ключ объекта соответствует значению на карте уровня
     this.objects = {
       // Воздух
-      0: { sprite: [480, 480] },
+      0: {
+        sprite: [480, 480],
+        // Фикс ускорения при сходе с обрыва
+        onAbove: ({ player }) => {
+          if (player.velocityY > 10) {
+            player.velocityY = 0;
+          }
+        }
+      },
       // Кирпич
       1: { sprite: [480, 0], isUseCollision: true },
       // Бетон

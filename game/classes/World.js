@@ -2,7 +2,7 @@ import Player from './Player.js';
 import {
   GAME_CONFIG,
   CANVAS_SIZE_X,
-  CANVAS_SIZE_Y,
+   CANVAS_SIZE_Y,
   SPRITE_SIZE_X,
   SPRITE_SIZE_Y
 } from '../utils/constants.js';

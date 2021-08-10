@@ -12,10 +12,10 @@ const canvas = document.createElement('canvas');
 const sprite = new Sprite(SPRITES_FILE);
 
 const game = new Game({
-  world: new World(levels),
+  world: new World(),
   view: new View(canvas, sprite),
-  levels,
   control: new Control(),
+  levels,
   // Отрисовывать отладочную графику
   isDebugDraw: false,
 });
