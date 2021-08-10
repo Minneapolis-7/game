@@ -1,5 +1,3 @@
-@use 'spinner';
-
 @mixin spinner($size: 1em, $color: $text-color) {
   width: $size;
   height: $size;

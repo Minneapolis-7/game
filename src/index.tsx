@@ -20,9 +20,6 @@ ReactDOM.render(
     <Icon size="2rem" name={icon.id} />
     <Input className="gap-y-lg" hint="Инпут" />
     <Textarea display="inline" cols={50} rows={10} hint="Test" />
-    <a href="#" className="block-link">
-      Уау
-    </a>
   </>,
   document.getElementById('root')
 );

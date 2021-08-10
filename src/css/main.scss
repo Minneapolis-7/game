@@ -1,7 +1,7 @@
 // Конфигурация, хэлперы, миксины
 @import 'abstracts/variables';
 @import 'abstracts/functions';
-@import 'abstracts/mixins/mixins';
+@import 'abstracts/mixins';
 
 // Базовые стили
 @import 'base/base';
@@ -19,5 +19,3 @@
 @import '../components/Button/button';
 @import '../components/Input/input';
 @import '../components/Icon/icon';
-@import '../components/Avatar/avatar';
-@import '../components/Filepick/filepick';

@@ -1,1 +1,0 @@
-// import './filepick.scss';
