@@ -1,0 +1,92 @@
+{
+  "name": "game",
+  "version": "0.0.1",
+  "description": "Учебный проект команды Minneapolis-7 на Yandex Praktikum",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --watch ./webpack/webpack.config.js --watch ./webpack/webpack.development.js --exec \"webpack serve --config ./webpack/webpack.config.js --env mode=development\"",
+    "clean": "rimraf ./dist",
+    "build": "npm run clean && webpack --config ./webpack/webpack.config.js --env mode=production",
+    "build:analyze": "npm run build -- --env presets=analyze",
+    "debug": "node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js",
+    "debug:dev": "npm run debug -- --env mode=development",
+    "debug:prod": "npm run debug -- --env mode=production",
+    "lint:css": "stylelint **/*.scss --fix",
+    "lint:js": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
+    "lint": "concurrently npm:lint:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Minneapolis-7/game.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Minneapolis-7/game/issues"
+  },
+  "homepage": "https://github.com/Minneapolis-7/game#readme",
+  "browserslist": [
+    "last 2 versions",
+    "not IE 11"
+  ],
+  "dependencies": {
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "@andreyvolokitin/postcss-inline-svg": "5.0.1",
+    "@babel/core": "7.15.0",
+    "@babel/preset-env": "7.15.0",
+    "@babel/preset-react": "7.14.5",
+    "@babel/preset-typescript": "7.15.0",
+    "@types/react": "17.0.16",
+    "@types/react-dom": "17.0.9",
+    "@typescript-eslint/eslint-plugin": "4.29.0",
+    "@typescript-eslint/parser": "4.29.0",
+    "autoprefixer": "10.3.1",
+    "babel-loader": "8.2.2",
+    "compression-webpack-plugin": "8.0.1",
+    "concurrently": "6.2.0",
+    "core-js": "3.16.0",
+    "cross-env": "7.0.3",
+    "css-loader": "6.2.0",
+    "css-minimizer-webpack-plugin": "3.0.2",
+    "eslint": "7.32.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-loader": "4.0.2",
+    "eslint-plugin-import": "2.23.4",
+    "eslint-plugin-prettier": "3.4.0",
+    "eslint-plugin-react": "7.24.0",
+    "eslint-plugin-react-hooks": "4.2.0",
+    "fork-ts-checker-webpack-plugin": "6.3.1",
+    "html-webpack-plugin": "5.3.2",
+    "mini-css-extract-plugin": "2.2.0",
+    "nodemon": "2.0.12",
+    "postcss": "8.3.6",
+    "postcss-em-media-query": "4.1.0",
+    "postcss-loader": "6.1.1",
+    "prettier": "2.3.2",
+    "regenerator-runtime": "0.13.9",
+    "rimraf": "3.0.2",
+    "sass": "1.37.5",
+    "sass-loader": "12.1.0",
+    "style-loader": "3.2.1",
+    "stylelint": "13.13.1",
+    "stylelint-config-hudochenkov": "5.0.0",
+    "stylelint-config-prettier": "8.0.2",
+    "stylelint-config-standard": "22.0.0",
+    "stylelint-order": "4.1.0",
+    "tsconfig-paths-webpack-plugin": "3.5.1",
+    "typescript": "4.3.5",
+    "webpack": "5.49.0",
+    "webpack-bundle-analyzer": "4.4.2",
+    "webpack-cli": "4.7.2",
+    "webpack-dev-server": "4.0.0-rc.0",
+    "webpack-manifest-plugin": "4.0.2",
+    "webpack-merge": "5.8.0",
+    "webpack-remove-empty-scripts": "0.7.1"
+  },
+  "engines": {
+    "node": ">=12.13.0"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  plugins: {
+    '@andreyvolokitin/postcss-inline-svg': {
+      paths: ['./static/assets/'],
+    },
+    'postcss-em-media-query': {},
+    autoprefixer: {},
+  },
+}
