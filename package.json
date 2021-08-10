@@ -8,7 +8,7 @@
     "clean": "rimraf ./dist",
     "build": "npm run clean && webpack --config ./webpack/webpack.config.js --env mode=production",
     "build:analyze": "npm run build -- --env presets=analyze",
-    "debug": "node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js",
+    "debug": "node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js --config ./webpack/webpack.config.js",
     "debug:dev": "npm run debug -- --env mode=development",
     "debug:prod": "npm run debug -- --env mode=production",
     "lint:css": "stylelint **/*.scss --fix",
@@ -29,6 +29,9 @@
     "not IE 11"
   ],
   "dependencies": {
+    "bem-cn": "3.0.1",
+    "bootstrap-icons": "1.5.0",
+    "html5-boilerplate": "8.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
@@ -76,6 +79,7 @@
     "stylelint-config-prettier": "8.0.2",
     "stylelint-config-standard": "22.0.0",
     "stylelint-order": "4.1.0",
+    "svg-sprite-loader": "6.0.9",
     "tsconfig-paths-webpack-plugin": "3.5.1",
     "typescript": "4.3.5",
     "webpack": "5.49.0",

@@ -1,0 +1,231 @@
+/* stylelint-disable no-descending-specificity */
+@use 'sass:math';
+
+$button-height: $field-height;
+$button-text-color: $white;
+
+.button {
+  @include button-reset;
+
+  height: $button-height;
+  padding: 0 1.15em;
+  border: none;
+  border-radius: .5em;
+  background-color: $brand-color;
+  color: $button-text-color;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.button::-moz-focus-inner {
+  border: 0;
+}
+.button:-moz-focusring {
+  outline-width: 0;
+}
+
+.button:not(:disabled):hover,
+.button:not(:disabled).focus-visible {
+  background-color: darken(desaturate($brand-color, 2.66), 5.49);
+}
+
+.button:disabled {
+  @include disabled;
+}
+
+.button[data-display="block"] {
+  display: block;
+  width: 100%;
+}
+.button[data-display="inline"],
+.button[data-display="inline"] .button__text {
+  vertical-align: baseline;
+}
+
+.button__icon > * {
+  position: relative;
+  top: 0.066666667em;
+  display: inline-block;
+}
+.button__icon > svg {
+  width: 1em;
+  height: 1em;
+}
+.button__icon > svg,
+.button__icon > svg path {
+  fill: currentColor;
+}
+
+.button__icon,
+.button__text {
+  position: relative;
+  z-index: $z-index-primary;
+  display: inline-block;
+  vertical-align: top;
+  min-height: 100%;
+  line-height: $button-height;
+}
+
+.button__icon + .button__text,
+.button__text + .button__icon {
+  margin-left: 0.334em;
+}
+
+// для вертикального выравнивания в строке `.button__text` всегда должен содержать текст, даже если текста нет
+// вставим "zero-width space"
+.button__text::after {
+  content: '\200b';
+}
+.button__icon + .button__text:empty,
+.button__text:empty + .button__icon {
+  // нивелируем дефолтное расстояние между узлами текста
+  margin-left: -4px;
+}
+
+.button.is-processing .button__icon,
+.button.is-processing .button__text,
+.button.is-successful .button__icon,
+.button.is-successful .button__text,
+.button.is-failed .button__icon,
+.button.is-failed .button__text {
+  opacity: 0;
+}
+.button[data-display="block"].is-processing .button__icon,
+.button[data-display="block"].is-processing .button__text,
+.button[data-display="block"].is-successful .button__icon,
+.button[data-display="block"].is-successful .button__text,
+.button[data-display="block"].is-failed .button__icon,
+.button[data-display="block"].is-failed .button__text {
+  opacity: 1;
+}
+
+$button-spinner-size: 1.125em;
+$button-spinner-half-size: math.div($button-spinner-size, 2);
+
+.button::after,
+.button > .spinner {
+  position: absolute;
+  top: calc(50% - #{$button-spinner-half-size});
+  left: calc(50% - #{$button-spinner-half-size});
+  width: $button-spinner-size;
+  height: $button-spinner-size;
+}
+.button > .spinner {
+  @include spinner($button-spinner-size, $button-text-color);
+}
+
+.button[data-display="block"]::after,
+.button[data-display="block"] > .spinner {
+  right: .5em;
+  left: auto;
+}
+
+.button::after {
+  content: '';
+  background-position: 0 0;
+  background-repeat: no-repeat;
+}
+.button.is-successful::after {
+  background-image: svg-load('../../static/assets/img/icons/ok.svg', fill=$button-text-color);
+}
+.button.is-failed::after {
+  background-image: svg-load('../../static/assets/img/icons/not-ok.svg', fill=$button-text-color);
+}
+
+.button.is-processing::after {
+  display: none;
+}
+
+
+// Темы
+.button_theme_0 {
+  background-color: $muted-color;
+}
+.button_theme_0:not(:disabled):hover,
+.button_theme_0:not(:disabled).focus-visible {
+  background-color: darken(desaturate($muted-color, 2.66), 5.49);
+}
+
+.button_theme_1,
+.button_theme_3 {
+  border-radius: $button-height;
+  background-color: transparent;
+  color: $text-color;
+}
+.button_theme_1:not(:disabled):hover,
+.button_theme_1:not(:disabled).focus-visible,
+.button_theme_3:not(:disabled):hover,
+.button_theme_3:not(:disabled).focus-visible {
+  background-color: $ui-color;
+}
+.button_theme_1.is-active {
+  color: $brand-color;
+}
+
+.button_theme_2 {
+  border-radius: $button-height;
+}
+
+.button_theme_3 {
+  border-radius: 0;
+  text-align: left;
+}
+
+.button_theme_4,
+.button_theme_5,
+.button_theme_6 {
+  background-color: transparent;
+  color: $brand-color;
+}
+.button_theme_4:not(:disabled):hover,
+.button_theme_4:not(:disabled).focus-visible,
+.button_theme_5:not(:disabled):hover,
+.button_theme_5:not(:disabled).focus-visible,
+.button_theme_6:not(:disabled):hover,
+.button_theme_6:not(:disabled).focus-visible {
+  background-color: transparent;
+}
+.button_theme_4:not(:disabled):hover > .button__text,
+.button_theme_4:not(:disabled).focus-visible > .button__text,
+.button_theme_5:not(:disabled):hover > .button__text,
+.button_theme_5:not(:disabled).focus-visible > .button__text,
+.button_theme_6:not(:disabled):hover > .button__text,
+.button_theme_6:not(:disabled).focus-visible > .button__text {
+  text-decoration: underline;
+}
+
+.button_theme_5,
+.button_theme_6 {
+  padding-right: 0;
+  padding-left: 0;
+}
+.button_theme_5::after,
+.button_theme_5 > .spinner,
+.button_theme_6::after,
+.button_theme_6 > .spinner {
+  right: -.5em;
+}
+
+
+$button-text-color_6: $danger-color;
+.button_theme_6 {
+  color: $button-text-color_6;
+}
+.button_theme_6 > .spinner {
+  @include spinner($button-spinner-size, $button-text-color_6);
+
+  right: -2rem;
+}
+
+
+// Размеры
+.button_sizing_sm {
+  font-size: $font-size-sm;
+}
+.button_sizing_lg {
+  font-size: $font-size-lg;
+}
+.button_sizing_xl {
+  font-size: $font-size-xl;
+}

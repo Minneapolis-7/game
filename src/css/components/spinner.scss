@@ -1,0 +1,36 @@
+@use 'spinner';
+
+$spinner-size: 2em;
+
+.spinner {
+  @include spinner($spinner-size, $text-color);
+
+  position: absolute;
+  display: none;
+  box-sizing: border-box;
+  border-radius: 50%;
+  animation: spin .4s infinite linear;
+  will-change: transform;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+body > .spinner {
+  top: calc(50% - #{math.div($spinner-size, 2)});
+  left: calc(50% - #{math.div($spinner-size, 2)});
+}
+
+.is-processing {
+  position: relative;
+}
+.is-processing > .spinner {
+  display: block;
+}
+
