@@ -12,7 +12,7 @@ function Icon({ className = '', name, size = '1em', ...rest }: IconProps): JSX.E
   return (
     <span className={`${b()} ${className}`} {...rest}>
       <svg style={{ width: size, height: size }} className={b('svg')}>
-        <use xlinkHref={`#${name}`}></use>
+        <use href={`#${name}`}></use>
       </svg>
     </span>
   );
