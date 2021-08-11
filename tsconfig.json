@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "es2017"],
+    "module": "esnext",
+    "target": "esnext",
+    "jsx": "preserve",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["./src/*"]
+    },
+    "outDir": "./dist",
+    "typeRoots": ["typings/**/*.d.ts", "node_modules/@types"]
+  },
+  "include": ["src/**/*", "typings/**/*.d.ts"],
+  "exclude": ["**/*.js"]
+}
