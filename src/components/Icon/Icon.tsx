@@ -10,7 +10,7 @@ const b = block('icon');
 
 function Icon({ className = '', name, size = '1em', ...rest }: IconProps): JSX.Element {
   return (
-    <span className={`${b()} ${className}`} {...rest}>
+    <span className={b({}).mix(className.split(' '))} {...rest}>
       <svg style={{ width: size, height: size }} className={b('svg')}>
         <use href={`#${name}`}></use>
       </svg>
