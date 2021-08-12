@@ -1,0 +1,24 @@
+$pill-gap-y: 0.122em;
+$pill-size: #{$line-height-primary * 1em + $pill-gap-y * 2};
+
+@mixin pill($bg, $color: false) {
+  @if $color != false {
+    color: $color;
+  }
+
+  @include only-ff(
+    '&',
+    (
+      padding-top: 0.07em,
+    )
+  );
+
+  display: inline-block;
+  min-width: $pill-size;
+  height: $pill-size;
+  padding: 0 0.4em;
+  border-radius: 1em;
+  background-color: $bg;
+  line-height: $pill-size;
+  text-align: center;
+}

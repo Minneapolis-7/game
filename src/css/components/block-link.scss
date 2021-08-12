@@ -1,0 +1,11 @@
+.block-link {
+  display: block;
+}
+.block-link:link,
+.block-link:visited,
+.block-link:hover,
+.block-link:focus,
+.block-link:active {
+  color: $text-color;
+  text-decoration: none;
+}

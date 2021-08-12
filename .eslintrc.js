@@ -60,6 +60,7 @@ module.exports = {
           'ignorePackages',
           {
             ts: 'never',
+            tsx: 'never',
           },
         ],
 
@@ -73,6 +74,11 @@ module.exports = {
       settings: {
         react: {
           version: 'detect',
+        },
+        'import/resolver': {
+          node: {
+            paths: ['src'],
+          },
         },
       },
     },
