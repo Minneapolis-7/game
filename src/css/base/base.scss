@@ -1,13 +1,22 @@
 @import 'html5-boilerplate/dist/css/normalize.css';
 @import 'html5-boilerplate/dist/css/main.css';
 
+html {
+  box-sizing: border-box;
+  color: $text-color;
+}
+
+// позволить переопределить `box-sizing` точечно для компонента вместе с содержимым
+// https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
 html,
 body {
   height: 100%;
-}
-
-html {
-  color: $text-color;
 }
 
 body {
@@ -29,38 +38,36 @@ input::-webkit-credentials-auto-fill-button {
   visibility: hidden;
 }
 
-
 // Показ фокус-стилей только для `:focus-visible`
-a[href]:not([tabindex^="-"]):focus,
-area[href]:not([tabindex^="-"]):focus,
-input:not([type="hidden"]):not([type="radio"]):not([disabled]):not([tabindex^="-"]):focus,
-input[type="radio"]:not([disabled]):not([tabindex^="-"]):checked:focus,
-select:not([disabled]):not([tabindex^="-"]):focus,
-textarea:not([disabled]):not([tabindex^="-"]):focus,
-button:not([disabled]):not([tabindex^="-"]):focus,
-iframe:not([tabindex^="-"]):focus,
-audio[controls]:not([tabindex^="-"]):focus,
-video[controls]:not([tabindex^="-"]):focus,
-[contenteditable]:not([tabindex^="-"]):focus,
-[tabindex]:not([tabindex^="-"]):focus {
+a[href]:not([tabindex^='-']):focus,
+area[href]:not([tabindex^='-']):focus,
+input:not([type='hidden']):not([type='radio']):not([disabled]):not([tabindex^='-']):focus,
+input[type='radio']:not([disabled]):not([tabindex^='-']):checked:focus,
+select:not([disabled]):not([tabindex^='-']):focus,
+textarea:not([disabled]):not([tabindex^='-']):focus,
+button:not([disabled]):not([tabindex^='-']):focus,
+iframe:not([tabindex^='-']):focus,
+audio[controls]:not([tabindex^='-']):focus,
+video[controls]:not([tabindex^='-']):focus,
+[contenteditable]:not([tabindex^='-']):focus,
+[tabindex]:not([tabindex^='-']):focus {
   outline: 0;
 }
 
-a[href]:not([tabindex^="-"]):focus-visible,
-area[href]:not([tabindex^="-"]):focus-visible,
-input:not([type="hidden"]):not([type="radio"]):not([disabled]):not([tabindex^="-"]):focus-visible,
-input[type="radio"]:not([disabled]):not([tabindex^="-"]):checked:focus-visible,
-select:not([disabled]):not([tabindex^="-"]):focus-visible,
-textarea:not([disabled]):not([tabindex^="-"]):focus-visible,
-button:not([disabled]):not([tabindex^="-"]):focus-visible,
-iframe:not([tabindex^="-"]):focus-visible,
-audio[controls]:not([tabindex^="-"]):focus-visible,
-video[controls]:not([tabindex^="-"]):focus-visible,
-[contenteditable]:not([tabindex^="-"]):focus-visible,
-[tabindex]:not([tabindex^="-"]):focus-visible {
+a[href]:not([tabindex^='-']):focus-visible,
+area[href]:not([tabindex^='-']):focus-visible,
+input:not([type='hidden']):not([type='radio']):not([disabled]):not([tabindex^='-']):focus-visible,
+input[type='radio']:not([disabled]):not([tabindex^='-']):checked:focus-visible,
+select:not([disabled]):not([tabindex^='-']):focus-visible,
+textarea:not([disabled]):not([tabindex^='-']):focus-visible,
+button:not([disabled]):not([tabindex^='-']):focus-visible,
+iframe:not([tabindex^='-']):focus-visible,
+audio[controls]:not([tabindex^='-']):focus-visible,
+video[controls]:not([tabindex^='-']):focus-visible,
+[contenteditable]:not([tabindex^='-']):focus-visible,
+[tabindex]:not([tabindex^='-']):focus-visible {
   @include focus-ring;
 }
-
 
 // Сброс стилей списков
 .nolist {
@@ -106,6 +113,6 @@ video[controls]:not([tabindex^="-"]):focus-visible,
 .gap-y-xl {
   margin-bottom: #{$gap-y-xl};
 }
-[class*="gap-y-"]:last-child {
+[class*='gap-y-']:last-child {
   margin-bottom: 0;
 }

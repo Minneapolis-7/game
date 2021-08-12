@@ -1,12 +1,4 @@
-/* stylelint-disable no-descending-specificity */
 @use 'sass:math';
-
-.input,
-.input__field,
-.input__hint,
-.input > .error {
-  box-sizing: border-box;
-}
 
 .input {
   position: relative;
@@ -35,12 +27,14 @@ textarea.input__field:not([data-fixed]) {
   flex-grow: 0;
   flex-shrink: 0;
 }
+/* stylelint-disable no-descending-specificity */
 .has-error > .input__field {
   @include field_invalid;
 }
 .input__field:disabled {
   @include disabled;
 }
+/* stylelint-enable no-descending-specificity */
 
 .input__hint,
 .input__field::placeholder {
@@ -105,9 +99,11 @@ $input-error-line-height: 1.3em;
   left: 0;
   margin-top: -$input-error-line-height;
 }
+/* stylelint-disable no-descending-specificity */
 .has-error.input > .error {
   display: block;
 }
+/* stylelint-enable no-descending-specificity */
 
 .input__spacer {
   flex-grow: 0;
@@ -116,28 +112,23 @@ $input-error-line-height: 1.3em;
   padding: 0;
   visibility: hidden;
 }
-
+/* stylelint-disable no-descending-specificity */
 // Модификации
-.input_1 > .input__field {
-  @include field-base_1;
-  @include field-skin_1;
+.input_theme_solid > .input__field {
+  @include field-base_theme_solid;
+  @include field-skin_theme_solid;
 }
-.input_1 > .input__hint {
-  @include field-base_1;
+.input_theme_solid > .input__hint {
+  @include field-base_theme_solid;
 }
-.input_1 > .input__field_mode_floating:focus ~ .input__hint,
-.input_1 > .input__field_mode_floating:not(:placeholder-shown) ~ .input__hint {
-  @include input-field-transform($field-gap-x_1);
+.input_theme_solid > .input__field_mode_floating:focus ~ .input__hint,
+.input_theme_solid > .input__field_mode_floating:not(:placeholder-shown) ~ .input__hint {
+  @include input-field-transform($field-gap-x_theme_solid);
 }
 
+// ...больше модификаций здесь
 
-.input_2 > .input__field {
-  @include field-base_2;
-  @include field-skin_2;
-}
-.input_2 > .input__hint {
-  @include field-base_2;
-}
+/* stylelint-enable no-descending-specificity */
 
 
 // "Сдвиг" подсказки по умолчанию, располагается в конце для возможности переопределить стили модификаций
@@ -147,8 +138,8 @@ $input-error-line-height: 1.3em;
   padding-bottom: calc(#{$field-gap-y} - #{$input-hint-float-shift});
 }
 
-
-// Размеры
+/* stylelint-disable no-descending-specificity */
+// Размеры (все размерности шрифтозависимы, потому можно просто поменять `font-size`)
 .input_sizing_sm > .input__field,
 .input_sizing_sm > .input__hint {
   @include field-base_sizing_sm;
@@ -161,3 +152,4 @@ $input-error-line-height: 1.3em;
 .input_sizing_xl > .input__hint {
   @include field-base_sizing_xl;
 }
+/* stylelint-enable no-descending-specificity */

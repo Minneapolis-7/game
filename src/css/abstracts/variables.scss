@@ -1,19 +1,20 @@
 // Шрифты
-$text-font-stack: system-ui, "Segoe UI", roboto, helvetica, arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$text-font-stack: system-ui, 'Segoe UI', roboto, helvetica, arial, sans-serif, 'Apple Color Emoji',
+  'Segoe UI Emoji', 'Segoe UI Symbol';
 $font-size-primary: 1.2em;
 $line-height-primary: 1.4;
 
-$font-size-sm: .8rem;
+$font-size-sm: 0.8rem;
 $font-size-lg: 1.2em;
 $font-size-xl: 1.5em;
 
 // Цвета (нельзя использовать ключевые слова типа "white")
-$black: #1E1E1E;
+$black: #1e1e1e;
 $grey: #999;
-$grey-light: #EAEAEA;
-$white: #FFF;
-$blue: #3369F3;
-$red: #FF2F2F;
+$grey-light: #eaeaea;
+$white: #fff;
+$blue: #3369f3;
+$red: #ff2f2f;
 
 $brand-color: $blue;
 $brand-color-light: lighten(desaturate(adjust-hue($brand-color, -5), 2.68), 36.67);
@@ -27,11 +28,10 @@ $ui-color-light: lighten($ui-color, 5);
 $dark-color: $black;
 $light-color: $white;
 
-
 $main-bg: $white;
 
 // Длительность css-переходов
-$transition-duration: .15s;
+$transition-duration: 0.15s;
 
 // Уровни наложения
 $z-index-primary: 0; // макс. 1999
@@ -46,12 +46,12 @@ $z-index-notification: 9000; // макс. 9999
 $narrow-screen-bp: 50 * $font-size-primary; // 800px при шрифте 16px
 
 // Кросс-компонентные переменные
-$section-pad-generic: .65rem;
+$section-pad-generic: 0.65rem; // общий паддинг для абстрактных секций
 $gap-x-generic: $section-pad-generic;
 $gap-x-generic-lg: $gap-x-generic * 1.5;
 $gap-y-generic: 1.5rem;
-$gap-y-xs: $gap-y-generic * .2;
-$gap-y-sm: $gap-y-generic * .5;
+$gap-y-xs: $gap-y-generic * 0.2;
+$gap-y-sm: $gap-y-generic * 0.5;
 $gap-y-lg: $gap-y-generic * 1.5;
 $gap-y-xl: $gap-y-generic * 2;
 :root {

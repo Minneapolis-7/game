@@ -1,9 +1,11 @@
 @mixin spinner($size: 1em, $color: $text-color) {
   width: $size;
   height: $size;
-  border-width: calc(#{$size} / 8);
-  border-style: solid;
-  border-color: transparentize($color, 0.8);
-  border-left-color: $color;
-  border-radius: 50%;
+
+  &::after {
+    border-width: calc(#{$size} / 8);
+    border-style: solid;
+    border-color: transparentize($color, 0.8);
+    border-left-color: $color;
+  }
 }

@@ -24,4 +24,3 @@
 @function get-field-height($line-height, $gap-y, $border-width) {
   @return calc(#{$line-height + $gap-y * 2} - #{get-field-border-y-height($border-width)});
 }
-

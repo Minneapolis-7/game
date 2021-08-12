@@ -21,19 +21,19 @@ export default forwardRef<HTMLInputElement, InputProps>(function Input(
   }: InputProps,
   ref
 ): JSX.Element {
+  const canFloat = isFloating && hint && display !== 'inline';
+  const mode = canFloat ? 'floating' : '';
+
   return (
     <div className={b({ theme, sizing }).mix(className.split(' '))} data-display={display}>
       <input
         ref={ref}
-        className={b(
-          'field',
-          isFloating && hint && display !== 'inline' ? { mode: 'floating' } : {}
-        ).mix(fieldClassName.split(' '))}
+        className={b('field', { mode }).mix(fieldClassName.split(' '))}
         type={type}
         {...rest}
         placeholder={hint}
       />
-      {isFloating && hint && display !== 'inline' && (
+      {canFloat && (
         <label className={b('hint')} htmlFor={rest.id}>
           {hint}
         </label>

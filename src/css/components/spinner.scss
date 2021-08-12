@@ -2,14 +2,24 @@
 
 $spinner-size: 2em;
 
+.spinner,
+.spinner::after {
+  position: absolute;
+  border-radius: 50%;
+}
 .spinner {
   @include spinner($spinner-size, $text-color);
 
-  position: absolute;
   display: none;
-  box-sizing: border-box;
-  border-radius: 50%;
-  animation: spin .4s infinite linear;
+}
+
+.spinner::after {
+  content: '';
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  animation: spin 0.4s infinite linear;
   will-change: transform;
 }
 
@@ -23,8 +33,9 @@ $spinner-size: 2em;
 }
 
 body > .spinner {
-  top: calc(50% - #{math.div($spinner-size, 2)});
-  left: calc(50% - #{math.div($spinner-size, 2)});
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .is-processing {
@@ -33,4 +44,3 @@ body > .spinner {
 .is-processing > .spinner {
   display: block;
 }
-

@@ -1,4 +1,4 @@
-$pill-gap-y: .122em;
+$pill-gap-y: 0.122em;
 $pill-size: #{$line-height-primary * 1em + $pill-gap-y * 2};
 
 @mixin pill($bg, $color: false) {
@@ -6,15 +6,17 @@ $pill-size: #{$line-height-primary * 1em + $pill-gap-y * 2};
     color: $color;
   }
 
-  @include only-ff('&', (
-    padding-top: .07em,
-  ));
+  @include only-ff(
+    '&',
+    (
+      padding-top: 0.07em,
+    )
+  );
 
   display: inline-block;
-  box-sizing: border-box;
   min-width: $pill-size;
   height: $pill-size;
-  padding: 0 .4em;
+  padding: 0 0.4em;
   border-radius: 1em;
   background-color: $bg;
   line-height: $pill-size;

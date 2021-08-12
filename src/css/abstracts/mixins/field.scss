@@ -33,29 +33,20 @@ $field-bg-color: transparent;
 }
 
 /* stylelint-disable-next-line block-no-empty */
-@mixin field_invalid {}
-
+@mixin field_invalid {
+}
 
 // Модификации
-$field-gap-x_1: 1.5em;
-$field-bg-color_1: $ui-color;
-@mixin field-base_1 {
+$field-gap-x_theme_solid: 1.5em;
+$field-bg-color_theme_solid: $ui-color;
+@mixin field-base_theme_solid {
   --field-height: #{$field-height};
 
-  padding-right: $field-gap-x_1;
-  padding-left: $field-gap-x_1;
+  padding-right: $field-gap-x_theme_solid;
+  padding-left: $field-gap-x_theme_solid;
   border-radius: calc(var(--field-height) / 2);
 }
-@mixin field-skin_1 {
+@mixin field-skin_theme_solid {
   border-color: transparent;
-  background-color: $field-bg-color_1;
+  background-color: $field-bg-color_theme_solid;
 }
-
-$field-border-width_2: 0;
-@mixin field-base_2 {
-  border-width: $field-border-width_2;
-}
-@mixin field-skin_2 {
-  color: $muted-color;
-}
-

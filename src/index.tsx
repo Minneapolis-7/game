@@ -18,7 +18,7 @@ ReactDOM.render(
     </ButtonLink>
     <ButtonLink href="//google.com">Ссылка</ButtonLink>
     <Icon size="2rem" name={icon.id} />
-    <Input sizing="xl" className="gap-y-lg" hint="Инпут" />
+    <Input sizing="xl" className="gap-y-lg" theme="solid" hint="Инпут" />
     <Input sizing="lg" className="gap-y-lg" hint="Инпут" />
     <Input className="gap-y-lg" hint="Инпут" />
     <Input sizing="sm" className="gap-y-lg" hint="Инпут" />
