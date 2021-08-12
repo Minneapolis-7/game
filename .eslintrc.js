@@ -68,6 +68,7 @@ module.exports = {
         curly: ['error', 'all'],
         'no-tabs': 'error',
         'no-unexpected-multiline': 'error',
+        'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
       },
 
       settings: {

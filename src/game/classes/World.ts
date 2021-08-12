@@ -1,13 +1,24 @@
-import Player from './Player.js';
+import { ControlKeysState, XYCoordinates } from '../types';
+import GameObject from './GameObject';
+import Player from './Player';
 import {
   GAME_CONFIG,
   CANVAS_SIZE_X,
-   CANVAS_SIZE_Y,
+  CANVAS_SIZE_Y,
   SPRITE_SIZE_X,
-  SPRITE_SIZE_Y
-} from '../utils/constants.js';
+  SPRITE_SIZE_Y,
+} from '../utils/constants';
+
+export type LevelObjects = GameObject[][];
 
 export default class World {
+  public player: Player;
+  public levelObjects: LevelObjects;
+  public lastPlayerPosition: XYCoordinates;
+  public lastActionPosition: XYCoordinates;
+  public friction: number;
+  public gravity: number;
+
   constructor() {
     this.player = new Player();
     this.levelObjects = [];
@@ -18,17 +29,17 @@ export default class World {
     this.resetToDefault();
   }
 
-  resetToDefault() {
+  resetToDefault(): void {
     this.friction = GAME_CONFIG.FRICTION;
     this.gravity = GAME_CONFIG.GRAVITY;
   }
 
-  setLevelObjects(levelObjects) {
-    this.levelObjects = levelObjects
+  setLevelObjects(levelObjects: LevelObjects): void {
+    this.levelObjects = levelObjects;
   }
 
   // Обновление на смену позиции (по тайлам)
-  onPositionUpdate(object, bottomObject, control) {
+  onPositionUpdate(object: GameObject, bottomObject: GameObject): void {
     const { x, y } = this.player.position;
     const isOver = this.lastActionPosition[0] === x && this.lastActionPosition[1] === y;
     this.resetToDefault();
@@ -36,19 +47,19 @@ export default class World {
     // Колбэк при пересечении
     if (object.onOver) {
       object.onOver({ object, player: this.player });
-      this.lastActionPosition = [x, y]
+      this.lastActionPosition = [x, y];
     }
 
     // Колбэк при перемещении сверху
     if (bottomObject.onAbove && !isOver) {
-      bottomObject.onAbove({ bottomObject, player: this.player });
+      bottomObject.onAbove({ object: bottomObject, player: this.player });
     }
   }
 
-  update(control) {
+  update(control: ControlKeysState): void {
     const { x, y } = this.player.position;
 
-    let collision = {
+    const collision = {
       top: 0,
       right: CANVAS_SIZE_X,
       bottom: CANVAS_SIZE_Y,
@@ -73,11 +84,7 @@ export default class World {
     }
 
     if (this.lastPlayerPosition[0] !== x || this.lastPlayerPosition[1] !== y) {
-      this.onPositionUpdate(
-        this.levelObjects[y][x],
-        this.levelObjects[y + 1][x],
-        control
-      );
+      this.onPositionUpdate(this.levelObjects[y][x], this.levelObjects[y + 1][x]);
       this.lastPlayerPosition = [x, y];
     }
 

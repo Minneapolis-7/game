@@ -1,23 +1,25 @@
-export const APP_SELECTOR = '.app';
+import spritesFile from '../assets/sprites.png';
+import { XYCoordinates } from '../types';
+
 export const CANVAS_SIZE_X = 640;
 export const CANVAS_SIZE_Y = 480;
-export const CANVAS_BACKGROUND = '#000'
-export const SPRITES_FILE = './assets/sprites.png';
+export const CANVAS_BACKGROUND = '#000';
+export const SPRITES_FILE: string = spritesFile;
 export const SPRITE_SIZE_X = 32;
 export const SPRITE_SIZE_Y = 32;
 
 // Персонаж игрока на спрайтовой карте [x, y]
-export const SPRITE_PLAYER = {
+export const SPRITE_PLAYER: Record<string, XYCoordinates> = {
   STAY: [0, 0],
   RIGHT: [32, 0],
   LEFT: [64, 0],
-}
+};
 
-export const CONTROL = {
+export const CONTROL_KEY = {
   LEFT: 'left',
   RIGHT: 'right',
   SPACE: 'space',
-}
+} as const;
 
 // Настройки баланса игры
 export const GAME_CONFIG = {
@@ -29,4 +31,4 @@ export const GAME_CONFIG = {
   PLAYER_SPEED: 2,
   // Мощность прыжка
   PLAYER_JUMP_POWER: 2.5,
-}
+} as const;

@@ -1,4 +1,8 @@
+import { ControlKeysState, RegisteredKeys } from '../types';
+
 export default class Control {
+  public registeredKeys: RegisteredKeys;
+
   constructor() {
     this.registeredKeys = {};
 
@@ -17,17 +21,19 @@ export default class Control {
     });
   }
 
-  addKey(keyCode, key, cb = () => {}) {
+  addKey(keyCode: string, key: string, cb?: () => void): void {
     this.registeredKeys[keyCode] = {
-      key, state: false, cb,
-    }
+      key,
+      state: false,
+      cb,
+    };
   }
 
-  get keys() {
-    const acc = {};
-    for (const i in this.registeredKeys) {
-      acc[this.registeredKeys[i].key] = this.registeredKeys[i].state;
-    }
+  get keys(): ControlKeysState {
+    const acc: ControlKeysState = {};
+    Object.entries(this.registeredKeys).forEach(([key, value]) => {
+      acc[this.registeredKeys[key].key] = value.state;
+    });
     return acc;
   }
 }

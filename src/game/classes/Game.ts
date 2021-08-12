@@ -1,14 +1,40 @@
-import { CONTROL } from '../utils/constants.js';
-import GameObject from './GameObject.js';
+import { CONTROL_KEY } from '../utils/constants';
+import GameObject, { GameObjectConstructorOptions } from './GameObject';
+import World, { LevelObjects } from './World';
+import View from './View';
+import Control from './Control';
+import { GameState, Level } from '../types';
+
+type GameConstructorOptions = {
+  world: World;
+  view: View;
+  control: Control;
+  levels: Level[];
+  startLevelIndex: number;
+  isDebugDraw: false;
+  onGameStateUpdate: (gameState: GameState) => void;
+};
 
 export default class Game {
-  constructor(options) {
+  public world: World;
+  public view: View;
+  public control: Control;
+  public levels: Level[];
+  public startLevelIndex: number;
+  public requestAnimationId: number;
+  public objects: Record<number, GameObjectConstructorOptions>;
+  public gameState: GameState;
+  public updateGameState: (gameState: GameState) => void;
+
+  constructor(options: GameConstructorOptions) {
     const {
       world,
       levels,
       view,
       control,
-      isDebugDraw = false
+      isDebugDraw = false,
+      startLevelIndex,
+      onGameStateUpdate,
     } = options;
 
     this.world = world;
@@ -17,8 +43,15 @@ export default class Game {
     this.control = control;
     this.loop = this.loop.bind(this);
     this.requestAnimationId = 0;
-    this.levels = levels
-    this.isDoorUnlock = false;
+    this.levels = levels;
+    this.startLevelIndex = startLevelIndex;
+
+    this.gameState = {
+      isDoorUnlock: false,
+      isLevelComplete: false,
+    };
+
+    this.updateGameState = onGameStateUpdate;
 
     // Ключ объекта соответствует значению на карте уровня
     this.objects = {
@@ -28,9 +61,9 @@ export default class Game {
         // Фикс ускорения при сходе с обрыва
         onAbove: ({ player }) => {
           if (player.velocityY > 10) {
-            player.velocityY = 0;
+            player.setVelocityY(0);
           }
-        }
+        },
       },
       // Кирпич
       1: { sprite: [480, 0], isUseCollision: true },
@@ -43,7 +76,7 @@ export default class Game {
         sprite: [480, 64],
         isUseCollision: true,
         onAbove: ({ player }) => {
-          player.velocityY = -10;
+          player.setVelocityY(-10);
         },
       },
       // Лёд
@@ -59,16 +92,17 @@ export default class Game {
       6: {
         sprite: [0, 64],
         onOver: ({ object }) => {
-          object.sprite = [32, 64]
-          this.isDoorUnlock = true;
+          object.setSprite([32, 64]);
+          this.setGameState('isDoorUnlock', true);
         },
       },
       // Дверь
       7: {
         sprite: [0, 96],
         onOver: ({ object }) => {
-          if (this.isDoorUnlock) {
-            object.sprite = [32, 96]
+          if (this.gameState.isDoorUnlock) {
+            object.setSprite([32, 96]);
+            this.setGameState('isLevelComplete', true);
           }
         },
       },
@@ -76,11 +110,11 @@ export default class Game {
       8: {
         sprite: [448, 64],
         onOver: ({ player }) => {
-          player.velocityY = -2;
+          player.setVelocityY(-2);
           if (player.velocityX > 0) {
-            player.velocityX = -10;
+            player.setVelocityX(-10);
           } else {
-            player.velocityX = 10;
+            player.setVelocityX(10);
           }
         },
       },
@@ -93,42 +127,47 @@ export default class Game {
       10: {
         sprite: [384, 64],
         onOver: ({ player }) => {
-          console.log('голубой портал')
-          player.velocityY = 0;
-          player.x = 32;
-          player.y = 128;
+          player.setVelocityY(0);
+          player.setX(32);
+          player.setY(128);
         },
       },
-    }
+    };
   }
 
-  async init() {
+  setGameState(key: string, value: unknown): void {
+    this.gameState[key] = value;
+    this.updateGameState(this.gameState);
+  }
+
+  async init(): Promise<void> {
     // Клавиши управления игрой (код клавиши, ключ состояния клавиши)
-    this.control.addKey('ArrowLeft', CONTROL.LEFT);
-    this.control.addKey('ArrowRight', CONTROL.RIGHT);
-    this.control.addKey('Space', CONTROL.SPACE);
+    this.control.addKey('ArrowLeft', CONTROL_KEY.LEFT);
+    this.control.addKey('ArrowRight', CONTROL_KEY.RIGHT);
+    this.control.addKey('Space', CONTROL_KEY.SPACE);
 
     await this.view.init();
-    const levelObjects = this.buildLevelObjects(this.levels[0]);
+    const levelObjects = this.buildLevelObjects(this.levels[this.startLevelIndex]);
     this.world.setLevelObjects(levelObjects);
     this.start();
+    this.updateGameState(this.gameState);
   }
 
-  buildLevelObjects(level) {
+  buildLevelObjects(level: Level): LevelObjects {
     return level.tiles.map((row) => {
-      return row.map((tile) => new GameObject(this.objects[tile]))
+      return row.map((tile) => new GameObject(this.objects[tile]));
     });
   }
 
-  start() {
+  start(): void {
     this.loop();
   }
 
-  stop() {
+  stop(): void {
     window.cancelAnimationFrame(this.requestAnimationId);
   }
 
-  loop() {
+  loop(): void {
     // Обновляется мир, в мир передаётся текущее состояние клавиш
     this.world.update(this.control.keys);
     this.view.update(this.world);
