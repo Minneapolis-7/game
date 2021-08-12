@@ -145,6 +145,7 @@ export default class Game {
     this.control.addKey('ArrowLeft', CONTROL_KEY.LEFT);
     this.control.addKey('ArrowRight', CONTROL_KEY.RIGHT);
     this.control.addKey('Space', CONTROL_KEY.SPACE);
+    this.control.addKey('KeyT', CONTROL_KEY.T);
 
     await this.view.init();
     const levelObjects = this.buildLevelObjects(this.levels[this.startLevelIndex]);
@@ -155,7 +156,7 @@ export default class Game {
 
   buildLevelObjects(level: Level): LevelObjects {
     return level.tiles.map((row) => {
-      return row.map((tile) => new GameObject(this.objects[tile]));
+      return row.map((tile) => new GameObject({ ...this.objects[tile], id: tile }));
     });
   }
 
@@ -170,7 +171,7 @@ export default class Game {
   loop(): void {
     // Обновляется мир, в мир передаётся текущее состояние клавиш
     this.world.update(this.control.keys);
-    this.view.update(this.world);
+    this.view.update(this.world, this.control.keys);
     this.requestAnimationId = window.requestAnimationFrame(this.loop);
   }
 }

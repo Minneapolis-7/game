@@ -21,11 +21,10 @@ export default class Control {
     });
   }
 
-  addKey(keyCode: string, key: string, cb?: () => void): void {
+  addKey(keyCode: string, key: string): void {
     this.registeredKeys[keyCode] = {
       key,
       state: false,
-      cb,
     };
   }
 

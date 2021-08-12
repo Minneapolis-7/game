@@ -9,6 +9,7 @@ import Sprite from './Sprite';
 import GameObject from './GameObject';
 import Player from './Player';
 import World, { LevelObjects } from './World';
+import { ControlKeysState } from '../types';
 
 export default class View {
   public canvas: HTMLCanvasElement;
@@ -34,14 +35,14 @@ export default class View {
     await this.sprite.load();
   }
 
-  update(world: World): void {
+  update(world: World, control: ControlKeysState): void {
     this.cleanScreen();
-    this.renderLevelObjects(world.levelObjects);
+    this.renderLevelObjects(world.levelObjects, control);
     this.renderPlayer(world.player);
   }
 
   // Получает данные о уровне и отрисовывает его
-  renderLevelObjects(levelObjects: LevelObjects): void {
+  renderLevelObjects(levelObjects: LevelObjects, control: ControlKeysState): void {
     if (!this.ctx) {
       return;
     }
@@ -58,6 +59,41 @@ export default class View {
           SPRITE_SIZE_X,
           SPRITE_SIZE_Y
         );
+
+        if (control.t && this.ctx) {
+          this.ctx.lineWidth = 2;
+          this.ctx.font = 'bold 10px sans-serif';
+          this.ctx.strokeStyle = 'white';
+          this.ctx.textAlign = 'center';
+          this.ctx.textBaseline = 'middle';
+          this.ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+          this.ctx.fillRect(
+            colIndex * SPRITE_SIZE_X,
+            rowIndex * SPRITE_SIZE_Y,
+            SPRITE_SIZE_X,
+            SPRITE_SIZE_Y
+          );
+          this.ctx.strokeRect(
+            colIndex * SPRITE_SIZE_X,
+            rowIndex * SPRITE_SIZE_Y,
+            SPRITE_SIZE_X,
+            SPRITE_SIZE_Y
+          );
+          this.ctx.fillStyle = 'black';
+          this.ctx.fillText(
+            `${colIndex}, ${rowIndex}`,
+            (colIndex + 1) * SPRITE_SIZE_X - SPRITE_SIZE_X / 2,
+            (rowIndex + 1) * SPRITE_SIZE_Y - SPRITE_SIZE_Y / 1.4,
+            32
+          );
+          this.ctx.fillStyle = 'blue';
+          this.ctx.fillText(
+            `${object.id}`,
+            (colIndex + 1) * SPRITE_SIZE_X - SPRITE_SIZE_X / 2,
+            (rowIndex + 1) * SPRITE_SIZE_Y - SPRITE_SIZE_Y / 4,
+            32
+          );
+        }
       });
     });
   }

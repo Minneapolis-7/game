@@ -1,6 +1,7 @@
 import Player from './Player';
 
 export type GameObjectConstructorOptions = {
+  id?: number;
   sprite: [number, number];
   isUseCollision?: boolean;
   z?: number;
@@ -9,6 +10,7 @@ export type GameObjectConstructorOptions = {
 };
 
 export default class GameObject {
+  public id: number;
   public sprite: [number, number];
   public isUseCollision: boolean;
   public z: number;
@@ -16,8 +18,9 @@ export default class GameObject {
   public onAbove?: (target: { object: GameObject; player: Player }) => void;
 
   constructor(options: GameObjectConstructorOptions) {
-    const { sprite = [0, 0], isUseCollision = false, z = 0, onOver, onAbove } = options;
+    const { id = 0, sprite = [0, 0], isUseCollision = false, z = 0, onOver, onAbove } = options;
 
+    this.id = id;
     this.sprite = sprite;
     this.isUseCollision = isUseCollision;
     this.z = z;

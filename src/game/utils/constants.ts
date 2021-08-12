@@ -19,6 +19,7 @@ export const CONTROL_KEY = {
   LEFT: 'left',
   RIGHT: 'right',
   SPACE: 'space',
+  T: 't',
 } as const;
 
 // Настройки баланса игры
