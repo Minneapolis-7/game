@@ -1,7 +1,7 @@
 @use 'sass:math';
 
 $button-height: $field-height;
-$button-text-color: $white;
+$button-text-color: $dark-color;
 
 .button {
   @include button-reset;

@@ -114,16 +114,16 @@ $input-error-line-height: 1.3em;
 }
 /* stylelint-disable no-descending-specificity */
 // Модификации
-.input_theme_solid > .input__field {
-  @include field-base_theme_solid;
-  @include field-skin_theme_solid;
+.input_theme_dumb-example > .input__field {
+  @include field-base_theme_dumb-example;
+  @include field-skin_theme_dumb-example;
 }
-.input_theme_solid > .input__hint {
-  @include field-base_theme_solid;
+.input_theme_dumb-example > .input__hint {
+  @include field-base_theme_dumb-example;
 }
-.input_theme_solid > .input__field_mode_floating:focus ~ .input__hint,
-.input_theme_solid > .input__field_mode_floating:not(:placeholder-shown) ~ .input__hint {
-  @include input-field-transform($field-gap-x_theme_solid);
+.input_theme_dumb-example > .input__field_mode_floating:focus ~ .input__hint,
+.input_theme_dumb-example > .input__field_mode_floating:not(:placeholder-shown) ~ .input__hint {
+  @include input-field-transform($field-gap-x_theme_dumb-example);
 }
 
 // ...больше модификаций здесь

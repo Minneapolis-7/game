@@ -1,7 +1,7 @@
 // Шрифты
 $text-font-stack: system-ui, 'Segoe UI', roboto, helvetica, arial, sans-serif, 'Apple Color Emoji',
   'Segoe UI Emoji', 'Segoe UI Symbol';
-$font-size-primary: 1.2em;
+$font-size-primary: 1em;
 $line-height-primary: 1.4;
 
 $font-size-sm: 0.8rem;
@@ -9,26 +9,27 @@ $font-size-lg: 1.2em;
 $font-size-xl: 1.5em;
 
 // Цвета (нельзя использовать ключевые слова типа "white")
-$black: #1e1e1e;
-$grey: #999;
-$grey-light: #eaeaea;
-$white: #fff;
-$blue: #3369f3;
+// https://coolors.co/eec643-141414-eef0f2-0d21a1-011638
+$black: #141414ff;
+$yellow: #eec643ff;
+$blue: #0d21a1ff;
+$blue-dark: #011638ff;
+$grey: #8e8e8f;
+$grey-light: #eef0f2ff;
+$white: #f8f9fb;
 $red: #ff2f2f;
 
-$brand-color: $blue;
+$brand-color: $yellow;
 $brand-color-light: lighten(desaturate(adjust-hue($brand-color, -5), 2.68), 36.67);
-$text-color: $black;
+$text-color: $white;
 $muted-color: $grey;
 $error-color: $red;
 $danger-color: $red;
-$ui-color: $grey-light;
-$ui-color-light: lighten($ui-color, 5);
 
 $dark-color: $black;
 $light-color: $white;
 
-$main-bg: $white;
+$main-bg: $dark-color;
 
 // Длительность css-переходов
 $transition-duration: 0.15s;

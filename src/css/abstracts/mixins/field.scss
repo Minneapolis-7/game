@@ -37,16 +37,15 @@ $field-bg-color: transparent;
 }
 
 // Модификации
-$field-gap-x_theme_solid: 1.5em;
-$field-bg-color_theme_solid: $ui-color;
-@mixin field-base_theme_solid {
+$field-gap-x_theme_dumb-example: 1em;
+$field-bg-color_theme_dumb-example: $blue;
+@mixin field-base_theme_dumb-example {
   --field-height: #{$field-height};
 
-  padding-right: $field-gap-x_theme_solid;
-  padding-left: $field-gap-x_theme_solid;
-  border-radius: calc(var(--field-height) / 2);
+  padding-right: $field-gap-x_theme_dumb-example;
+  padding-left: $field-gap-x_theme_dumb-example;
 }
-@mixin field-skin_theme_solid {
+@mixin field-skin_theme_dumb-example {
   border-color: transparent;
-  background-color: $field-bg-color_theme_solid;
+  background-color: $field-bg-color_theme_dumb-example;
 }

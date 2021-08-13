@@ -1,0 +1,21 @@
+@use 'sass:math';
+
+.page {
+  display: flow-root;
+  min-height: 100%;
+}
+.page_fullscreen {
+  overflow: hidden;
+  height: 100%;
+}
+.page_centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page__centerer {
+  max-width: calc(100% - #{$gap-x-generic-lg} * 2);
+}
+.page__content {
+  margin: $gap-y-generic var(--section-pad-x-generic);
+}

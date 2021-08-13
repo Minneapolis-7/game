@@ -15,7 +15,20 @@
 @import 'components/spinner';
 @import 'components/field-row';
 
-// React-компоненты
-@import '../components/Button/button';
-@import '../components/Input/input';
-@import '../components/Icon/icon';
+///////////
+// React //
+///////////
+
+// UI-компоненты
+@import '../components/ui/Button/button';
+@import '../components/ui/Input/input';
+@import '../components/ui/Icon/icon';
+
+// Компоненты приложения
+
+
+// Модули
+@import '../modules/Auth/auth';
+
+// Лэйаут
+@import '../layout/Page/page';
