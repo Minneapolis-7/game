@@ -61,22 +61,26 @@ function GameReactComponent({ startLevelIndex = 0 }: GameProps): JSX.Element {
       <canvas ref={gameCanvasRef} />
       <p>Состояние игры в React:</p>
       <table>
-        <tr>
-          <td>Ключ</td>
-          <td>Значение</td>
-        </tr>
-        <tr>
-          <td>Здоровье</td>
-          <td>{gameState.playerHealth as string}</td>
-        </tr>
-        <tr>
-          <td>Дверь разблокирована</td>
-          <td>{gameState.isDoorUnlocked ? 'Да' : 'Нет'}</td>
-        </tr>
-        <tr>
-          <td>Уровень завершён</td>
-          <td>{gameState.isLevelCompleted ? 'Да' : 'Нет'}</td>
-        </tr>
+        <thead>
+          <tr>
+            <td>Ключ</td>
+            <td>Значение</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Здоровье</td>
+            <td>{gameState.playerHealth as string}</td>
+          </tr>
+          <tr>
+            <td>Дверь разблокирована</td>
+            <td>{gameState.isDoorUnlocked ? 'Да' : 'Нет'}</td>
+          </tr>
+          <tr>
+            <td>Уровень завершён</td>
+            <td>{gameState.isLevelCompleted ? 'Да' : 'Нет'}</td>
+          </tr>
+        </tbody>
       </table>
     </section>
   );
