@@ -36,7 +36,11 @@ export type RegisteredKeys = Record<string, RegisteredKey>;
 export type ControlKeysState = Record<string, boolean>;
 
 // Основное состояние игры
-export type GameState = Record<string, unknown>;
+export type GameState = {
+  isDoorUnlocked: boolean;
+  isLevelCompleted: boolean;
+  playerHealth: number;
+};
 
 // Уровень
 export type Level = {

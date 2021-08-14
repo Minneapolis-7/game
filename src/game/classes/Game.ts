@@ -48,7 +48,8 @@ export default class Game {
 
     this.gameState = {
       isDoorUnlocked: false,
-      isLevelComplete: false,
+      isLevelCompleted: false,
+      playerHealth: 3,
     };
 
     this.updateGameState = onStateUpdate;
@@ -118,7 +119,7 @@ export default class Game {
         onOver: ({ object }) => {
           if (this.gameState.isDoorUnlocked) {
             object.setSprite([32, 96]);
-            this.setGameState('isLevelComplete', true);
+            this.setGameState('isLevelCompleted', true);
           }
         },
       },
@@ -127,6 +128,7 @@ export default class Game {
         id: 8,
         sprite: [448, 64],
         onOver: ({ player }) => {
+          this.setGameState('playerHealth', this.gameState.playerHealth - 1);
           player.setVelocityY(-2);
 
           if (player.velocityX > 0) {
@@ -155,7 +157,7 @@ export default class Game {
     ];
   }
 
-  setGameState(key: string, value: unknown): void {
+  setGameState<T extends keyof GameState, K extends GameState[T]>(key: T, value: K): void {
     this.gameState[key] = value;
     this.updateGameState(this.gameState);
   }

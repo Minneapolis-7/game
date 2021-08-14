@@ -19,7 +19,7 @@ function useForceUpdate() {
 }
 
 function GameReactComponent({ startLevelIndex = 0 }: GameProps): JSX.Element {
-  const [gameState, setGameState] = useState({});
+  const [gameState, setGameState] = useState<GameState | Record<string, unknown>>({});
   const forceUpdate = useForceUpdate();
   const gameCanvasRef = useRef<HTMLCanvasElement>(null);
   const gameStateRef = useRef({});
@@ -59,7 +59,25 @@ function GameReactComponent({ startLevelIndex = 0 }: GameProps): JSX.Element {
   return (
     <section>
       <canvas ref={gameCanvasRef} />
-      <pre>Тест передачи состояния в React: {JSON.stringify(gameState)}</pre>
+      <p>Состояние игры в React:</p>
+      <table>
+        <tr>
+          <td>Ключ</td>
+          <td>Значение</td>
+        </tr>
+        <tr>
+          <td>Здоровье</td>
+          <td>{gameState.playerHealth as string}</td>
+        </tr>
+        <tr>
+          <td>Дверь разблокирована</td>
+          <td>{gameState.isDoorUnlocked ? 'Да' : 'Нет'}</td>
+        </tr>
+        <tr>
+          <td>Уровень завершён</td>
+          <td>{gameState.isLevelCompleted ? 'Да' : 'Нет'}</td>
+        </tr>
+      </table>
     </section>
   );
 }
