@@ -13,12 +13,12 @@ const mockUserData = {
   email: 'my@email.com',
 };
 
-function ProfilePage(): JSX.Element {
+function ProfileEditPage(): JSX.Element {
   return (
     <Page>
-      <Profile user={mockUserData} />
+      <Profile user={mockUserData} action="edit" />
     </Page>
   );
 }
 
-export default ProfilePage;
+export default ProfileEditPage;

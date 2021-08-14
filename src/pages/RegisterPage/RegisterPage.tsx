@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import Page from 'layout/Page';
 import Auth from 'modules/Auth';
 import { Input, Button, ButtonLink } from 'components/ui';
+import { Link } from 'react-router-dom';
+
+// todo: разобраться как передавать ref в `ButtonLink`
+const LoginLink = forwardRef(function LoginLink(props, _ref) {
+  return (
+    <ButtonLink /* ref={ref} */ display="block" {...props}>
+      Вход
+    </ButtonLink>
+  );
+});
 
 function RegisterPage(): JSX.Element {
   return (
@@ -43,15 +53,6 @@ function RegisterPage(): JSX.Element {
             name="second_name"
           />
           <Input
-            className="gap-y-lg"
-            hint="Телефон"
-            required
-            type="tel"
-            autoComplete="tel"
-            id="phone"
-            name="phone"
-          />
-          <Input
             type="password"
             className="gap-y-lg"
             hint="Пароль"
@@ -77,9 +78,8 @@ function RegisterPage(): JSX.Element {
         </div>
         <div className="gap-y-xs">
           {/* https://reactrouter.com/web/api/Link/component-reactcomponent */}
-          <ButtonLink href="/signup" className="gap-y-xs" display="block">
-            Вход
-          </ButtonLink>
+          {/* todo: разобраться с работой кастомного компонента с `Link` (сейчас происходит переход с перезагрузкой страницы) */}
+          <Link to="/signup" component={LoginLink} />
         </div>
       </Auth>
     </Page>

@@ -1,0 +1,28 @@
+.filepick {
+  position: relative;
+  display: inline-block;
+  padding: 1rem;
+  border-radius: 50%;
+  background-color: $brand-color;
+  color: $dark-color;
+  line-height: 0;
+  cursor: pointer;
+}
+.filepick:focus-within {
+  @include focus-ring;
+}
+.filepick__icon {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  z-index: 1;
+  display: none;
+  width: 1.5em;
+  height: 1.5em;
+  background: svg-load('bootstrap-icons/icons/file-check.svg', fill=$muted-color) no-repeat 50% 50%;
+  background-size: contain;
+  transform: translateY(-50%);
+}
+.filepick__input:valid ~ .filepick__icon {
+  display: block;
+}

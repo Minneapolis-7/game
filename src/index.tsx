@@ -1,10 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import './css/main.scss';
 
-// import LoginPage from 'pages/LoginPage';
-import RegisterPage from 'pages/RegisterPage';
+import {
+  LoginPage,
+  RegisterPage,
+  ProfilePage,
+  ProfileEditPage,
+  ProfileEditPasswordPage,
+} from 'pages';
 
 // import icon from 'bootstrap-icons/icons/moon.svg';
 // import { Button, ButtonLink, Icon, Input, Textarea } from 'components';
@@ -24,4 +30,53 @@ import RegisterPage from 'pages/RegisterPage';
 //   <Input sizing="sm" className="gap-y-lg" hint="Инпут" />
 //   <Textarea display="inline" cols={50} rows={10} hint="Test" />
 // </Page>
-ReactDOM.render(<RegisterPage />, document.getElementById('root'));
+ReactDOM.render(
+  <Router>
+    <div>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Логин на главной</Link>
+          </li>
+          <li>
+            <Link to="/login">Логин</Link>
+          </li>
+          <li>
+            <Link to="/signup">Регистрация</Link>
+          </li>
+          <li>
+            <Link to="/profile">Профиль</Link>
+          </li>
+          <li>
+            <Link to="/profile/edit">Профиль редактирование</Link>
+          </li>
+          <li>
+            <Link to="/profile/edit/password">Профиль сменить пароль</Link>
+          </li>
+        </ul>
+      </nav>
+
+      <Switch>
+        <Route path="/login" exact>
+          <LoginPage />
+        </Route>
+        <Route path="/signup" exact>
+          <RegisterPage />
+        </Route>
+        <Route path="/profile" exact>
+          <ProfilePage />
+        </Route>
+        <Route path="/profile/edit" exact>
+          <ProfileEditPage />
+        </Route>
+        <Route path="/profile/edit/password" exact>
+          <ProfileEditPasswordPage />
+        </Route>
+        <Route path="/" exact>
+          <LoginPage />
+        </Route>
+      </Switch>
+    </div>
+  </Router>,
+  document.getElementById('root')
+);

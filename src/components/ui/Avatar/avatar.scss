@@ -1,0 +1,53 @@
+@use 'sass:math';
+
+$avatar-default-width: 6.25rem;
+$avatar-default-height: 6.25rem;
+
+.avatar,
+.avatar__pic,
+.avatar__pic::after,
+.avatar__img {
+  border-radius: 50%;
+}
+.avatar,
+.avatar__pic {
+  max-width: 100%;
+}
+.avatar {
+  display: inline-block;
+  vertical-align: top;
+  width: $avatar-default-width;
+  margin: 0;
+}
+.avatar__pic {
+  position: relative;
+  height: 0;
+  padding-top: #{math.percentage(math.div($avatar-default-height, $avatar-default-width))};
+  background: $ui-color;
+  background-size: cover;
+}
+.avatar__pic_retina {
+  @include at2x {
+    background-image: var(--at2x) !important;
+  }
+}
+.avatar__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.avatar_populatable > .avatar__pic:not([data-populated='true'])::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: $z-index-primary;
+  width: 100%;
+  height: 100%;
+  background: svg-load('bootstrap-icons/icons/image.svg', fill=$blue-dark) no-repeat 50% 50%;
+  background-size: 40%;
+}

@@ -23,6 +23,7 @@ $brand-color: $yellow;
 $brand-color-light: lighten(desaturate(adjust-hue($brand-color, -5), 2.68), 36.67);
 $text-color: $white;
 $muted-color: $grey;
+$ui-color: $grey;
 $error-color: $red;
 $danger-color: $red;
 

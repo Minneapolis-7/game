@@ -36,7 +36,7 @@ $field-bg-color: transparent;
 @mixin field_invalid {
 }
 
-// Модификации
+// Темы
 $field-gap-x_theme_dumb-example: 1em;
 $field-bg-color_theme_dumb-example: $blue;
 @mixin field-base_theme_dumb-example {
@@ -48,4 +48,12 @@ $field-bg-color_theme_dumb-example: $blue;
 @mixin field-skin_theme_dumb-example {
   border-color: transparent;
   background-color: $field-bg-color_theme_dumb-example;
+}
+
+@mixin field-base_theme_transparent {
+  border-width: 0;
+}
+@mixin field-skin_theme_transparent {
+  background-color: transparent;
+  color: $muted-color;
 }
