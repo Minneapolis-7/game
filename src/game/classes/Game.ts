@@ -1,4 +1,4 @@
-import { CONTROL_KEY } from '../utils/constants';
+import { CONTROL_KEY } from '../shared/constants';
 import GameObject, { GameObjectConstructorOptions } from './GameObject';
 import World, { LevelObjects } from './World';
 import View from './View';
@@ -12,7 +12,7 @@ type GameConstructorOptions = {
   levels: Level[];
   startLevelIndex: number;
   isDebugDraw: false;
-  onGameStateUpdate: (gameState: GameState) => void;
+  onStateUpdate: (gameState: GameState) => void;
 };
 
 export default class Game {
@@ -22,7 +22,7 @@ export default class Game {
   public levels: Level[];
   public startLevelIndex: number;
   public requestAnimationId: number;
-  public objects: Record<number, GameObjectConstructorOptions>;
+  public objects: GameObjectConstructorOptions[];
   public gameState: GameState;
   public updateGameState: (gameState: GameState) => void;
 
@@ -34,7 +34,7 @@ export default class Game {
       control,
       isDebugDraw = false,
       startLevelIndex,
-      onGameStateUpdate,
+      onStateUpdate,
     } = options;
 
     this.world = world;
@@ -47,16 +47,17 @@ export default class Game {
     this.startLevelIndex = startLevelIndex;
 
     this.gameState = {
-      isDoorUnlock: false,
+      isDoorUnlocked: false,
       isLevelComplete: false,
     };
 
-    this.updateGameState = onGameStateUpdate;
+    this.updateGameState = onStateUpdate;
 
-    // Ключ объекта соответствует значению на карте уровня
-    this.objects = {
+    // id объекта соответствует значению на карте уровня
+    this.objects = [
       // Воздух
-      0: {
+      {
+        id: 0,
         sprite: [480, 480],
         // Фикс ускорения при сходе с обрыва
         onAbove: ({ player }) => {
@@ -66,51 +67,68 @@ export default class Game {
         },
       },
       // Кирпич
-      1: { sprite: [480, 0], isUseCollision: true },
+      {
+        id: 1,
+        sprite: [480, 0],
+        hasCollision: true,
+      },
       // Бетон
-      2: { sprite: [448, 0], isUseCollision: true },
+      {
+        id: 2,
+        sprite: [448, 0],
+        hasCollision: true,
+      },
       // Куст
-      3: { sprite: [480, 32] },
+      {
+        id: 3,
+        sprite: [480, 32],
+      },
       // Прыгалка
-      4: {
+      {
+        id: 4,
         sprite: [480, 64],
-        isUseCollision: true,
+        hasCollision: true,
         onAbove: ({ player }) => {
           player.setVelocityY(-10);
         },
       },
       // Лёд
-      5: {
+      {
+        id: 5,
         sprite: [480, 96],
-        isUseCollision: true,
+        hasCollision: true,
         onAbove: () => {
           // Скольжение
           this.world.friction = 0.99;
         },
       },
       // Ключ
-      6: {
+      {
+        id: 6,
         sprite: [0, 64],
         onOver: ({ object }) => {
           object.setSprite([32, 64]);
-          this.setGameState('isDoorUnlock', true);
+          this.setGameState('isDoorUnlocked', true);
         },
       },
       // Дверь
-      7: {
+      {
+        id: 7,
         sprite: [0, 96],
         onOver: ({ object }) => {
-          if (this.gameState.isDoorUnlock) {
+          if (this.gameState.isDoorUnlocked) {
             object.setSprite([32, 96]);
             this.setGameState('isLevelComplete', true);
           }
         },
       },
       // Шипы
-      8: {
+      {
+        id: 8,
         sprite: [448, 64],
         onOver: ({ player }) => {
           player.setVelocityY(-2);
+
           if (player.velocityX > 0) {
             player.setVelocityX(-10);
           } else {
@@ -120,11 +138,13 @@ export default class Game {
       },
       // Оранжевый портал
       // TODO: Придумать телепортирование в друг-друга, здесь нельзя хардкодить координаты
-      9: {
+      {
+        id: 9,
         sprite: [416, 64],
       },
       // Голубой портал
-      10: {
+      {
+        id: 10,
         sprite: [384, 64],
         onOver: ({ player }) => {
           player.setVelocityY(0);
@@ -132,7 +152,7 @@ export default class Game {
           player.setY(128);
         },
       },
-    };
+    ];
   }
 
   setGameState(key: string, value: unknown): void {
@@ -148,15 +168,22 @@ export default class Game {
     this.control.addKey('KeyT', CONTROL_KEY.T);
 
     await this.view.init();
+
     const levelObjects = this.buildLevelObjects(this.levels[this.startLevelIndex]);
+
     this.world.setLevelObjects(levelObjects);
     this.start();
     this.updateGameState(this.gameState);
   }
 
   buildLevelObjects(level: Level): LevelObjects {
+    const indexedObjects = this.objects.reduce((acc, object) => {
+      acc[object.id] = object;
+      return acc;
+    }, {} as Record<string | number, GameObjectConstructorOptions>);
+
     return level.tiles.map((row) => {
-      return row.map((tile) => new GameObject({ ...this.objects[tile], id: tile }));
+      return row.map((tile) => new GameObject(indexedObjects[tile]));
     });
   }
 
@@ -173,5 +200,9 @@ export default class Game {
     this.world.update(this.control.keys);
     this.view.update(this.world, this.control.keys);
     this.requestAnimationId = window.requestAnimationFrame(this.loop);
+  }
+
+  destroy(): void {
+    this.control.destroy();
   }
 }

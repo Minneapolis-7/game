@@ -1,5 +1,12 @@
 import { CollisionBox, ControlKeysState, PlayerPosition } from '../types';
-import { GAME_CONFIG, SPRITE_PLAYER, SPRITE_SIZE_X, SPRITE_SIZE_Y } from '../utils/constants';
+import {
+  GAME_CONFIG,
+  PLAYER_SPRITE_COORDS,
+  SPRITE_SIZE_X,
+  SPRITE_SIZE_Y,
+} from '../shared/constants';
+
+type World = import('./World').default;
 
 export default class Player {
   public x: number;
@@ -8,7 +15,7 @@ export default class Player {
   public jumpPower: number;
   public velocityX: number;
   public velocityY: number;
-  public isJump: boolean;
+  public isJumping: boolean;
   public sprite: [number, number];
   public collision: CollisionBox;
 
@@ -21,8 +28,8 @@ export default class Player {
     // Векторная скорость персонажа
     this.velocityX = 0;
     this.velocityY = 0;
-    this.isJump = false;
-    this.sprite = SPRITE_PLAYER.STAY;
+    this.isJumping = false;
+    this.sprite = PLAYER_SPRITE_COORDS.STATIONARY;
     this.collision = {
       top: 0,
       right: 0,
@@ -86,13 +93,12 @@ export default class Player {
     this.velocityY += y;
   }
 
-  // TODO: Избавится от циклической зависимости при импорте World
-  update(world: any, control: ControlKeysState): void {
+  update(world: World, control: ControlKeysState): void {
     // Управление игроком
     if (control.space) {
       // Прыжок
-      if (!this.isJump) {
-        this.isJump = true;
+      if (!this.isJumping) {
+        this.isJumping = true;
         this.velocityY = -this.speed * this.jumpPower;
       }
     }
@@ -127,7 +133,7 @@ export default class Player {
     // Коллизия сверху и снизу
     if (this.y >= this.collision.bottom - SPRITE_SIZE_Y) {
       this.y = this.collision.bottom - SPRITE_SIZE_Y;
-      this.isJump = false;
+      this.isJumping = false;
     } else if (this.y <= this.collision.top) {
       this.y = this.collision.top;
       this.velocityY = 0;
@@ -135,11 +141,11 @@ export default class Player {
 
     // Спрайт при движении
     if (this.velocityX > 0.2) {
-      this.sprite = SPRITE_PLAYER.RIGHT;
+      this.sprite = PLAYER_SPRITE_COORDS.MOVING_RIGHT;
     } else if (this.velocityX < -0.2) {
-      this.sprite = SPRITE_PLAYER.LEFT;
+      this.sprite = PLAYER_SPRITE_COORDS.MOVING_LEFT;
     } else {
-      this.sprite = SPRITE_PLAYER.STAY;
+      this.sprite = PLAYER_SPRITE_COORDS.STATIONARY;
     }
   }
 }

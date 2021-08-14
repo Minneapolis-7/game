@@ -6,20 +6,25 @@ export default class Control {
   constructor() {
     this.registeredKeys = {};
 
-    document.addEventListener('keydown', (evt) => {
-      evt.preventDefault();
-      if (this.registeredKeys[evt.code]) {
-        this.registeredKeys[evt.code].state = true;
-      }
-    });
-
-    document.addEventListener('keyup', (evt) => {
-      evt.preventDefault();
-      if (this.registeredKeys[evt.code]) {
-        this.registeredKeys[evt.code].state = false;
-      }
-    });
+    document.addEventListener('keydown', this.handleKeyPressed);
+    document.addEventListener('keyup', this.handleKeyReleased);
   }
+
+  handleKeyPressed = (evt: KeyboardEvent): void => {
+    evt.preventDefault();
+
+    if (this.registeredKeys[evt.code]) {
+      this.registeredKeys[evt.code].state = true;
+    }
+  };
+
+  handleKeyReleased = (evt: KeyboardEvent): void => {
+    evt.preventDefault();
+
+    if (this.registeredKeys[evt.code]) {
+      this.registeredKeys[evt.code].state = false;
+    }
+  };
 
   addKey(keyCode: string, key: string): void {
     this.registeredKeys[keyCode] = {
@@ -29,10 +34,14 @@ export default class Control {
   }
 
   get keys(): ControlKeysState {
-    const acc: ControlKeysState = {};
-    Object.entries(this.registeredKeys).forEach(([key, value]) => {
+    return Object.entries(this.registeredKeys).reduce((acc, [key, value]) => {
       acc[this.registeredKeys[key].key] = value.state;
-    });
-    return acc;
+      return acc;
+    }, {} as ControlKeysState);
+  }
+
+  destroy(): void {
+    document.removeEventListener('keydown', this.handleKeyPressed);
+    document.removeEventListener('keyup', this.handleKeyReleased);
   }
 }

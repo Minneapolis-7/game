@@ -9,10 +9,10 @@ export const SPRITE_SIZE_X = 32;
 export const SPRITE_SIZE_Y = 32;
 
 // Персонаж игрока на спрайтовой карте [x, y]
-export const SPRITE_PLAYER: Record<string, XYCoordinates> = {
-  STAY: [0, 0],
-  RIGHT: [32, 0],
-  LEFT: [64, 0],
+export const PLAYER_SPRITE_COORDS: Record<string, XYCoordinates> = {
+  STATIONARY: [0, 0],
+  MOVING_RIGHT: [32, 0],
+  MOVING_LEFT: [64, 0],
 };
 
 export const CONTROL_KEY = {

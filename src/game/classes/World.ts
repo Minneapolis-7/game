@@ -7,7 +7,7 @@ import {
   CANVAS_SIZE_Y,
   SPRITE_SIZE_X,
   SPRITE_SIZE_Y,
-} from '../utils/constants';
+} from '../shared/constants';
 
 export type LevelObjects = GameObject[][];
 
@@ -67,19 +67,19 @@ export default class World {
     };
 
     // Взаимодействие с коллизией
-    if (this.levelObjects[y][x - 1].isUseCollision) {
+    if (this.levelObjects[y][x - 1].hasCollision) {
       collision.left = x * SPRITE_SIZE_X;
     }
 
-    if (this.levelObjects[y][x + 1].isUseCollision) {
+    if (this.levelObjects[y][x + 1].hasCollision) {
       collision.right = (x + 1) * SPRITE_SIZE_X;
     }
 
-    if (this.levelObjects[y - 1][x].isUseCollision) {
+    if (this.levelObjects[y - 1][x].hasCollision) {
       collision.top = y * SPRITE_SIZE_Y;
     }
 
-    if (this.levelObjects[y + 1][x].isUseCollision) {
+    if (this.levelObjects[y + 1][x].hasCollision) {
       collision.bottom = (y + 1) * SPRITE_SIZE_Y;
     }
 

@@ -4,7 +4,7 @@ import {
   CANVAS_BACKGROUND,
   SPRITE_SIZE_X,
   SPRITE_SIZE_Y,
-} from '../utils/constants';
+} from '../shared/constants';
 import Sprite from './Sprite';
 import GameObject from './GameObject';
 import Player from './Player';
@@ -21,10 +21,8 @@ export default class View {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext('2d');
     // Размеры полотна (экран игры)
-    // eslint-disable-next-line no-param-reassign
-    canvas.width = CANVAS_SIZE_X;
-    // eslint-disable-next-line no-param-reassign
-    canvas.height = CANVAS_SIZE_Y;
+    this.canvas.width = CANVAS_SIZE_X;
+    this.canvas.height = CANVAS_SIZE_Y;
     this.sprite = sprite;
     this.isDebugDraw = false;
     this.cleanScreen();
@@ -46,6 +44,7 @@ export default class View {
     if (!this.ctx) {
       return;
     }
+
     levelObjects.forEach((row: GameObject[], rowIndex) => {
       row.forEach((object, colIndex) => {
         this.ctx?.drawImage(
@@ -103,6 +102,7 @@ export default class View {
     if (!this.ctx) {
       return;
     }
+
     this.ctx.drawImage(
       this.sprite.image,
       // Положение и размер спрайта игрока на карте спрайтов
@@ -130,6 +130,7 @@ export default class View {
     if (!this.ctx) {
       return;
     }
+
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.fillStyle = CANVAS_BACKGROUND;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
