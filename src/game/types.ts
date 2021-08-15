@@ -2,7 +2,7 @@
 export type XYCoordinates = [number, number];
 
 // Коллизия игрока (описывающий её прямоугольник) в пикселях
-export type CollisionBox = {
+export type PlayerHitBox = {
   top: number;
   left: number;
   bottom: number;

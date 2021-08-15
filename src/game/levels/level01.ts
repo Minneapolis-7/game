@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
   id: 1,
   title: 'Уровень 1',

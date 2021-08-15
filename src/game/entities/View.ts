@@ -25,6 +25,7 @@ export default class View {
     this.canvas.height = CANVAS_SIZE_Y;
     this.sprite = sprite;
     this.isDebugDraw = false;
+
     this.cleanScreen();
   }
 
@@ -39,18 +40,56 @@ export default class View {
     this.renderPlayer(world.player);
   }
 
+  renderDebugLevelTiles(
+    gameObject: GameObject,
+    colIndex: number,
+    rowIndex: number,
+    control: ControlKeysState
+  ): void {
+    if (control.t && this.ctx) {
+      this.ctx.lineWidth = 2;
+      this.ctx.font = 'bold 10px sans-serif';
+      this.ctx.strokeStyle = 'white';
+      this.ctx.textAlign = 'center';
+      this.ctx.textBaseline = 'middle';
+      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+      this.ctx.fillRect(
+        colIndex * SPRITE_SIZE_X,
+        rowIndex * SPRITE_SIZE_Y,
+        SPRITE_SIZE_X,
+        SPRITE_SIZE_Y
+      );
+      this.ctx.strokeRect(
+        colIndex * SPRITE_SIZE_X,
+        rowIndex * SPRITE_SIZE_Y,
+        SPRITE_SIZE_X,
+        SPRITE_SIZE_Y
+      );
+      this.ctx.fillStyle = 'black';
+      this.ctx.fillText(
+        `${colIndex}, ${rowIndex}`,
+        (colIndex + 1) * SPRITE_SIZE_X - SPRITE_SIZE_X / 2,
+        (rowIndex + 1) * SPRITE_SIZE_Y - SPRITE_SIZE_Y / 1.4,
+        32
+      );
+      this.ctx.fillStyle = 'blue';
+      this.ctx.fillText(
+        `${gameObject.id}`,
+        (colIndex + 1) * SPRITE_SIZE_X - SPRITE_SIZE_X / 2,
+        (rowIndex + 1) * SPRITE_SIZE_Y - SPRITE_SIZE_Y / 4,
+        32
+      );
+    }
+  }
+
   // Получает данные о уровне и отрисовывает его
   renderLevelObjects(levelObjects: LevelObjects, control: ControlKeysState): void {
-    if (!this.ctx) {
-      return;
-    }
-
     levelObjects.forEach((row: GameObject[], rowIndex) => {
-      row.forEach((object, colIndex) => {
+      row.forEach((gameObject, colIndex) => {
         this.ctx?.drawImage(
           this.sprite.image,
           // Получаем координаты спрайта из игрового объекта
-          ...object.sprite,
+          ...gameObject.sprite,
           SPRITE_SIZE_X,
           SPRITE_SIZE_Y,
           colIndex * SPRITE_SIZE_X,
@@ -59,42 +98,19 @@ export default class View {
           SPRITE_SIZE_Y
         );
 
-        if (control.t && this.ctx) {
-          this.ctx.lineWidth = 2;
-          this.ctx.font = 'bold 10px sans-serif';
-          this.ctx.strokeStyle = 'white';
-          this.ctx.textAlign = 'center';
-          this.ctx.textBaseline = 'middle';
-          this.ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-          this.ctx.fillRect(
-            colIndex * SPRITE_SIZE_X,
-            rowIndex * SPRITE_SIZE_Y,
-            SPRITE_SIZE_X,
-            SPRITE_SIZE_Y
-          );
-          this.ctx.strokeRect(
-            colIndex * SPRITE_SIZE_X,
-            rowIndex * SPRITE_SIZE_Y,
-            SPRITE_SIZE_X,
-            SPRITE_SIZE_Y
-          );
-          this.ctx.fillStyle = 'black';
-          this.ctx.fillText(
-            `${colIndex}, ${rowIndex}`,
-            (colIndex + 1) * SPRITE_SIZE_X - SPRITE_SIZE_X / 2,
-            (rowIndex + 1) * SPRITE_SIZE_Y - SPRITE_SIZE_Y / 1.4,
-            32
-          );
-          this.ctx.fillStyle = 'blue';
-          this.ctx.fillText(
-            `${object.id}`,
-            (colIndex + 1) * SPRITE_SIZE_X - SPRITE_SIZE_X / 2,
-            (rowIndex + 1) * SPRITE_SIZE_Y - SPRITE_SIZE_Y / 4,
-            32
-          );
-        }
+        this.renderDebugLevelTiles(gameObject, colIndex, rowIndex, control);
       });
     });
+  }
+
+  renderDebugPlayerHitBox(player: Player): void {
+    if (this.ctx && this.isDebugDraw) {
+      this.ctx.beginPath();
+      this.ctx.lineWidth = 2;
+      this.ctx.strokeStyle = 'yellow';
+      const { top, right, bottom, left } = player.hitBox;
+      this.ctx.strokeRect(left, top, right - left, bottom - top);
+    }
   }
 
   // Получает данные о игроке и отрисовывает его
@@ -116,13 +132,7 @@ export default class View {
       SPRITE_SIZE_Y
     );
 
-    if (this.isDebugDraw) {
-      this.ctx.beginPath();
-      this.ctx.lineWidth = 2;
-      this.ctx.strokeStyle = 'yellow';
-      const { top, right, bottom, left } = player.collision;
-      this.ctx.strokeRect(left, top, right - left, bottom - top);
-    }
+    this.renderDebugPlayerHitBox(player);
   }
 
   // Очистка экрана

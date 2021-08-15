@@ -1,4 +1,4 @@
-import { CONTROL_KEY } from '../shared/constants';
+import { CONTROL_KEY, GAME_STATE_KEY } from '../shared/constants';
 import GameObject, { GameObjectConstructorOptions } from './GameObject';
 import World, { LevelObjects } from './World';
 import View from './View';
@@ -22,7 +22,7 @@ export default class Game {
   public levels: Level[];
   public startLevelIndex: number;
   public requestAnimationId: number;
-  public objects: GameObjectConstructorOptions[];
+  public gameObjects: GameObjectConstructorOptions[];
   public gameState: GameState;
   public updateGameState: (gameState: GameState) => void;
 
@@ -55,7 +55,7 @@ export default class Game {
     this.updateGameState = onStateUpdate;
 
     // id объекта соответствует значению на карте уровня
-    this.objects = [
+    this.gameObjects = [
       // Воздух
       {
         id: 0,
@@ -107,19 +107,19 @@ export default class Game {
       {
         id: 6,
         sprite: [0, 64],
-        onOver: ({ object }) => {
-          object.setSprite([32, 64]);
-          this.setGameState('isDoorUnlocked', true);
+        onOver: ({ gameObject }) => {
+          gameObject.setSprite([32, 64]);
+          this.setGameState(GAME_STATE_KEY.IS_DOOR_UNLOCKED, true);
         },
       },
       // Дверь
       {
         id: 7,
         sprite: [0, 96],
-        onOver: ({ object }) => {
+        onOver: ({ gameObject }) => {
           if (this.gameState.isDoorUnlocked) {
-            object.setSprite([32, 96]);
-            this.setGameState('isLevelCompleted', true);
+            gameObject.setSprite([32, 96]);
+            this.setGameState(GAME_STATE_KEY.IS_LEVEL_COMPLETED, true);
           }
         },
       },
@@ -128,7 +128,7 @@ export default class Game {
         id: 8,
         sprite: [448, 64],
         onOver: ({ player }) => {
-          this.setGameState('playerHealth', this.gameState.playerHealth - 1);
+          this.setGameState(GAME_STATE_KEY.PLAYER_HEALTH, this.gameState.playerHealth - 1);
           player.setVelocityY(-2);
 
           if (player.velocityX > 0) {
@@ -159,15 +159,19 @@ export default class Game {
 
   setGameState<T extends keyof GameState, K extends GameState[T]>(key: T, value: K): void {
     this.gameState[key] = value;
-    this.updateGameState(this.gameState);
+    this.updateGameState({ ...this.gameState });
   }
 
-  async init(): Promise<void> {
-    // Клавиши управления игрой (код клавиши, ключ состояния клавиши)
+  // Клавиши управления игрой (код клавиши, ключ состояния клавиши)
+  registerKeys(): void {
     this.control.addKey('ArrowLeft', CONTROL_KEY.LEFT);
     this.control.addKey('ArrowRight', CONTROL_KEY.RIGHT);
     this.control.addKey('Space', CONTROL_KEY.SPACE);
     this.control.addKey('KeyT', CONTROL_KEY.T);
+  }
+
+  async init(): Promise<void> {
+    this.registerKeys();
 
     await this.view.init();
 
@@ -175,12 +179,12 @@ export default class Game {
 
     this.world.setLevelObjects(levelObjects);
     this.start();
-    this.updateGameState(this.gameState);
+    this.updateGameState({ ...this.gameState });
   }
 
   buildLevelObjects(level: Level): LevelObjects {
-    const indexedObjects = this.objects.reduce((acc, object) => {
-      acc[object.id] = object;
+    const indexedObjects = this.gameObjects.reduce((acc, gameObject) => {
+      acc[gameObject.id] = gameObject;
       return acc;
     }, {} as Record<string | number, GameObjectConstructorOptions>);
 

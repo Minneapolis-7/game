@@ -34,10 +34,10 @@ export default class Control {
   }
 
   get keys(): ControlKeysState {
-    return Object.entries(this.registeredKeys).reduce((acc, [key, value]) => {
-      acc[this.registeredKeys[key].key] = value.state;
-      return acc;
-    }, {} as ControlKeysState);
+    return Object.values(this.registeredKeys).reduce(
+      (acc, value) => ({ ...acc, [value.key]: value.state }),
+      {} as ControlKeysState
+    );
   }
 
   destroy(): void {

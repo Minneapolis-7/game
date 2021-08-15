@@ -1,4 +1,4 @@
-import { CollisionBox, ControlKeysState, PlayerPosition } from '../types';
+import { PlayerHitBox, ControlKeysState, PlayerPosition } from '../types';
 import {
   GAME_CONFIG,
   PLAYER_SPRITE_COORDS,
@@ -17,7 +17,7 @@ export default class Player {
   public velocityY: number;
   public isJumping: boolean;
   public sprite: [number, number];
-  public collision: CollisionBox;
+  public hitBox: PlayerHitBox;
 
   constructor() {
     // Стартовые координаты персонажа
@@ -30,12 +30,14 @@ export default class Player {
     this.velocityY = 0;
     this.isJumping = false;
     this.sprite = PLAYER_SPRITE_COORDS.STATIONARY;
-    this.collision = {
+
+    this.hitBox = {
       top: 0,
       right: 0,
       bottom: 0,
       left: 0,
     };
+
     this.resetToDefault();
   }
 
@@ -60,8 +62,8 @@ export default class Player {
     };
   }
 
-  setCollision({ top, right, bottom, left }: CollisionBox): void {
-    this.collision = {
+  setHitBox({ top, right, bottom, left }: PlayerHitBox): void {
+    this.hitBox = {
       top,
       right,
       bottom,
@@ -124,18 +126,18 @@ export default class Player {
     this.y += this.velocityY;
 
     // Коллизия слева и справа
-    if (this.x >= this.collision.right - SPRITE_SIZE_X) {
-      this.x = this.collision.right - SPRITE_SIZE_X;
-    } else if (this.x <= this.collision.left) {
-      this.x = this.collision.left;
+    if (this.x >= this.hitBox.right - SPRITE_SIZE_X) {
+      this.x = this.hitBox.right - SPRITE_SIZE_X;
+    } else if (this.x <= this.hitBox.left) {
+      this.x = this.hitBox.left;
     }
 
     // Коллизия сверху и снизу
-    if (this.y >= this.collision.bottom - SPRITE_SIZE_Y) {
-      this.y = this.collision.bottom - SPRITE_SIZE_Y;
+    if (this.y >= this.hitBox.bottom - SPRITE_SIZE_Y) {
+      this.y = this.hitBox.bottom - SPRITE_SIZE_Y;
       this.isJumping = false;
-    } else if (this.y <= this.collision.top) {
-      this.y = this.collision.top;
+    } else if (this.y <= this.hitBox.top) {
+      this.y = this.hitBox.top;
       this.velocityY = 0;
     }
 

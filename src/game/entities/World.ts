@@ -42,24 +42,25 @@ export default class World {
   onPositionUpdate(object: GameObject, bottomObject: GameObject): void {
     const { x, y } = this.player.position;
     const isOver = this.lastActionPosition[0] === x && this.lastActionPosition[1] === y;
+
     this.resetToDefault();
 
     // Колбэк при пересечении
     if (object.onOver) {
-      object.onOver({ object, player: this.player });
+      object.onOver({ gameObject: object, player: this.player });
       this.lastActionPosition = [x, y];
     }
 
     // Колбэк при перемещении сверху
     if (bottomObject.onAbove && !isOver) {
-      bottomObject.onAbove({ object: bottomObject, player: this.player });
+      bottomObject.onAbove({ gameObject: bottomObject, player: this.player });
     }
   }
 
   update(control: ControlKeysState): void {
     const { x, y } = this.player.position;
 
-    const collision = {
+    const hitBox = {
       top: 0,
       right: CANVAS_SIZE_X,
       bottom: CANVAS_SIZE_Y,
@@ -68,19 +69,19 @@ export default class World {
 
     // Взаимодействие с коллизией
     if (this.levelObjects[y][x - 1].hasCollision) {
-      collision.left = x * SPRITE_SIZE_X;
+      hitBox.left = x * SPRITE_SIZE_X;
     }
 
     if (this.levelObjects[y][x + 1].hasCollision) {
-      collision.right = (x + 1) * SPRITE_SIZE_X;
+      hitBox.right = (x + 1) * SPRITE_SIZE_X;
     }
 
     if (this.levelObjects[y - 1][x].hasCollision) {
-      collision.top = y * SPRITE_SIZE_Y;
+      hitBox.top = y * SPRITE_SIZE_Y;
     }
 
     if (this.levelObjects[y + 1][x].hasCollision) {
-      collision.bottom = (y + 1) * SPRITE_SIZE_Y;
+      hitBox.bottom = (y + 1) * SPRITE_SIZE_Y;
     }
 
     if (this.lastPlayerPosition[0] !== x || this.lastPlayerPosition[1] !== y) {
@@ -88,7 +89,7 @@ export default class World {
       this.lastPlayerPosition = [x, y];
     }
 
-    this.player.setCollision(collision);
+    this.player.setHitBox(hitBox);
     this.player.update(this, control);
   }
 }
