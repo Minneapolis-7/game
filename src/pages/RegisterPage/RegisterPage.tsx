@@ -64,17 +64,18 @@ function RegisterPage({ title }: { title: string }): JSX.Element {
             name="password_repeat"
           />
         </div>
-        <div className="gap-y-xs">
+        <div className="gap-y-sm">
           <Button type="submit" display="block">
             Зарегистрироваться
           </Button>
         </div>
-        <div className="gap-y-xs">
+        <div className="gap-y-sm">
           <Link
             to={paths.LOGIN}
             component={getRoutedButtonLink({
               display: 'block',
               children: 'Вход',
+              theme: 'link',
             })}
           />
         </div>

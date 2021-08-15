@@ -30,17 +30,18 @@ function LoginPage({ title }: { title: string }): JSX.Element {
             name="password"
           />
         </div>
-        <div className="gap-y-xs">
+        <div className="gap-y-sm">
           <Button type="submit" display="block">
             Войти
           </Button>
         </div>
-        <div className="gap-y-xs">
+        <div className="gap-y-sm">
           <Link
             to={paths.REGISTER}
             component={getRoutedButtonLink({
               display: 'block',
               children: 'Регистрация',
+              theme: 'link',
             })}
           />
         </div>

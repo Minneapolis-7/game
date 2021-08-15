@@ -37,8 +37,7 @@ function App(): JSX.Element {
             const Component = route.component;
 
             return (
-              // eslint-disable-next-line react/jsx-key
-              <Route path={route.path} exact={route.exact}>
+              <Route key={route.path} path={route.path} exact={route.exact}>
                 <Component title={route.title} />
               </Route>
             );

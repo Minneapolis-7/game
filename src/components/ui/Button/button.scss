@@ -155,6 +155,12 @@ $button-spinner-half-size: math.div($button-spinner-size, 2);
   color: $danger-color;
 }
 /* stylelint-disable no-descending-specificity */
+
+.button_theme_link > .button__text,
+.button_theme_link-danger > .button__text {
+  text-decoration: underline;
+}
+
 .button_theme_link::after,
 .button_theme_link > .spinner {
   right: -0.5em;
@@ -169,16 +175,17 @@ $button-spinner-half-size: math.div($button-spinner-size, 2);
 /* stylelint-enable no-descending-specificity */
 
 .button_theme_link:not(:disabled):hover,
-.button_theme_link:not(:disabled).focus-visible,
+.button_theme_link:not(:disabled):focus-visible,
 .button_theme_link-danger:not(:disabled):hover,
-.button_theme_link-danger:not(:disabled).focus-visible {
+.button_theme_link-danger:not(:disabled):focus-visible {
   background-color: transparent;
 }
+
 .button_theme_link:not(:disabled):hover > .button__text,
-.button_theme_link:not(:disabled).focus-visible > .button__text,
+.button_theme_link:not(:disabled):focus-visible > .button__text,
 .button_theme_link-danger:not(:disabled):hover > .button__text,
-.button_theme_link-danger:not(:disabled).focus-visible > .button__text {
-  text-decoration: underline;
+.button_theme_link-danger:not(:disabled):focus-visible > .button__text {
+  text-decoration: none;
 }
 
 .button_theme_circle {

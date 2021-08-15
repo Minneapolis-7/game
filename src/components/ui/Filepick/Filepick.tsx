@@ -8,9 +8,7 @@ import pickedFileSvg from 'bootstrap-icons/icons/pencil-fill.svg';
 const b = block('filepick');
 
 type FilepickProps = {
-  className?: string;
   inputClassName?: string;
-  accept?: string;
   icon?: string;
   iconPopulated?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
