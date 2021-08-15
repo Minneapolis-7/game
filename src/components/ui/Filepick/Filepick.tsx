@@ -1,27 +1,37 @@
-import React, { LabelHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes } from 'react';
 import { block } from 'bem-cn';
+import { Icon } from 'components/ui';
+
+import pickFileSvg from 'bootstrap-icons/icons/pencil.svg';
+import pickedFileSvg from 'bootstrap-icons/icons/pencil-fill.svg';
 
 const b = block('filepick');
 
 type FilepickProps = {
   className?: string;
-  id: string;
+  inputClassName?: string;
   accept?: string;
-} & LabelHTMLAttributes<HTMLLabelElement>;
+  icon?: string;
+  iconPopulated?: string;
+} & InputHTMLAttributes<HTMLInputElement>;
 
-function Filepick({ id, accept, className = '', children }: FilepickProps): JSX.Element {
+function Filepick({
+  className = '',
+  inputClassName = '',
+  icon = pickFileSvg.id,
+  iconPopulated = pickedFileSvg.id,
+  ...rest
+}: FilepickProps): JSX.Element {
   return (
     <label className={b({}).mix(className.split(' '))}>
-      {children}
       <input
-        className={b('input').mix('sr-only')}
-        name={id}
-        id={id}
+        className={b('input').mix(['sr-only', ...inputClassName.split(' ')])}
+        {...rest}
         required
-        accept={accept}
         type="file"
       />
-      <span className={b('icon')}></span>
+      <Icon className={b('icon')} name={icon} />
+      <Icon className={b('icon', { populated: true })} name={iconPopulated} />
     </label>
   );
 }

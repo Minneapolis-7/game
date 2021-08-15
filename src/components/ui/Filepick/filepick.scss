@@ -11,18 +11,11 @@
 .filepick:focus-within {
   @include focus-ring;
 }
-.filepick__icon {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  z-index: 1;
-  display: none;
-  width: 1.5em;
-  height: 1.5em;
-  background: svg-load('bootstrap-icons/icons/file-check.svg', fill=$muted-color) no-repeat 50% 50%;
-  background-size: contain;
-  transform: translateY(-50%);
-}
+.filepick__icon_populated,
 .filepick__input:valid ~ .filepick__icon {
-  display: block;
+  display: none;
+}
+.filepick__input:valid ~ .filepick__icon_populated {
+  display: inline-block;
+  vertical-align: top;
 }

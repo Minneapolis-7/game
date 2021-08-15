@@ -6,6 +6,8 @@ type ButtonLinkProps = ButtonBaseProps & AnchorHTMLAttributes<HTMLAnchorElement>
 
 const b = block('button');
 
+export { ButtonLinkProps };
+
 export default forwardRef<HTMLAnchorElement, ButtonLinkProps>(function ButtonLink(
   {
     className = '',

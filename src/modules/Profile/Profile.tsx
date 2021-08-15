@@ -1,28 +1,13 @@
-import React, { forwardRef } from 'react';
+import React, { useCallback } from 'react';
 import { block } from 'bem-cn';
 import { Link } from 'react-router-dom';
-import editAvatarSvg from 'bootstrap-icons/icons/pencil.svg';
 
-import { Avatar, Input, Button, ButtonLink, Icon, Filepick } from 'components/ui';
+import { Avatar, Input, Button, Filepick } from 'components/ui';
 import getResourceURL from 'shared/utils/getResourceURL';
+import getRoutedButtonLink from 'shared/utils/getRoutedButtonLink';
+import paths from 'shared/const/paths';
 
 const b = block('profile');
-
-// todo: разобраться как передавать ref в `ButtonLink`
-const ProfileEditLink = forwardRef(function ProfileEditLink(props, _ref) {
-  return (
-    <ButtonLink /* ref={ref} */ theme="link" {...props}>
-      Изменить данные
-    </ButtonLink>
-  );
-});
-const ProfileEditPasswordLink = forwardRef(function ProfileEditPasswordLink(props, _ref) {
-  return (
-    <ButtonLink /* ref={ref} */ theme="link" {...props}>
-      Изменить пароль
-    </ButtonLink>
-  );
-});
 
 type ProfileProps = {
   user: Record<string, any>; // todo: указать тип
@@ -54,7 +39,7 @@ function ProfileTableRow({
       id={id}
       display="inline"
       theme="transparent"
-      value={value}
+      defaultValue={value}
       hint={label}
       type={inputType}
       required={required}
@@ -89,6 +74,10 @@ function ProfileTableRow({
 }
 
 function Profile({ user, action }: ProfileProps): JSX.Element {
+  const handleAvatarChange = useCallback((e) => {
+    alert(`Загрузить ${e.target.files[0].name}`);
+  }, []);
+
   return (
     <div className={b()}>
       <header className={b('head')}>
@@ -96,10 +85,10 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
           <Filepick
             className={b('pic-setter')}
             id="avatar"
+            name="avatar"
             accept="image/jpeg, image/png, image/gif, image/tiff, .jpg, .jpeg, .png, .gif, .tif, .tiff"
-          >
-            <Icon name={editAvatarSvg.id} />
-          </Filepick>
+            onChange={handleAvatarChange}
+          />
         </Avatar>
       </header>
       <div className={b('content')}>
@@ -162,16 +151,24 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                 <>
                   <tr className={b('table-row')}>
                     <td colSpan={2} className={b('table-cell')}>
-                      {/* https://reactrouter.com/web/api/Link/component-reactcomponent */}
-                      {/* todo: разобраться с работой кастомного компонента с `Link` (сейчас происходит переход с перезагрузкой страницы) */}
-                      <Link to="/profile/edit" component={ProfileEditLink} />
+                      <Link
+                        to={paths.PROFILE_EDIT}
+                        component={getRoutedButtonLink({
+                          theme: 'link',
+                          children: 'Изменить данные',
+                        })}
+                      />
                     </td>
                   </tr>
                   <tr className={b('table-row')}>
                     <td colSpan={2} className={b('table-cell')}>
-                      {/* https://reactrouter.com/web/api/Link/component-reactcomponent */}
-                      {/* todo: разобраться с работой кастомного компонента с `Link` (сейчас происходит переход с перезагрузкой страницы) */}
-                      <Link to="/profile/edit/password" component={ProfileEditPasswordLink} />
+                      <Link
+                        to={paths.PROFILE_EDIT_PASSWORD}
+                        component={getRoutedButtonLink({
+                          theme: 'link',
+                          children: 'Изменить пароль',
+                        })}
+                      />
                     </td>
                   </tr>
                   <tr className={b('table-row')}>
