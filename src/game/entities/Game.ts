@@ -1,9 +1,9 @@
-import { CONTROL_KEY, GAME_STATE_KEY } from '../shared/constants';
-import GameObject, { GameObjectConstructorOptions } from './GameObject';
-import World, { LevelObjects } from './World';
-import View from './View';
-import Control from './Control';
-import { GameState, Level } from '../types';
+import { CONTROL_KEY, GAME_STATE_KEY } from 'game/shared/constants';
+import GameObject, { GameObjectConstructorOptions } from 'game/entities/GameObject';
+import World, { LevelObjects } from 'game/entities/World';
+import View from 'game/entities/View';
+import Control from 'game/entities/Control';
+import { GameState, Level } from 'game/types';
 
 type GameConstructorOptions = {
   world: World;

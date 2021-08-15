@@ -4,12 +4,12 @@ import {
   CANVAS_BACKGROUND,
   SPRITE_SIZE_X,
   SPRITE_SIZE_Y,
-} from '../shared/constants';
-import Sprite from './Sprite';
-import GameObject from './GameObject';
-import Player from './Player';
-import World, { LevelObjects } from './World';
-import { ControlKeysState } from '../types';
+} from 'game/shared/constants';
+import Sprite from 'game/entities/Sprite';
+import GameObject from 'game/entities/GameObject';
+import Player from 'game/entities/Player';
+import World, { LevelObjects } from 'game/entities/World';
+import { ControlKeysState } from 'game/types';
 
 export default class View {
   public canvas: HTMLCanvasElement;

@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Game from '../../game/entities/Game';
-import World from '../../game/entities/World';
-import View from '../../game/entities/View';
-import Control from '../../game/entities/Control';
-import Sprite from '../../game/entities/Sprite';
-import { SPRITES_FILE } from '../../game/shared/constants';
-import levels from '../../game/levels';
-import { GameState } from '../../game/types';
+import Game from 'game/entities/Game';
+import World from 'game/entities/World';
+import View from 'game/entities/View';
+import Control from 'game/entities/Control';
+import Sprite from 'game/entities/Sprite';
+import { SPRITES_FILE } from 'game/shared/constants';
+import levels from 'game/levels';
+import { GameState } from 'game/types';
 
 type GameProps = {
   startLevelIndex?: number;

@@ -1,4 +1,4 @@
-import { ControlKeysState, RegisteredKeys } from '../types';
+import { ControlKeysState, RegisteredKeys } from 'game/types';
 
 export default class Control {
   public registeredKeys: RegisteredKeys;

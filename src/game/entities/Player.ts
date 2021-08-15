@@ -1,12 +1,12 @@
-import { PlayerHitBox, ControlKeysState, PlayerPosition } from '../types';
+import { PlayerHitBox, ControlKeysState, PlayerPosition } from 'game/types';
 import {
   GAME_CONFIG,
   PLAYER_SPRITE_COORDS,
   SPRITE_SIZE_X,
   SPRITE_SIZE_Y,
-} from '../shared/constants';
+} from 'game/shared/constants';
 
-type World = import('./World').default;
+type World = import('game/entities/World').default;
 
 export default class Player {
   public x: number;

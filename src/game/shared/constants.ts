@@ -1,5 +1,5 @@
-import spritesFile from '../assets/sprites.png';
-import { XYCoordinates } from '../types';
+import spritesFile from 'game/assets/sprites.png';
+import { XYCoordinates } from 'game/types';
 
 export const CANVAS_SIZE_X = 640;
 export const CANVAS_SIZE_Y = 480;
