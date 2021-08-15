@@ -29,7 +29,6 @@
 - [EditorConfig](https://editorconfig.org/)
 
 Сборка:
-
 - [webpack](https://webpack.js.org/)
 
 ## Авторы проекта

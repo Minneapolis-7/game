@@ -1,0 +1,56 @@
+html,
+button,
+input,
+select,
+textarea {
+  font-family: $text-font-stack;
+}
+
+html {
+  /* http://www.kylejlarson.com/blog/2015/iphone-6-screen-size-web-design-tips/ */
+  font-size: $font-size-primary;
+  line-height: $line-height-primary;
+}
+
+p {
+  margin: 0 0 1.8em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+
+h1 {
+  margin: 0.67em 0;
+  font-size: 2.5em;
+}
+
+h2 {
+  margin: 0.83em 0;
+  font-size: 2em;
+}
+
+h3 {
+  margin: 1em 0;
+  font-size: 1.67em;
+}
+
+h4 {
+  margin: 1.33em 0;
+  font-size: 1.5em;
+}
+
+h5 {
+  margin: 1.67em 0;
+  font-size: 1.33em;
+}
+
+h6 {
+  margin: 2.33em 0;
+  font-size: 1.17em;
+}

@@ -78,8 +78,12 @@ module.exports = ({ mode = 'production', presets = [] } = {}) =>
           },
           // https://webpack.js.org/guides/asset-modules/
           {
-            test: /\.(png|jpg|jpeg|gif|svg)$/,
+            test: /\.(png|jpg|jpeg|gif)$/,
             type: 'asset/resource',
+          },
+          {
+            test: /\.svg$/,
+            use: [{ loader: 'svg-sprite-loader' }],
           },
         ],
       },
