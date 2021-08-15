@@ -23,11 +23,7 @@ function Page({
 
   return (
     <div className={b({ centered, fullscreen }).mix(className.split(' '))} {...rest}>
-      {fullscreen ? (
-        children
-      ) : (
-        <div className={`${b('content')} ${centered ? b('centerer') : ''}`}>{children}</div>
-      )}
+      <div className={`${b('content')} ${centered ? b('centerer') : ''}`}>{children}</div>
     </div>
   );
 }

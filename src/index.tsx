@@ -1,6 +1,49 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import App from 'modules/App/App';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import paths from 'shared/const/paths';
+import routes from 'shared/const/routes';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import 'css/main.scss';
+
+ReactDOM.render(
+  <Router>
+    {/* навигация для теста, подлежит удалению */}
+    <nav style={{ position: 'absolute', left: 0, right: 0, backgroundColor: 'red' }}>
+      <ul className="nolist">
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to="/">Логин на главной</Link>
+        </li>
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to={paths.LOGIN}>Логин</Link>
+        </li>
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to={paths.REGISTER}>Регистрация</Link>
+        </li>
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to={paths.PROFILE}>Профиль</Link>
+        </li>
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to={paths.PROFILE_EDIT}>Профиль редактирование</Link>
+        </li>
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to={paths.PROFILE_EDIT_PASSWORD}>Профиль сменить пароль</Link>
+        </li>
+      </ul>
+    </nav>
+
+    <Switch>
+      {routes.map((route) => {
+        const Component = route.component;
+
+        return (
+          <Route key={route.path} path={route.path} exact={route.exact}>
+            <Component title={route.title} />
+          </Route>
+        );
+      })}
+    </Switch>
+  </Router>,
+  document.getElementById('root')
+);
