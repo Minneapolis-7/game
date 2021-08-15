@@ -40,13 +40,8 @@ export default class View {
     this.renderPlayer(world.player);
   }
 
-  renderDebugLevelTiles(
-    gameObject: GameObject,
-    colIndex: number,
-    rowIndex: number,
-    control: ControlKeysState
-  ): void {
-    if (control.t && this.ctx) {
+  renderDebugLevelTiles(gameObject: GameObject, colIndex: number, rowIndex: number): void {
+    if (this.ctx) {
       this.ctx.lineWidth = 2;
       this.ctx.font = 'bold 10px sans-serif';
       this.ctx.strokeStyle = 'white';
@@ -98,13 +93,15 @@ export default class View {
           SPRITE_SIZE_Y
         );
 
-        this.renderDebugLevelTiles(gameObject, colIndex, rowIndex, control);
+        if (control.t) {
+          this.renderDebugLevelTiles(gameObject, colIndex, rowIndex);
+        }
       });
     });
   }
 
   renderDebugPlayerHitBox(player: Player): void {
-    if (this.ctx && this.isDebugDraw) {
+    if (this.ctx) {
       this.ctx.beginPath();
       this.ctx.lineWidth = 2;
       this.ctx.strokeStyle = 'yellow';
@@ -132,7 +129,9 @@ export default class View {
       SPRITE_SIZE_Y
     );
 
-    this.renderDebugPlayerHitBox(player);
+    if (this.isDebugDraw) {
+      this.renderDebugPlayerHitBox(player);
+    }
   }
 
   // Очистка экрана
