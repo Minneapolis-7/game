@@ -1,7 +1,7 @@
 @use 'sass:math';
 
 $button-height: $field-height;
-$button-text-color: $white;
+$button-text-color: $dark-color;
 
 .button {
   @include button-reset;
@@ -9,7 +9,7 @@ $button-text-color: $white;
   height: $button-height;
   padding: 0 1.15em;
   border: none;
-  border-radius: .5em;
+  border-radius: 0.5em;
   background-color: $brand-color;
   color: $button-text-color;
   line-height: 1;
@@ -34,12 +34,12 @@ $button-text-color: $white;
 }
 /* stylelint-enable no-descending-specificity */
 
-.button[data-display="block"] {
+.button[data-display='block'] {
   display: block;
   width: 100%;
 }
-.button[data-display="inline"],
-.button[data-display="inline"] .button__text {
+.button[data-display='inline'],
+.button[data-display='inline'] .button__text {
   vertical-align: baseline;
 }
 
@@ -93,12 +93,12 @@ $button-text-color: $white;
 .button.is-failed .button__text {
   opacity: 0;
 }
-.button[data-display="block"].is-processing .button__icon,
-.button[data-display="block"].is-processing .button__text,
-.button[data-display="block"].is-successful .button__icon,
-.button[data-display="block"].is-successful .button__text,
-.button[data-display="block"].is-failed .button__icon,
-.button[data-display="block"].is-failed .button__text {
+.button[data-display='block'].is-processing .button__icon,
+.button[data-display='block'].is-processing .button__text,
+.button[data-display='block'].is-successful .button__icon,
+.button[data-display='block'].is-successful .button__text,
+.button[data-display='block'].is-failed .button__icon,
+.button[data-display='block'].is-failed .button__text {
   opacity: 1;
 }
 
@@ -118,9 +118,9 @@ $button-spinner-half-size: math.div($button-spinner-size, 2);
   @include spinner($button-spinner-size, $button-text-color);
 }
 
-.button[data-display="block"]::after,
-.button[data-display="block"] > .spinner {
-  right: .5em;
+.button[data-display='block']::after,
+.button[data-display='block'] > .spinner {
+  right: 0.5em;
   left: auto;
 }
 
@@ -130,18 +130,68 @@ $button-spinner-half-size: math.div($button-spinner-size, 2);
   background-repeat: no-repeat;
 }
 .button.is-successful::after {
-  background-image: svg-load('../../static/assets/img/icons/ok.svg', fill=$button-text-color);
+  background-image: svg-load('img/icons/ok.svg', fill=$button-text-color);
 }
 .button.is-failed::after {
-  background-image: svg-load('../../static/assets/img/icons/not-ok.svg', fill=$button-text-color);
+  background-image: svg-load('img/icons/not-ok.svg', fill=$button-text-color);
 }
 
 .button.is-processing::after {
   display: none;
 }
 
-
 // Темы
+
+.button_theme_link,
+.button_theme_link-danger {
+  padding-right: 0;
+  padding-left: 0;
+  background-color: transparent !important;
+}
+.button_theme_link {
+  color: $brand-color;
+}
+.button_theme_link-danger {
+  color: $danger-color;
+}
+/* stylelint-disable no-descending-specificity */
+
+.button_theme_link > .button__text,
+.button_theme_link-danger > .button__text {
+  text-decoration: underline;
+}
+
+.button_theme_link::after,
+.button_theme_link > .spinner {
+  right: -0.5em;
+}
+.button_theme_link-danger::after,
+.button_theme_link-danger > .spinner {
+  right: -2rem;
+}
+.button_theme_link-danger > .spinner {
+  @include spinner($button-spinner-size, $danger-color);
+}
+/* stylelint-enable no-descending-specificity */
+
+.button_theme_link:not(:disabled):hover,
+.button_theme_link:not(:disabled):focus-visible,
+.button_theme_link-danger:not(:disabled):hover,
+.button_theme_link-danger:not(:disabled):focus-visible {
+  background-color: transparent;
+}
+
+.button_theme_link:not(:disabled):hover > .button__text,
+.button_theme_link:not(:disabled):focus-visible > .button__text,
+.button_theme_link-danger:not(:disabled):hover > .button__text,
+.button_theme_link-danger:not(:disabled):focus-visible > .button__text {
+  text-decoration: none;
+}
+
+.button_theme_circle {
+  border-radius: 100%;
+}
+
 .button_theme_muted {
   background-color: $muted-color;
 }
@@ -149,7 +199,6 @@ $button-spinner-half-size: math.div($button-spinner-size, 2);
 .button_theme_muted:not(:disabled):focus-visible {
   background-color: darken(desaturate($muted-color, 2.66), 5.49);
 }
-
 
 // Размеры (все размерности шрифтозависимы, потому можно просто поменять `font-size`)
 .button_sizing_sm {

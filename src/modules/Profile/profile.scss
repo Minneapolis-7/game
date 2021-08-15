@@ -1,0 +1,127 @@
+$profile-bp: 37.5 * $font-size-primary; // 600px при шрифте 16px
+.profile {
+  max-width: 45rem;
+  margin: $gap-y-lg auto;
+}
+.profile__head,
+.profile__name {
+  text-align: center;
+}
+.profile__head {
+  margin-bottom: $gap-y-lg;
+}
+.profile__pic {
+  position: relative;
+  margin-bottom: $gap-y-generic;
+}
+
+.profile__pic-setter {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.profile__table,
+.profile__table-body,
+.profile__table-tfoot,
+.profile__table-row {
+  display: block;
+}
+.profile__table-row {
+  border-bottom: 1px solid $ui-color;
+  font-size: 0;
+  line-height: 0;
+  letter-spacing: 0;
+  text-align: justify;
+  white-space: normal;
+  word-spacing: 0;
+
+  @media (min-width: $profile-bp) {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.profile__table-row:last-child {
+  border-bottom: none;
+}
+.profile__table-row::after {
+  content: '';
+  display: inline-block;
+  width: 100%;
+  height: 0;
+  line-height: 0;
+
+  @media (min-width: $profile-bp) {
+    display: none;
+  }
+}
+.profile__table-cell {
+  @include break-word;
+
+  display: block;
+  vertical-align: baseline;
+  font-size: 1rem;
+  line-height: $line-height-primary;
+  letter-spacing: normal;
+  text-align: left;
+  word-spacing: normal;
+
+  @media (min-width: $profile-bp) {
+    display: inline-flex;
+  }
+}
+th.profile__table-cell {
+  font-weight: normal;
+
+  @media (min-width: $profile-bp) {
+    width: 45%;
+  }
+}
+td.profile__table-cell {
+  color: $muted-color;
+}
+
+.profile__table-cell:last-child {
+  @media (min-width: $profile-bp) {
+    justify-content: flex-end;
+    width: 53%;
+    text-align: right;
+  }
+}
+.profile__table-cell:last-child input {
+  @media (min-width: $profile-bp) {
+    text-align: right;
+  }
+}
+
+.profile__field {
+  display: inline-block;
+  padding: ($field-gap-y * 2.5) 0 $field-gap-y;
+  line-height: $field-line-height;
+
+  @media (min-width: $profile-bp) {
+    padding: $field-gap-y 0 ($field-gap-y * 3);
+  }
+}
+td > .profile__field {
+  padding-top: $field-gap-y;
+}
+
+.profile__input[data-display='inline'] {
+  display: block;
+
+  @media (min-width: $profile-bp) {
+    display: inline-flex;
+    width: 100%;
+  }
+}
+
+.profile__table-tfoot .profile__table-row:first-child {
+  padding-top: 1rem;
+}
+.profile__table-tfoot .profile__table-cell {
+  display: block;
+  width: auto;
+  text-align: left;
+}

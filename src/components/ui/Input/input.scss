@@ -3,7 +3,7 @@
 .input {
   position: relative;
 }
-.input[data-display="inline"] {
+.input[data-display='inline'] {
   display: inline-flex;
   flex-wrap: wrap;
 }
@@ -23,7 +23,7 @@
 textarea.input__field:not([data-fixed]) {
   height: auto;
 }
-.input[data-display="inline"] > .input__field {
+.input[data-display='inline'] > .input__field {
   flex-grow: 0;
   flex-shrink: 0;
 }
@@ -48,14 +48,28 @@ textarea.input__field:not([data-fixed]) {
   color: transparent;
 }
 
-$input-hint-float-scale: .85;
+$input-hint-float-scale: 0.85;
 $input-hint-float-shift: math.div($field-line-height, 2) * 1em;
 $input-hint-font-size: $field-font-size;
 @mixin input-field-transform($gap-x) {
-  transform:
-    scale($input-hint-float-scale)
-    translateY(calc(-1 * (#{$input-hint-font-size} * #{$input-hint-float-scale} - #{math.div($field-line-height, 4) * 1em})))
-    translateX(calc(((1 - #{$input-hint-float-scale}) * 1em) * #{math.clamp(0, math.ceil(strip-units($gap-x)), 1)}));
+  transform: scale($input-hint-float-scale)
+    translateY(
+      calc(
+        -1 * (#{$input-hint-font-size} * #{$input-hint-float-scale} - #{math.div(
+                $field-line-height,
+                4
+              ) * 1em})
+      )
+    )
+    translateX(
+      calc(
+        ((1 - #{$input-hint-float-scale}) * 1em) * #{math.clamp(
+            0,
+            math.ceil(strip-units($gap-x)),
+            1
+          )}
+      )
+    );
 }
 
 .input__hint,
@@ -92,7 +106,7 @@ $input-error-line-height: 1.3em;
   display: none;
   width: 100%;
 }
-.input[data-display="inline"] > .input > .error {
+.input[data-display='inline'] > .input > .error {
   position: absolute;
   top: 100%;
   right: 0;
@@ -113,27 +127,34 @@ $input-error-line-height: 1.3em;
   visibility: hidden;
 }
 /* stylelint-disable no-descending-specificity */
-// Модификации
-.input_theme_solid > .input__field {
-  @include field-base_theme_solid;
-  @include field-skin_theme_solid;
+// Темы
+.input_theme_dumb-example > .input__field {
+  @include field-base_theme_dumb-example;
+  @include field-skin_theme_dumb-example;
 }
-.input_theme_solid > .input__hint {
-  @include field-base_theme_solid;
+.input_theme_dumb-example > .input__hint {
+  @include field-base_theme_dumb-example;
 }
-.input_theme_solid > .input__field_mode_floating:focus ~ .input__hint,
-.input_theme_solid > .input__field_mode_floating:not(:placeholder-shown) ~ .input__hint {
-  @include input-field-transform($field-gap-x_theme_solid);
+.input_theme_dumb-example > .input__field_mode_floating:focus ~ .input__hint,
+.input_theme_dumb-example > .input__field_mode_floating:not(:placeholder-shown) ~ .input__hint {
+  @include input-field-transform($field-gap-x_theme_dumb-example);
 }
 
-// ...больше модификаций здесь
+.input_theme_transparent > .input__field {
+  @include field-base_theme_transparent;
+  @include field-skin_theme_transparent;
+}
+.input_theme_transparent > .input__hint {
+  @include field-base_theme_transparent;
+}
+
+// ...больше тем здесь
 
 /* stylelint-enable no-descending-specificity */
 
-
 // "Сдвиг" подсказки по умолчанию, располагается в конце для возможности переопределить стили модификаций
 .input__field_mode_floating:focus,
-.input__field_mode_floating:not(:placeholder-shown), {
+.input__field_mode_floating:not(:placeholder-shown) {
   padding-top: calc(#{$field-gap-y} + #{$input-hint-float-shift});
   padding-bottom: calc(#{$field-gap-y} - #{$input-hint-float-shift});
 }

@@ -15,7 +15,22 @@
 @import 'components/spinner';
 @import 'components/field-row';
 
-// React-компоненты
-@import '../components/Button/button';
-@import '../components/Input/input';
-@import '../components/Icon/icon';
+///////////
+// React //
+///////////
+
+// UI-компоненты
+@import '../components/ui/Button/button';
+@import '../components/ui/Input/input';
+@import '../components/ui/Icon/icon';
+@import '../components/ui/Avatar/avatar';
+@import '../components/ui/Filepick/filepick';
+
+// Компоненты приложения
+
+// Модули
+@import '../modules/Auth/auth';
+@import '../modules/Profile/profile';
+
+// Лэйаут
+@import '../layout/Page/page';

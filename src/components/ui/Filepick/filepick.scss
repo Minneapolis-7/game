@@ -1,0 +1,21 @@
+.filepick {
+  position: relative;
+  display: inline-block;
+  padding: 1rem;
+  border-radius: 50%;
+  background-color: $brand-color;
+  color: $dark-color;
+  line-height: 0;
+  cursor: pointer;
+}
+.filepick:focus-within {
+  @include focus-ring;
+}
+.filepick__icon_populated,
+.filepick__input:valid ~ .filepick__icon {
+  display: none;
+}
+.filepick__input:valid ~ .filepick__icon_populated {
+  display: inline-block;
+  vertical-align: top;
+}

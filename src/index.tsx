@@ -1,28 +1,49 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import icon from 'bootstrap-icons/icons/moon.svg';
+import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
+import paths from 'shared/const/paths';
+import routes from 'shared/const/routes';
 
-import './css/main.scss';
-
-import { Button, ButtonLink, Icon, Input, Textarea } from 'components';
+import 'css/main.scss';
 
 ReactDOM.render(
-  <div style={{ padding: '20px' }}>
-    <Button icon={<Icon name={icon.id} />} theme="2" />
-    <Button sizing="lg" icon={<Icon name={icon.id} />} theme="2">
-      Кнопка
-    </Button>
-    <ButtonLink sizing="sm" href="//google.com" theme="0">
-      Ссылка
-    </ButtonLink>
-    <ButtonLink href="//google.com">Ссылка</ButtonLink>
-    <Icon size="2rem" name={icon.id} />
-    <Input sizing="xl" className="gap-y-lg" theme="solid" hint="Инпут" />
-    <Input sizing="lg" className="gap-y-lg" hint="Инпут" />
-    <Input className="gap-y-lg" hint="Инпут" />
-    <Input sizing="sm" className="gap-y-lg" hint="Инпут" />
-    <Textarea display="inline" cols={50} rows={10} hint="Test" />
-  </div>,
+  <Router>
+    {/* навигация для теста, подлежит удалению */}
+    <nav style={{ position: 'absolute', left: 0, right: 0, backgroundColor: 'red' }}>
+      <ul className="nolist">
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to="/">Логин на главной</Link>
+        </li>
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to={paths.LOGIN}>Логин</Link>
+        </li>
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to={paths.REGISTER}>Регистрация</Link>
+        </li>
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to={paths.PROFILE}>Профиль</Link>
+        </li>
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to={paths.PROFILE_EDIT}>Профиль редактирование</Link>
+        </li>
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to={paths.PROFILE_EDIT_PASSWORD}>Профиль сменить пароль</Link>
+        </li>
+      </ul>
+    </nav>
+
+    <Switch>
+      {routes.map((route) => {
+        const Component = route.component;
+
+        return (
+          <Route key={route.path} path={route.path} exact={route.exact}>
+            <Component title={route.title} />
+          </Route>
+        );
+      })}
+    </Switch>
+  </Router>,
   document.getElementById('root')
 );
