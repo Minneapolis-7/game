@@ -1,4 +1,5 @@
 import {
+  MainPage,
   LoginPage,
   ProfileEditPage,
   ProfileEditPasswordPage,
@@ -10,8 +11,8 @@ import paths from 'shared/const/paths';
 const routes = [
   {
     path: '/',
-    component: LoginPage,
-    title: 'Логин',
+    component: MainPage,
+    title: 'Старт',
     exact: true,
   },
   {

@@ -1,0 +1,19 @@
+.main-page {
+
+  &__intro, &__win, &__loss {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__image {
+    max-width: 512px;
+    width: 70vw;
+  }
+
+  &__game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
