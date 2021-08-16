@@ -12,6 +12,7 @@ export default {
   async signup(user: User): Promise<AxiosResponse<number>> {
     const userDTO: UserDTO = transformUserToDTO(user);
     const response = await apiYandex.post('/auth/signup', userDTO);
+
     return response?.data?.id;
   },
 };

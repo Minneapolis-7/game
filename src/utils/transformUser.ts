@@ -1,24 +1,24 @@
 import { User } from '../types';
 import { UserDTO } from '../api/types';
 
-export function transformUserFromDTO(playload: UserDTO): User {
+export function transformUserFromDTO(data: UserDTO): User {
   return {
-    firstName: playload.first_name,
-    lastName: playload.second_name,
-    login: playload.login,
-    email: playload.email,
-    password: playload.password,
-    phone: playload.phone,
+    firstName: data.first_name,
+    lastName: data.second_name,
+    login: data.login,
+    email: data.email,
+    password: data.password,
+    phone: data.phone,
   };
 }
 
-export function transformUserToDTO(playload: User): UserDTO {
+export function transformUserToDTO(data: User): UserDTO {
   return {
-    first_name: playload.firstName,
-    second_name: playload.lastName,
-    login: playload.login,
-    email: playload.email,
-    password: playload.password,
-    phone: playload.phone,
+    first_name: data.firstName,
+    second_name: data.lastName,
+    login: data.login,
+    email: data.email,
+    password: data.password,
+    phone: data.phone,
   };
 }
