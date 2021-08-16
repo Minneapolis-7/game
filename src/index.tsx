@@ -31,6 +31,9 @@ ReactDOM.render(
           <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
             <Link to={paths.PROFILE_EDIT_PASSWORD}>Профиль сменить пароль</Link>
           </li>
+          <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+            <Link to={paths.LEADERBOARD}>Лидерборд</Link>
+          </li>
         </ul>
       </nav>
 

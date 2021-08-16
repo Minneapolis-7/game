@@ -4,6 +4,7 @@ import {
   ProfileEditPasswordPage,
   ProfilePage,
   RegisterPage,
+  LeaderboardPage,
 } from 'pages';
 import paths from 'shared/const/paths';
 
@@ -41,6 +42,12 @@ const routes = [
   {
     path: paths.PROFILE_EDIT_PASSWORD,
     component: ProfileEditPasswordPage,
+    title: 'Редактирование пароля',
+    exact: true,
+  },
+  {
+    path: paths.LEADERBOARD,
+    component: LeaderboardPage,
     title: 'Редактирование пароля',
     exact: true,
   },
