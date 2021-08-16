@@ -14,11 +14,12 @@
   max-width: calc(100% - #{$gap-x-generic-lg} * 2);
 }
 .page__content {
+  display: flow-root;
   margin: $gap-y-generic var(--section-pad-x-generic);
 }
 
 .page_fullscreen {
-  display: block;
+  display: flow-root;
   overflow: hidden;
 }
 .page_fullscreen,
