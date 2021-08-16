@@ -8,16 +8,20 @@ const TestAPI = (): JSX.Element => {
   const testUser: User = {
     firstName: 'Иван',
     lastName: 'Иванов',
-    login: 'vano23',
-    email: 'vano23@yandex.ru',
+    login: 'vano24',
+    email: 'vano24@yandex.ru',
     password: '12344321',
     phone: '89998887766',
   };
 
   useEffect(() => {
     async function signUp() {
-      const userId = await API.signup(testUser);
-      setId(userId);
+      try {
+        const userId = await API.signup(testUser);
+        setId(userId);
+      } catch (e) {
+        console.warn('signUp error', e.response?.data?.reason);
+      }
     }
     signUp();
   }, []);
