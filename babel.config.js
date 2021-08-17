@@ -6,7 +6,7 @@ module.exports = function conf(api) {
     '@babel/preset-react',
     '@babel/preset-typescript',
   ];
-  const plugins = [];
+  const plugins = ['@babel/plugin-transform-runtime'];
 
   return {
     sourceMaps: true,
