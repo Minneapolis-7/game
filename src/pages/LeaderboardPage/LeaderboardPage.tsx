@@ -6,19 +6,32 @@ import Page from 'layout/Page';
 
 const b = block('leaderboard');
 
-const user = {
-  firstName: 'Имя',
-  secondName: 'Фамилия',
-  displayName: 'Nickname',
-  login: 'mylogin',
-  email: 'my@email.com',
-};
+const mockUserList = [
+  {
+    id: 5,
+    nickname: 'Schumacher',
+    points: 100,
+  },
+  {
+    id: 7,
+    nickname: 'Vettel',
+    points: 98,
+  },
+  {
+    id: 3,
+    nickname: 'Senna',
+    points: 86,
+  },
+  {
+    id: 15,
+    nickname: 'Hamilton',
+    points: 72,
+  },
+];
 
 type TableRowProps = {
   label: string;
-  value?: string;
-  id: string;
-  action?: string;
+  value?: number;
 };
 
 function LeaderboardPage({ title }: { title: string }): JSX.Element {
@@ -41,15 +54,14 @@ function LeaderboardPage({ title }: { title: string }): JSX.Element {
     <Page title={title}>
       <div className={b()}>
         <header className={b('head')}>
-          <h3>Leaderbord</h3>
+          <h3>Рейтинг игроков</h3>
         </header>
         <div className={b('content')}>
-          <h4 className={b('name').mix('heading')}>{user.firstName}</h4>
           <table className={b('table')}>
             <tbody className={b('table-body')}>
-              <TableRow label="Почта" value={user.email} id="email" />
-              <TableRow label="Логин" value={user.login} id="login" />
-              <TableRow label="Имя" value={user.firstName} id="firstName" />
+              {mockUserList.map((user) => {
+                return <TableRow key={user.id} label={user.nickname} value={user.points} />;
+              })}
             </tbody>
           </table>
         </div>
