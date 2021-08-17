@@ -3,7 +3,7 @@ import API from './auth-api';
 import { User } from '../types';
 
 const TestAPI = (): JSX.Element => {
-  const [id, setId] = useState<unknown>(null);
+  const [id, setId] = useState<number | null>(null);
 
   const testUser: User = {
     firstName: 'Иван',
