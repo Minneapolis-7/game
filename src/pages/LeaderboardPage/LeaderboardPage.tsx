@@ -8,7 +8,7 @@ const b = block('leaderboard');
 const mockUserList = [
   {
     id: 5,
-    nickname: 'Schumacher',
+    nickname: 'SchumacherSchumacherSchumacherSchumacher',
     points: 100,
   },
   {
@@ -38,23 +38,22 @@ const mockUserList = [
   },
 ];
 
-type TableRowProps = {
+type RowProps = {
   label: string;
   value: number;
   color: number;
 };
 
 function LeaderboardPage({ title }: { title: string }): JSX.Element {
-  function TableRow({ label, value, color }: TableRowProps): JSX.Element {
+  function Row({ label, value, color }: RowProps): JSX.Element {
     return (
-      <tr className={b('table-row')}>
-        <th className={b('table-cell')}>
-          <span className={b('field').mix(`color-${color}`)}>{label}</span>
-        </th>
-        <td className={b('table-cell')}>
-          <span className={b('field').mix(`color-${color}`)}>{value || '\u200B'}</span>
-        </td>
-      </tr>
+      <li>
+        <div className={b('wrapper-row')}>
+          <div className={b('field').mix(`color-${color}`)}>{label}</div>
+          <div className={b('field').mix(`color-${color}`)}>{value || '\u200B'}</div>
+        </div>
+        <hr className={b('bottom-line')}></hr>
+      </li>
     );
   }
 
@@ -65,15 +64,11 @@ function LeaderboardPage({ title }: { title: string }): JSX.Element {
           <h3>Рейтинг игроков</h3>
         </header>
         <div className={b('content')}>
-          <table className={b('table')}>
-            <tbody className={b('table-body')}>
-              {mockUserList.map((user, index) => {
-                return (
-                  <TableRow key={user.id} label={user.nickname} value={user.points} color={index} />
-                );
-              })}
-            </tbody>
-          </table>
+          <ul className={b('players-list')}>
+            {mockUserList.map((user, index) => {
+              return <Row key={user.id} label={user.nickname} value={user.points} color={index} />;
+            })}
+          </ul>
         </div>
       </div>
     </Page>

@@ -7,120 +7,57 @@ $leaderboard-bp: 20 * $font-size-primary; // ~300px при шрифте 16px
 .leaderboard__head {
   text-align: center;
   margin-top: 2 * $gap-y-lg;
-  margin-bottom: $gap-y-lg;
+  margin-bottom: 2 * $gap-y-lg;
   color: $yellow;
 }
 
-.leaderboard__table,
-.leaderboard__table-body,
-.leaderboard__table-row {
-  display: block;
-}
-.leaderboard__table-row {
-  border-bottom: 1px solid $ui-color;
-  font-size: 0;
-  line-height: 0;
-  letter-spacing: 0;
-  text-align: justify;
-  white-space: normal;
-  word-spacing: 0;
-
-  @media (min-width: $leaderboard-bp) {
-    display: flex;
-    justify-content: space-between;
-  }
-}
-.leaderboard__table-row:last-child {
-  border-bottom: none;
-}
-.leaderboard__table-row::after {
-  content: '';
-  display: inline-block;
-  width: 100%;
-  height: 0;
-  line-height: 0;
-
-  @media (min-width: $leaderboard-bp) {
-    display: none;
-  }
-}
-.leaderboard__table-cell {
-  @include break-word;
-
-  display: block;
-  vertical-align: baseline;
-  font-size: 1rem;
-  line-height: $line-height-primary;
-  letter-spacing: normal;
-  text-align: left;
-  word-spacing: normal;
-
-  @media (min-width: $leaderboard-bp) {
-    display: inline-flex;
-  }
-}
-th.leaderboard__table-cell {
-  font-weight: normal;
-
-  @media (min-width: $leaderboard-bp) {
-    width: 45%;
-  }
-}
-td.leaderboard__table-cell {
-  color: $muted-color;
+.leaderboard__wrapper-row {
+  display: flex;
+  justify-content: space-between;
 }
 
-.leaderboard__table-cell:last-child {
-  @media (min-width: $leaderboard-bp) {
-    justify-content: flex-end;
-    width: 53%;
-    text-align: right;
-  }
+.leaderboard__players-list {
+  list-style-type: none;
+  padding: 0;
 }
 
+.leaderboard__bottom-line {
+  height: 1px;
+  border: 0;
+  background-color: $ui-color;
+}
+
+//   @media (min-width: $leaderboard-bp) {
+//     display: flex;
+//     justify-content: space-between;
+//   }
+
+//   @media (min-width: $leaderboard-bp) {
+//     padding: $field-gap-y 0 ($field-gap-y * 3);
+//   }
 .leaderboard__field {
-  display: inline-block;
-  padding: ($field-gap-y * 2.5) 0 $field-gap-y;
-  line-height: $field-line-height;
-
-  @media (min-width: $leaderboard-bp) {
-    padding: $field-gap-y 0 ($field-gap-y * 3);
-  }
 
   &.color-0 {
     color: $yellow;
   }
   &.color-1 {
-    color: $yellow-1;
+    color: lighten(desaturate($brand-color, 0.86), 6.47)
   }
   &.color-2 {
-    color: $yellow-2;
+    color: lighten(desaturate($brand-color, 5.47), 13.53);
   }
   &.color-3 {
-    color: $yellow-3;
+    color: lighten(desaturate($brand-color, 9.95), 20.98);
   }
   &.color-4 {
-    color: $yellow-4;
-  }
-}
-td > .leaderboard__field {
-  padding-top: $field-gap-y;
-}
-
-.leaderboard__input[data-display='inline'] {
-  display: block;
-
-  @media (min-width: $leaderboard-bp) {
-    display: inline-flex;
-    width: 100%;
+    color: lighten(saturate(adjust-hue($brand-color, 227), 16.59), 29.61);
   }
 }
 
-.leaderboard__table-tfoot .leaderboard__table-row:first-child {
-  padding-top: 1rem;
-}
-.leaderboard__table-tfoot .leaderboard__table-cell {
-  display: block;
-  width: auto;
-  text-align: left;
-}
+//   @media (min-width: $leaderboard-bp) {
+//     display: inline-flex;
+//     width: 100%;
+//   }
+
+
+
