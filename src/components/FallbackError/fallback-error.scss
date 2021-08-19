@@ -1,0 +1,13 @@
+.fallback-error {
+  width: 900px;
+  max-width: 100%;
+  margin: 3rem auto;
+  padding: 2rem;
+  border: 10px solid transparentize($error-color, 0.8);
+  font-size: $font-size-lg;
+  text-align: center;
+}
+.fallback-error__heading,
+.fallback-error__heading.heading {
+  margin-bottom: 0.5em;
+}
