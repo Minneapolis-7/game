@@ -128,16 +128,16 @@ $input-error-line-height: 1.3em;
 }
 /* stylelint-disable no-descending-specificity */
 // Темы
-.input_theme_dumb-example > .input__field {
-  @include field-base_theme_dumb-example;
-  @include field-skin_theme_dumb-example;
+.input_theme_solid > .input__field {
+  @include field-base_theme_solid;
+  @include field-skin_theme_solid;
 }
-.input_theme_dumb-example > .input__hint {
-  @include field-base_theme_dumb-example;
+.input_theme_solid > .input__hint {
+  @include field-base_theme_solid;
 }
-.input_theme_dumb-example > .input__field_mode_floating:focus ~ .input__hint,
-.input_theme_dumb-example > .input__field_mode_floating:not(:placeholder-shown) ~ .input__hint {
-  @include input-field-transform($field-gap-x_theme_dumb-example);
+.input_theme_solid > .input__field_mode_floating:focus ~ .input__hint,
+.input_theme_solid > .input__field_mode_floating:not(:placeholder-shown) ~ .input__hint {
+  @include input-field-transform($field-gap-x_theme_solid);
 }
 
 .input_theme_transparent > .input__field {
@@ -164,6 +164,10 @@ $input-error-line-height: 1.3em;
 .input_sizing_sm > .input__field,
 .input_sizing_sm > .input__hint {
   @include field-base_sizing_sm;
+}
+.input_sizing_md > .input__field,
+.input_sizing_md > .input__hint {
+  @include field-base_sizing_md;
 }
 .input_sizing_lg > .input__field,
 .input_sizing_lg > .input__hint {

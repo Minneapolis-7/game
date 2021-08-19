@@ -10,7 +10,16 @@ import 'css/main.scss';
 ReactDOM.render(
   <Router>
     {/* навигация для теста, подлежит удалению */}
-    <nav style={{ position: 'absolute', left: 0, right: 0, backgroundColor: 'red' }}>
+    <nav
+      style={{
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        backgroundColor: 'azure',
+        opacity: 0.4,
+        fontSize: '.6em',
+      }}
+    >
       <ul className="nolist">
         <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
           <Link to="/">Логин на главной</Link>
@@ -29,6 +38,18 @@ ReactDOM.render(
         </li>
         <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
           <Link to={paths.PROFILE_EDIT_PASSWORD}>Профиль сменить пароль</Link>
+        </li>
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to={paths.FORUM}>Форум</Link>
+        </li>
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to={paths.FORUM_SECTION}>Секция форума</Link>
+        </li>
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to={paths.FORUM_THREAD}>Тема форума</Link>
+        </li>
+        <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+          <Link to={paths.FORUM_THREAD_CREATE}>Создать тему</Link>
         </li>
       </ul>
     </nav>

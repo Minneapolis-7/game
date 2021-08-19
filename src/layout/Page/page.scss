@@ -1,8 +1,17 @@
 @use 'sass:math';
 
+.page,
+.page_delegated > * {
+  overflow: hidden;
+  min-height: 100%;
+  padding: $page-gap-y var(--section-pad-x-generic);
+}
 .page {
   display: flow-root;
-  min-height: 100%;
+}
+.page_delegated {
+  overflow: visible;
+  padding: 0;
 }
 
 .page_centered {
@@ -11,24 +20,13 @@
   justify-content: center;
 }
 .page__centerer {
-  max-width: calc(100% - #{$gap-x-generic-lg} * 2);
-}
-.page__content {
-  display: flow-root;
-  margin: $gap-y-generic var(--section-pad-x-generic);
+  max-width: 100%;
 }
 
-.page_fullscreen {
-  display: flow-root;
-  overflow: hidden;
-}
 .page_fullscreen,
-.page_fullscreen > .page__centerer,
-.page_fullscreen > .page__content {
+.page_delegated {
   height: 100%;
 }
-.page_fullscreen > .page__centerer,
-.page_fullscreen > .page__content {
-  max-width: none;
-  margin: 0;
+.page_fullscreen {
+  padding: 0;
 }

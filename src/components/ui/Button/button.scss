@@ -9,7 +9,6 @@ $button-text-color: $dark-color;
   height: $button-height;
   padding: 0 1.15em;
   border: none;
-  border-radius: 0.5em;
   background-color: $brand-color;
   color: $button-text-color;
   line-height: 1;
@@ -82,7 +81,8 @@ $button-text-color: $dark-color;
 .button__icon + .button__text:empty,
 .button__text:empty + .button__icon {
   // нивелируем дефолтное расстояние между узлами текста
-  margin-left: -4px;
+  //margin-left: -4px; // в реакте оно уже убрано
+  margin-left: 0;
 }
 
 .button.is-processing .button__icon,
@@ -200,9 +200,21 @@ $button-spinner-half-size: math.div($button-spinner-size, 2);
   background-color: darken(desaturate($muted-color, 2.66), 5.49);
 }
 
+.button_theme_subtle {
+  background-color: transparent;
+  color: $text-color;
+}
+.button_theme_subtle:not(:disabled):hover,
+.button_theme_subtle:not(:disabled):focus-visible {
+  background-color: transparentize($text-color, 0.85);
+}
+
 // Размеры (все размерности шрифтозависимы, потому можно просто поменять `font-size`)
 .button_sizing_sm {
   font-size: $font-size-sm;
+}
+.button_sizing_md {
+  font-size: $font-size-md;
 }
 .button_sizing_lg {
   font-size: $font-size-lg;

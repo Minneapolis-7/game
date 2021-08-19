@@ -25,12 +25,17 @@
 @import '../components/ui/Icon/icon';
 @import '../components/ui/Avatar/avatar';
 @import '../components/ui/Filepick/filepick';
+@import '../components/ui/Paging/paging';
 
 // Компоненты приложения
+@import '../modules/Forum/components/UserStamp/user-stamp';
+@import '../modules/Forum/components/ForumItemPreview/forum-item-preview';
+@import '../modules/Forum/components/ForumComment/forum-comment';
 
 // Модули
 @import '../modules/Auth/auth';
 @import '../modules/Profile/profile';
+@import '../modules/Forum/forum';
 
 // Лэйаут
 @import '../layout/Page/page';
