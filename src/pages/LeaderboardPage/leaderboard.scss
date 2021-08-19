@@ -42,5 +42,12 @@
   background-color: $ui-color;
 }
 
+.leaderboard__nickname {
+  @include break-word;
+}
 
+.leaderboard__points {
+  white-space: nowrap;
+  margin-left: $gap-x-generic;
+}
 

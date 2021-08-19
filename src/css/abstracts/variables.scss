@@ -19,11 +19,6 @@ $grey-light: #eef0f2ff;
 $white: #f8f9fb;
 $red: #ff2f2f;
 
-$yellow-1: #f0cf62ff;
-$yellow-2: #f0d786ff;
-$yellow-3: #f2e1aaff;
-$yellow-4: #f0e7c9ff;
-
 $brand-color: $yellow;
 $brand-color-light: lighten(desaturate(adjust-hue($brand-color, -5), 2.68), 36.67);
 $text-color: $white;

@@ -48,8 +48,8 @@ function LeaderboardPage({ title }: { title: string }): JSX.Element {
     return (
       <li>
         <div className={b('wrapper-row')}>
-          <div className={b('field')}>{label}</div>
-          <div className={b('field')}>{value || '\u200B'}</div>
+          <div className={b('nickname')}>{label}</div>
+          <div className={b('points')}>{value || '\u200B'}</div>
         </div>
         <hr className={b('bottom-line')}></hr>
       </li>
