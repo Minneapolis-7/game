@@ -1,0 +1,12 @@
+.game-screen_start,
+.game-screen_win,
+.game-screen_loss {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-screen__image {
+  object-fit: contain;
+  height: 480px;
+}
