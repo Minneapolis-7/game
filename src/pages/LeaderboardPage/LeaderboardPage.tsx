@@ -1,9 +1,7 @@
 import React from 'react';
-import { block } from 'bem-cn';
 
 import Page from 'layout/Page';
-
-const b = block('leaderboard');
+import Leaderboard from 'modules/Leaderboard/Leaderboard';
 
 const mockUserList = [
   {
@@ -38,38 +36,10 @@ const mockUserList = [
   },
 ];
 
-type RowProps = {
-  label: string;
-  value: number;
-};
-
 function LeaderboardPage({ title }: { title: string }): JSX.Element {
-  function Row({ label, value }: RowProps): JSX.Element {
-    return (
-      <li>
-        <div className={b('wrapper-row')}>
-          <div className={b('nickname')}>{label}</div>
-          <div className={b('points')}>{value || '\u200B'}</div>
-        </div>
-        <hr className={b('bottom-line')}></hr>
-      </li>
-    );
-  }
-
   return (
     <Page title={title}>
-      <div className={b()}>
-        <header className={b('head')}>
-          <h3>Рейтинг игроков</h3>
-        </header>
-        <div className={b('content')}>
-          <ul className={b('players-list')}>
-            {mockUserList.map((user) => {
-              return <Row key={user.id} label={user.nickname} value={user.points} />;
-            })}
-          </ul>
-        </div>
-      </div>
+      <Leaderboard userList={mockUserList} />
     </Page>
   );
 }

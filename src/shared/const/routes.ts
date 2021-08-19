@@ -48,7 +48,7 @@ const routes = [
   {
     path: paths.LEADERBOARD,
     component: LeaderboardPage,
-    title: 'Редактирование пароля',
+    title: 'Рейтинг игроков',
     exact: true,
   },
 ];
