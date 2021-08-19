@@ -99,3 +99,34 @@ git commit -m "task-9: fix: исправить отступы в мобильн�
 `fix` — должен использоваться, когда коммит исправляет баг в вашем приложении.
 
 `docs` — работа над документацией и файлами с описанием проекта и процессов (README.md, CONTRIBUTING.md).
+
+## Code style
+
+Договорённости по написанию кода.
+
+### Конфиги ESLint и Stylelint
+
+- JS/TS (детально см. `.eslintrc.js`): https://github.com/airbnb/javascript, [@typescript-eslint/recommended](https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/eslint-plugin/src/configs#recommended), [react/recommended](https://github.com/yannickcr/eslint-plugin-react), [react-hooks/recommended](https://www.npmjs.com/package/eslint-plugin-react-hooks)
+- CSS (детально см. `.stylelintrc.json`): [stylelint-config-standard](https://github.com/stylelint/stylelint-config-standard), [stylelint-config-hudochenkov/order](https://github.com/hudochenkov/stylelint-order/tree/master/rules/order)
+
+### Другие инструменты
+
+Также в проекте используются:
+
+- [Prettier](https://prettier.io/), необходимо [интегрировать его в свой редактор](https://prettier.io/docs/en/editors.html), 
+- [EditorConfig](https://editorconfig.org/)
+
+### Другие правила
+
+Для SCSS:
+
+- не использовать в коде [parent selector (&)](https://sass-lang.com/documentation/style-rules/parent-selector)
+
+Для JS/TS:
+
+- отделять блочные конструкции (циклы, условия и т.п.) пустыми строками от соседнего кода. При этом нужно руководствоваться здравым смыслом
+- отделять объявления переменных пустыми строками от соседнего кода
+
+Для npm-скриптов
+
+- если со скриптом возникают проблемы из-за отсуствия кавычек у некоторых выражений внутри скрипта (обычно это бывает на Windows), то нужно применять только двойные кавычки
