@@ -1,15 +1,12 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 import { block } from 'bem-cn';
 
 const b = block('fallback-error');
 
-type FallbackErrorProps = PropsWithChildren<Record<string, unknown>>;
-
-function FallbackError({ children }: FallbackErrorProps): JSX.Element {
+function FallbackError(): JSX.Element {
   return (
     <div className={b()}>
       <h4 className={b('heading').mix('heading')}>Сайт сломался, но его уже чинят</h4>
-      {children}
     </div>
   );
 }

@@ -23,7 +23,7 @@ class RootErrorBoundary extends Component<RootErrorBoundaryProps, RootErrorBound
 
   render(): ReactNode {
     if (this.state.hasError) {
-      return <FallbackError>{this.state.error.message}</FallbackError>;
+      return <FallbackError />;
     }
 
     return this.props.children;
