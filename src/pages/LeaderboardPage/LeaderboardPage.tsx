@@ -41,16 +41,15 @@ const mockUserList = [
 type RowProps = {
   label: string;
   value: number;
-  color: number;
 };
 
 function LeaderboardPage({ title }: { title: string }): JSX.Element {
-  function Row({ label, value, color }: RowProps): JSX.Element {
+  function Row({ label, value }: RowProps): JSX.Element {
     return (
       <li>
         <div className={b('wrapper-row')}>
-          <div className={b('field').mix(`color-${color}`)}>{label}</div>
-          <div className={b('field').mix(`color-${color}`)}>{value || '\u200B'}</div>
+          <div className={b('field')}>{label}</div>
+          <div className={b('field')}>{value || '\u200B'}</div>
         </div>
         <hr className={b('bottom-line')}></hr>
       </li>
@@ -65,8 +64,8 @@ function LeaderboardPage({ title }: { title: string }): JSX.Element {
         </header>
         <div className={b('content')}>
           <ul className={b('players-list')}>
-            {mockUserList.map((user, index) => {
-              return <Row key={user.id} label={user.nickname} value={user.points} color={index} />;
+            {mockUserList.map((user) => {
+              return <Row key={user.id} label={user.nickname} value={user.points} />;
             })}
           </ul>
         </div>
