@@ -21,8 +21,8 @@ $forum-body-gap-y: 1rem;
 .forum__header,
 .forum__footer,
 .forum__heading {
-  margin-left: calc(-1 * var(--section-pad-x-generic));
   margin-right: calc(-1 * var(--section-pad-x-generic));
+  margin-left: calc(-1 * var(--section-pad-x-generic));
   padding: 1rem var(--section-pad-x-generic);
 }
 
@@ -76,14 +76,14 @@ $forum-body-gap-y: 1rem;
 }
 
 .forum__heading-action {
+  vertical-align: middle;
   //margin-top: -1em;
   //margin-bottom: -1em;
   margin-right: 1em;
-  vertical-align: middle;
 }
 .forum__heading-action_shifted {
-  margin: -0.4em 0;
   vertical-align: top;
+  margin: -0.4em 0;
 }
 
 .forum__toolbar {
@@ -95,8 +95,8 @@ $forum-body-gap-y: 1rem;
   margin-bottom: 2rem;
 }
 .forum__toolbar-slot_paging {
-  text-align: center;
   margin-left: auto;
+  text-align: center;
 }
 
 .forum__page {

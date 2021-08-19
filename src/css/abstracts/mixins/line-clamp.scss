@@ -1,7 +1,7 @@
 @mixin line-clamp($lines: 1) {
+  display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
   -webkit-line-clamp: $lines; /* number of lines to show */
 
   /* autoprefixer: ignore next */
