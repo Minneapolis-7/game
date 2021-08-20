@@ -1,6 +1,6 @@
 # game
 
-Дистрибутив на Heroku: https://minneapolis-game.herokuapp.com/heroku logs --tail
+Дистрибутив на Heroku: https://minneapolis-game.herokuapp.com
 
 ## Установка
 
