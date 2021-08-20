@@ -1,8 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// Временно, пока не будет подтянута ветка с настроенным regeneratorRuntime
-// eslint-disable-next-line import/no-extraneous-dependencies
-import 'regenerator-runtime/runtime';
 
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import paths from 'shared/const/paths';
