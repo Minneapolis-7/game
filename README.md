@@ -1,5 +1,7 @@
 # game
 
+Дистрибутив на Heroku: https://minneapolis-game.herokuapp.com/heroku logs --tail
+
 ## Установка
 
 Для работы необходим [Node.js >=12.13.0](https://nodejs.org/en/), установленный на вашем компьютере. А также [git](https://git-scm.com/downloads) (не забудьте добавить его в `PATH`).
