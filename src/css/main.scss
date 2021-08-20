@@ -27,10 +27,12 @@
 @import '../components/ui/Filepick/filepick';
 
 // Компоненты приложения
+@import '../components/FallbackError/fallback-error';
 
 // Модули
 @import '../modules/Auth/auth';
 @import '../modules/Profile/profile';
+@import '../modules/Leaderboard/leaderboard';
 
 // Лэйаут
 @import '../layout/Page/page';

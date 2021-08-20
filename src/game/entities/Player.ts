@@ -128,14 +128,17 @@ export default class Player {
     // Коллизия слева и справа
     if (this.x >= this.hitBox.right - SPRITE_SIZE_X) {
       this.x = this.hitBox.right - SPRITE_SIZE_X;
+      this.velocityX = 0;
     } else if (this.x <= this.hitBox.left) {
       this.x = this.hitBox.left;
+      this.velocityX = 0;
     }
 
     // Коллизия сверху и снизу
     if (this.y >= this.hitBox.bottom - SPRITE_SIZE_Y) {
       this.y = this.hitBox.bottom - SPRITE_SIZE_Y;
       this.isJumping = false;
+      this.velocityY = 0;
     } else if (this.y <= this.hitBox.top) {
       this.y = this.hitBox.top;
       this.velocityY = 0;

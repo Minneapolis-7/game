@@ -3,3 +3,4 @@ export { default as RegisterPage } from './RegisterPage';
 export { default as ProfilePage } from './ProfilePage';
 export { default as ProfileEditPage } from './ProfileEditPage';
 export { default as ProfileEditPasswordPage } from './ProfileEditPasswordPage';
+export { default as LeaderboardPage } from './LeaderboardPage';
