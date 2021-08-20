@@ -1,0 +1,53 @@
+.leaderboard {
+  max-width: 35rem;
+  margin: $gap-y-lg auto;
+}
+
+.leaderboard__head {
+  text-align: center;
+  margin-top: 2.5 * $gap-y-lg;
+  margin-bottom: 2 * $gap-y-lg;
+  color: $yellow;
+}
+
+.leaderboard__wrapper-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.leaderboard__players-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.leaderboard__players-list li:nth-child(1) {
+  color: $brand-color;
+}
+.leaderboard__players-list li:nth-child(2) {
+  color: lighten(desaturate($brand-color, 0.86), 6.47);
+}
+.leaderboard__players-list li:nth-child(3) {
+  color: lighten(desaturate($brand-color, 5.47), 13.53);
+}
+.leaderboard__players-list li:nth-child(4) {
+  color: lighten(desaturate($brand-color, 9.95), 20.98);
+}
+.leaderboard__players-list li:nth-child(5) {
+  color: lighten(desaturate($brand-color, 26.89), 26.67);
+}
+
+.leaderboard__bottom-line {
+  height: 1px;
+  border: 0;
+  background-color: $ui-color;
+}
+
+.leaderboard__nickname {
+  @include break-word;
+}
+
+.leaderboard__points {
+  white-space: nowrap;
+  margin-left: $gap-x-generic;
+}
+
