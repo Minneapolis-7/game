@@ -60,12 +60,6 @@ export default class Game {
       {
         id: 0,
         sprite: [480, 480],
-        // Фикс ускорения при сходе с обрыва
-        onAbove: ({ player }) => {
-          if (player.velocityY > 10) {
-            player.setVelocityY(0);
-          }
-        },
       },
       // Кирпич
       {
