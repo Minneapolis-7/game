@@ -1,4 +1,5 @@
 const path = require('path');
+const settings = require('./settings');
 
 module.exports = {
   mode: 'development',
@@ -7,8 +8,8 @@ module.exports = {
     main: './server/server.ts',
   },
   output: {
-    path: path.resolve(__dirname, '..', 'server-dist'),
-    filename: 'index.js',
+    path: path.resolve(__dirname, '..', settings.paths.dist.base),
+    filename: 'server.js',
   },
   resolve: {
     extensions: ['.ts', '.js'],

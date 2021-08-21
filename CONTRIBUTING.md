@@ -142,17 +142,17 @@ npm run build
 npm run build:server
 ```
 
-`build` — выполнит сборку web-приложения в директорию `./dist`  
-`build:server` — выполнит сборку node-приложения сервера (`Express`) в директорию `./server-dist`
+`build` — выполнит сборку web-приложения в директорию `./dist/static`  
+`build:server` — выполнит сборку node-приложения сервера (`Express`) в файл `./dist/server.js`
 
 ### Docker
 
 Состав docker-образа:
 
-* Ubuntu 21.04
+* Alpine Linux
 * Node 14
-* `./dist` — дистрибутив web-приложения
-* `./server-dist` — дистрибутив сервера
+* `./dist/static` — дистрибутив web-приложения
+* `./dist/server.js` — дистрибутив сервера
 
 ### Доставка на Heroku
 
