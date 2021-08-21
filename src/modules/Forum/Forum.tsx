@@ -1,7 +1,6 @@
 import React from 'react';
 import { block } from 'bem-cn';
-import { Button, ButtonLink, Icon, Textarea, Input } from 'components/ui';
-import Paging from 'components/ui/Paging';
+import { Button, ButtonLink, Icon, Textarea, Input, Pagination } from 'components/ui';
 import addNewThreadSvg from 'bootstrap-icons/icons/plus-lg.svg';
 import viewCountSvg from 'bootstrap-icons/icons/eye.svg';
 import commentCountSvg from 'bootstrap-icons/icons/chat-square.svg';
@@ -12,6 +11,7 @@ import UserStamp from 'modules/Forum/components/UserStamp';
 import ForumComment from 'modules/Forum/components/ForumComment';
 
 const b = block('forum');
+const bLink = block('link');
 
 type ForumProps = {
   section?: string; // id выбранной секции
@@ -29,7 +29,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           descSlot={
             <>
               <h4 className={b('item-heading').mix('heading')}>
-                <a className="link" href="#">
+                <a className={bLink()} href="#">
                   Обсуждение игры
                 </a>
               </h4>
@@ -38,7 +38,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           }
           statSlot={
             <>
-              <a className="link link_action" href="#">
+              <a className={bLink({ action: true })} href="#">
                 Поиграл в игру
               </a>{' '}
               <UserStamp
@@ -54,7 +54,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           descSlot={
             <>
               <h4 className={b('item-heading').mix('heading')}>
-                <a className="link" href="#">
+                <a className={bLink()} href="#">
                   Запрос новых фич
                 </a>
               </h4>
@@ -63,7 +63,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           }
           statSlot={
             <>
-              <a className="link link_action" href="#">
+              <a className={bLink({ action: true })} href="#">
                 Сделайте новый уровень
               </a>{' '}
               <UserStamp
@@ -79,7 +79,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           descSlot={
             <>
               <h4 className={b('item-heading').mix('heading')}>
-                <a className="link" href="#">
+                <a className={bLink()} href="#">
                   Баг-репорты
                 </a>
               </h4>
@@ -88,7 +88,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           }
           statSlot={
             <>
-              <a className="link link_action" href="#">
+              <a className={bLink({ action: true })} href="#">
                 Девелоперы криворукие
               </a>{' '}
               <UserStamp
@@ -107,7 +107,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           descSlot={
             <>
               <h4 className={b('item-heading').mix('heading')}>
-                <a className="link" href="#">
+                <a className={bLink()} href="#">
                   Новости игровой индустрии
                 </a>
               </h4>
@@ -116,7 +116,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           }
           statSlot={
             <>
-              <a className="link link_action" href="#">
+              <a className={bLink({ action: true })} href="#">
                 Вышла Half-Life 3
               </a>{' '}
               <UserStamp
@@ -132,7 +132,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           descSlot={
             <>
               <h4 className={b('item-heading').mix('heading')}>
-                <a className="link" href="#">
+                <a className={bLink()} href="#">
                   Общение
                 </a>
               </h4>
@@ -141,7 +141,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           }
           statSlot={
             <>
-              <a className="link link_action" href="#">
+              <a className={bLink({ action: true })} href="#">
                 Сходка
               </a>{' '}
               <UserStamp
@@ -171,8 +171,8 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           Обсуждение игры
         </h4>
         <div className={b('toolbar')}>
-          <div className={b('toolbar-slot', { paging: true })}>
-            <Paging total={10} current={1} baseURL="/threads" className={b('paging')} />
+          <div className={b('toolbar-slot', { pagination: true })}>
+            <Pagination total={10} current={1} baseURL="/threads" className={b('pagination')} />
           </div>
         </div>
         <div className={b('page')}>
@@ -181,7 +181,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             descSlot={
               <>
                 <h4 className={b('item-heading').mix('heading gap-y-xs')}>
-                  <a className="link" href="#">
+                  <a className={bLink()} href="#">
                     Название темы
                   </a>{' '}
                   <span className={b('item-heading-misc')}>
@@ -198,7 +198,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             }
             statSlot={
               <>
-                <a className="link link_action" href="#">
+                <a className={bLink({ action: true })} href="#">
                   Отрывок текста...
                 </a>
                 <UserStamp
@@ -214,7 +214,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             descSlot={
               <>
                 <h4 className={b('item-heading').mix('heading gap-y-xs')}>
-                  <a className="link" href="#">
+                  <a className={bLink()} href="#">
                     Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
                     темы темы
                   </a>{' '}
@@ -232,7 +232,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             }
             statSlot={
               <>
-                <a className="link link_action" href="#">
+                <a className={bLink({ action: true })} href="#">
                   Отрывок текста текста...
                 </a>
                 <UserStamp
@@ -248,7 +248,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             descSlot={
               <>
                 <h4 className={b('item-heading').mix('heading gap-y-xs')}>
-                  <a className="link" href="#">
+                  <a className={bLink()} href="#">
                     Название темы
                   </a>{' '}
                   <span className={b('item-heading-misc')}>
@@ -265,7 +265,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             }
             statSlot={
               <>
-                <a className="link link_action" href="#">
+                <a className={bLink({ action: true })} href="#">
                   Отрывок текста...
                 </a>
                 <UserStamp
@@ -281,7 +281,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             descSlot={
               <>
                 <h4 className={b('item-heading').mix('heading gap-y-xs')}>
-                  <a className="link" href="#">
+                  <a className={bLink()} href="#">
                     Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
                     темы темы
                   </a>{' '}
@@ -299,7 +299,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             }
             statSlot={
               <>
-                <a className="link link_action" href="#">
+                <a className={bLink({ action: true })} href="#">
                   Отрывок текста текста...
                 </a>
                 <UserStamp
@@ -315,7 +315,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             descSlot={
               <>
                 <h4 className={b('item-heading').mix('heading gap-y-xs')}>
-                  <a className="link" href="#">
+                  <a className={bLink()} href="#">
                     Название темы
                   </a>{' '}
                   <span className={b('item-heading-misc')}>
@@ -332,7 +332,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             }
             statSlot={
               <>
-                <a className="link link_action" href="#">
+                <a className={bLink({ action: true })} href="#">
                   Отрывок текста...
                 </a>
                 <UserStamp
@@ -348,7 +348,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             descSlot={
               <>
                 <h4 className={b('item-heading').mix('heading gap-y-xs')}>
-                  <a className="link" href="#">
+                  <a className={bLink()} href="#">
                     Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
                     темы темы
                   </a>{' '}
@@ -366,7 +366,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             }
             statSlot={
               <>
-                <a className="link link_action" href="#">
+                <a className={bLink({ action: true })} href="#">
                   Отрывок текста текста...
                 </a>
                 <UserStamp
@@ -382,7 +382,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             descSlot={
               <>
                 <h4 className={b('item-heading').mix('heading gap-y-xs')}>
-                  <a className="link" href="#">
+                  <a className={bLink()} href="#">
                     Название темы
                   </a>{' '}
                   <span className={b('item-heading-misc')}>
@@ -399,7 +399,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             }
             statSlot={
               <>
-                <a className="link link_action" href="#">
+                <a className={bLink({ action: true })} href="#">
                   Отрывок текста...
                 </a>
                 <UserStamp
@@ -415,7 +415,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             descSlot={
               <>
                 <h4 className={b('item-heading').mix('heading gap-y-xs')}>
-                  <a className="link" href="#">
+                  <a className={bLink()} href="#">
                     Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
                     темы темы
                   </a>{' '}
@@ -433,7 +433,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             }
             statSlot={
               <>
-                <a className="link link_action" href="#">
+                <a className={bLink({ action: true })} href="#">
                   Отрывок текста текста...
                 </a>
                 <UserStamp
@@ -449,7 +449,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             descSlot={
               <>
                 <h4 className={b('item-heading').mix('heading gap-y-xs')}>
-                  <a className="link" href="#">
+                  <a className={bLink()} href="#">
                     Название темы
                   </a>{' '}
                   <span className={b('item-heading-misc')}>
@@ -466,7 +466,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             }
             statSlot={
               <>
-                <a className="link link_action" href="#">
+                <a className={bLink({ action: true })} href="#">
                   Отрывок текста...
                 </a>
                 <UserStamp
@@ -482,7 +482,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             descSlot={
               <>
                 <h4 className={b('item-heading').mix('heading gap-y-xs')}>
-                  <a className="link" href="#">
+                  <a className={bLink()} href="#">
                     Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
                     темы темы
                   </a>{' '}
@@ -500,7 +500,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             }
             statSlot={
               <>
-                <a className="link link_action" href="#">
+                <a className={bLink({ action: true })} href="#">
                   Отрывок текста текста...
                 </a>
                 <UserStamp
@@ -513,8 +513,8 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           />
         </div>
         <div className={b('toolbar')}>
-          <div className={b('toolbar-slot', { paging: true })}>
-            <Paging total={10} current={1} baseURL="/threads" className={b('paging')} />
+          <div className={b('toolbar-slot', { pagination: true })}>
+            <Pagination total={10} current={1} baseURL="/threads" className={b('pagination')} />
           </div>
         </div>
       </>
@@ -546,8 +546,8 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           Название темы
         </h4>
         <div className={b('toolbar')}>
-          <div className={b('toolbar-slot', { paging: true })}>
-            <Paging total={10} current={1} baseURL="/threads" className={b('paging')} />
+          <div className={b('toolbar-slot', { pagination: true })}>
+            <Pagination total={10} current={1} baseURL="/threads" className={b('pagination')} />
           </div>
         </div>
         <div className={b('page')}>
@@ -556,8 +556,8 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           <ForumComment className={b('comment')} data={mockComment} />
         </div>
         <div className={b('toolbar')}>
-          <div className={b('toolbar-slot', { paging: true })}>
-            <Paging total={10} current={1} baseURL="/threads" className={b('paging')} />
+          <div className={b('toolbar-slot', { pagination: true })}>
+            <Pagination total={10} current={1} baseURL="/threads" className={b('pagination')} />
           </div>
         </div>
         <form action="#" className={b('reply')}>
@@ -616,7 +616,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
     <div className={b()}>
       <header className={b('header')}>
         <h1 className={b('main-heading').mix('heading')}>
-          <a className="link_1 link" href="#">
+          <a className={bLink({ 'text-like': true })} href="#">
             Game
           </a>
         </h1>
@@ -628,55 +628,55 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
         </div>
         <div className={b('footer-stat', { online: true })}>
           Сейчас онлайн:{' '}
-          <a className="link" href="#">
+          <a className={bLink()} href="#">
             User
           </a>
           ,{' '}
-          <a className="link" href="#">
+          <a className={bLink()} href="#">
             User
           </a>
           ,{' '}
-          <a className="link" href="#">
+          <a className={bLink()} href="#">
             User
           </a>
           ,{' '}
-          <a className="link" href="#">
+          <a className={bLink()} href="#">
             User
           </a>
           ,{' '}
-          <a className="link" href="#">
+          <a className={bLink()} href="#">
             User
           </a>
           ,{' '}
-          <a className="link" href="#">
+          <a className={bLink()} href="#">
             User
           </a>
           ,{' '}
-          <a className="link" href="#">
+          <a className={bLink()} href="#">
             User
           </a>
           ,{' '}
-          <a className="link" href="#">
+          <a className={bLink()} href="#">
             User
           </a>
           ,{' '}
-          <a className="link" href="#">
+          <a className={bLink()} href="#">
             User
           </a>
           ,{' '}
-          <a className="link" href="#">
+          <a className={bLink()} href="#">
             User
           </a>
           ,{' '}
-          <a className="link" href="#">
+          <a className={bLink()} href="#">
             User
           </a>
           ,{' '}
-          <a className="link" href="#">
+          <a className={bLink()} href="#">
             User
           </a>
           ,{' '}
-          <a className="link" href="#">
+          <a className={bLink()} href="#">
             User
           </a>
         </div>

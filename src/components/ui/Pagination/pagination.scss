@@ -1,24 +1,24 @@
-.paging__item {
+.pagination__item {
   display: inline-block;
 }
-.paging__item_disabled {
+.pagination__item_disabled {
   opacity: 0.4;
 }
 
-.paging__handle {
+.pagination__handle {
   display: block;
   padding: 0.75em 1.15em;
 }
-.paging__handle,
-a.paging__handle:link,
-a.paging__handle:visited {
+.pagination__handle,
+a.pagination__handle:link,
+a.pagination__handle:visited {
   color: $text-color;
   text-decoration: none;
   transition: background-color $transition-duration, color $transition-duration;
 }
-a.paging__handle:hover,
-a.paging__handle:focus-visible,
-.paging__item_current > .paging__handle {
+a.pagination__handle:hover,
+a.pagination__handle:focus-visible,
+.pagination__item_current > .pagination__handle {
   background-color: transparentize($text-color, 0.85);
   transition-duration: 0s;
 }

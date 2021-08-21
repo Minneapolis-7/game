@@ -80,8 +80,6 @@ $button-text-color: $dark-color;
 }
 .button__icon + .button__text:empty,
 .button__text:empty + .button__icon {
-  // нивелируем дефолтное расстояние между узлами текста
-  //margin-left: -4px; // в реакте оно уже убрано
   margin-left: 0;
 }
 

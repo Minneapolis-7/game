@@ -25,7 +25,7 @@ function Icon({
       {...rest}
     >
       <svg style={{ width: size, height: size }} className={b('svg')}>
-        <use href={`#${name}`}></use>
+        <use href={`#${name}`} />
       </svg>
     </span>
   );

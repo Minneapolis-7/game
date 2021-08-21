@@ -3,7 +3,7 @@ import React from 'react';
 import Page from 'layout/Page';
 import Forum from 'modules/Forum';
 
-function ForumThreadPage({ title }: { title: string }): JSX.Element {
+function ForumThreadPage({ title }: GenericPageProps): JSX.Element {
   return (
     <Page delegated title={title}>
       <Forum thread="11" />

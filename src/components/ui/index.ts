@@ -5,4 +5,4 @@ export { Textarea } from './Input';
 export { default as Icon } from './Icon';
 export { default as Avatar } from './Avatar';
 export { default as Filepick } from './Filepick';
-export { default as Paging } from './Paging';
+export { default as Pagination } from './Pagination';

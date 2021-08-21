@@ -9,6 +9,7 @@ import replySvg from 'bootstrap-icons/icons/reply.svg';
 import bookmarkSvg from 'bootstrap-icons/icons/bookmark.svg';
 
 const b = block('forum-comment');
+const bLink = block('link');
 
 type ForumCommentProps = PropsWithChildren<{
   className?: string;
@@ -17,11 +18,18 @@ type ForumCommentProps = PropsWithChildren<{
 
 function ForumComment({ data, className = '' }: ForumCommentProps): JSX.Element {
   const { user, content, date } = data;
+
+  function getDateDistanceText() {
+    return `${formatDistance(new Date(date), Date.now(), {
+      locale: ruLocale,
+    })} назад`;
+  }
+
   return (
     <article className={b({}).mix(className.split(' '))}>
       <div className={b('user')}>
         <div className={b('user-name')}>
-          <a className="link link_action" href={`/profile/${user.id}`}>
+          <a className={bLink({ action: true })} href={`/profile/${user.id}`}>
             {user.displayName}
           </a>
         </div>
@@ -29,11 +37,8 @@ function ForumComment({ data, className = '' }: ForumCommentProps): JSX.Element 
       </div>
       <div className={b('content')}>
         <div className={b('toolbar')}>
-          <a className="link link_1" href="#">
-            <Icon align="middle" name={bookmarkSvg.id} />{' '}
-            {`${formatDistance(new Date(date), Date.now(), {
-              locale: ruLocale,
-            })} назад`}
+          <a className={bLink({ 'text-like': true })} href="#">
+            <Icon align="middle" name={bookmarkSvg.id} /> {getDateDistanceText()}
           </a>{' '}
           <Button
             display="inline"

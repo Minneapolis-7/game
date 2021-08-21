@@ -11,7 +11,7 @@ const mockUserData = {
   email: 'my@email.com',
 };
 
-function ProfileEditPasswordPage({ title }: { title: string }): JSX.Element {
+function ProfileEditPasswordPage({ title }: GenericPageProps): JSX.Element {
   return (
     <Page title={title}>
       <Profile user={mockUserData} action="edit-password" />
