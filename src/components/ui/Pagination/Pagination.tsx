@@ -13,13 +13,15 @@ type PaginationItemProps = PropsWithChildren<{
 }>;
 
 function PaginationItem({ children, href, title, mod = '' }: PaginationItemProps): JSX.Element {
-  const HandleTag = href ? 'a' : 'span';
+  const tagBaseProps = {
+    className: b('handle'),
+    children,
+    title,
+  };
 
   return (
     <li className={b('item', mod)}>
-      <HandleTag href={href} title={title} className={b('handle')}>
-        {children}
-      </HandleTag>
+      {href ? <a href={href} {...tagBaseProps} /> : <span {...tagBaseProps} />}
     </li>
   );
 }

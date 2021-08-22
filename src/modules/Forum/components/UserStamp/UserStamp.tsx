@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { block } from 'bem-cn';
 import { formatDistance } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
@@ -13,11 +13,13 @@ type UserStampProps = {
 };
 
 function UserStamp({ user, date, profileURL }: UserStampProps): JSX.Element {
-  function getDateDistanceText() {
-    return `${formatDistance(date, Date.now(), {
-      locale: ruLocale,
-    })} назад`;
-  }
+  const dateDistanceText = useMemo(
+    () =>
+      `${formatDistance(date, Date.now(), {
+        locale: ruLocale,
+      })} назад`,
+    [date]
+  );
 
   return (
     <span className={b()}>
@@ -25,7 +27,7 @@ function UserStamp({ user, date, profileURL }: UserStampProps): JSX.Element {
       <a className={bLink({ action: true })} href={profileURL}>
         {user}
       </a>{' '}
-      {getDateDistanceText()}
+      {dateDistanceText}
     </span>
   );
 }

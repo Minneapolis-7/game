@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useMemo } from 'react';
 import { block } from 'bem-cn';
 import { formatDistance } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
@@ -19,11 +19,13 @@ type ForumCommentProps = PropsWithChildren<{
 function ForumComment({ data, className = '' }: ForumCommentProps): JSX.Element {
   const { user, content, date } = data;
 
-  function getDateDistanceText() {
-    return `${formatDistance(new Date(date), Date.now(), {
-      locale: ruLocale,
-    })} назад`;
-  }
+  const dateDistanceText = useMemo(
+    () =>
+      `${formatDistance(new Date(date), Date.now(), {
+        locale: ruLocale,
+      })} назад`,
+    [date]
+  );
 
   return (
     <article className={b({}).mix(className.split(' '))}>
@@ -38,7 +40,7 @@ function ForumComment({ data, className = '' }: ForumCommentProps): JSX.Element 
       <div className={b('content')}>
         <div className={b('toolbar')}>
           <a className={bLink({ 'text-like': true })} href="#">
-            <Icon align="middle" name={bookmarkSvg.id} /> {getDateDistanceText()}
+            <Icon align="middle" name={bookmarkSvg.id} /> {dateDistanceText}
           </a>{' '}
           <Button
             display="inline"
