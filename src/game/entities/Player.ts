@@ -18,6 +18,7 @@ export default class Player {
   public isJumping: boolean;
   public sprite: [number, number];
   public hitBox: PlayerHitBox;
+  public actionCallback: (event: string) => void;
 
   constructor() {
     // Стартовые координаты персонажа
@@ -30,6 +31,8 @@ export default class Player {
     this.velocityY = 0;
     this.isJumping = false;
     this.sprite = PLAYER_SPRITE_COORDS.STATIONARY;
+
+    this.actionCallback = () => null;
 
     this.hitBox = {
       top: 0,

@@ -48,3 +48,8 @@ export type Level = {
   title: string;
   tiles: number[][];
 };
+
+export type SoundSample = {
+  buffer: Promise<AudioBuffer>;
+  isLoop: boolean;
+};
