@@ -2,6 +2,8 @@ import React from 'react';
 
 import Page from 'layout/Page';
 import Leaderboard from 'modules/Leaderboard/Leaderboard';
+import { useAppDispatch, useAppSelector } from 'hooks';
+import { increment, decrement } from 'store/sliser';
 
 const mockUserList = [
   {
@@ -37,9 +39,15 @@ const mockUserList = [
 ];
 
 function LeaderboardPage({ title }: { title: string }): JSX.Element {
+  const dispatch = useAppDispatch();
+  const count = useAppSelector((state) => state.counter.points);
+
   return (
     <Page title={title}>
       <Leaderboard userList={mockUserList} />
+      <button onClick={() => dispatch(increment())}>+</button>
+      <button onClick={() => dispatch(decrement())}>-</button>
+      <div>{count}</div>
     </Page>
   );
 }
