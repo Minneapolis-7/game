@@ -1,3 +1,4 @@
+export { default as MainPage } from './MainPage';
 export { default as LoginPage } from './LoginPage';
 export { default as RegisterPage } from './RegisterPage';
 export { default as ProfilePage } from './ProfilePage';
@@ -7,3 +8,4 @@ export { default as ForumMainPage } from './ForumMainPage';
 export { default as ForumSectionPage } from './ForumSectionPage';
 export { default as ForumThreadPage } from './ForumThreadPage';
 export { default as ForumThreadCreatePage } from './ForumThreadCreatePage';
+export { default as LeaderboardPage } from './LeaderboardPage';

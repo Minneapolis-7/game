@@ -10,11 +10,18 @@ import { GameState } from 'game/types';
 
 type GameProps = {
   startLevelIndex?: number;
+  onStateUpdate: (gameState: GameState | null) => void;
 };
 
-function GameReactComponent({ startLevelIndex = 0 }: GameProps): JSX.Element {
-  const [gameState, setGameState] = useState<GameState | Record<string, unknown>>({});
+function GameReactComponent({ startLevelIndex = 0, onStateUpdate }: GameProps): JSX.Element {
+  const [gameState, setGameState] = useState<GameState | null>(null);
   const gameCanvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    if (gameState) {
+      onStateUpdate(gameState);
+    }
+  }, [onStateUpdate, gameState]);
 
   useEffect(() => {
     if (!gameCanvasRef.current) {
@@ -38,34 +45,7 @@ function GameReactComponent({ startLevelIndex = 0 }: GameProps): JSX.Element {
     return () => game.destroy();
   }, [startLevelIndex]);
 
-  return (
-    <section>
-      <canvas ref={gameCanvasRef} />
-      <p>Состояние игры в React:</p>
-      <table>
-        <thead>
-          <tr>
-            <td>Ключ</td>
-            <td>Значение</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Здоровье</td>
-            <td>{gameState.playerHealth as string}</td>
-          </tr>
-          <tr>
-            <td>Дверь разблокирована</td>
-            <td>{gameState.isDoorUnlocked ? 'Да' : 'Нет'}</td>
-          </tr>
-          <tr>
-            <td>Уровень завершён</td>
-            <td>{gameState.isLevelCompleted ? 'Да' : 'Нет'}</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-  );
+  return <canvas ref={gameCanvasRef} />;
 }
 
 export default GameReactComponent;

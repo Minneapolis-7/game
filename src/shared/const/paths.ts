@@ -8,6 +8,7 @@ const paths = {
   FORUM_SECTION: '/forum/section/id',
   FORUM_THREAD: '/forum/section/thread/id',
   FORUM_THREAD_CREATE: '/forum/section/thread/create',
+  LEADERBOARD: '/leaderboard',
 };
 
 export default paths;

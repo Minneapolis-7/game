@@ -1,4 +1,5 @@
 import {
+  MainPage,
   LoginPage,
   ProfileEditPage,
   ProfileEditPasswordPage,
@@ -8,14 +9,15 @@ import {
   ForumSectionPage,
   ForumThreadPage,
   ForumThreadCreatePage,
+  LeaderboardPage,
 } from 'pages';
 import paths from 'shared/const/paths';
 
 const routes = [
   {
     path: '/',
-    component: LoginPage,
-    title: 'Логин',
+    component: MainPage,
+    title: 'Старт',
     exact: true,
   },
   {
@@ -70,6 +72,12 @@ const routes = [
     path: paths.FORUM_THREAD_CREATE,
     component: ForumThreadCreatePage,
     title: 'Тема форума',
+    exact: true,
+  },
+  {
+    path: paths.LEADERBOARD,
+    component: LeaderboardPage,
+    title: 'Рейтинг игроков',
     exact: true,
   },
 ];
