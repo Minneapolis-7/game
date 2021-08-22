@@ -26,13 +26,17 @@
 @import '../components/ui/Icon/icon';
 @import '../components/ui/Avatar/avatar';
 @import '../components/ui/Filepick/filepick';
+@import '../components/ui/Pagination/pagination';
 
 // Компоненты приложения
+@import '../modules/Forum/components/ForumItemPreview/forum-item-preview';
+@import '../modules/Forum/components/ForumComment/forum-comment';
 @import '../components/FallbackError/fallback-error';
 
 // Модули
 @import '../modules/Auth/auth';
 @import '../modules/Profile/profile';
+@import '../modules/Forum/forum';
 @import '../modules/Leaderboard/leaderboard';
 
 // Лэйаут

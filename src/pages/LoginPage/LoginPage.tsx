@@ -7,7 +7,7 @@ import { Input, Button } from 'components/ui';
 import getRoutedButtonLink from 'shared/utils/getRoutedButtonLink';
 import paths from 'shared/const/paths';
 
-function LoginPage({ title }: { title: string }): JSX.Element {
+function LoginPage({ title }: GenericPageProps): JSX.Element {
   return (
     <Page centered title={title}>
       <Auth stage="login" heading="Вход">

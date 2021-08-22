@@ -9,6 +9,7 @@ module.exports = {
     },
     dist: {
       base: './dist',
+      static: './static',
     },
     static: {
       base: './static',

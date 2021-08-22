@@ -11,7 +11,7 @@ const mockUserData = {
   email: 'my@email.com',
 };
 
-function ProfilePage({ title }: { title: string }): JSX.Element {
+function ProfilePage({ title }: GenericPageProps): JSX.Element {
   return (
     <Page title={title}>
       <Profile user={mockUserData} />

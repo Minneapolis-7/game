@@ -34,6 +34,18 @@ ReactDOM.render(
           <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
             <Link to={paths.LEADERBOARD}>Лидерборд</Link>
           </li>
+          <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+            <Link to={paths.FORUM}>Форум</Link>
+          </li>
+          <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+            <Link to={paths.FORUM_SECTION}>Секция форума</Link>
+          </li>
+          <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+            <Link to={paths.FORUM_THREAD}>Тема форума</Link>
+          </li>
+          <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+            <Link to={paths.FORUM_THREAD_CREATE}>Создать тему</Link>
+          </li>
         </ul>
       </nav>
 

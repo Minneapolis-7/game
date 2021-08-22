@@ -89,36 +89,36 @@ video[controls]:not([tabindex^='-']):focus-visible,
 
 // Выравнивание текста
 .tac {
-  text-align: center;
+  text-align: center !important;
 }
 
 // Размеры текста
 .fs-sm {
-  font-size: $font-size-sm;
+  font-size: $font-size-sm !important;
 }
 .fs-lg {
-  font-size: $font-size-lg;
+  font-size: $font-size-lg !important;
 }
 .fs-xl {
-  font-size: $font-size-xl;
+  font-size: $font-size-xl !important;
 }
 
 // Отступы снизу
 .gap-y-gen {
-  margin-bottom: #{$gap-y-generic};
+  margin-bottom: #{$gap-y-generic} !important;
 }
 .gap-y-xs {
-  margin-bottom: #{$gap-y-xs};
+  margin-bottom: #{$gap-y-xs} !important;
 }
 .gap-y-sm {
-  margin-bottom: #{$gap-y-sm};
+  margin-bottom: #{$gap-y-sm} !important;
 }
 .gap-y-lg {
-  margin-bottom: #{$gap-y-lg};
+  margin-bottom: #{$gap-y-lg} !important;
 }
 .gap-y-xl {
-  margin-bottom: #{$gap-y-xl};
+  margin-bottom: #{$gap-y-xl} !important;
 }
 [class*='gap-y-']:last-child {
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }

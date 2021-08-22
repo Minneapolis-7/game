@@ -24,7 +24,7 @@ module.exports = ({ mode = 'production', presets = [] } = {}) =>
       context: path.resolve(__dirname, '..', settings.paths.src.base),
       entry: entries,
       output: {
-        path: path.resolve(__dirname, '..', settings.paths.dist.base),
+        path: path.resolve(__dirname, '..', settings.paths.dist.base, settings.paths.dist.static),
         publicPath: '/',
       },
       resolve: {
