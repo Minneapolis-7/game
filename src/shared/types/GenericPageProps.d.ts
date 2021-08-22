@@ -1,0 +1,1 @@
+type GenericPageProps = { title: string };

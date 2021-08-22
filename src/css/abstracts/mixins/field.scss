@@ -18,6 +18,9 @@ $field-bg-color: transparent;
 @mixin field-base_sizing_sm {
   font-size: $font-size-sm;
 }
+@mixin field-base_sizing_md {
+  font-size: $font-size-md;
+}
 @mixin field-base_sizing_lg {
   font-size: $font-size-lg;
 }
@@ -37,17 +40,17 @@ $field-bg-color: transparent;
 }
 
 // Темы
-$field-gap-x_theme_dumb-example: 1em;
-$field-bg-color_theme_dumb-example: $blue;
-@mixin field-base_theme_dumb-example {
+$field-gap-x_theme_solid: 1em;
+$field-bg-color_theme_solid: $blue-dark;
+@mixin field-base_theme_solid {
   --field-height: #{$field-height};
 
-  padding-right: $field-gap-x_theme_dumb-example;
-  padding-left: $field-gap-x_theme_dumb-example;
+  padding-right: $field-gap-x_theme_solid;
+  padding-left: $field-gap-x_theme_solid;
 }
-@mixin field-skin_theme_dumb-example {
+@mixin field-skin_theme_solid {
   border-color: transparent;
-  background-color: $field-bg-color_theme_dumb-example;
+  background-color: $field-bg-color_theme_solid;
 }
 
 @mixin field-base_theme_transparent {

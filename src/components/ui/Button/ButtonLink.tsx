@@ -31,7 +31,7 @@ export default forwardRef<HTMLAnchorElement, ButtonLinkProps>(function ButtonLin
       {...rest}
     >
       {icon && <span className={b('icon')}>{icon}</span>}
-      {children && <span className={b('text')}>{children}</span>}
+      <span className={b('text')}>{children}</span>
     </a>
   );
 });

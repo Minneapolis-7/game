@@ -2,9 +2,10 @@
 $text-font-stack: system-ui, 'Segoe UI', roboto, helvetica, arial, sans-serif, 'Apple Color Emoji',
   'Segoe UI Emoji', 'Segoe UI Symbol';
 $font-size-primary: 1em;
-$line-height-primary: 1.4;
+$line-height-primary: 1.6;
 
 $font-size-sm: 0.8rem;
+$font-size-md: 1rem;
 $font-size-lg: 1.2em;
 $font-size-xl: 1.5em;
 
@@ -46,6 +47,7 @@ $z-index-notification: 9000; // макс. 9999
 
 // Брейкпоинты
 $narrow-screen-bp: 50 * $font-size-primary; // 800px при шрифте 16px
+$forum-bp: 37.5 * $font-size-primary; // 600px при шрифте 16px
 
 // Кросс-компонентные переменные
 $section-pad-generic: 0.65rem; // общий паддинг для абстрактных секций
@@ -63,3 +65,5 @@ $gap-y-xl: $gap-y-generic * 2;
     --section-pad-x-generic: #{$gap-x-generic-lg};
   }
 }
+
+$page-gap-y: $gap-y-generic;

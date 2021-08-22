@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import getRoutedButtonLink from 'shared/utils/getRoutedButtonLink';
 import paths from 'shared/const/paths';
 
-function RegisterPage({ title }: { title: string }): JSX.Element {
+function RegisterPage({ title }: GenericPageProps): JSX.Element {
   return (
     <Page centered title={title}>
       <Auth stage="register" heading="Регистрация">

@@ -30,7 +30,7 @@ export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
       {...rest}
     >
       {icon && <span className={b('icon')}>{icon}</span>}
-      {children && <span className={b('text')}>{children}</span>}
+      <span className={b('text')}>{children}</span>
     </button>
   );
 });
