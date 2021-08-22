@@ -37,7 +37,6 @@ module.exports = ({ mode = 'production', presets = [] } = {}) =>
             settings.paths.static.assets
           ),
         },
-        modules: ['src', 'node_modules'],
         plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
       },
       module: {

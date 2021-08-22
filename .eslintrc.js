@@ -20,24 +20,13 @@ module.exports = {
     'no-tabs': 'error',
     'no-unexpected-multiline': 'error',
 
-    'import/order': ['error', { 'newlines-between': 'always' }],
-
-    // 'import/order': [
-    //   'error',
-    //   {
-    //     groups: ['external', ['internal', 'parent', 'sibling', 'index'], 'unknown'],
-    //     pathGroups: [
-    //       {
-    //         pattern: '**/*.*',
-    //         patternOptions: { matchBase: true },
-    //         group: 'unknown',
-    //         position: 'after',
-    //       },
-    //     ],
-    //     pathGroupsExcludedImportTypes: [],
-    //     'newlines-between': 'always',
-    //   },
-    // ],
+    'import/order': [
+      'error',
+      {
+        groups: ['external', ['internal', 'parent', 'sibling', 'index'], 'unknown'],
+        'newlines-between': 'always',
+      },
+    ],
   },
 
   // Линтинг TypeScript (сорсы и сервер)
@@ -84,7 +73,27 @@ module.exports = {
           },
         ],
         'import/order': 'off',
-        'simple-import-sort/imports': 'error',
+        'simple-import-sort/imports': [
+          'error',
+          {
+            groups: [
+              // Packages. `react` related packages come first.
+              ['^react', '^@?\\w'],
+              // Internal packages.
+              ['^(@|@company|@ui|components|utils|config|vendored-lib)(/.*|$)'],
+              // Side effect imports.
+              ['^\\u0000'],
+              // Parent imports. Put `..` last.
+              ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+              // Other relative imports. Put same-folder imports and `.` last.
+              ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
+              // File imports.
+              ['^.+\\..+(?<!s?css)$'],
+              // Style imports.
+              ['^.+\\.s?css$'],
+            ],
+          },
+        ],
         'import/first': 'error',
         'import/newline-after-import': 'error',
         'import/no-duplicates': 'error',
@@ -103,7 +112,10 @@ module.exports = {
         },
         'import/resolver': {
           node: {
-            paths: ['src', 'static'],
+            paths: ['static'],
+          },
+          webpack: {
+            config: './webpack/webpack.config.js',
           },
         },
       },
