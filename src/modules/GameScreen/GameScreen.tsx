@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { block } from 'bem-cn';
 
-import GameReactComponent from '@/components/GameReactComponent/GameReactComponent';
+import { GameReactComponent } from '@/components';
 import { Button } from '@/components/ui';
 
 import { GameState } from '@/game/types';
