@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 export type SignInRequest = {
-  email: string;
+  login: string;
   password: string;
 };
 

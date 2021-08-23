@@ -7,7 +7,15 @@ import { Link } from 'react-router-dom';
 import getRoutedButtonLink from 'shared/utils/getRoutedButtonLink';
 import paths from 'shared/const/paths';
 
+import { useAppDispatch } from 'hooks';
+import { signupReguested } from 'store/signupReducers';
+
 function RegisterPage({ title }: GenericPageProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const onSubmit = () => {
+    dispatch(signupReguested());
+  };
+
   return (
     <Page centered title={title}>
       <Auth stage="register" heading="Регистрация">
@@ -65,7 +73,8 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
           />
         </div>
         <div className="gap-y-sm">
-          <Button type="submit" display="block">
+          {/* <Button type="submit" display="block"> */}
+          <Button onClick={onSubmit} display="block">
             Зарегистрироваться
           </Button>
         </div>
