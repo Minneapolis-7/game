@@ -7,16 +7,7 @@ import { Input, Button } from 'components/ui';
 import getRoutedButtonLink from 'shared/utils/getRoutedButtonLink';
 import paths from 'shared/const/paths';
 
-import { useAppDispatch } from 'hooks';
-import { signupReguested } from 'store/signupReducers';
-
 function LoginPage({ title }: GenericPageProps): JSX.Element {
-  const dispatch = useAppDispatch();
-  const onSubmit = () => {
-    console.log('onSubmit', signupReguested.type);
-    dispatch(signupReguested());
-  };
-
   return (
     <Page centered title={title}>
       <Auth stage="login" heading="Вход">
@@ -40,8 +31,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
           />
         </div>
         <div className="gap-y-sm">
-          {/* <Button onClick={onSubmit} type="submit" display="block"> */}
-          <Button onClick={onSubmit} display="block">
+          <Button type="submit" display="block">
             Войти
           </Button>
         </div>
