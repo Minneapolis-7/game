@@ -92,7 +92,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
         </Avatar>
       </header>
       <div className={b('content')}>
-        <h4 className={b('name').mix('heading')}>{user.firstName}</h4>
+        <h4 className={b('name').mix('heading_4', 'heading')}>{user.firstName}</h4>
         <form data-action={action} className="js-profile__form" action="#">
           <table className={b('table')}>
             <tbody className={b('table-body')}>
