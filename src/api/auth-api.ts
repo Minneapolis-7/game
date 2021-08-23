@@ -1,5 +1,6 @@
-import { transformUserToDTO } from '@/shared/utils/transformUser';
 import { User } from '@/shared/types/types';
+import { transformUserToDTO } from '@/shared/utils/transformUser';
+
 import { apiYandex } from './api';
 import { SignInRequest, UserDTO } from './types';
 

@@ -1,10 +1,10 @@
-import { PlayerHitBox, ControlKeysState, PlayerPosition } from '@/game/types';
 import {
   GAME_CONFIG,
   PLAYER_SPRITE_COORDS,
   SPRITE_SIZE_X,
   SPRITE_SIZE_Y,
 } from '@/game/shared/constants';
+import { ControlKeysState, PlayerHitBox, PlayerPosition } from '@/game/types';
 
 type World = import('@/game/entities/World').default;
 

@@ -1,14 +1,15 @@
 import React from 'react';
 import { block } from 'bem-cn';
-import { Button, ButtonLink, Icon, Textarea, Input, Pagination } from '@/components/ui';
-import addNewThreadSvg from 'bootstrap-icons/icons/plus-lg.svg';
-import viewCountSvg from 'bootstrap-icons/icons/eye.svg';
-import commentCountSvg from 'bootstrap-icons/icons/chat-square.svg';
-import backSvg from 'bootstrap-icons/icons/caret-left.svg';
 
+import { Button, ButtonLink, Icon, Input, Pagination, Textarea } from '@/components/ui';
+import ForumComment from '@/modules/Forum/components/ForumComment';
 import ForumItemPreview from '@/modules/Forum/components/ForumItemPreview';
 import UserStamp from '@/modules/Forum/components/UserStamp';
-import ForumComment from '@/modules/Forum/components/ForumComment';
+
+import backSvg from 'bootstrap-icons/icons/caret-left.svg';
+import commentCountSvg from 'bootstrap-icons/icons/chat-square.svg';
+import viewCountSvg from 'bootstrap-icons/icons/eye.svg';
+import addNewThreadSvg from 'bootstrap-icons/icons/plus-lg.svg';
 
 const b = block('forum');
 const bLink = block('link');

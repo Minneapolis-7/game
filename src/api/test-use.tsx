@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
 import API from './auth-api';
+
 import { User } from '../shared/types/types';
 
 const TestAPI = (): JSX.Element => {
