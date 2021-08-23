@@ -16,7 +16,7 @@
     "lint:css": "stylelint **/*.scss --fix",
     "lint:js": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
     "lint": "concurrently npm:lint:*",
-    "precommit": "npm run lint",
+    "pre-commit": "npm run lint",
     "prepare": "husky install"
   },
   "repository": {
