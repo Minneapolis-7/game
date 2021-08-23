@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import API from './auth-api';
-import { User } from '../types';
+import { User } from '../shared/types/types';
 
 const TestAPI = (): JSX.Element => {
   const [id, setId] = useState<number | null>(null);

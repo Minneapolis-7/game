@@ -1,6 +1,6 @@
 import React, { AnchorHTMLAttributes, ForwardedRef, forwardRef } from 'react';
-import { ButtonLinkProps } from 'components/ui/Button/ButtonLink';
-import { ButtonLink } from 'components/ui';
+import { ButtonLinkProps } from '@/components/ui/Button/ButtonLink';
+import { ButtonLink } from '@/components/ui';
 
 export default function getRoutedButtonLink(buttonLinkProps: ButtonLinkProps) {
   return forwardRef(function WrappedButtonLink(

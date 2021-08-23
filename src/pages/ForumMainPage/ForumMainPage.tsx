@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Page from 'layout/Page';
-import Forum from 'modules/Forum';
+import Page from '@/layout/Page';
+import Forum from '@/modules/Forum';
 
 function ForumMainPage({ title }: GenericPageProps): JSX.Element {
   return (

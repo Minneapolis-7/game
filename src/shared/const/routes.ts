@@ -10,8 +10,8 @@ import {
   ForumThreadPage,
   ForumThreadCreatePage,
   LeaderboardPage,
-} from 'pages';
-import paths from 'shared/const/paths';
+} from '@/pages';
+import paths from '@/shared/const/paths';
 
 const routes = [
   {

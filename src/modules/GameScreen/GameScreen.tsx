@@ -1,10 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { block } from 'bem-cn';
 
-import GameReactComponent from 'components/GameReactComponent/GameReactComponent';
-import { Button } from 'components/ui';
+import GameReactComponent from '@/components/GameReactComponent/GameReactComponent';
+import { Button } from '@/components/ui';
 
-import { GameState } from 'game/types';
+import { GameState } from '@/game/types';
 
 import introImage from 'assets/img/game/intro.png';
 import winImage from 'assets/img/game/win.png';

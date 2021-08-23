@@ -2,10 +2,10 @@ import React, { useCallback } from 'react';
 import { block } from 'bem-cn';
 import { Link } from 'react-router-dom';
 
-import { Avatar, Input, Button, Filepick } from 'components/ui';
-import getResourceURL from 'shared/utils/getResourceURL';
-import getRoutedButtonLink from 'shared/utils/getRoutedButtonLink';
-import paths from 'shared/const/paths';
+import { Avatar, Input, Button, Filepick } from '@/components/ui';
+import getResourceURL from '@/shared/utils/getResourceURL';
+import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
+import paths from '@/shared/const/paths';
 
 const b = block('profile');
 

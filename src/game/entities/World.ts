@@ -1,6 +1,6 @@
-import { ControlKeysState, XYCoordinates } from 'game/types';
-import GameObject from 'game/entities/GameObject';
-import Player from 'game/entities/Player';
+import { ControlKeysState, XYCoordinates } from '@/game/types';
+import GameObject from '@/game/entities/GameObject';
+import Player from '@/game/entities/Player';
 import {
   GAME_CONFIG,
   CANVAS_SIZE_X,
