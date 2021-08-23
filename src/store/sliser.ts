@@ -16,11 +16,13 @@ export const counterSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    increment: (state) => {
+    increment: (state, action: PayloadAction<number>) => {
+      console.log('+', action);
       // eslint-disable-next-line no-param-reassign
       state.points += 1;
     },
-    decrement: (state) => {
+    decrement: (state, action: PayloadAction<string>) => {
+      console.log('-', action);
       // eslint-disable-next-line no-param-reassign
       state.points -= 1;
     },

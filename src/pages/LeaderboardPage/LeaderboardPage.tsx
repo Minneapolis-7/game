@@ -42,11 +42,16 @@ function LeaderboardPage({ title }: { title: string }): JSX.Element {
   const dispatch = useAppDispatch();
   const count = useAppSelector((state) => state.counter.points);
 
+  const onSomeButtonClicked = () => {
+    dispatch({ type: 'USER_FETCH_REQUESTED', payload: { userId: 5 } });
+  };
+
   return (
     <Page title={title}>
       <Leaderboard userList={mockUserList} />
-      <button onClick={() => dispatch(increment())}>+</button>
-      <button onClick={() => dispatch(decrement())}>-</button>
+      <button onClick={() => dispatch(increment(5))}>+</button>
+      <button onClick={() => dispatch(decrement('5'))}>-</button>
+      <button onClick={onSomeButtonClicked}>saga</button>
       <div>{count}</div>
     </Page>
   );
