@@ -2,11 +2,13 @@ import React, { PropsWithChildren, useMemo } from 'react';
 import { block } from 'bem-cn';
 import { formatDistance } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
-import { Avatar, Button, Icon } from 'components/ui';
-import editSvg from 'bootstrap-icons/icons/pencil.svg';
-import deleteSvg from 'bootstrap-icons/icons/x-lg.svg';
-import replySvg from 'bootstrap-icons/icons/reply.svg';
+
+import { Avatar, Button, Icon } from '@/components/ui';
+
 import bookmarkSvg from 'bootstrap-icons/icons/bookmark.svg';
+import editSvg from 'bootstrap-icons/icons/pencil.svg';
+import replySvg from 'bootstrap-icons/icons/reply.svg';
+import deleteSvg from 'bootstrap-icons/icons/x-lg.svg';
 
 const b = block('forum-comment');
 const bLink = block('link');

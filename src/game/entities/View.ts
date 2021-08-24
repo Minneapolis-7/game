@@ -1,15 +1,15 @@
+import GameObject from '@/game/entities/GameObject';
+import Player from '@/game/entities/Player';
+import Sprite from '@/game/entities/Sprite';
+import World, { LevelObjects } from '@/game/entities/World';
 import {
+  CANVAS_BACKGROUND,
   CANVAS_SIZE_X,
   CANVAS_SIZE_Y,
-  CANVAS_BACKGROUND,
   SPRITE_SIZE_X,
   SPRITE_SIZE_Y,
-} from 'game/shared/constants';
-import Sprite from 'game/entities/Sprite';
-import GameObject from 'game/entities/GameObject';
-import Player from 'game/entities/Player';
-import World, { LevelObjects } from 'game/entities/World';
-import { ControlKeysState } from 'game/types';
+} from '@/game/shared/constants';
+import { ControlKeysState } from '@/game/types';
 
 export default class View {
   public canvas: HTMLCanvasElement;

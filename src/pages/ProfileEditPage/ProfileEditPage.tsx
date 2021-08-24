@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Page from 'layout/Page';
-import Profile from 'modules/Profile';
+import Page from '@/layout/Page';
+import Profile from '@/modules/Profile';
 
 const mockUserData = {
   firstName: 'Имя',

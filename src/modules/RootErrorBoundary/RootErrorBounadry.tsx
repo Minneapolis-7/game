@@ -1,7 +1,7 @@
-import React, { Component, PropsWithChildren, ReactNode, ErrorInfo } from 'react';
+import React, { Component, ErrorInfo, PropsWithChildren, ReactNode } from 'react';
 
-import FallbackError from 'components/FallbackError';
-import logClientError from 'utils/logClientError';
+import FallbackError from '@/components/FallbackError';
+import logClientError from '@/shared/utils/logClientError';
 
 type RootErrorBoundaryProps = PropsWithChildren<Record<string, unknown>>;
 

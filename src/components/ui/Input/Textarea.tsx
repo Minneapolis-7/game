@@ -1,4 +1,4 @@
-import React, { TextareaHTMLAttributes, forwardRef } from 'react';
+import React, { forwardRef, TextareaHTMLAttributes } from 'react';
 import { block } from 'bem-cn';
 
 import { InputBaseProps } from './types';
