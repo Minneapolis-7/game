@@ -1,16 +1,35 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import * as yup from 'yup';
 
 import Page from 'layout/Page';
 import Auth from 'modules/Auth';
-import { Input, Button } from 'components/ui';
-import getRoutedButtonLink from 'shared/utils/getRoutedButtonLink';
-import paths from 'shared/const/paths';
+import { Input } from 'components/formik-ui';
+import { SchemaOf } from 'yup/es';
+
+type LoginFields = Pick<RegistrationData, 'login' | 'password'>;
+const loginInitialValues = {
+  login: '',
+  password: '',
+};
+const loginSchema: SchemaOf<LoginFields> = yup
+  .object()
+  .shape({
+    login: yup.string().required('Заполните поле'),
+    password: yup.string().required('Заполните поле'),
+  })
+  .defined();
 
 function LoginPage({ title }: GenericPageProps): JSX.Element {
   return (
     <Page centered title={title}>
-      <Auth stage="login" heading="Вход">
+      <Auth
+        initialValues={loginInitialValues}
+        validationSchema={loginSchema}
+        stage="login"
+        heading="Вход"
+        submitLabel="Войти"
+        alternativeActionLabel="Зарегистрироваться"
+      >
         <div className="gap-y-xl">
           <Input
             className="gap-y-lg"
@@ -28,21 +47,6 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
             autoComplete="current-password"
             id="password"
             name="password"
-          />
-        </div>
-        <div className="gap-y-sm">
-          <Button type="submit" display="block">
-            Войти
-          </Button>
-        </div>
-        <div className="gap-y-sm">
-          <Link
-            to={paths.REGISTER}
-            component={getRoutedButtonLink({
-              display: 'block',
-              children: 'Регистрация',
-              theme: 'link',
-            })}
           />
         </div>
       </Auth>

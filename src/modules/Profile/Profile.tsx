@@ -1,18 +1,48 @@
 import React, { useCallback } from 'react';
+import * as yup from 'yup';
+import { Formik, Form } from 'formik';
 import { block } from 'bem-cn';
 import { Link } from 'react-router-dom';
 
-import { Avatar, Input, Button, Filepick } from 'components/ui';
+import { Avatar, Button, Filepick } from 'components/ui';
+import { Input } from 'components/formik-ui';
 import getResourceURL from 'shared/utils/getResourceURL';
 import getRoutedButtonLink from 'shared/utils/getRoutedButtonLink';
 import paths from 'shared/const/paths';
+import { SchemaOf } from 'yup/es';
 
 const b = block('profile');
 
-type ProfileProps = {
-  user: Record<string, any>; // todo: указать тип
-  action?: string;
+type ProfileFields = {
+  displayName: string;
+} & Omit<RegistrationData, 'password' | 'passwordRepeat'>;
+const ProfileFieldsSchema: SchemaOf<ProfileFields> = yup
+  .object()
+  .shape({
+    email: yup.string().email('Укажите email').required('Заполните поле'),
+    login: yup.string().min(3, 'Введите более 3 символов').required('Заполните поле'),
+    firstName: yup.string().required('Заполните поле'),
+    secondName: yup.string().required('Заполните поле'),
+    displayName: yup.string().max(20, 'Введите не более 20 символов'),
+  })
+  .defined();
+
+type PasswordFields = {
+  oldPassword: string;
+  newPassword: string;
 };
+const PasswordFieldsInitialValues = {
+  oldPassword: '',
+  newPassword: '',
+};
+const PasswordFieldsSchema: SchemaOf<PasswordFields> = yup
+  .object()
+  .shape({
+    oldPassword: yup.string().required('Заполните поле'),
+    newPassword: yup.string().required('Заполните поле'),
+  })
+  .defined();
+
 type ProfileTableRowProps = {
   label: string;
   value?: string;
@@ -39,11 +69,11 @@ function ProfileTableRow({
       id={id}
       display="inline"
       theme="transparent"
-      defaultValue={value}
-      hint={label}
+      hint="Редактировать"
       type={inputType}
       required={required}
       autoComplete={autoComplete}
+      onFocus={(e) => e.target.select()}
     />
   );
   // ZERO-WIDTH-SPACE (\u200B) — на случай, если `value` пуст, нужно для выравнвиания текста
@@ -73,10 +103,27 @@ function ProfileTableRow({
   );
 }
 
+type ProfileProps = {
+  user: Record<string, any>; // todo: указать тип
+  action?: 'edit' | 'edit-password';
+};
+
 function Profile({ user, action }: ProfileProps): JSX.Element {
   const handleAvatarChange = useCallback((e) => {
     alert(`Загрузить ${e.target.files[0].name}`);
   }, []);
+  let initialValues = {};
+  let validationSchema = {};
+
+  if (action === 'edit') {
+    initialValues = user;
+    validationSchema = ProfileFieldsSchema;
+  }
+
+  if (action === 'edit-password') {
+    initialValues = PasswordFieldsInitialValues;
+    validationSchema = PasswordFieldsSchema;
+  }
 
   return (
     <div className={b()}>
@@ -93,105 +140,123 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
       </header>
       <div className={b('content')}>
         <h4 className={b('name').mix('heading')}>{user.firstName}</h4>
-        <form data-action={action} className="js-profile__form" action="#">
-          <table className={b('table')}>
-            <tbody className={b('table-body')}>
-              {(action === 'edit' || !action) && (
-                <>
-                  <ProfileTableRow
-                    label="Почта"
-                    value={user.email}
-                    id="email"
-                    inputType="email"
-                    action={action}
-                  />
-                  <ProfileTableRow label="Логин" value={user.login} id="login" action={action} />
-                  <ProfileTableRow
-                    label="Имя"
-                    value={user.firstName}
-                    id="firstName"
-                    action={action}
-                  />
-                  <ProfileTableRow
-                    label="Фамилия"
-                    value={user.secondName}
-                    id="secondName"
-                    action={action}
-                  />
-                  <ProfileTableRow
-                    label="Ник в игре"
-                    value={user.displayName}
-                    id="displayName"
-                    action={action}
-                  />
-                </>
-              )}
-              {action === 'edit-password' && (
-                <>
-                  <ProfileTableRow
-                    label="Старый пароль"
-                    value={user.password}
-                    id="oldPassword"
-                    inputType="password"
-                    autoComplete="current-password"
-                    action={action}
-                  />
-                  <ProfileTableRow
-                    label="Новый пароль"
-                    id="newPassword"
-                    inputType="password"
-                    autoComplete="new-password"
-                    action={action}
-                  />
-                </>
-              )}
-            </tbody>
-            <tfoot className={b('table-tfoot')}>
-              {!action && (
-                <>
-                  <tr className={b('table-row')}>
-                    <td colSpan={2} className={b('table-cell')}>
-                      <Link
-                        to={paths.PROFILE_EDIT}
-                        component={getRoutedButtonLink({
-                          theme: 'link',
-                          children: 'Изменить данные',
-                        })}
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={(values, actions) => {
+            setTimeout(() => {
+              alert(JSON.stringify(values, null, 2));
+              actions.setSubmitting(false);
+            }, 400);
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form data-action={action} className="js-profile__form" noValidate>
+              <table className={b('table')}>
+                <tbody className={b('table-body')}>
+                  {(action === 'edit' || !action) && (
+                    <>
+                      <ProfileTableRow
+                        label="Почта"
+                        value={user.email}
+                        id="email"
+                        inputType="email"
+                        action={action}
                       />
-                    </td>
-                  </tr>
-                  <tr className={b('table-row')}>
-                    <td colSpan={2} className={b('table-cell')}>
-                      <Link
-                        to={paths.PROFILE_EDIT_PASSWORD}
-                        component={getRoutedButtonLink({
-                          theme: 'link',
-                          children: 'Изменить пароль',
-                        })}
+                      <ProfileTableRow
+                        label="Логин"
+                        value={user.login}
+                        id="login"
+                        action={action}
                       />
-                    </td>
-                  </tr>
-                  <tr className={b('table-row')}>
-                    <td colSpan={2} className={b('table-cell')}>
-                      <Button className="js-profile__logout" theme="link-danger">
-                        Выйти
-                      </Button>
-                    </td>
-                  </tr>
-                </>
-              )}
-              {action && (
-                <tr className={b('table-row')}>
-                  <td colSpan={2} className={b('table-cell')}>
-                    <Button type="submit" theme="some">
-                      Сохранить
-                    </Button>
-                  </td>
-                </tr>
-              )}
-            </tfoot>
-          </table>
-        </form>
+                      <ProfileTableRow
+                        label="Имя"
+                        value={user.firstName}
+                        id="firstName"
+                        action={action}
+                      />
+                      <ProfileTableRow
+                        label="Фамилия"
+                        value={user.secondName}
+                        id="secondName"
+                        action={action}
+                      />
+                      <ProfileTableRow
+                        label="Ник в игре"
+                        value={user.displayName}
+                        id="displayName"
+                        action={action}
+                      />
+                    </>
+                  )}
+                  {action === 'edit-password' && (
+                    <>
+                      <ProfileTableRow
+                        label="Старый пароль"
+                        value={user.password}
+                        id="oldPassword"
+                        inputType="password"
+                        autoComplete="current-password"
+                        action={action}
+                      />
+                      <ProfileTableRow
+                        label="Новый пароль"
+                        id="newPassword"
+                        inputType="password"
+                        autoComplete="new-password"
+                        action={action}
+                      />
+                    </>
+                  )}
+                </tbody>
+                <tfoot className={b('table-tfoot')}>
+                  {!action && (
+                    <>
+                      <tr className={b('table-row')}>
+                        <td colSpan={2} className={b('table-cell')}>
+                          <Link
+                            to={paths.PROFILE_EDIT}
+                            component={getRoutedButtonLink({
+                              theme: 'link',
+                              children: 'Изменить данные',
+                            })}
+                          />
+                        </td>
+                      </tr>
+                      <tr className={b('table-row')}>
+                        <td colSpan={2} className={b('table-cell')}>
+                          <Link
+                            to={paths.PROFILE_EDIT_PASSWORD}
+                            component={getRoutedButtonLink({
+                              theme: 'link',
+                              children: 'Изменить пароль',
+                            })}
+                          />
+                        </td>
+                      </tr>
+                      <tr className={b('table-row')}>
+                        <td colSpan={2} className={b('table-cell')}>
+                          <Button className="js-profile__logout" theme="link-danger">
+                            Выйти
+                          </Button>
+                        </td>
+                      </tr>
+                    </>
+                  )}
+                  {action && (
+                    <tr className={b('table-row')}>
+                      <td colSpan={2} className={b('table-cell')}>
+                        <Button type="submit" disabled={isSubmitting}>
+                          Сохранить
+                        </Button>
+                      </td>
+                    </tr>
+                  )}
+                </tfoot>
+              </table>
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );

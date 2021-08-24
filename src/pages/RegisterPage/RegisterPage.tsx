@@ -1,16 +1,45 @@
 import React from 'react';
+import * as yup from 'yup';
 
 import Page from 'layout/Page';
 import Auth from 'modules/Auth';
-import { Input, Button } from 'components/ui';
-import { Link } from 'react-router-dom';
-import getRoutedButtonLink from 'shared/utils/getRoutedButtonLink';
-import paths from 'shared/const/paths';
+import { Input } from 'components/formik-ui';
+import { SchemaOf } from 'yup/es';
+
+const registerInitialValues = {
+  email: '',
+  login: '',
+  firstName: '',
+  secondName: '',
+  password: '',
+  passwordRepeat: '',
+};
+const registerSchema: SchemaOf<RegistrationData> = yup
+  .object()
+  .shape({
+    email: yup.string().email('Укажите email').required('Заполните поле'),
+    login: yup.string().min(3, 'Введите более 3 символов').required('Заполните поле'),
+    firstName: yup.string().required('Заполните поле'),
+    secondName: yup.string().required('Заполните поле'),
+    password: yup.string().required('Заполните поле'),
+    passwordRepeat: yup
+      .string()
+      .oneOf([yup.ref('password'), null], 'Повторите пароль')
+      .required('Заполните поле'),
+  })
+  .defined();
 
 function RegisterPage({ title }: GenericPageProps): JSX.Element {
   return (
     <Page centered title={title}>
-      <Auth stage="register" heading="Регистрация">
+      <Auth
+        initialValues={registerInitialValues}
+        validationSchema={registerSchema}
+        stage="register"
+        heading="Регистрация"
+        submitLabel="Зарегистрироваться"
+        alternativeActionLabel="Войти"
+      >
         <div className="gap-y-xl">
           <Input
             className="gap-y-lg"
@@ -34,16 +63,16 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
             hint="Имя"
             required
             autoComplete="given-name"
-            id="first_name"
-            name="first_name"
+            id="firstName"
+            name="firstName"
           />
           <Input
             className="gap-y-lg"
             hint="Фамилия"
             required
             autoComplete="family-name"
-            id="second_name"
-            name="second_name"
+            id="secondName"
+            name="secondName"
           />
           <Input
             type="password"
@@ -60,23 +89,8 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
             hint="Повторите пароль"
             required
             autoComplete="new-password"
-            id="password_repeat"
-            name="password_repeat"
-          />
-        </div>
-        <div className="gap-y-sm">
-          <Button type="submit" display="block">
-            Зарегистрироваться
-          </Button>
-        </div>
-        <div className="gap-y-sm">
-          <Link
-            to={paths.LOGIN}
-            component={getRoutedButtonLink({
-              display: 'block',
-              children: 'Вход',
-              theme: 'link',
-            })}
+            id="passwordRepeat"
+            name="passwordRepeat"
           />
         </div>
       </Auth>
