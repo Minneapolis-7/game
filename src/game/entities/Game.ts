@@ -9,7 +9,7 @@ import GameObject, { GameObjectConstructorOptions } from '@/game/entities/GameOb
 import Sound from '@/game/entities/Sound';
 import View from '@/game/entities/View';
 import World, { LevelObjects } from '@/game/entities/World';
-import { CONTROL_KEY, GAME_STATE_KEY } from '@/game/shared/constants';
+import { CONTROL_KEY, GAME_STATE_KEY, SOUND } from '@/game/shared/constants';
 import { GameState, Level } from '@/game/types';
 
 type GameConstructorOptions = {
@@ -94,7 +94,7 @@ export default class Game {
         hasCollision: true,
         onAbove: ({ player }) => {
           player.setVelocityY(-10);
-          this.sound.play('trampoline');
+          this.sound.play(SOUND.TRAMPOLINE);
         },
       },
       // Лёд
@@ -114,7 +114,7 @@ export default class Game {
         onOver: ({ gameObject }) => {
           gameObject.setSprite([32, 64]);
           this.setGameState(GAME_STATE_KEY.IS_DOOR_UNLOCKED, true);
-          this.sound.play('key');
+          this.sound.play(SOUND.KEY);
         },
       },
       // Дверь
@@ -124,7 +124,7 @@ export default class Game {
         onOver: ({ gameObject }) => {
           if (this.gameState.isDoorUnlocked) {
             gameObject.setSprite([32, 96]);
-            this.sound.play('door');
+            this.sound.play(SOUND.DOOR);
 
             setTimeout(() => {
               this.setGameState(GAME_STATE_KEY.IS_LEVEL_COMPLETED, true);
@@ -146,7 +146,7 @@ export default class Game {
             player.setVelocityX(10);
           }
 
-          this.sound.play('spikes');
+          this.sound.play(SOUND.SPIKES);
         },
       },
       // Оранжевый портал
@@ -163,7 +163,7 @@ export default class Game {
           player.setVelocityY(0);
           player.setX(32);
           player.setY(128);
-          this.sound.play('teleport');
+          this.sound.play(SOUND.TELEPORT);
         },
       },
     ];
@@ -184,12 +184,12 @@ export default class Game {
 
   async registerSounds(): Promise<void> {
     const sounds = [
-      this.sound.add('trampoline', trampolineSound, false),
-      this.sound.add('teleport', teleportSound, false),
-      this.sound.add('key', keySound, false),
-      this.sound.add('spikes', spikesSound, false),
-      this.sound.add('door', doorSound, false),
-      this.sound.add('music', musicSound, true),
+      this.sound.add(SOUND.TRAMPOLINE, trampolineSound, false),
+      this.sound.add(SOUND.TELEPORT, teleportSound, false),
+      this.sound.add(SOUND.KEY, keySound, false),
+      this.sound.add(SOUND.SPIKES, spikesSound, false),
+      this.sound.add(SOUND.DOOR, doorSound, false),
+      this.sound.add(SOUND.MUSIC, musicSound, true),
     ];
 
     await Promise.all(sounds);
@@ -199,7 +199,7 @@ export default class Game {
     this.registerKeys();
     await this.registerSounds();
 
-    this.sound.play('music');
+    this.sound.play(SOUND.MUSIC);
 
     await this.view.init();
 
