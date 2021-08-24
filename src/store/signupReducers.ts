@@ -1,5 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+// import { appState } from './appReducers';
+import { setLoding } from './appReducers';
 // import type { RootState } from './store';
 
 // Define a type for the slice state
@@ -20,25 +22,36 @@ export const userSlice = createSlice({
   name: 'signup',
   initialState,
   reducers: {
-    signupReguested: (state) => {
-      console.log('---signupReguested');
-      state.loading = true;
+    signupReguested: () => {
+      setLoding(true);
     },
-    signupReguestedSucceeded: (state, action: PayloadAction<number>) => {
-      console.log('---signupReguestedSucceeded', action.payload);
-      state.userId = action.payload;
-      state.loading = false;
+    signupReguestSucceeded: (userState, action: PayloadAction<number>) => {
+      console.log('---signUpReguestedSucceeded', action.payload);
+      userState.userId = action.payload;
+      setLoding(false);
     },
-    signupReguestedFailed: (state, action: PayloadAction<string>) => {
-      console.log('---signupReguestedFailed', action.payload);
-      state.error = true;
-      state.loading = false;
+    signinReguested: () => {
+      setLoding(true);
+    },
+    signinReguestSucceeded: (userState) => {
+      console.log('---signInReguestedSucceeded');
+      setLoding(false);
+    },
+    logoutReguestSucceeded: (userState, action: PayloadAction<number>) => {
+      console.log('---logoutReguestedSucceeded', action.payload);
+      userState.userId = action.payload;
+      setLoding(false);
     },
   },
 });
 
-export const { signupReguested, signupReguestedSucceeded, signupReguestedFailed } =
-  userSlice.actions;
+export const {
+  signupReguested,
+  signupReguestSucceeded,
+  signinReguested,
+  signinReguestSucceeded,
+  logoutReguestSucceeded,
+} = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState): number => state.counter.points;

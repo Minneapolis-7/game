@@ -1,7 +1,13 @@
-import { call, put, takeEvery } from 'typed-redux-saga';
+import { call, put, takeEvery, all } from 'typed-redux-saga';
 import API from 'api/auth-api';
 import { User } from 'types';
-import { signupReguested, signupReguestedSucceeded, signupReguestedFailed } from './signupReducers';
+import {
+  signupReguested,
+  signupReguestSucceeded,
+  signinReguested,
+  signinReguestSucceeded,
+} from './signupReducers';
+import { reguestedFailed } from './appReducers';
 
 const testUser: User = {
   firstName: 'Иван',
@@ -12,12 +18,17 @@ const testUser: User = {
   phone: '89998887777',
 };
 
+const testSignIn = {
+  login: 'new-vaano26',
+  password: 'new12344321',
+};
+
 function* signupRequest() {
   try {
     const userId = yield* call(API.signup, testUser);
-    yield put(signupReguestedSucceeded(userId));
+    yield put(signupReguestSucceeded(userId));
   } catch (e) {
-    yield put(signupReguestedFailed(e.response?.data?.reason));
+    yield put(reguestedFailed(e.response?.data?.reason));
   }
 }
 
@@ -25,4 +36,19 @@ function* signupSaga() {
   yield takeEvery(signupReguested.type, signupRequest);
 }
 
-export default signupSaga;
+function* signinRequest() {
+  try {
+    yield* call(API.signin, testSignIn);
+    yield put(signinReguestSucceeded());
+  } catch (e) {
+    yield put(reguestedFailed(e.response?.data?.reason));
+  }
+}
+
+function* signinSaga() {
+  yield takeEvery(signinReguested.type, signinRequest);
+}
+
+export default function* authSaga() {
+  yield all([signinSaga(), signupSaga()]);
+}
