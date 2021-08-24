@@ -59,7 +59,7 @@ function GameScreen(): JSX.Element {
       [GAME_SCREEN.WIN]: (
         <div className={b({ [GAME_SCREEN.WIN]: true })}>
           <img className="liquid-img" src={winImage} alt="Персонаж игры выходит в открытые двери" />
-          <h2 className="heading">Победа!</h2>
+          <h2 className="heading_2 heading">Победа!</h2>
           <Button onClick={handleGameStart} sizing="lg">
             Могу лучше!
           </Button>
@@ -68,7 +68,7 @@ function GameScreen(): JSX.Element {
       [GAME_SCREEN.LOSS]: (
         <div className={b({ [GAME_SCREEN.LOSS]: true })}>
           <img className="liquid-img" src={lossImage} alt="Персонаж игры лежит после проигрыша" />
-          <h2 className="heading">Потрачено</h2>
+          <h2 className="heading_2 heading">Потрачено</h2>
           <Button onClick={handleGameStart} sizing="lg">
             Ещё раз!
           </Button>

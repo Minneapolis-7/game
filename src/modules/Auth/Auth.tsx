@@ -11,7 +11,7 @@ type AuthProps = PropsWithChildren<{
 function Auth({ heading, stage, children }: AuthProps): JSX.Element {
   return (
     <div className={b()}>
-      <h4 className="heading">{heading}</h4>
+      <h4 className="heading_4 heading">{heading}</h4>
       <form action="#" data-action={stage} className={b('form')}>
         {children}
       </form>
