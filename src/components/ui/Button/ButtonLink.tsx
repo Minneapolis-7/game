@@ -1,5 +1,6 @@
 import React, { AnchorHTMLAttributes, forwardRef } from 'react';
 import { block } from 'bem-cn';
+
 import { ButtonBaseProps } from './types';
 
 type ButtonLinkProps = ButtonBaseProps & AnchorHTMLAttributes<HTMLAnchorElement>;
@@ -31,7 +32,7 @@ export default forwardRef<HTMLAnchorElement, ButtonLinkProps>(function ButtonLin
       {...rest}
     >
       {icon && <span className={b('icon')}>{icon}</span>}
-      {children && <span className={b('text')}>{children}</span>}
+      <span className={b('text')}>{children}</span>
     </a>
   );
 });

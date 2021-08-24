@@ -14,11 +14,11 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "*": ["./src/*"]
+      "@/*": ["./src/*"]
     },
     "outDir": "./dist",
     "typeRoots": ["typings/**/*.d.ts", "node_modules/@types"]
   },
-  "include": ["src/**/*", "typings/**/*.d.ts"],
-  "exclude": ["**/*.js", "server/*"]
+  "include": ["src/**/*", "typings/**/*.d.ts", "server/*"],
+  "exclude": ["**/*.js"]
 }

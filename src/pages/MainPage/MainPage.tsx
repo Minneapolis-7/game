@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Page from 'layout/Page';
-import GameScreen from 'modules/GameScreen';
+import Page from '@/layout/Page';
+import GameScreen from '@/modules/GameScreen';
 
 function MainPage({ title }: { title: string }): JSX.Element {
   return (

@@ -1,13 +1,17 @@
 import {
-  MainPage,
+  ForumMainPage,
+  ForumSectionPage,
+  ForumThreadCreatePage,
+  ForumThreadPage,
+  LeaderboardPage,
   LoginPage,
+  MainPage,
   ProfileEditPage,
   ProfileEditPasswordPage,
   ProfilePage,
   RegisterPage,
-  LeaderboardPage,
-} from 'pages';
-import paths from 'shared/const/paths';
+} from '@/pages';
+import paths from '@/shared/const/paths';
 
 const routes = [
   {
@@ -44,6 +48,30 @@ const routes = [
     path: paths.PROFILE_EDIT_PASSWORD,
     component: ProfileEditPasswordPage,
     title: 'Редактирование пароля',
+    exact: true,
+  },
+  {
+    path: paths.FORUM,
+    component: ForumMainPage,
+    title: 'Форум',
+    exact: true,
+  },
+  {
+    path: paths.FORUM_SECTION,
+    component: ForumSectionPage,
+    title: 'Раздел форума',
+    exact: true,
+  },
+  {
+    path: paths.FORUM_THREAD,
+    component: ForumThreadPage,
+    title: 'Тема форума',
+    exact: true,
+  },
+  {
+    path: paths.FORUM_THREAD_CREATE,
+    component: ForumThreadCreatePage,
+    title: 'Тема форума',
     exact: true,
   },
   {

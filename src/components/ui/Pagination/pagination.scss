@@ -1,0 +1,24 @@
+.pagination__item {
+  display: inline-block;
+}
+.pagination__item_disabled {
+  opacity: 0.4;
+}
+
+.pagination__handle {
+  display: block;
+  padding: 0.75em 1.15em;
+}
+.pagination__handle,
+a.pagination__handle:link,
+a.pagination__handle:visited {
+  color: $text-color;
+  text-decoration: none;
+  transition: background-color $transition-duration, color $transition-duration;
+}
+a.pagination__handle:hover,
+a.pagination__handle:focus-visible,
+.pagination__item_current > .pagination__handle {
+  background-color: transparentize($text-color, 0.85);
+  transition-duration: 0s;
+}

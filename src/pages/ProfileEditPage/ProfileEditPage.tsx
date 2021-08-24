@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Page from 'layout/Page';
-import Profile from 'modules/Profile';
+import Page from '@/layout/Page';
+import Profile from '@/modules/Profile';
 
 const mockUserData = {
   firstName: 'Имя',
@@ -11,7 +11,7 @@ const mockUserData = {
   email: 'my@email.com',
 };
 
-function ProfileEditPage({ title }: { title: string }): JSX.Element {
+function ProfileEditPage({ title }: GenericPageProps): JSX.Element {
   return (
     <Page title={title}>
       <Profile user={mockUserData} action="edit" />

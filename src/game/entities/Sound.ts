@@ -1,4 +1,4 @@
-import { SoundSample } from 'game/types';
+import { SoundSample } from '@/game/types';
 
 export default class Sound {
   ctx: AudioContext;

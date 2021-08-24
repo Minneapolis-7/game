@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Page from 'layout/Page';
-import Auth from 'modules/Auth';
-import { Input, Button } from 'components/ui';
-import getRoutedButtonLink from 'shared/utils/getRoutedButtonLink';
-import paths from 'shared/const/paths';
+import { Button, Input } from '@/components/ui';
+import Page from '@/layout/Page';
+import Auth from '@/modules/Auth';
+import paths from '@/shared/const/paths';
+import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 
-function LoginPage({ title }: { title: string }): JSX.Element {
+function LoginPage({ title }: GenericPageProps): JSX.Element {
   return (
     <Page centered title={title}>
       <Auth stage="login" heading="Вход">

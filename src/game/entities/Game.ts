@@ -1,17 +1,16 @@
-import trampolineSound from 'game/assets/trampoline.ogg';
-import teleportSound from 'game/assets/teleport.ogg';
-import keySound from 'game/assets/key.ogg';
-import spikesSound from 'game/assets/spikes.ogg';
-import doorSound from 'game/assets/door.ogg';
-import musicSound from 'game/assets/music.ogg';
-
-import { CONTROL_KEY, GAME_STATE_KEY } from 'game/shared/constants';
-import GameObject, { GameObjectConstructorOptions } from 'game/entities/GameObject';
-import World, { LevelObjects } from 'game/entities/World';
-import View from 'game/entities/View';
-import Sound from 'game/entities/Sound';
-import Control from 'game/entities/Control';
-import { GameState, Level } from 'game/types';
+import doorSound from '@/game/assets/door.ogg';
+import keySound from '@/game/assets/key.ogg';
+import musicSound from '@/game/assets/music.ogg';
+import spikesSound from '@/game/assets/spikes.ogg';
+import teleportSound from '@/game/assets/teleport.ogg';
+import trampolineSound from '@/game/assets/trampoline.ogg';
+import Control from '@/game/entities/Control';
+import GameObject, { GameObjectConstructorOptions } from '@/game/entities/GameObject';
+import Sound from '@/game/entities/Sound';
+import View from '@/game/entities/View';
+import World, { LevelObjects } from '@/game/entities/World';
+import { CONTROL_KEY, GAME_STATE_KEY } from '@/game/shared/constants';
+import { GameState, Level } from '@/game/types';
 
 type GameConstructorOptions = {
   world: World;

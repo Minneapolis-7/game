@@ -1,13 +1,13 @@
 import React from 'react';
-
-import Page from 'layout/Page';
-import Auth from 'modules/Auth';
-import { Input, Button } from 'components/ui';
 import { Link } from 'react-router-dom';
-import getRoutedButtonLink from 'shared/utils/getRoutedButtonLink';
-import paths from 'shared/const/paths';
 
-function RegisterPage({ title }: { title: string }): JSX.Element {
+import { Button, Input } from '@/components/ui';
+import Page from '@/layout/Page';
+import Auth from '@/modules/Auth';
+import paths from '@/shared/const/paths';
+import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
+
+function RegisterPage({ title }: GenericPageProps): JSX.Element {
   return (
     <Page centered title={title}>
       <Auth stage="register" heading="Регистрация">

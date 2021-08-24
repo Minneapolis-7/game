@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
-import RootErrorBoundary from 'modules/RootErrorBoundary';
-import paths from 'shared/const/paths';
-import routes from 'shared/const/routes';
 
-import 'css/main.scss';
+import RootErrorBoundary from '@/modules/RootErrorBoundary';
+import paths from '@/shared/const/paths';
+import routes from '@/shared/const/routes';
+
+import '@/css/main.scss';
 
 ReactDOM.render(
   <RootErrorBoundary>
@@ -14,7 +15,7 @@ ReactDOM.render(
       <nav style={{ position: 'absolute', left: 0, right: 0, backgroundColor: 'red' }}>
         <ul className="nolist">
           <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
-            <Link to="/">Логин на главной</Link>
+            <Link to="/">Игра</Link>
           </li>
           <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
             <Link to={paths.LOGIN}>Логин</Link>
@@ -33,6 +34,18 @@ ReactDOM.render(
           </li>
           <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
             <Link to={paths.LEADERBOARD}>Лидерборд</Link>
+          </li>
+          <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+            <Link to={paths.FORUM}>Форум</Link>
+          </li>
+          <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+            <Link to={paths.FORUM_SECTION}>Секция форума</Link>
+          </li>
+          <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+            <Link to={paths.FORUM_THREAD}>Тема форума</Link>
+          </li>
+          <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
+            <Link to={paths.FORUM_THREAD_CREATE}>Создать тему</Link>
           </li>
         </ul>
       </nav>

@@ -1,5 +1,5 @@
-import { User } from '../types';
-import { UserDTO } from '../api/types';
+import { UserDTO } from '@/api/types';
+import { User } from '@/shared/types/types';
 
 export function transformUserFromDTO(data: UserDTO): User {
   return {
