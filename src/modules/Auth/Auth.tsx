@@ -1,9 +1,9 @@
 import React, { PropsWithChildren } from 'react';
-import { Formik, Form } from 'formik';
-import { block } from 'bem-cn';
 import { Link } from 'react-router-dom';
-import { AnySchema } from 'yup/es';
+import { block } from 'bem-cn';
+import { Form, Formik } from 'formik';
 import { FormikValues } from 'formik/dist/types';
+import { AnySchema } from 'yup/es';
 
 import { Button } from '@/components/ui';
 import paths from '@/shared/const/paths';

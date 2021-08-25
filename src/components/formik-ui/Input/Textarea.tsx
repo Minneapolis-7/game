@@ -1,9 +1,9 @@
 import React, { ChangeEvent, FocusEvent, forwardRef } from 'react';
+import { FastField, Field, FieldProps } from 'formik';
 
 import OriginalTextarea, {
   TextareaProps as OriginalTextareaProps,
-} from 'components/ui/Input/Textarea';
-import { FastField, Field, FieldProps } from 'formik';
+} from '@/components/ui/Input/Textarea';
 
 type TextareaProps = FormikFieldBaseProps & OriginalTextareaProps;
 

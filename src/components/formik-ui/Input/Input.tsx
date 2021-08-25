@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FocusEvent, forwardRef } from 'react';
-
-import OriginalInput, { InputProps as OriginalInputProps } from 'components/ui/Input/Input';
 import { FastField, Field, FieldProps } from 'formik';
+
+import OriginalInput, { InputProps as OriginalInputProps } from '@/components/ui/Input/Input';
 
 type InputProps = FormikFieldBaseProps & OriginalInputProps;
 

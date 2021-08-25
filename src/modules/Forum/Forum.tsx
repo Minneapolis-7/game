@@ -1,11 +1,11 @@
 import React from 'react';
-import * as yup from 'yup';
-import { Form, Formik } from 'formik';
-import { SchemaOf } from 'yup/es';
 import { block } from 'bem-cn';
+import { Form, Formik } from 'formik';
+import * as yup from 'yup';
+import { SchemaOf } from 'yup/es';
 
+import { Input, Textarea } from '@/components/formik-ui';
 import { Button, ButtonLink, Icon, Pagination } from '@/components/ui';
-import { Textarea, Input } from '@/components/formik-ui';
 import ForumComment from '@/modules/Forum/components/ForumComment';
 import ForumItemPreview from '@/modules/Forum/components/ForumItemPreview';
 import UserStamp from '@/modules/Forum/components/UserStamp';

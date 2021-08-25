@@ -1,13 +1,12 @@
 import React, { useCallback } from 'react';
-import * as yup from 'yup';
-import { Formik, Form } from 'formik';
-import { block } from 'bem-cn';
-import { SchemaOf } from 'yup/es';
 import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
+import { Form, Formik } from 'formik';
+import * as yup from 'yup';
+import { SchemaOf } from 'yup/es';
 
-import { Avatar, Button, Filepick } from '@/components/ui';
 import { Input } from '@/components/formik-ui';
+import { Avatar, Button, Filepick } from '@/components/ui';
 import paths from '@/shared/const/paths';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
