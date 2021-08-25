@@ -4,16 +4,27 @@ export type SignInRequest = {
   password: string;
 };
 
-// SignUpRequest
 export type UserDTO = {
+  id: number;
   first_name: string;
   second_name: string;
+  display_name: string;
   login: string;
-  email: string;
   password: string;
+  email: string;
   phone: string;
+  avatar: string;
 };
 
-export type SignUpResponse = {
-  id: number;
+export type SignUpRequest = Omit<UserDTO, 'id' | 'display_name' | 'avatar'>;
+
+export type ProfileRequest = Omit<UserDTO, 'id' | 'password' | 'avatar'>;
+
+export type SignUpResponse = Pick<UserDTO, 'id'>;
+
+export type UserResponse = Omit<UserDTO, 'password'>;
+
+export type ChangePasswordRequest = {
+  oldPassword: string;
+  newPassword: string;
 };
