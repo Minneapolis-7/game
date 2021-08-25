@@ -51,5 +51,5 @@ export type Level = {
 
 export type SoundSample = {
   buffer: Promise<AudioBuffer>;
-  isLoop: boolean;
+  isLooped: boolean;
 };

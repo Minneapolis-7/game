@@ -199,9 +199,9 @@ export default class Game {
     this.registerKeys();
     await this.registerSounds();
 
-    this.sound.play(SOUND.MUSIC);
-
     await this.view.init();
+
+    this.sound.play(SOUND.MUSIC);
 
     const levelObjects = this.buildLevelObjects(this.levels[this.startLevelIndex]);
 

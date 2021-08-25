@@ -9,17 +9,17 @@ export default class Sound {
     this.samples = {};
   }
 
-  async add(id: string, src: string, isLoop: boolean): Promise<void> {
+  async add(id: string, src: string, isLooped: boolean): Promise<void> {
     const response = await fetch(src);
     const arrayBuffer = await response.arrayBuffer();
 
     this.samples[id] = {
       buffer: this.ctx.decodeAudioData(arrayBuffer),
-      isLoop,
+      isLooped,
     };
   }
 
-  play(id: string): void {
+  async play(id: string): Promise<void> {
     if (!this.samples[id]) {
       return;
     }
@@ -27,12 +27,10 @@ export default class Sound {
     const sample = this.samples[id];
     const sourceNode = this.ctx.createBufferSource();
 
-    sample.buffer.then((buffer) => {
-      sourceNode.buffer = buffer;
-      sourceNode.loop = sample.isLoop || false;
-      sourceNode.connect(this.ctx.destination);
-      sourceNode.start();
-    });
+    sourceNode.buffer = await sample.buffer;
+    sourceNode.loop = sample.isLooped || false;
+    sourceNode.connect(this.ctx.destination);
+    sourceNode.start();
   }
 
   destroy(): void {
