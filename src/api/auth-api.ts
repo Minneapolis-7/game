@@ -14,4 +14,16 @@ export default {
 
     return response?.data?.id;
   },
+
+  async logout(): Promise<void> {
+    await apiYandex.post('/auth/logout');
+  },
+
+  async profile(user: UserRequest): Promise<string> {
+    const options = {
+      data: user,
+    };
+    return userAPIInstance.put('/profile', options)
+      .then(({ response }) => response);
+  }
 };

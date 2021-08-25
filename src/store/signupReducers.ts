@@ -7,15 +7,11 @@ import { setLoding } from './appReducers';
 // Define a type for the slice state
 interface UserState {
   userId: number | null;
-  loading: boolean;
-  error: boolean;
 }
 
 // Define the initial state using that type
 const initialState: UserState = {
   userId: null,
-  loading: false,
-  error: false,
 };
 
 export const userSlice = createSlice({
@@ -33,13 +29,15 @@ export const userSlice = createSlice({
     signinReguested: () => {
       setLoding(true);
     },
-    signinReguestSucceeded: (userState) => {
+    signinReguestSucceeded: () => {
       console.log('---signInReguestedSucceeded');
       setLoding(false);
     },
-    logoutReguestSucceeded: (userState, action: PayloadAction<number>) => {
-      console.log('---logoutReguestedSucceeded', action.payload);
-      userState.userId = action.payload;
+    logoutReguested: () => {
+      setLoding(true);
+    },
+    logoutReguestSucceeded: () => {
+      console.log('---logoutReguestedSucceeded');
       setLoding(false);
     },
   },
@@ -50,6 +48,7 @@ export const {
   signupReguestSucceeded,
   signinReguested,
   signinReguestSucceeded,
+  logoutReguested,
   logoutReguestSucceeded,
 } = userSlice.actions;
 

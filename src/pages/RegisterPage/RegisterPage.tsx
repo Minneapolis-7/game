@@ -8,12 +8,12 @@ import getRoutedButtonLink from 'shared/utils/getRoutedButtonLink';
 import paths from 'shared/const/paths';
 
 import { useAppDispatch } from 'hooks';
-import { signupReguested } from 'store/signupReducers';
+import { signinReguested } from 'store/signupReducers';
 
 function RegisterPage({ title }: GenericPageProps): JSX.Element {
   const dispatch = useAppDispatch();
   const onSubmit = () => {
-    dispatch(signupReguested());
+    dispatch(signinReguested());
   };
 
   return (

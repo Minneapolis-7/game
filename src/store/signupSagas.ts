@@ -6,6 +6,8 @@ import {
   signupReguestSucceeded,
   signinReguested,
   signinReguestSucceeded,
+  logoutReguested,
+  logoutReguestSucceeded,
 } from './signupReducers';
 import { reguestedFailed } from './appReducers';
 
@@ -49,6 +51,19 @@ function* signinSaga() {
   yield takeEvery(signinReguested.type, signinRequest);
 }
 
+function* logoutRequest() {
+  try {
+    yield* call(API.logout);
+    yield put(logoutReguestSucceeded());
+  } catch (e) {
+    yield put(reguestedFailed(e.response?.data?.reason));
+  }
+}
+
+function* logoutSaga() {
+  yield takeEvery(logoutReguested.type, logoutRequest);
+}
+
 export default function* authSaga() {
-  yield all([signinSaga(), signupSaga()]);
+  yield all([signinSaga(), signupSaga(), logoutSaga()]);
 }
