@@ -1,7 +1,6 @@
 require('core-js/stable');
 require('regenerator-runtime/runtime');
 
-const path = require('path');
 const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -12,6 +11,8 @@ const loadPresets = require('./loadPresets');
 // eslint-disable-next-line import/no-dynamic-require, global-require
 const getModeConfig = (mode) => require(`./webpack.${mode}.js`)(mode);
 const settings = require('./settings');
+
+const path = require('path');
 
 const entries = {
   main: './index.tsx',
@@ -37,7 +38,6 @@ module.exports = ({ mode = 'production', presets = [] } = {}) =>
             settings.paths.static.assets
           ),
         },
-        modules: ['src', 'node_modules'],
         plugins: [new TsconfigPathsPlugin({ configFile: './tsconfig.json' })],
       },
       module: {

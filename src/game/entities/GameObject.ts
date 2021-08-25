@@ -1,4 +1,4 @@
-import Player from 'game/entities/Player';
+import Player from '@/game/entities/Player';
 
 export type GameObjectConstructorOptions = {
   id: number;

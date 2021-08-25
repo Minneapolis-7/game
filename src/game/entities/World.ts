@@ -1,10 +1,11 @@
-import { ControlKeysState, XYCoordinates } from 'game/types';
-import GameObject from 'game/entities/GameObject';
-import Player from 'game/entities/Player';
+import GameObject from '@/game/entities/GameObject';
+import Player from '@/game/entities/Player';
+import { ControlKeysState, XYCoordinates } from '@/game/types';
+
 import {
-  GAME_CONFIG,
   CANVAS_SIZE_X,
   CANVAS_SIZE_Y,
+  GAME_CONFIG,
   SPRITE_SIZE_X,
   SPRITE_SIZE_Y,
 } from '../shared/constants';

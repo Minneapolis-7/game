@@ -1,12 +1,13 @@
 import React, { PropsWithChildren } from 'react';
 import { Formik, Form } from 'formik';
 import { block } from 'bem-cn';
+import { Link } from 'react-router-dom';
 import { AnySchema } from 'yup/es';
 import { FormikValues } from 'formik/dist/types';
-import { Button } from 'components/ui';
-import { Link } from 'react-router-dom';
-import paths from 'shared/const/paths';
-import getRoutedButtonLink from 'shared/utils/getRoutedButtonLink';
+
+import { Button } from '@/components/ui';
+import paths from '@/shared/const/paths';
+import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 
 const b = block('auth');
 
@@ -41,7 +42,7 @@ function Auth(props: AuthProps): JSX.Element {
 
   return (
     <div className={b()}>
-      <h4 className="heading">{heading}</h4>
+      <h4 className="heading_4 heading">{heading}</h4>
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}

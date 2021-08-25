@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
-const path = require('path');
 const settings = require('./settings');
+
+const path = require('path');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (env) => ({

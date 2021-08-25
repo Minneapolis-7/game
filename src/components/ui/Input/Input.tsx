@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes, forwardRef } from 'react';
+import React, { forwardRef, InputHTMLAttributes } from 'react';
 import { block } from 'bem-cn';
 
 import { InputBaseProps } from './types';

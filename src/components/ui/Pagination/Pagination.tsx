@@ -1,8 +1,10 @@
 import React, { PropsWithChildren } from 'react';
 import { BemMods, block } from 'bem-cn';
-import nextPageSvg from 'bootstrap-icons/icons/caret-right-fill.svg';
+
+import { Icon } from '@/components/ui';
+
 import prevPageSvg from 'bootstrap-icons/icons/caret-left-fill.svg';
-import { Icon } from 'components/ui';
+import nextPageSvg from 'bootstrap-icons/icons/caret-right-fill.svg';
 
 const b = block('pagination');
 

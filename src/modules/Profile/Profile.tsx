@@ -2,14 +2,15 @@ import React, { useCallback } from 'react';
 import * as yup from 'yup';
 import { Formik, Form } from 'formik';
 import { block } from 'bem-cn';
-import { Link } from 'react-router-dom';
-
-import { Avatar, Button, Filepick } from 'components/ui';
-import { Input } from 'components/formik-ui';
-import getResourceURL from 'shared/utils/getResourceURL';
-import getRoutedButtonLink from 'shared/utils/getRoutedButtonLink';
-import paths from 'shared/const/paths';
 import { SchemaOf } from 'yup/es';
+import { Link } from 'react-router-dom';
+import { block } from 'bem-cn';
+
+import { Avatar, Button, Filepick } from '@/components/ui';
+import { Input } from '@/components/formik-ui';
+import paths from '@/shared/const/paths';
+import getResourceURL from '@/shared/utils/getResourceURL';
+import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 
 const b = block('profile');
 
@@ -139,7 +140,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
         </Avatar>
       </header>
       <div className={b('content')}>
-        <h4 className={b('name').mix('heading')}>{user.firstName}</h4>
+        <h4 className={b('name').mix('heading_4', 'heading')}>{user.firstName}</h4>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}

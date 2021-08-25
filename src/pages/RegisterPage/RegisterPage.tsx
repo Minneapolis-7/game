@@ -1,10 +1,10 @@
 import React from 'react';
 import * as yup from 'yup';
-
-import Page from 'layout/Page';
-import Auth from 'modules/Auth';
-import { Input } from 'components/formik-ui';
 import { SchemaOf } from 'yup/es';
+
+import { Input } from '@/components/formik-ui';
+import Page from '@/layout/Page';
+import Auth from '@/modules/Auth';
 
 const registerInitialValues = {
   email: '',

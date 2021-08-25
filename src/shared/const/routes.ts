@@ -1,17 +1,17 @@
 import {
-  MainPage,
+  ForumMainPage,
+  ForumSectionPage,
+  ForumThreadCreatePage,
+  ForumThreadPage,
+  LeaderboardPage,
   LoginPage,
+  MainPage,
   ProfileEditPage,
   ProfileEditPasswordPage,
   ProfilePage,
   RegisterPage,
-  ForumMainPage,
-  ForumSectionPage,
-  ForumThreadPage,
-  ForumThreadCreatePage,
-  LeaderboardPage,
-} from 'pages';
-import paths from 'shared/const/paths';
+} from '@/pages';
+import paths from '@/shared/const/paths';
 
 const routes = [
   {
