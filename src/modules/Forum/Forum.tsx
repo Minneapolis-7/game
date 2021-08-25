@@ -1,14 +1,15 @@
 import React from 'react';
 import { block } from 'bem-cn';
-import { Button, ButtonLink, Icon, Textarea, Input, Pagination } from 'components/ui';
-import addNewThreadSvg from 'bootstrap-icons/icons/plus-lg.svg';
-import viewCountSvg from 'bootstrap-icons/icons/eye.svg';
-import commentCountSvg from 'bootstrap-icons/icons/chat-square.svg';
-import backSvg from 'bootstrap-icons/icons/caret-left.svg';
 
-import ForumItemPreview from 'modules/Forum/components/ForumItemPreview';
-import UserStamp from 'modules/Forum/components/UserStamp';
-import ForumComment from 'modules/Forum/components/ForumComment';
+import { Button, ButtonLink, Icon, Input, Pagination, Textarea } from '@/components/ui';
+import ForumComment from '@/modules/Forum/components/ForumComment';
+import ForumItemPreview from '@/modules/Forum/components/ForumItemPreview';
+import UserStamp from '@/modules/Forum/components/UserStamp';
+
+import backSvg from 'bootstrap-icons/icons/caret-left.svg';
+import commentCountSvg from 'bootstrap-icons/icons/chat-square.svg';
+import viewCountSvg from 'bootstrap-icons/icons/eye.svg';
+import addNewThreadSvg from 'bootstrap-icons/icons/plus-lg.svg';
 
 const b = block('forum');
 const bLink = block('link');
@@ -23,12 +24,12 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
   let forumBody = (
     <>
       <div className={b('category')}>
-        <h3 className={b('heading').mix('heading')}>Об игре</h3>
+        <h3 className={b('heading').mix('heading_3', 'heading')}>Об игре</h3>
         <ForumItemPreview
           className={b('section')}
           descSlot={
             <>
-              <h4 className={b('item-heading').mix('heading')}>
+              <h4 className={b('item-heading').mix('heading_4', 'heading')}>
                 <a className={bLink()} href="#">
                   Обсуждение игры
                 </a>
@@ -53,7 +54,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           className={b('section')}
           descSlot={
             <>
-              <h4 className={b('item-heading').mix('heading')}>
+              <h4 className={b('item-heading').mix('heading_4', 'heading')}>
                 <a className={bLink()} href="#">
                   Запрос новых фич
                 </a>
@@ -78,7 +79,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           className={b('section')}
           descSlot={
             <>
-              <h4 className={b('item-heading').mix('heading')}>
+              <h4 className={b('item-heading').mix('heading_4', 'heading')}>
                 <a className={bLink()} href="#">
                   Баг-репорты
                 </a>
@@ -101,12 +102,12 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
         />
       </div>
       <div className={b('category')}>
-        <h3 className={b('heading').mix('heading')}>Общий раздел</h3>
+        <h3 className={b('heading').mix('heading_3', 'heading')}>Общий раздел</h3>
         <ForumItemPreview
           className={b('section')}
           descSlot={
             <>
-              <h4 className={b('item-heading').mix('heading')}>
+              <h4 className={b('item-heading').mix('heading_4', 'heading')}>
                 <a className={bLink()} href="#">
                   Новости игровой индустрии
                 </a>
@@ -131,7 +132,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           className={b('section')}
           descSlot={
             <>
-              <h4 className={b('item-heading').mix('heading')}>
+              <h4 className={b('item-heading').mix('heading_4', 'heading')}>
                 <a className={bLink()} href="#">
                   Общение
                 </a>
@@ -159,7 +160,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
   if (section) {
     forumBody = (
       <>
-        <h4 className={b('heading').mix('heading')}>
+        <h4 className={b('heading').mix('heading_4', 'heading')}>
           <ButtonLink
             title="Создать новую тему"
             className={b('heading-action')}
@@ -180,7 +181,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             className={b('section')}
             descSlot={
               <>
-                <h4 className={b('item-heading').mix('heading gap-y-xs')}>
+                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
                   <a className={bLink()} href="#">
                     Название темы
                   </a>{' '}
@@ -213,7 +214,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             className={b('section')}
             descSlot={
               <>
-                <h4 className={b('item-heading').mix('heading gap-y-xs')}>
+                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
                   <a className={bLink()} href="#">
                     Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
                     темы темы
@@ -247,7 +248,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             className={b('section')}
             descSlot={
               <>
-                <h4 className={b('item-heading').mix('heading gap-y-xs')}>
+                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
                   <a className={bLink()} href="#">
                     Название темы
                   </a>{' '}
@@ -280,7 +281,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             className={b('section')}
             descSlot={
               <>
-                <h4 className={b('item-heading').mix('heading gap-y-xs')}>
+                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
                   <a className={bLink()} href="#">
                     Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
                     темы темы
@@ -314,7 +315,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             className={b('section')}
             descSlot={
               <>
-                <h4 className={b('item-heading').mix('heading gap-y-xs')}>
+                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
                   <a className={bLink()} href="#">
                     Название темы
                   </a>{' '}
@@ -347,7 +348,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             className={b('section')}
             descSlot={
               <>
-                <h4 className={b('item-heading').mix('heading gap-y-xs')}>
+                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
                   <a className={bLink()} href="#">
                     Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
                     темы темы
@@ -381,7 +382,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             className={b('section')}
             descSlot={
               <>
-                <h4 className={b('item-heading').mix('heading gap-y-xs')}>
+                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
                   <a className={bLink()} href="#">
                     Название темы
                   </a>{' '}
@@ -414,7 +415,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             className={b('section')}
             descSlot={
               <>
-                <h4 className={b('item-heading').mix('heading gap-y-xs')}>
+                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
                   <a className={bLink()} href="#">
                     Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
                     темы темы
@@ -448,7 +449,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             className={b('section')}
             descSlot={
               <>
-                <h4 className={b('item-heading').mix('heading gap-y-xs')}>
+                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
                   <a className={bLink()} href="#">
                     Название темы
                   </a>{' '}
@@ -481,7 +482,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             className={b('section')}
             descSlot={
               <>
-                <h4 className={b('item-heading').mix('heading gap-y-xs')}>
+                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
                   <a className={bLink()} href="#">
                     Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
                     темы темы
@@ -534,7 +535,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
 
     forumBody = (
       <>
-        <h4 className={b('heading').mix('heading')}>
+        <h4 className={b('heading').mix('heading_4', 'heading')}>
           <Button
             className={b('heading-action', { shifted: true })}
             display="inline"
@@ -577,7 +578,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
   if (extendedSection) {
     forumBody = (
       <>
-        <h4 className={b('heading').mix('heading')}>
+        <h4 className={b('heading').mix('heading_4', 'heading')}>
           <Button
             className={b('heading-action', { shifted: true })}
             display="inline"
@@ -589,7 +590,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           Название секции
         </h4>
 
-        <h5 className="gap-y-gen heading">Создайте тему</h5>
+        <h5 className="gap-y-gen heading_5 heading">Создайте тему</h5>
 
         <form action="#" className={b('create-thread')}>
           <Input
@@ -615,7 +616,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
   return (
     <div className={b()}>
       <header className={b('header')}>
-        <h1 className={b('main-heading').mix('heading')}>
+        <h1 className={b('main-heading').mix('heading_1', 'heading')}>
           <a className={bLink({ 'text-like': true })} href="#">
             Game
           </a>
