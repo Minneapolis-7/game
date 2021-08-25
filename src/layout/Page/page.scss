@@ -6,6 +6,10 @@
   min-height: 100%;
   padding: $page-gap-y var(--section-pad-x-generic);
 }
+.page_delegated > .page__nav {
+  overflow: auto;
+}
+
 .page {
   display: flow-root;
 }

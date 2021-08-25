@@ -1,6 +1,8 @@
 import React, { HTMLAttributes, useEffect } from 'react';
 import { block } from 'bem-cn';
 
+import Nav from '@/modules/Nav';
+
 type PageProps = {
   centered?: boolean; // контент страницы центрирован
   fullscreen?: boolean; // страница растянута на весь экран, но скролл зарещён
@@ -34,6 +36,7 @@ function Page({
       }).mix(className.split(' '))}
       {...rest}
     >
+      <Nav className={b('nav')} />
       {centered ? <div className={b('centerer')}>{children}</div> : children}
     </div>
   );

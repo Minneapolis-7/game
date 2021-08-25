@@ -1,0 +1,11 @@
+.nav {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow: auto;
+  background-color: $brand-color;
+  padding: $page-gap-y var(--section-pad-x-generic);
+  width: 400px;
+  max-width: 100%;
+}
