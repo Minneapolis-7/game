@@ -1,30 +1,17 @@
-/* eslint-disable camelcase */
+import { User } from '@/shared/types/types';
+
 export type SignInRequest = {
   email: string;
   password: string;
 };
 
-export type UserDTO = {
-  id: number;
-  first_name: string;
-  second_name: string;
-  display_name: string;
-  login: string;
-  password: string;
-  email: string;
-  phone: string;
-  avatar: string;
-};
+export type SignUpRequest = Omit<User, 'id' | 'displayName' | 'avatar'>;
 
-export type SignUpRequest = Omit<UserDTO, 'id' | 'display_name' | 'avatar'>;
+export type UpdateProfileRequest = Omit<User, 'id' | 'password' | 'avatar'>;
 
-export type ProfileRequest = Omit<UserDTO, 'id' | 'password' | 'avatar'>;
+export type UpdateProfileResponse = Omit<User, 'password'>;
 
-export type SignUpResponse = Pick<UserDTO, 'id'>;
-
-export type UserResponse = Omit<UserDTO, 'password'>;
-
-export type ChangePasswordRequest = {
+export type UpdatePasswordRequest = {
   oldPassword: string;
   newPassword: string;
 };
