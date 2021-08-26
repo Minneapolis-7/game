@@ -52,7 +52,7 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
       />
       <div ref={sidebarRef} className={b('container').is({ opened: isOpened })} tabIndex={-1}>
         <div className={b('head')}>
-          <h4 className="heading_4 heading">Выберите раздел</h4>
+          <h4 className="heading_4 heading nomrg">Выберите раздел</h4>
           <Button
             className={b('closer')}
             theme="circle"
