@@ -9,7 +9,7 @@ import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 
 function RegisterPage({ title }: GenericPageProps): JSX.Element {
   return (
-    <Page centered title={title}>
+    <Page centered title={title} hasSidebar={false}>
       <Auth stage="register" heading="Регистрация">
         <div className="gap-y-xl">
           <Input

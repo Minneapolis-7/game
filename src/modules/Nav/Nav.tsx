@@ -1,46 +1,69 @@
-import React, { PropsWithChildren } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { block } from 'bem-cn';
 
 import paths from '@/shared/const/paths';
 
 const b = block('nav');
 
-type NavProps = PropsWithChildren<{
-  className?: string;
-}>;
+const navItems = [
+  {
+    label: 'Главная',
+    path: '/',
+  },
+  {
+    label: 'Вход',
+    path: paths.LOGIN,
+  },
+  {
+    label: 'Регистрация',
+    path: paths.REGISTER,
+  },
+  {
+    label: 'Профиль',
+    path: paths.PROFILE,
+  },
+  {
+    label: 'Лидеры',
+    path: paths.LEADERBOARD,
+  },
+  {
+    label: 'Форум',
+    path: paths.FORUM,
+  },
+  {
+    label: 'Форум секция',
+    path: paths.FORUM_SECTION,
+  },
+  {
+    label: 'Форум тема',
+    path: paths.FORUM_THREAD,
+  },
+  {
+    label: 'Форум создать тему',
+    path: paths.FORUM_THREAD_CREATE,
+  },
+];
 
-function Nav({ className = '' }: NavProps): JSX.Element {
+function Nav(): JSX.Element {
+  const { pathname } = useLocation();
+
   return (
-    <nav className={b({}).mix(className.split(' '))}>
-      <ul className={b('list')}>
-        <li className={b('list-item')}>
-          <Link to="/">Главная</Link>
-        </li>
-        <li className={b('list-item')}>
-          <Link to={paths.LOGIN}>Вход</Link>
-        </li>
-        <li className={b('list-item')}>
-          <Link to={paths.REGISTER}>Регистрация</Link>
-        </li>
-        <li className={b('list-item')}>
-          <Link to={paths.PROFILE}>Профиль</Link>
-        </li>
-        <li className={b('list-item')}>
-          <Link to={paths.LEADERBOARD}>Лидерборд</Link>
-        </li>
-        <li className={b('list-item')}>
-          <Link to={paths.FORUM}>Форум</Link>
-        </li>
-        <li className={b('list-item')}>
-          <Link to={paths.FORUM_SECTION}>Секция форума</Link>
-        </li>
-        <li className={b('list-item')}>
-          <Link to={paths.FORUM_THREAD}>Тема форума</Link>
-        </li>
-        <li className={b('list-item')}>
-          <Link to={paths.FORUM_THREAD_CREATE}>Создать тему</Link>
-        </li>
+    <nav className={b()}>
+      <ul className={b('list').mix('nolist')}>
+        {navItems.map((item) => {
+          const isCurrent = item.path === pathname;
+          const basicProps = {
+            className: b('item-i'),
+            children: item.label,
+          };
+
+          return (
+            <li key={item.path} className={b('item', { current: isCurrent })}>
+              {isCurrent ? <span {...basicProps} /> : <Link {...basicProps} to={item.path} />}
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

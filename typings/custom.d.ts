@@ -22,3 +22,8 @@ declare module '*.gif' {
   const content: any;
   export default content;
 }
+
+declare module 'focusable-selectors' {
+  const content: string[];
+  export default content;
+}

@@ -1,13 +1,10 @@
 @use 'sass:math';
 
 .page,
-.page_delegated > * {
+.page_delegated > *:not(.page__sidebar) {
   overflow: hidden;
   min-height: 100%;
   padding: $page-gap-y var(--section-pad-x-generic);
-}
-.page_delegated > .page__nav {
-  overflow: auto;
 }
 
 .page {

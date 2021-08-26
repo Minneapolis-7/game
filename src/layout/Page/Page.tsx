@@ -1,7 +1,8 @@
-import React, { HTMLAttributes, useEffect } from 'react';
+import React, { HTMLAttributes, useEffect, useState } from 'react';
 import { block } from 'bem-cn';
 
-import Nav from '@/modules/Nav';
+import PageContext from '@/layout/Page/PageContext';
+import Sidebar from '@/modules/Sidebar';
 
 type PageProps = {
   centered?: boolean; // контент страницы центрирован
@@ -10,6 +11,7 @@ type PageProps = {
   // (см. `page.scss`, нужно для управления высотой содержимого)
   delegated?: boolean;
   title?: string;
+  hasSidebar?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
 const b = block('page');
@@ -20,25 +22,36 @@ function Page({
   fullscreen = false,
   delegated = false,
   title = '',
+  hasSidebar = true,
   children,
   ...rest
 }: PageProps): JSX.Element {
+  const [isSidebarOpened, setIsSidebarOpened] = useState(false);
+  const ctx = {
+    isSidebarOpened,
+    toggleSidebar(force: boolean) {
+      setIsSidebarOpened((prev) => force ?? !prev);
+    },
+  };
+
   useEffect(() => {
     document.title = title;
   }, [title]);
 
   return (
-    <div
-      className={b({
-        centered,
-        fullscreen: fullscreen && !centered,
-        delegated: delegated && !fullscreen && !centered,
-      }).mix(className.split(' '))}
-      {...rest}
-    >
-      <Nav className={b('nav')} />
-      {centered ? <div className={b('centerer')}>{children}</div> : children}
-    </div>
+    <PageContext.Provider value={ctx}>
+      <div
+        className={b({
+          centered,
+          fullscreen: fullscreen && !centered,
+          delegated: delegated && !fullscreen && !centered,
+        }).mix(className.split(' '))}
+        {...rest}
+      >
+        {hasSidebar && <Sidebar isOpened={isSidebarOpened} className={b('sidebar')} />}
+        {centered ? <div className={b('centerer')}>{children}</div> : children}
+      </div>
+    </PageContext.Provider>
   );
 }
 
