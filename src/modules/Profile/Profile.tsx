@@ -2,8 +2,6 @@ import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
-import * as yup from 'yup';
-import { SchemaOf } from 'yup/es';
 
 import { Input } from '@/components/formik-ui';
 import { Avatar, Button, Filepick } from '@/components/ui';
@@ -11,37 +9,14 @@ import paths from '@/shared/const/paths';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 
+import { PasswordFieldsSchema, ProfileFieldsSchema } from './schema';
+
 const b = block('profile');
 
-type ProfileFields = {
-  displayName: string;
-} & Omit<RegistrationData, 'password' | 'passwordRepeat'>;
-const ProfileFieldsSchema: SchemaOf<ProfileFields> = yup
-  .object()
-  .shape({
-    email: yup.string().email('Укажите email').required('Заполните поле'),
-    login: yup.string().min(3, 'Введите более 3 символов').required('Заполните поле'),
-    firstName: yup.string().required('Заполните поле'),
-    secondName: yup.string().required('Заполните поле'),
-    displayName: yup.string().max(20, 'Введите не более 20 символов'),
-  })
-  .defined();
-
-type PasswordFields = {
-  oldPassword: string;
-  newPassword: string;
-};
 const PasswordFieldsInitialValues = {
   oldPassword: '',
   newPassword: '',
 };
-const PasswordFieldsSchema: SchemaOf<PasswordFields> = yup
-  .object()
-  .shape({
-    oldPassword: yup.string().required('Заполните поле'),
-    newPassword: yup.string().required('Заполните поле'),
-  })
-  .defined();
 
 type ProfileTableRowProps = {
   label: string;

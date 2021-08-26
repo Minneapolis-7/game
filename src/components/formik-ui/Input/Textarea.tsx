@@ -7,9 +7,6 @@ import OriginalTextarea, {
 
 type TextareaProps = FormikFieldBaseProps & OriginalTextareaProps;
 
-// todo: как нормально типизировать `forwardRef`? вместо `HTMLTextAreaElement` должно быть что-то типа `OriginalTextarea`,
-// todo: но и `OriginalTextarea`, и `typeof OriginalTextarea` дают ошибки;
-// todo: или это нормально и вообще не проблема?
 export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Input(
   { name, validate, fast = false, onChange, onBlur, ...rest }: TextareaProps,
   ref

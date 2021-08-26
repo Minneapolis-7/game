@@ -1,10 +1,10 @@
 import React from 'react';
-import * as yup from 'yup';
-import { SchemaOf } from 'yup/es';
 
 import { Input } from '@/components/formik-ui';
 import Page from '@/layout/Page';
 import Auth from '@/modules/Auth';
+
+import { registerSchema } from './schema';
 
 const registerInitialValues = {
   email: '',
@@ -14,20 +14,6 @@ const registerInitialValues = {
   password: '',
   passwordRepeat: '',
 };
-const registerSchema: SchemaOf<RegistrationData> = yup
-  .object()
-  .shape({
-    email: yup.string().email('Укажите email').required('Заполните поле'),
-    login: yup.string().min(3, 'Введите более 3 символов').required('Заполните поле'),
-    firstName: yup.string().required('Заполните поле'),
-    secondName: yup.string().required('Заполните поле'),
-    password: yup.string().required('Заполните поле'),
-    passwordRepeat: yup
-      .string()
-      .oneOf([yup.ref('password'), null], 'Повторите пароль')
-      .required('Заполните поле'),
-  })
-  .defined();
 
 function RegisterPage({ title }: GenericPageProps): JSX.Element {
   return (

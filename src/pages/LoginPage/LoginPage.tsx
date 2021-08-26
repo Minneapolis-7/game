@@ -1,23 +1,15 @@
 import React from 'react';
-import * as yup from 'yup';
-import { SchemaOf } from 'yup/es';
 
 import { Input } from '@/components/formik-ui';
 import Page from '@/layout/Page';
 import Auth from '@/modules/Auth';
 
-type LoginFields = Pick<RegistrationData, 'login' | 'password'>;
+import { loginSchema } from './schema';
+
 const loginInitialValues = {
   login: '',
   password: '',
 };
-const loginSchema: SchemaOf<LoginFields> = yup
-  .object()
-  .shape({
-    login: yup.string().required('Заполните поле'),
-    password: yup.string().required('Заполните поле'),
-  })
-  .defined();
 
 function LoginPage({ title }: GenericPageProps): JSX.Element {
   return (

@@ -5,9 +5,6 @@ import OriginalInput, { InputProps as OriginalInputProps } from '@/components/ui
 
 type InputProps = FormikFieldBaseProps & OriginalInputProps;
 
-// todo: как нормально типизировать `forwardRef`? вместо `HTMLInputElement` должно быть что-то типа `OriginalInput`,
-// todo: но и `OriginalInput`, и `typeof OriginalInput` дают ошибки;
-// todo: или это нормально и вообще не проблема?
 export default forwardRef<HTMLInputElement, InputProps>(function Input(
   { name, validate, fast = false, onChange, onBlur, ...rest }: InputProps,
   ref
