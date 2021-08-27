@@ -1,18 +1,16 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import type { RootState } from './store';
+import type { RootState } from '@/store/store';
 
-// Define a type for the slice state
 type appState = {
   loading: boolean;
-  error: string;
+  error: XMLHttpRequest | null;
 };
 
-// Define the initial state using that type
 const initialState: appState = {
   loading: false,
-  error: '',
+  error: null,
 };
 
 export const appSlice = createSlice({
@@ -20,12 +18,10 @@ export const appSlice = createSlice({
   initialState,
   reducers: {
     setLoding: (state, action: PayloadAction<boolean>) => {
-      console.log('---setLoding');
       state.loading = action.payload;
     },
-    reguestedFailed: (state, action: PayloadAction<string>) => {
-      console.log('---reguestedFailed', action.payload);
-      state.error = action.payload;
+    reguestedFailed: (state, action: PayloadAction<XMLHttpRequest>) => {
+      state.error = action.payload.response;
       state.loading = false;
     },
   },
@@ -33,7 +29,6 @@ export const appSlice = createSlice({
 
 export const { setLoding, reguestedFailed } = appSlice.actions;
 
-// Other code such as selectors can use the imported `RootState` type
 export const appState = (state: RootState): appState => ({
   loading: state.app.loading,
   error: state.app.error,

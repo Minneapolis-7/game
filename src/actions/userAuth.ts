@@ -1,16 +1,16 @@
 /* eslint-disable import/prefer-default-export */
 import { SignInRequest, SignUpRequest } from '@/api/types';
 import api from '@/api/userApi';
-import { reguestedFailed } from '@/store/appReducers';
-import { AppDispatch } from '@/store/store';
 import {
   logoutReguested,
   logoutReguestSucceeded,
+  reguestedFailed,
   signinReguested,
   signinReguestSucceeded,
   signupReguested,
   signupReguestSucceeded,
-} from '@/store/userReducers';
+} from '@/store/reducers/index';
+import { AppDispatch } from '@/store/store';
 
 export const signin = (user: SignInRequest) => {
   return (dispatch: AppDispatch): void => {
@@ -22,7 +22,7 @@ export const signin = (user: SignInRequest) => {
         dispatch(signinReguestSucceeded);
       })
       .catch((err) => {
-        dispatch(reguestedFailed(err.message));
+        dispatch(reguestedFailed(err));
       });
   };
 };
@@ -37,7 +37,7 @@ export const signup = (user: SignUpRequest) => {
         dispatch(signupReguestSucceeded(id));
       })
       .catch((err) => {
-        dispatch(reguestedFailed(err.message));
+        dispatch(reguestedFailed(err));
       });
   };
 };
