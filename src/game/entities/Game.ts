@@ -1,9 +1,9 @@
-import doorSound from '@/game/assets/door.ogg';
-import keySound from '@/game/assets/key.ogg';
-import musicSound from '@/game/assets/music.ogg';
-import spikesSound from '@/game/assets/spikes.ogg';
-import teleportSound from '@/game/assets/teleport.ogg';
-import trampolineSound from '@/game/assets/trampoline.ogg';
+import doorSound from '@/game/assets/door.mp3';
+import keySound from '@/game/assets/key.mp3';
+import musicSound from '@/game/assets/music.mp3';
+import spikesSound from '@/game/assets/spikes.mp3';
+import teleportSound from '@/game/assets/teleport.mp3';
+import trampolineSound from '@/game/assets/trampoline.mp3';
 import Control from '@/game/entities/Control';
 import GameObject, { GameObjectConstructorOptions } from '@/game/entities/GameObject';
 import SoundController from '@/game/entities/SoundController';
