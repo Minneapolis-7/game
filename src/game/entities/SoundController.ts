@@ -1,6 +1,6 @@
 import { SoundSample } from '@/game/types';
 
-export default class Sound {
+export default class SoundController {
   ctx: AudioContext;
   samples: Record<string, SoundSample>;
 
