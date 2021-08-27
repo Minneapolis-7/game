@@ -1,11 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { block } from 'bem-cn';
+import { Form, Formik } from 'formik';
 
 import { Input } from '@/components/formik-ui';
+import { Button } from '@/components/ui';
 import Page from '@/layout/Page';
-import Auth from '@/modules/Auth';
+import paths from '@/shared/const/paths';
+import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 
 import { loginSchema } from './schema';
 
+const bAuth = block('auth');
 const loginInitialValues = {
   login: '',
   password: '',
@@ -14,34 +20,58 @@ const loginInitialValues = {
 function LoginPage({ title }: GenericPageProps): JSX.Element {
   return (
     <Page centered title={title}>
-      <Auth
-        initialValues={loginInitialValues}
-        validationSchema={loginSchema}
-        stage="login"
-        heading="Вход"
-        submitLabel="Войти"
-        alternativeActionLabel="Зарегистрироваться"
-      >
-        <div className="gap-y-xl">
-          <Input
-            className="gap-y-lg"
-            hint="Логин"
-            required
-            autoComplete="username"
-            id="login"
-            name="login"
-          />
-          <Input
-            type="password"
-            className="gap-y-lg"
-            hint="Пароль"
-            required
-            autoComplete="current-password"
-            id="password"
-            name="password"
-          />
-        </div>
-      </Auth>
+      <div className={bAuth()}>
+        <h4 className="heading_4 heading">Вход</h4>
+        <Formik
+          initialValues={loginInitialValues}
+          validationSchema={loginSchema}
+          onSubmit={(values, actions) => {
+            setTimeout(() => {
+              alert(JSON.stringify(values, null, 2));
+              actions.setSubmitting(false);
+            }, 400);
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form noValidate className={bAuth('form')}>
+              <div className="gap-y-xl">
+                <Input
+                  className="gap-y-lg"
+                  hint="Логин"
+                  required
+                  autoComplete="username"
+                  id="login"
+                  name="login"
+                />
+                <Input
+                  type="password"
+                  className="gap-y-lg"
+                  hint="Пароль"
+                  required
+                  autoComplete="current-password"
+                  id="password"
+                  name="password"
+                />
+              </div>
+              <div className="gap-y-sm">
+                <Button type="submit" display="block" disabled={isSubmitting}>
+                  Войти
+                </Button>
+              </div>
+              <div className="gap-y-sm">
+                <Link
+                  to={paths.REGISTER}
+                  component={getRoutedButtonLink({
+                    display: 'block',
+                    children: 'Зарегистрироваться',
+                    theme: 'link',
+                  })}
+                />
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </Page>
   );
 }
