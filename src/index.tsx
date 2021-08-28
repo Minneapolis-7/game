@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 
+import ProtectedRoute from '@/modules/ProtectedRoute';
 import RootErrorBoundary from '@/modules/RootErrorBoundary';
 import paths from '@/shared/const/paths';
 import routes from '@/shared/const/routes';
@@ -54,10 +55,18 @@ ReactDOM.render(
         {routes.map((route) => {
           const Component = route.component;
 
+          // Используемый компонент для роута
+          let UsedRoute: typeof Route | typeof ProtectedRoute = Route;
+
+          // Если роут должен быть защищён, используется ProtectedRoute
+          if (route.isProtected) {
+            UsedRoute = ProtectedRoute;
+          }
+
           return (
-            <Route key={route.path} path={route.path} exact={route.exact}>
+            <UsedRoute key={route.path} path={route.path} exact={route.exact}>
               <Component title={route.title} />
-            </Route>
+            </UsedRoute>
           );
         })}
       </Switch>

@@ -7,6 +7,8 @@ export type SignInRequest = {
 
 export type SignUpRequest = Omit<User, 'id' | 'displayName' | 'avatar'>;
 
+export type GetProfileRequest = Omit<User, 'password'>;
+
 export type UpdateProfileRequest = Omit<User, 'id' | 'password' | 'avatar'>;
 
 export type UpdateProfileResponse = Omit<User, 'password'>;

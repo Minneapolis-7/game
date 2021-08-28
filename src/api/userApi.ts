@@ -1,5 +1,6 @@
 import { apiYandex } from './api';
 import {
+  GetProfileRequest,
   SignInRequest,
   SignUpRequest,
   UpdatePasswordRequest,
@@ -20,6 +21,12 @@ export default {
 
   async logout(): Promise<void> {
     await apiYandex.post('/auth/logout');
+  },
+
+  async getUser(): Promise<GetProfileRequest> {
+    const { data } = await apiYandex.get('/auth/user');
+
+    return data;
   },
 
   async updateProfile(user: UpdateProfileRequest): Promise<UpdateProfileResponse> {
