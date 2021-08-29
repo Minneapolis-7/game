@@ -1,3 +1,5 @@
+@use 'src/css/abstracts/variables' as *;
+
 // `scrollbar-width: thin` = 10px (с зазорами в ~2px по бокам)
 $scrollbar-size: 10px;
 $scrollbar-gap: 2px;

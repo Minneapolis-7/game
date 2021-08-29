@@ -1,3 +1,6 @@
+@use 'src/css/abstracts/variables' as *;
+@use 'src/css/abstracts/functions' as *;
+
 // Общие стили полей форм (инпут/селект)
 $field-gap-x: 0;
 $field-gap-y: 1em;

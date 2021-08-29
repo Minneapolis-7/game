@@ -1,3 +1,6 @@
+@use 'src/css/abstracts/variables' as *;
+@use 'src/css/abstracts/mixins' as *;
+
 $profile-bp: 37.5 * $font-size-primary; // 600px при шрифте 16px
 .profile {
   max-width: 45rem;

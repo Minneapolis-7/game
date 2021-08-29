@@ -1,3 +1,7 @@
+// Базовые стили должны идти первыми
+// eslint-disable-next-line simple-import-sort/imports
+import '@/css/main.scss';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
@@ -5,8 +9,6 @@ import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import RootErrorBoundary from '@/modules/RootErrorBoundary';
 import paths from '@/shared/const/paths';
 import routes from '@/shared/const/routes';
-
-import '@/css/main.scss';
 
 ReactDOM.render(
   <RootErrorBoundary>

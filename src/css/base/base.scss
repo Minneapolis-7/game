@@ -1,5 +1,7 @@
-@import 'html5-boilerplate/dist/css/normalize.css';
-@import 'html5-boilerplate/dist/css/main.css';
+@use 'node_modules/html5-boilerplate/dist/css/normalize.css';
+@use 'node_modules/html5-boilerplate/dist/css/main.css';
+@use 'src/css/abstracts/variables' as *;
+@use 'src/css/abstracts/mixins' as *;
 
 html {
   box-sizing: border-box;

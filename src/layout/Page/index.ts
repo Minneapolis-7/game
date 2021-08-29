@@ -1,3 +1,3 @@
-// import './page.scss';
+import './page.scss';
 
 export { default } from './Page';
