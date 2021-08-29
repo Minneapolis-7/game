@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
@@ -18,6 +18,13 @@ const loginInitialValues = {
 };
 
 function LoginPage({ title }: GenericPageProps): JSX.Element {
+  const submitLogin = useCallback((values, actions) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      actions.setSubmitting(false);
+    }, 400);
+  }, []);
+
   return (
     <Page centered title={title}>
       <div className={bAuth()}>
@@ -25,12 +32,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
         <Formik
           initialValues={loginInitialValues}
           validationSchema={loginSchema}
-          onSubmit={(values, actions) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              actions.setSubmitting(false);
-            }, 400);
-          }}
+          onSubmit={submitLogin}
         >
           {({ isSubmitting }) => (
             <Form noValidate className={bAuth('form')}>

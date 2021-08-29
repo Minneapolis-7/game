@@ -37,6 +37,8 @@ function ProfileTableRow({
   required = true,
   autoComplete,
 }: ProfileTableRowProps): JSX.Element {
+  const handleInputFocus = useCallback((e) => e.target.select(), []);
+
   const BaseInput = (
     <Input
       className={b('input')}
@@ -48,7 +50,7 @@ function ProfileTableRow({
       type={inputType}
       required={required}
       autoComplete={autoComplete}
-      onFocus={(e) => e.target.select()}
+      onFocus={handleInputFocus}
     />
   );
   // ZERO-WIDTH-SPACE (\u200B) — на случай, если `value` пуст, нужно для выравнвиания текста
@@ -101,6 +103,13 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
     validationSchema = PasswordFieldsSchema;
   }
 
+  const submitProfile = useCallback((values, actions) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      actions.setSubmitting(false);
+    }, 400);
+  }, []);
+
   return (
     <div className={b()}>
       <header className={b('head')}>
@@ -119,12 +128,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
-          onSubmit={(values, actions) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              actions.setSubmitting(false);
-            }, 400);
-          }}
+          onSubmit={submitProfile}
         >
           {({ isSubmitting }) => (
             <Form data-action={action} className="js-profile__form" noValidate>

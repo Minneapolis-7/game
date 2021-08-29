@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FocusEvent, forwardRef } from 'react';
+import React, { ChangeEvent, FocusEvent, forwardRef, useCallback } from 'react';
 import { useField } from 'formik';
 
 import OriginalInput, { InputProps as OriginalInputProps } from '@/components/ui/Input/Input';
@@ -13,28 +13,34 @@ export default forwardRef<HTMLInputElement, InputProps>(function Input(
   const { onChange: formikOnChange, onBlur: formikOnBlur } = field;
   const { error, touched } = meta;
 
-  const finalOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (onChange) {
-      onChange(e);
-    }
+  const handleOnChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      if (onChange) {
+        onChange(e);
+      }
 
-    formikOnChange(e);
-  };
-  const finalOnBlur = (e: FocusEvent<HTMLInputElement>) => {
-    if (onBlur) {
-      onBlur(e);
-    }
+      formikOnChange(e);
+    },
+    [onChange, formikOnChange]
+  );
+  const handleOnBlur = useCallback(
+    (e: FocusEvent<HTMLInputElement>) => {
+      if (onBlur) {
+        onBlur(e);
+      }
 
-    formikOnBlur(e);
-  };
+      formikOnBlur(e);
+    },
+    [onBlur, formikOnBlur]
+  );
 
   return (
     <OriginalInput
       ref={ref}
       {...rest}
       {...field}
-      onChange={finalOnChange}
-      onBlur={finalOnBlur}
+      onChange={handleOnChange}
+      onBlur={handleOnBlur}
       error={touched && error ? error : undefined}
     />
   );

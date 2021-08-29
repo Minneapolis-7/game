@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
@@ -22,6 +22,13 @@ const registerInitialValues = {
 };
 
 function RegisterPage({ title }: GenericPageProps): JSX.Element {
+  const submitRegister = useCallback((values, actions) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      actions.setSubmitting(false);
+    }, 400);
+  }, []);
+
   return (
     <Page centered title={title}>
       <div className={bAuth()}>
@@ -29,12 +36,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
         <Formik
           initialValues={registerInitialValues}
           validationSchema={registerSchema}
-          onSubmit={(values, actions) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              actions.setSubmitting(false);
-            }, 400);
-          }}
+          onSubmit={submitRegister}
         >
           {({ isSubmitting }) => (
             <Form noValidate className={bAuth('form')}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
 import * as yup from 'yup';
@@ -548,6 +548,13 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
     );
   }
 
+  const submitNewMessage = useCallback((values, actions) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      actions.setSubmitting(false);
+    }, 400);
+  }, []);
+
   if (thread) {
     const mockComment = {
       user: { id: 1, displayName: 'Ник', avatar: 'url' },
@@ -590,12 +597,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
         <Formik
           initialValues={replyInitialValues}
           validationSchema={replySchema}
-          onSubmit={(values, actions) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              actions.setSubmitting(false);
-            }, 400);
-          }}
+          onSubmit={submitNewMessage}
         >
           {({ isSubmitting }) => (
             <Form noValidate className={b('reply')}>
@@ -617,6 +619,13 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
     );
   }
 
+  const submitNewThread = useCallback((values, actions) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      actions.setSubmitting(false);
+    }, 400);
+  }, []);
+
   if (extendedSection) {
     forumBody = (
       <>
@@ -636,12 +645,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
         <Formik
           initialValues={createThreadInitialValues}
           validationSchema={createThreadSchema}
-          onSubmit={(values, actions) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              actions.setSubmitting(false);
-            }, 400);
-          }}
+          onSubmit={submitNewThread}
         >
           {({ isSubmitting }) => (
             <Form noValidate className={b('create-thread')}>

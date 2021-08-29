@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FocusEvent, forwardRef } from 'react';
+import React, { ChangeEvent, FocusEvent, forwardRef, useCallback } from 'react';
 import { useField } from 'formik';
 
 import OriginalTextarea, {
@@ -15,28 +15,34 @@ export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Input(
   const { onChange: formikOnChange, onBlur: formikOnBlur } = field;
   const { error, touched } = meta;
 
-  const finalOnChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    if (onChange) {
-      onChange(e);
-    }
+  const handleOnChange = useCallback(
+    (e: ChangeEvent<HTMLTextAreaElement>) => {
+      if (onChange) {
+        onChange(e);
+      }
 
-    formikOnChange(e);
-  };
-  const finalOnBlur = (e: FocusEvent<HTMLTextAreaElement>) => {
-    if (onBlur) {
-      onBlur(e);
-    }
+      formikOnChange(e);
+    },
+    [onChange, formikOnChange]
+  );
+  const handleOnBlur = useCallback(
+    (e: FocusEvent<HTMLTextAreaElement>) => {
+      if (onBlur) {
+        onBlur(e);
+      }
 
-    formikOnBlur(e);
-  };
+      formikOnBlur(e);
+    },
+    [onBlur, formikOnBlur]
+  );
 
   return (
     <OriginalTextarea
       ref={ref}
       {...rest}
       {...field}
-      onChange={finalOnChange}
-      onBlur={finalOnBlur}
+      onChange={handleOnChange}
+      onBlur={handleOnBlur}
       error={touched && error ? error : undefined}
     />
   );
