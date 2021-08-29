@@ -60,6 +60,6 @@ describe('Input', () => {
   it('renders error', () => {
     render(<Input error="error" />);
 
-    expect(screen.queryByRole('alert')).toBeInTheDocument();
+    expect(screen.getByRole('alert')).toBeInTheDocument();
   });
 });
