@@ -12,6 +12,7 @@ export default forwardRef<HTMLInputElement, InputProps>(function Input(
   const [field, meta] = useField(name);
   const { onChange: formikOnChange, onBlur: formikOnBlur } = field;
   const { error, touched } = meta;
+
   const finalOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (onChange) {
       onChange(e);

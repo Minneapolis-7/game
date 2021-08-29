@@ -87,6 +87,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
   const handleAvatarChange = useCallback((e) => {
     alert(`Загрузить ${e.target.files[0].name}`);
   }, []);
+
   let initialValues = {};
   let validationSchema = {};
 

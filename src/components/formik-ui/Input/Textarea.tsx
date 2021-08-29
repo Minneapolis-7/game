@@ -14,6 +14,7 @@ export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Input(
   const [field, meta] = useField(name);
   const { onChange: formikOnChange, onBlur: formikOnBlur } = field;
   const { error, touched } = meta;
+
   const finalOnChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     if (onChange) {
       onChange(e);
