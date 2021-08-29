@@ -1,4 +1,4 @@
-import React, { AnchorHTMLAttributes, ForwardedRef, forwardRef } from 'react';
+import React, { AnchorHTMLAttributes, ForwardedRef, forwardRef, useCallback } from 'react';
 
 import { ButtonLink } from '@/components/ui';
 import { ButtonLinkProps } from '@/components/ui/Button/ButtonLink';
@@ -10,10 +10,13 @@ export default function getRoutedButtonLink(buttonLinkProps: ButtonLinkProps) {
   ) {
     const { navigate, ...rest } = props;
 
-    function handleClick(e: React.MouseEvent) {
-      e.preventDefault();
-      navigate();
-    }
+    const handleClick = useCallback(
+      (e: React.MouseEvent) => {
+        e.preventDefault();
+        navigate();
+      },
+      [navigate]
+    );
 
     return <ButtonLink ref={ref} onClick={handleClick} {...buttonLinkProps} {...rest} />;
   });

@@ -5,4 +5,6 @@ export type InputBaseProps = {
   hint?: string;
   // при фокусе подсказки уплывают вверх
   isFloating?: boolean;
+  // если требуется, то ошибка стилизована внутри полей и может быть передана внутрь
+  error?: string;
 };

@@ -15,6 +15,8 @@
 @import 'components/spinner';
 @import 'components/field-row';
 @import 'components/liquid-img';
+@import 'components/error';
+@import 'components/auth';
 
 ///////////
 // React //
@@ -34,7 +36,6 @@
 @import '../components/FallbackError/fallback-error';
 
 // Модули
-@import '../modules/Auth/auth';
 @import '../modules/Profile/profile';
 @import '../modules/Forum/forum';
 @import '../modules/Leaderboard/leaderboard';

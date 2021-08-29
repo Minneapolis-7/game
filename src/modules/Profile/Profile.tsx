@@ -1,18 +1,23 @@
 import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
+import { Form, Formik } from 'formik';
 
-import { Avatar, Button, Filepick, Input } from '@/components/ui';
+import { Input } from '@/components/formik-ui';
+import { Avatar, Button, Filepick } from '@/components/ui';
 import paths from '@/shared/const/paths';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 
+import { PasswordFieldsSchema, ProfileFieldsSchema } from './schema';
+
 const b = block('profile');
 
-type ProfileProps = {
-  user: Record<string, any>; // todo: указать тип
-  action?: string;
+const PasswordFieldsInitialValues = {
+  oldPassword: '',
+  newPassword: '',
 };
+
 type ProfileTableRowProps = {
   label: string;
   value?: string;
@@ -32,6 +37,8 @@ function ProfileTableRow({
   required = true,
   autoComplete,
 }: ProfileTableRowProps): JSX.Element {
+  const handleInputFocus = useCallback((e) => e.target.select(), []);
+
   const BaseInput = (
     <Input
       className={b('input')}
@@ -39,11 +46,11 @@ function ProfileTableRow({
       id={id}
       display="inline"
       theme="transparent"
-      defaultValue={value}
-      hint={label}
+      hint="Редактировать"
       type={inputType}
       required={required}
       autoComplete={autoComplete}
+      onFocus={handleInputFocus}
     />
   );
   // ZERO-WIDTH-SPACE (\u200B) — на случай, если `value` пуст, нужно для выравнвиания текста
@@ -73,9 +80,34 @@ function ProfileTableRow({
   );
 }
 
+type ProfileProps = {
+  user: Record<string, any>; // todo: указать тип
+  action?: 'edit' | 'edit-password';
+};
+
 function Profile({ user, action }: ProfileProps): JSX.Element {
   const handleAvatarChange = useCallback((e) => {
     alert(`Загрузить ${e.target.files[0].name}`);
+  }, []);
+
+  let initialValues = {};
+  let validationSchema = {};
+
+  if (action === 'edit') {
+    initialValues = user;
+    validationSchema = ProfileFieldsSchema;
+  }
+
+  if (action === 'edit-password') {
+    initialValues = PasswordFieldsInitialValues;
+    validationSchema = PasswordFieldsSchema;
+  }
+
+  const submitProfile = useCallback((values, actions) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      actions.setSubmitting(false);
+    }, 400);
   }, []);
 
   return (
@@ -93,105 +125,118 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
       </header>
       <div className={b('content')}>
         <h4 className={b('name').mix('heading_4', 'heading')}>{user.firstName}</h4>
-        <form data-action={action} className="js-profile__form" action="#">
-          <table className={b('table')}>
-            <tbody className={b('table-body')}>
-              {(action === 'edit' || !action) && (
-                <>
-                  <ProfileTableRow
-                    label="Почта"
-                    value={user.email}
-                    id="email"
-                    inputType="email"
-                    action={action}
-                  />
-                  <ProfileTableRow label="Логин" value={user.login} id="login" action={action} />
-                  <ProfileTableRow
-                    label="Имя"
-                    value={user.firstName}
-                    id="firstName"
-                    action={action}
-                  />
-                  <ProfileTableRow
-                    label="Фамилия"
-                    value={user.secondName}
-                    id="secondName"
-                    action={action}
-                  />
-                  <ProfileTableRow
-                    label="Ник в игре"
-                    value={user.displayName}
-                    id="displayName"
-                    action={action}
-                  />
-                </>
-              )}
-              {action === 'edit-password' && (
-                <>
-                  <ProfileTableRow
-                    label="Старый пароль"
-                    value={user.password}
-                    id="oldPassword"
-                    inputType="password"
-                    autoComplete="current-password"
-                    action={action}
-                  />
-                  <ProfileTableRow
-                    label="Новый пароль"
-                    id="newPassword"
-                    inputType="password"
-                    autoComplete="new-password"
-                    action={action}
-                  />
-                </>
-              )}
-            </tbody>
-            <tfoot className={b('table-tfoot')}>
-              {!action && (
-                <>
-                  <tr className={b('table-row')}>
-                    <td colSpan={2} className={b('table-cell')}>
-                      <Link
-                        to={paths.PROFILE_EDIT}
-                        component={getRoutedButtonLink({
-                          theme: 'link',
-                          children: 'Изменить данные',
-                        })}
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={submitProfile}
+        >
+          {({ isSubmitting }) => (
+            <Form data-action={action} className="js-profile__form" noValidate>
+              <table className={b('table')}>
+                <tbody className={b('table-body')}>
+                  {(action === 'edit' || !action) && (
+                    <>
+                      <ProfileTableRow
+                        label="Почта"
+                        value={user.email}
+                        id="email"
+                        inputType="email"
+                        action={action}
                       />
-                    </td>
-                  </tr>
-                  <tr className={b('table-row')}>
-                    <td colSpan={2} className={b('table-cell')}>
-                      <Link
-                        to={paths.PROFILE_EDIT_PASSWORD}
-                        component={getRoutedButtonLink({
-                          theme: 'link',
-                          children: 'Изменить пароль',
-                        })}
+                      <ProfileTableRow
+                        label="Логин"
+                        value={user.login}
+                        id="login"
+                        action={action}
                       />
-                    </td>
-                  </tr>
-                  <tr className={b('table-row')}>
-                    <td colSpan={2} className={b('table-cell')}>
-                      <Button className="js-profile__logout" theme="link-danger">
-                        Выйти
-                      </Button>
-                    </td>
-                  </tr>
-                </>
-              )}
-              {action && (
-                <tr className={b('table-row')}>
-                  <td colSpan={2} className={b('table-cell')}>
-                    <Button type="submit" theme="some">
-                      Сохранить
-                    </Button>
-                  </td>
-                </tr>
-              )}
-            </tfoot>
-          </table>
-        </form>
+                      <ProfileTableRow
+                        label="Имя"
+                        value={user.firstName}
+                        id="firstName"
+                        action={action}
+                      />
+                      <ProfileTableRow
+                        label="Фамилия"
+                        value={user.secondName}
+                        id="secondName"
+                        action={action}
+                      />
+                      <ProfileTableRow
+                        label="Ник в игре"
+                        value={user.displayName}
+                        id="displayName"
+                        action={action}
+                      />
+                    </>
+                  )}
+                  {action === 'edit-password' && (
+                    <>
+                      <ProfileTableRow
+                        label="Старый пароль"
+                        value={user.password}
+                        id="oldPassword"
+                        inputType="password"
+                        autoComplete="current-password"
+                        action={action}
+                      />
+                      <ProfileTableRow
+                        label="Новый пароль"
+                        id="newPassword"
+                        inputType="password"
+                        autoComplete="new-password"
+                        action={action}
+                      />
+                    </>
+                  )}
+                </tbody>
+                <tfoot className={b('table-tfoot')}>
+                  {!action && (
+                    <>
+                      <tr className={b('table-row')}>
+                        <td colSpan={2} className={b('table-cell')}>
+                          <Link
+                            to={paths.PROFILE_EDIT}
+                            component={getRoutedButtonLink({
+                              theme: 'link',
+                              children: 'Изменить данные',
+                            })}
+                          />
+                        </td>
+                      </tr>
+                      <tr className={b('table-row')}>
+                        <td colSpan={2} className={b('table-cell')}>
+                          <Link
+                            to={paths.PROFILE_EDIT_PASSWORD}
+                            component={getRoutedButtonLink({
+                              theme: 'link',
+                              children: 'Изменить пароль',
+                            })}
+                          />
+                        </td>
+                      </tr>
+                      <tr className={b('table-row')}>
+                        <td colSpan={2} className={b('table-cell')}>
+                          <Button className="js-profile__logout" theme="link-danger">
+                            Выйти
+                          </Button>
+                        </td>
+                      </tr>
+                    </>
+                  )}
+                  {action && (
+                    <tr className={b('table-row')}>
+                      <td colSpan={2} className={b('table-cell')}>
+                        <Button type="submit" disabled={isSubmitting}>
+                          Сохранить
+                        </Button>
+                      </td>
+                    </tr>
+                  )}
+                </tfoot>
+              </table>
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );
