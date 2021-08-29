@@ -1,9 +1,11 @@
 import axios from 'axios';
 import applyCaseMiddleware from 'axios-case-converter';
 
+import { API_YANDEX } from '@/shared/const/const';
+
 const apiYandex = applyCaseMiddleware(
   axios.create({
-    baseURL: 'https://ya-praktikum.tech/api/v2',
+    baseURL: API_YANDEX,
     headers: {
       'Content-Type': 'application/json',
     },
