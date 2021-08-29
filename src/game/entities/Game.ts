@@ -1,8 +1,15 @@
+import doorSound from '@/game/assets/door.mp3';
+import keySound from '@/game/assets/key.mp3';
+import musicSound from '@/game/assets/music.mp3';
+import spikesSound from '@/game/assets/spikes.mp3';
+import teleportSound from '@/game/assets/teleport.mp3';
+import trampolineSound from '@/game/assets/trampoline.mp3';
 import Control from '@/game/entities/Control';
 import GameObject, { GameObjectConstructorOptions } from '@/game/entities/GameObject';
+import SoundController from '@/game/entities/SoundController';
 import View from '@/game/entities/View';
 import World, { LevelObjects } from '@/game/entities/World';
-import { CONTROL_KEY, GAME_STATE_KEY } from '@/game/shared/constants';
+import { CONTROL_KEY, GAME_STATE_KEY, SOUND } from '@/game/shared/constants';
 import { GameState, Level } from '@/game/types';
 
 type GameConstructorOptions = {
@@ -18,6 +25,7 @@ type GameConstructorOptions = {
 export default class Game {
   public world: World;
   public view: View;
+  public soundController: SoundController;
   public control: Control;
   public levels: Level[];
   public startLevelIndex: number;
@@ -39,6 +47,7 @@ export default class Game {
 
     this.world = world;
     this.view = view;
+    this.soundController = new SoundController();
     this.view.isDebugDraw = isDebugDraw;
     this.control = control;
     this.loop = this.loop.bind(this);
@@ -85,6 +94,7 @@ export default class Game {
         hasCollision: true,
         onAbove: ({ player }) => {
           player.setVelocityY(-10);
+          this.soundController.play(SOUND.TRAMPOLINE);
         },
       },
       // Лёд
@@ -104,6 +114,7 @@ export default class Game {
         onOver: ({ gameObject }) => {
           gameObject.setSprite([32, 64]);
           this.setGameState(GAME_STATE_KEY.IS_DOOR_UNLOCKED, true);
+          this.soundController.play(SOUND.KEY);
         },
       },
       // Дверь
@@ -113,7 +124,11 @@ export default class Game {
         onOver: ({ gameObject }) => {
           if (this.gameState.isDoorUnlocked) {
             gameObject.setSprite([32, 96]);
-            this.setGameState(GAME_STATE_KEY.IS_LEVEL_COMPLETED, true);
+            this.soundController.play(SOUND.DOOR);
+
+            setTimeout(() => {
+              this.setGameState(GAME_STATE_KEY.IS_LEVEL_COMPLETED, true);
+            }, 2000);
           }
         },
       },
@@ -130,6 +145,8 @@ export default class Game {
           } else {
             player.setVelocityX(10);
           }
+
+          this.soundController.play(SOUND.SPIKES);
         },
       },
       // Оранжевый портал
@@ -146,6 +163,7 @@ export default class Game {
           player.setVelocityY(0);
           player.setX(32);
           player.setY(128);
+          this.soundController.play(SOUND.TELEPORT);
         },
       },
     ];
@@ -164,10 +182,27 @@ export default class Game {
     this.control.addKey('KeyT', CONTROL_KEY.T);
   }
 
+  async registerSounds(): Promise<void> {
+    const sounds = [
+      this.soundController.add(SOUND.TRAMPOLINE, trampolineSound, false),
+      this.soundController.add(SOUND.TELEPORT, teleportSound, false),
+      this.soundController.add(SOUND.KEY, keySound, false),
+      this.soundController.add(SOUND.SPIKES, spikesSound, false),
+      this.soundController.add(SOUND.DOOR, doorSound, false),
+      this.soundController.add(SOUND.MUSIC, musicSound, true),
+    ];
+
+    await Promise.all(sounds);
+  }
+
   async init(): Promise<void> {
     this.registerKeys();
 
+    await this.registerSounds();
+
     await this.view.init();
+
+    this.soundController.play(SOUND.MUSIC);
 
     const levelObjects = this.buildLevelObjects(this.levels[this.startLevelIndex]);
 
@@ -204,5 +239,6 @@ export default class Game {
 
   destroy(): void {
     this.control.destroy();
+    this.soundController.destroy();
   }
 }

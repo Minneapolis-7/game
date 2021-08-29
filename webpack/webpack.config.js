@@ -78,7 +78,7 @@ module.exports = ({ mode = 'production', presets = [] } = {}) =>
           },
           // https://webpack.js.org/guides/asset-modules/
           {
-            test: /\.(png|jpg|jpeg|gif)$/,
+            test: /\.(png|jpg|jpeg|gif|mp3)$/,
             type: 'asset/resource',
           },
           {

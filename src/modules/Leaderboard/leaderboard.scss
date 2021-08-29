@@ -4,10 +4,10 @@
 }
 
 .leaderboard__head {
-  text-align: center;
   margin-top: 2.5 * $gap-y-lg;
   margin-bottom: 2 * $gap-y-lg;
   color: $yellow;
+  text-align: center;
 }
 
 .leaderboard__wrapper-row {
@@ -16,8 +16,8 @@
 }
 
 .leaderboard__players-list {
-  list-style-type: none;
   padding: 0;
+  list-style-type: none;
 }
 
 .leaderboard__players-list li:nth-child(1) {
@@ -47,7 +47,6 @@
 }
 
 .leaderboard__points {
-  white-space: nowrap;
   margin-left: $gap-x-generic;
+  white-space: nowrap;
 }
-

@@ -15,7 +15,7 @@ ReactDOM.render(
       <nav style={{ position: 'absolute', left: 0, right: 0, backgroundColor: 'red' }}>
         <ul className="nolist">
           <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
-            <Link to="/">Логин на главной</Link>
+            <Link to="/">Игра</Link>
           </li>
           <li style={{ display: 'inline-block', padding: '.2em 1em' }}>
             <Link to={paths.LOGIN}>Логин</Link>
