@@ -56,4 +56,10 @@ describe('Input', () => {
 
     expect(screen.queryByLabelText('test')).not.toBeInTheDocument();
   });
+
+  it('renders error', () => {
+    render(<Input error="error" />);
+
+    expect(screen.queryByRole('alert')).toBeInTheDocument();
+  });
 });

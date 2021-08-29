@@ -40,7 +40,11 @@ export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
         {...rest}
         placeholder={hint}
       />
-      {error && <div className={b('error').mix('error')}>{error}</div>}
+      {error && (
+        <div role="alert" className={b('error').mix('error')}>
+          {error}
+        </div>
+      )}
     </div>
   );
 });

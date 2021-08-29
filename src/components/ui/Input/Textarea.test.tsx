@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
+import Input from '@/components/ui/Input/Input';
+
 import Textarea from './Textarea';
 
 describe('Textarea', () => {
@@ -44,5 +46,11 @@ describe('Textarea', () => {
     render(<Textarea hint="test" isFixed={true} />);
 
     expect(screen.getByPlaceholderText('test')).toHaveAttribute('data-fixed', 'true');
+  });
+
+  it('renders error', () => {
+    render(<Input error="error" />);
+
+    expect(screen.queryByRole('alert')).toBeInTheDocument();
   });
 });
