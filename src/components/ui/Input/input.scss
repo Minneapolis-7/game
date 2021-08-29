@@ -97,27 +97,19 @@ $input-hint-font-size: $field-font-size;
   @include input-field-transform($field-gap-x);
 }
 
-$input-error-line-height: 1.3em;
-.input > .error {
+.input__error {
   position: absolute;
   top: 100%;
   right: 0;
   left: 0;
   display: none;
   width: 100%;
+  margin-top: 0.3em;
+  font-size: 0.9em;
 }
-.input[data-display='inline'] > .input > .error {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  left: 0;
-  margin-top: -$input-error-line-height;
-}
-/* stylelint-disable no-descending-specificity */
-.has-error.input > .error {
+.has-error > .input__error {
   display: block;
 }
-/* stylelint-enable no-descending-specificity */
 
 .input__spacer {
   flex-grow: 0;

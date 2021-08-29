@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { block } from 'bem-cn';
 
 import { GameReactComponent } from '@/components';
@@ -23,9 +23,9 @@ const b = block('game-screen');
 function GameScreen(): JSX.Element {
   const [gameScreen, setGameScreen] = useState(GAME_SCREEN.START);
 
-  const handleGameStart = () => {
+  const handleGameStart = useCallback(() => {
     setGameScreen(GAME_SCREEN.PLAY);
-  };
+  }, []);
 
   const handleStateUpdate = (gameState: GameState | null) => {
     if (!gameState) {
