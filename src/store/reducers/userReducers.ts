@@ -1,13 +1,18 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { UpdateProfileResponse } from '@/api/types';
+import { SignInRequest, SignUpRequest } from '@/api/types';
+import api from '@/api/userApi';
 import { User } from '@/shared/types/types';
 import type { RootState } from '@/store/store';
 
-import { setLoding } from './appReducers';
+type UserState = User & {
+  loading: string;
+  currentRequestId: string | undefined;
+  error: unknown;
+};
 
-const initialState: User = {
+const initialState: UserState = {
   id: null,
   firstName: '',
   secondName: '',
@@ -17,76 +22,77 @@ const initialState: User = {
   password: '',
   phone: '',
   avatar: null,
+  loading: 'idle',
+  currentRequestId: undefined,
+  error: null,
 };
+
+export const signinRequest = createAsyncThunk(
+  'user/signinRequestStatus',
+  async (user: SignInRequest) => {
+    await api.signin(user);
+  }
+);
+
+export const signupRequest = createAsyncThunk(
+  'user/signupRequestStatus',
+  async (user: SignUpRequest) => {
+    const response = await api.signup(user);
+    return response;
+  }
+);
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    signupReguested: () => {
-      setLoding(true);
-    },
-    signupReguestSucceeded: (userState, action: PayloadAction<number>) => {
-      userState.id = action.payload;
-      setLoding(false);
-    },
-    signinReguested: () => {
-      setLoding(true);
-    },
-    signinReguestSucceeded: () => {
-      setLoding(false);
-    },
-    logoutReguested: () => {
-      setLoding(true);
-    },
-    logoutReguestSucceeded: () => {
-      setLoding(false);
-    },
-    updateProfileReguested: () => {
-      setLoding(true);
-    },
-    updateProfileSucceeded: (userState, action: PayloadAction<UpdateProfileResponse>) => {
-      userState.id = action.payload.id;
-      userState.firstName = action.payload.firstName;
-      userState.secondName = action.payload.secondName;
-      userState.displayName = action.payload.displayName;
-      userState.login = action.payload.login;
-      userState.email = action.payload.email;
-      userState.phone = action.payload.phone;
-      userState.avatar = action.payload.avatar;
-      setLoding(false);
-    },
-    updateAvatarReguested: () => {
-      setLoding(true);
-    },
-    updateAvatarSucceeded: (userState, action: PayloadAction<UpdateProfileResponse>) => {
-      userState.avatar = action.payload.avatar;
-      setLoding(false);
-    },
-    updatePasswordReguested: () => {
-      setLoding(true);
-    },
-    updatePasswordSucceeded: (userState, action: PayloadAction<UpdateProfileResponse>) => {
-      userState.avatar = action.payload.avatar;
-      setLoding(false);
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(signinRequest.pending, (state, action) => {
+        if (state.loading === 'idle') {
+          state.loading = 'pending';
+          state.currentRequestId = action.meta.requestId;
+        }
+      })
+      .addCase(signinRequest.fulfilled, (state, action) => {
+        const { requestId } = action.meta;
+        if (state.loading === 'pending' && state.currentRequestId === requestId) {
+          state.loading = 'idle';
+          state.currentRequestId = undefined;
+        }
+      })
+      .addCase(signinRequest.rejected, (state, action) => {
+        const { requestId } = action.meta;
+        if (state.loading === 'pending' && state.currentRequestId === requestId) {
+          state.loading = 'idle';
+          state.error = action.error;
+          state.currentRequestId = undefined;
+        }
+      })
+      .addCase(signupRequest.pending, (state, action) => {
+        if (state.loading === 'idle') {
+          state.loading = 'pending';
+          state.currentRequestId = action.meta.requestId;
+        }
+      })
+      .addCase(signupRequest.fulfilled, (state, action) => {
+        const { requestId } = action.meta;
+        if (state.loading === 'pending' && state.currentRequestId === requestId) {
+          state.loading = 'idle';
+          state.id = action.payload;
+          state.currentRequestId = undefined;
+        }
+      })
+      .addCase(signupRequest.rejected, (state, action) => {
+        const { requestId } = action.meta;
+        if (state.loading === 'pending' && state.currentRequestId === requestId) {
+          state.loading = 'idle';
+          state.error = action.error;
+          state.currentRequestId = undefined;
+        }
+      });
   },
 });
-
-export const {
-  signupReguested,
-  signupReguestSucceeded,
-  signinReguested,
-  signinReguestSucceeded,
-  logoutReguested,
-  logoutReguestSucceeded,
-  updateProfileReguested,
-  updateProfileSucceeded,
-  updateAvatarReguested,
-  updateAvatarSucceeded,
-  updatePasswordReguested,
-  updatePasswordSucceeded,
-} = userSlice.actions;
 
 export const userState = (state: RootState): User => ({
   id: state.user.id,
