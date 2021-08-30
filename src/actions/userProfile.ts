@@ -8,7 +8,7 @@ import {
   updatePasswordSucceeded,
   updateProfileReguested,
   updateProfileSucceeded,
-} from '@/store/reducers/index';
+} from '@/store/reducers';
 import { AppDispatch } from '@/store/store';
 
 export const updateProfile = (user: UpdateProfileRequest) => {
