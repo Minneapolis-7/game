@@ -86,6 +86,7 @@
     "postcss": "8.3.6",
     "postcss-em-media-query": "4.1.0",
     "postcss-loader": "6.1.1",
+    "postcss-pxtorem": "6.0.0",
     "prettier": "2.3.2",
     "regenerator-runtime": "0.13.9",
     "rimraf": "3.0.2",
