@@ -43,7 +43,7 @@ module.exports = {
         'plugin:import/typescript',
         'plugin:prettier/recommended',
       ],
-      plugins: ['simple-import-sort'],
+      plugins: ['simple-import-sort', '@andreyvolokitin/destructuring'],
       parserOptions: {
         ecmaVersion: 2020,
         sourceType: 'module',
@@ -104,6 +104,10 @@ module.exports = {
         'no-tabs': 'error',
         'no-unexpected-multiline': 'error',
         'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
+        '@andreyvolokitin/destructuring/in-params': [
+          'error',
+          { 'max-params': 2, 'max-destructured': 3 },
+        ],
       },
 
       settings: {

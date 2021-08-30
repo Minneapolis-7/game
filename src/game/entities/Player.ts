@@ -62,7 +62,9 @@ export default class Player {
     };
   }
 
-  setHitBox({ top, right, bottom, left }: PlayerHitBox): void {
+  setHitBox(hitBox: PlayerHitBox): void {
+    const { top, right, bottom, left } = hitBox;
+
     this.hitBox = {
       top,
       right,

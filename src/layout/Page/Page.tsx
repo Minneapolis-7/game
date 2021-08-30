@@ -12,15 +12,17 @@ type PageProps = {
 
 const b = block('page');
 
-function Page({
-  className = '',
-  centered = false,
-  fullscreen = false,
-  delegated = false,
-  title = '',
-  children,
-  ...rest
-}: PageProps): JSX.Element {
+function Page(props: PageProps): JSX.Element {
+  const {
+    className = '',
+    centered = false,
+    fullscreen = false,
+    delegated = false,
+    title = '',
+    children,
+    ...rest
+  } = props;
+
   useEffect(() => {
     document.title = title;
   }, [title]);

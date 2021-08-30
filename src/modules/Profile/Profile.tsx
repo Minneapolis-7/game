@@ -28,15 +28,8 @@ type ProfileTableRowProps = {
   autoComplete?: string;
 };
 
-function ProfileTableRow({
-  label,
-  value,
-  id,
-  action,
-  inputType = 'text',
-  required = true,
-  autoComplete,
-}: ProfileTableRowProps): JSX.Element {
+function ProfileTableRow(props: ProfileTableRowProps): JSX.Element {
+  const { label, value, id, action, inputType = 'text', required = true, autoComplete } = props;
   const handleInputFocus = useCallback((e) => e.target.select(), []);
 
   const BaseInput = (
