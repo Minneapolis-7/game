@@ -10,16 +10,7 @@ const b = block('button');
 export { ButtonLinkProps };
 
 export default forwardRef<HTMLAnchorElement, ButtonLinkProps>(function ButtonLink(
-  {
-    className = '',
-    theme = 'default',
-    sizing = 'default',
-    display,
-    href = '#',
-    icon,
-    children,
-    ...rest
-  }: ButtonLinkProps,
+  { className = '', theme, sizing, display, href = '#', icon, children, ...rest }: ButtonLinkProps,
   ref
 ): JSX.Element {
   return (

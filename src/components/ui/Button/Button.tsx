@@ -8,16 +8,7 @@ type ButtonProps = ButtonBaseProps & ButtonHTMLAttributes<HTMLButtonElement>;
 const b = block('button');
 
 export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  {
-    className = '',
-    theme = 'default',
-    sizing = 'default',
-    display,
-    type = 'button',
-    icon,
-    children,
-    ...rest
-  }: ButtonProps,
+  { className = '', theme, sizing, display, type = 'button', icon, children, ...rest }: ButtonProps,
   ref
 ): JSX.Element {
   return (

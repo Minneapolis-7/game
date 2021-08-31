@@ -16,8 +16,8 @@ export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
   {
     className = '',
     fieldClassName = '',
-    theme = 'default',
-    sizing = 'default',
+    theme,
+    sizing,
     display,
     hint,
     isFixed,
