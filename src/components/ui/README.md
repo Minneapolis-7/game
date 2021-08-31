@@ -90,3 +90,42 @@ import Button from 'components/ui/Button';
 Компонент использует [`forwardRef`](https://reactjs.org/docs/forwarding-refs.html) для обеспечения доступа к DOM-элементу компонента.
 
 [Текстовое значение передаётся через `value`.](https://reactjs.org/docs/dom-elements.html#value)
+
+#### Spinner
+
+Спиннер. Принимает все атрибуты, которые может принимать тег `<div>`, а также свойства:
+
+- `className?: string` - кастомные классы
+- `size?: SizingLabel` - размер
+- `color?: string` - цвет
+- `position?: 'center' | `${CSSLengthString};${CSSLengthString}`` - положение центра спиннера (x;y)
+
+По умолчанию спиннер `display: block` (можно рассмотреть `none`, зависит от того, как он будет применяться на практике — через модификацию DOM или добавление класса).
+
+Кастомизация возможна тремя путями:
+
+- задать кастомный класс спиннеру и описать его в `spinner.scss`:
+
+```css
+.button-spinner {
+  --size: 2rem;
+
+  top: 50%;
+  left: 50%;
+  color: rebeccapurple;
+}
+```
+
+- стилизовать от родителя в стилях компонентов-консьюмеров:
+
+```css
+.button > .spinner {
+  --size: 2rem;
+
+  top: 50%;
+  left: 50%;
+  color: rebeccapurple;
+}
+```
+
+- инлайн-стилями через пропсы компонента
