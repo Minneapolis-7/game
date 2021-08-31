@@ -12,9 +12,7 @@ const b = block('spinner');
 
 function Spinner(props: SpinnerProps): JSX.Element {
   const { className = '', size, color, position } = props;
-  let style = {
-    color,
-  } as Record<string, string>;
+  let style = {} as Record<string, string>;
 
   if (position) {
     style = position.split(';').reduce((total, val, i) => {
@@ -29,6 +27,10 @@ function Spinner(props: SpinnerProps): JSX.Element {
   if (position === 'center') {
     style.left = '50%';
     style.top = '50%';
+  }
+
+  if (color) {
+    style.color = color;
   }
 
   return (
