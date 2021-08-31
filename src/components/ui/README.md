@@ -107,8 +107,8 @@ import Button from 'components/ui/Button';
 - задать кастомный класс спиннеру и описать его в `spinner.scss`:
 
 ```css
-.button-spinner {
-  --size: 2rem;
+.spinner_game-screen {
+  --size: 10rem;
 
   top: 50%;
   left: 50%;
@@ -116,7 +116,7 @@ import Button from 'components/ui/Button';
 }
 ```
 
-- стилизовать от родителя в стилях компонентов-консьюмеров:
+- стилизовать от родителя в стилях компонентов-консьюмеров (например, `button.scss`):
 
 ```css
 .button > .spinner {
