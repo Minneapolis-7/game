@@ -10,7 +10,8 @@ type SpinnerProps = {
 
 const b = block('spinner');
 
-function Spinner({ className = '', size, color, position }: SpinnerProps): JSX.Element {
+function Spinner(props: SpinnerProps): JSX.Element {
+  const { className = '', size, color, position } = props;
   let style = {
     color,
   } as Record<string, string>;
