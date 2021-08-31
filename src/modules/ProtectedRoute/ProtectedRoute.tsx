@@ -1,26 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 
-import useAuth from '@/shared/hooks/useAuth';
+import paths from '@/shared/const/paths';
+import useAuth from '@/shared/utils/hooks/useAuth';
 
-type ProtectedRouteProps = {
-  children: JSX.Element;
-};
-
-function ProtectedRoute({ children, ...props }: ProtectedRouteProps & RouteProps): JSX.Element {
+function ProtectedRoute(props: RouteProps): JSX.Element | null {
   const { isChecking, isLoggedIn } = useAuth();
 
-  useEffect(() => {
-    if (isChecking) {
-      document.title = 'Загрузка ...';
-    }
-  }, [isChecking]);
-
   if (isChecking) {
-    return <div>Загрузка ...</div>;
+    return null;
   }
 
-  return <Route {...props}>{isLoggedIn ? <>{children}</> : <Redirect to="/login" />}</Route>;
+  return isLoggedIn ? <Route {...props} /> : <Redirect to={paths.LOGIN} />;
 }
 
 export default ProtectedRoute;

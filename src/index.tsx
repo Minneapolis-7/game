@@ -55,18 +55,16 @@ ReactDOM.render(
         {routes.map((route) => {
           const Component = route.component;
 
-          // Используемый компонент для роута
-          let UsedRoute: typeof Route | typeof ProtectedRoute = Route;
+          let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
 
-          // Если роут должен быть защищён, используется ProtectedRoute
-          if (route.isProtected) {
-            UsedRoute = ProtectedRoute;
+          if (route.protected) {
+            RouteComponent = ProtectedRoute;
           }
 
           return (
-            <UsedRoute key={route.path} path={route.path} exact={route.exact}>
+            <RouteComponent key={route.path} path={route.path} exact={route.exact}>
               <Component title={route.title} />
-            </UsedRoute>
+            </RouteComponent>
           );
         })}
       </Switch>

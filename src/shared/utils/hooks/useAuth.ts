@@ -2,18 +2,19 @@ import { useEffect, useState } from 'react';
 
 import userApi from '@/api/userApi';
 
-type HookUseAuthState = {
+type HookState = {
   isChecking: boolean;
   isLoggedIn: boolean;
 };
 
-export default (): HookUseAuthState => {
+export default (): HookState => {
   const [isChecking, setIsChecking] = useState(true);
   const [isLoggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
       setIsChecking(true);
+
       try {
         await userApi.getUser();
 
