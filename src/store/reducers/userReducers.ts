@@ -27,20 +27,14 @@ const initialState: UserState = {
   error: null,
 };
 
-export const signinRequest = createAsyncThunk(
-  'user/signinRequestStatus',
-  async (user: SignInRequest) => {
-    await api.signin(user);
-  }
-);
+export const signinRequest = createAsyncThunk('user/signinRequest', async (user: SignInRequest) => {
+  await api.signin(user);
+});
 
-export const signupRequest = createAsyncThunk(
-  'user/signupRequestStatus',
-  async (user: SignUpRequest) => {
-    const response = await api.signup(user);
-    return response;
-  }
-);
+export const signupRequest = createAsyncThunk('user/signupRequest', async (user: SignUpRequest) => {
+  const response = await api.signup(user);
+  return response;
+});
 
 export const userSlice = createSlice({
   name: 'user',
@@ -70,12 +64,14 @@ export const userSlice = createSlice({
         }
       })
       .addCase(signupRequest.pending, (state, action) => {
+        console.log('signupRequest.pending');
         if (state.loading === 'idle') {
           state.loading = 'pending';
           state.currentRequestId = action.meta.requestId;
         }
       })
       .addCase(signupRequest.fulfilled, (state, action) => {
+        console.log('signupRequest.fulfilled');
         const { requestId } = action.meta;
         if (state.loading === 'pending' && state.currentRequestId === requestId) {
           state.loading = 'idle';
@@ -84,6 +80,7 @@ export const userSlice = createSlice({
         }
       })
       .addCase(signupRequest.rejected, (state, action) => {
+        console.log('signupRequest.rejected');
         const { requestId } = action.meta;
         if (state.loading === 'pending' && state.currentRequestId === requestId) {
           state.loading = 'idle';
