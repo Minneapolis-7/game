@@ -1,18 +1,17 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-import { SignInRequest, SignUpRequest } from '@/api/types';
+import {
+  SignInRequest,
+  SignUpRequest,
+  UpdatePasswordRequest,
+  UpdateProfileRequest,
+} from '@/api/types';
 import api from '@/api/userApi';
 import { User } from '@/shared/types/types';
 import type { RootState } from '@/store/store';
 
-type UserState = User & {
-  loading: string;
-  currentRequestId: string | undefined;
-  error: unknown;
-};
-
-const initialState: UserState = {
+const initialState: User = {
   id: null,
   firstName: '',
   secondName: '',
@@ -22,23 +21,41 @@ const initialState: UserState = {
   password: '',
   phone: '',
   avatar: null,
-  loading: 'idle',
-  currentRequestId: undefined,
-  error: null,
 };
 
-export const signinRequest = createAsyncThunk(
-  'user/signinRequestStatus',
-  async (user: SignInRequest) => {
-    await api.signin(user);
+export const signinRequest = createAsyncThunk('user/signinRequest', async (user: SignInRequest) => {
+  await api.signin(user);
+});
+
+export const signupRequest = createAsyncThunk('user/signupRequest', async (user: SignUpRequest) => {
+  const response = await api.signup(user);
+  return response;
+});
+
+export const logoutRequest = createAsyncThunk('user/logoutRequest', async () => {
+  await api.logout();
+});
+
+export const updateProfileRequest = createAsyncThunk(
+  'user/updateProfileRequest',
+  async (user: UpdateProfileRequest) => {
+    const response = await api.updateProfile(user);
+    return response;
   }
 );
 
-export const signupRequest = createAsyncThunk(
-  'user/signupRequestStatus',
-  async (user: SignUpRequest) => {
-    const response = await api.signup(user);
+export const updateAvatarRequest = createAsyncThunk(
+  'user/updateAvatarRequest',
+  async (formData: FormData) => {
+    const response = await api.updateAvatar(formData);
     return response;
+  }
+);
+
+export const updatePasswordRequest = createAsyncThunk(
+  'user/logoutRequest',
+  async (password: UpdatePasswordRequest) => {
+    await api.updatePassword(password);
   }
 );
 
@@ -48,62 +65,20 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(signinRequest.pending, (state, action) => {
-        if (state.loading === 'idle') {
-          state.loading = 'pending';
-          state.currentRequestId = action.meta.requestId;
-        }
-      })
-      .addCase(signinRequest.fulfilled, (state, action) => {
-        const { requestId } = action.meta;
-        if (state.loading === 'pending' && state.currentRequestId === requestId) {
-          state.loading = 'idle';
-          state.currentRequestId = undefined;
-        }
-      })
-      .addCase(signinRequest.rejected, (state, action) => {
-        const { requestId } = action.meta;
-        if (state.loading === 'pending' && state.currentRequestId === requestId) {
-          state.loading = 'idle';
-          state.error = action.error;
-          state.currentRequestId = undefined;
-        }
-      })
-      .addCase(signupRequest.pending, (state, action) => {
-        if (state.loading === 'idle') {
-          state.loading = 'pending';
-          state.currentRequestId = action.meta.requestId;
-        }
-      })
       .addCase(signupRequest.fulfilled, (state, action) => {
-        const { requestId } = action.meta;
-        if (state.loading === 'pending' && state.currentRequestId === requestId) {
-          state.loading = 'idle';
-          state.id = action.payload;
-          state.currentRequestId = undefined;
-        }
+        state.id = action.payload;
       })
-      .addCase(signupRequest.rejected, (state, action) => {
-        const { requestId } = action.meta;
-        if (state.loading === 'pending' && state.currentRequestId === requestId) {
-          state.loading = 'idle';
-          state.error = action.error;
-          state.currentRequestId = undefined;
-        }
+      .addCase(updateProfileRequest.fulfilled, (state, action) => {
+        Object.assign(state, action.payload);
+      })
+      .addCase(updateAvatarRequest.fulfilled, (state, action) => {
+        state.avatar = action.payload.avatar;
       });
   },
 });
 
 export const userState = (state: RootState): User => ({
-  id: state.user.id,
-  firstName: state.user.firstName,
-  secondName: state.user.secondName,
-  displayName: state.user.displayName,
-  login: state.user.login,
-  email: state.user.email,
-  phone: state.user.phone,
-  avatar: state.user.avatar,
-  password: state.user.password,
+  ...state.user,
 });
 
 export default userSlice.reducer;

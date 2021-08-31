@@ -1,15 +1,2 @@
-export { setLoding, reguestedFailed } from './appReducers';
-export {
-  signupReguested,
-  signupReguestSucceeded,
-  signinReguested,
-  signinReguestSucceeded,
-  logoutReguested,
-  logoutReguestSucceeded,
-  updateProfileReguested,
-  updateProfileSucceeded,
-  updateAvatarReguested,
-  updateAvatarSucceeded,
-  updatePasswordReguested,
-  updatePasswordSucceeded,
-} from './userReducers';
+// eslint-disable-next-line import/prefer-default-export
+export { signupRequest } from './userReducers';
