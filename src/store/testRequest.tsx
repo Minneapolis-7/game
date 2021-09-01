@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 import { Button, Input } from '@/components/ui';
 import Page from '@/layout/Page';
-import Auth from '@/modules/Auth';
 import paths from '@/shared/const/paths';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 import { signupRequest } from '@/store/reducers';
@@ -21,8 +20,10 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
       secondName: 'Иванов',
       password: '12344321',
     };
+
     try {
       const resultAction = await dispatch(signupRequest(user)).unwrap();
+
       console.log('success', `Получены данные пользователя ${resultAction}`);
     } catch (err) {
       console.log('error', `Запрос завершился ошибкой: ${err.message}`);
@@ -31,7 +32,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
 
   return (
     <Page centered title={title}>
-      <Auth stage="login" heading="Вход">
+      <div>
         <div className="gap-y-xl">
           <Input
             className="gap-y-lg"
@@ -67,7 +68,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
             })}
           />
         </div>
-      </Auth>
+      </div>
     </Page>
   );
 }

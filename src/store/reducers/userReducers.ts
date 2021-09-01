@@ -29,6 +29,7 @@ export const signinRequest = createAsyncThunk('user/signinRequest', async (user:
 
 export const signupRequest = createAsyncThunk('user/signupRequest', async (user: SignUpRequest) => {
   const response = await api.signup(user);
+
   return response;
 });
 
@@ -40,6 +41,7 @@ export const updateProfileRequest = createAsyncThunk(
   'user/updateProfileRequest',
   async (user: UpdateProfileRequest) => {
     const response = await api.updateProfile(user);
+
     return response;
   }
 );
@@ -48,6 +50,7 @@ export const updateAvatarRequest = createAsyncThunk(
   'user/updateAvatarRequest',
   async (formData: FormData) => {
     const response = await api.updateAvatar(formData);
+
     return response;
   }
 );
