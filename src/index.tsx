@@ -68,9 +68,9 @@ ReactDOM.render(
           </ul>
         </nav>
 
-          <Switch>
-            {routes.map((route) => {
-              const Component = route.component;
+        <Switch>
+          {routes.map((route) => {
+            const Component = route.component;
 
             let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
 
