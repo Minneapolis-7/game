@@ -6,6 +6,7 @@ import { Form, Formik } from 'formik';
 import { Input } from '@/components/formik-ui';
 import { Avatar, Button, Filepick } from '@/components/ui';
 import paths from '@/shared/const/paths';
+import text from '@/shared/const/text';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 
@@ -46,7 +47,7 @@ function ProfileTableRow({
       id={id}
       display="inline"
       theme="transparent"
-      hint="Редактировать"
+      hint={text.profile.editPlaceholder}
       type={inputType}
       required={required}
       autoComplete={autoComplete}
@@ -116,6 +117,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
         <Avatar className={b('pic')} size="10rem" src={getResourceURL(user.avatar)} populatable>
           <Filepick
             className={b('pic-setter')}
+            title={text.profile.editAvatarTitle}
             id="avatar"
             name="avatar"
             accept="image/jpeg, image/png, image/gif, image/tiff, .jpg, .jpeg, .png, .gif, .tif, .tiff"
@@ -137,32 +139,32 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                   {(action === 'edit' || !action) && (
                     <>
                       <ProfileTableRow
-                        label="Почта"
+                        label={text.profile.emailLabel}
                         value={user.email}
                         id="email"
                         inputType="email"
                         action={action}
                       />
                       <ProfileTableRow
-                        label="Логин"
+                        label={text.profile.loginLabel}
                         value={user.login}
                         id="login"
                         action={action}
                       />
                       <ProfileTableRow
-                        label="Имя"
+                        label={text.profile.firstNameLabel}
                         value={user.firstName}
                         id="firstName"
                         action={action}
                       />
                       <ProfileTableRow
-                        label="Фамилия"
+                        label={text.profile.secondNameLabel}
                         value={user.secondName}
                         id="secondName"
                         action={action}
                       />
                       <ProfileTableRow
-                        label="Ник в игре"
+                        label={text.profile.nickNameLabel}
                         value={user.displayName}
                         id="displayName"
                         action={action}
@@ -172,7 +174,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                   {action === 'edit-password' && (
                     <>
                       <ProfileTableRow
-                        label="Старый пароль"
+                        label={text.profile.oldPasswordLabel}
                         value={user.password}
                         id="oldPassword"
                         inputType="password"
@@ -180,7 +182,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                         action={action}
                       />
                       <ProfileTableRow
-                        label="Новый пароль"
+                        label={text.profile.newPasswordLabel}
                         id="newPassword"
                         inputType="password"
                         autoComplete="new-password"
@@ -198,7 +200,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                             to={paths.PROFILE_EDIT}
                             component={getRoutedButtonLink({
                               theme: 'link',
-                              children: 'Изменить данные',
+                              children: text.profile.editButton,
                             })}
                           />
                         </td>
@@ -209,7 +211,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                             to={paths.PROFILE_EDIT_PASSWORD}
                             component={getRoutedButtonLink({
                               theme: 'link',
-                              children: 'Изменить пароль',
+                              children: text.profile.editPasswordButton,
                             })}
                           />
                         </td>
@@ -217,7 +219,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                       <tr className={b('table-row')}>
                         <td colSpan={2} className={b('table-cell')}>
                           <Button className="js-profile__logout" theme="link-danger">
-                            Выйти
+                            {text.profile.logoutButton}
                           </Button>
                         </td>
                       </tr>
@@ -227,7 +229,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                     <tr className={b('table-row')}>
                       <td colSpan={2} className={b('table-cell')}>
                         <Button type="submit" disabled={isSubmitting}>
-                          Сохранить
+                          {text.profile.saveButton}
                         </Button>
                       </td>
                     </tr>

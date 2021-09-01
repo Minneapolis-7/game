@@ -3,6 +3,8 @@ import { block } from 'bem-cn';
 import { formatDistance } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 
+import text from '@/shared/const/text';
+
 const b = block('user-stamp');
 const bLink = block('link');
 
@@ -23,7 +25,7 @@ function UserStamp({ user, date, profileURL }: UserStampProps): JSX.Element {
 
   return (
     <span className={b()}>
-      от{' '}
+      {text.userStamp.fromLabel}{' '}
       <a className={bLink({ action: true })} href={profileURL}>
         {user}
       </a>{' '}

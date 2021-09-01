@@ -7,6 +7,7 @@ import { Input } from '@/components/formik-ui';
 import { Button } from '@/components/ui';
 import Page from '@/layout/Page';
 import paths from '@/shared/const/paths';
+import text from '@/shared/const/text';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 
 import { loginSchema } from './schema';
@@ -28,7 +29,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
   return (
     <Page centered title={title}>
       <div className={bAuth()}>
-        <h4 className="heading_4 heading">Вход</h4>
+        <h4 className="heading_4 heading">{text.login.header}</h4>
         <Formik
           initialValues={loginInitialValues}
           validationSchema={loginSchema}
@@ -39,7 +40,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
               <div className="gap-y-xl">
                 <Input
                   className="gap-y-lg"
-                  hint="Логин"
+                  hint={text.login.loginLabel}
                   required
                   autoComplete="username"
                   id="login"
@@ -48,7 +49,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
                 <Input
                   type="password"
                   className="gap-y-lg"
-                  hint="Пароль"
+                  hint={text.login.passwordLabel}
                   required
                   autoComplete="current-password"
                   id="password"
@@ -57,7 +58,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
               </div>
               <div className="gap-y-sm">
                 <Button type="submit" display="block" disabled={isSubmitting}>
-                  Войти
+                  {text.login.submitButton}
                 </Button>
               </div>
               <div className="gap-y-sm">
@@ -65,7 +66,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
                   to={paths.REGISTER}
                   component={getRoutedButtonLink({
                     display: 'block',
-                    children: 'Зарегистрироваться',
+                    children: text.login.registerLink,
                     theme: 'link',
                   })}
                 />

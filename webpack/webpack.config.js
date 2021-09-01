@@ -82,6 +82,10 @@ module.exports = ({ mode = 'production', presets = [] } = {}) =>
             type: 'asset/resource',
           },
           {
+            test: /\.(json)$/,
+            type: 'asset/source',
+          },
+          {
             test: /\.svg$/,
             use: [{ loader: 'svg-sprite-loader' }],
           },

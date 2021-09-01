@@ -4,6 +4,7 @@ import { formatDistance } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
 
 import { Avatar, Button, Icon } from '@/components/ui';
+import text from '@/shared/const/text';
 
 import bookmarkSvg from 'bootstrap-icons/icons/bookmark.svg';
 import editSvg from 'bootstrap-icons/icons/pencil.svg';
@@ -46,14 +47,14 @@ function ForumComment({ data, className = '' }: ForumCommentProps): JSX.Element 
           </a>{' '}
           <Button
             display="inline"
-            title="Редактировать"
+            title={text.forum.commentEditButtonTitle}
             sizing="sm"
             theme="subtle"
             icon={<Icon name={editSvg.id} />}
           />
           <Button
             display="inline"
-            title="Удалить"
+            title={text.forum.commentDeleteButtonTitle}
             sizing="sm"
             theme="subtle"
             icon={<Icon name={deleteSvg.id} />}
@@ -62,7 +63,7 @@ function ForumComment({ data, className = '' }: ForumCommentProps): JSX.Element 
         {content}
         <div className={b('toolbar')}>
           <Button display="inline" theme="link" icon={<Icon size="1.2em" name={replySvg.id} />}>
-            Ответить
+            {text.forum.commentReplyButton}
           </Button>
         </div>
       </div>
