@@ -1,2 +1,2 @@
-export { setLoding, reguestedFailed } from './appReducers';
+// eslint-disable-next-line import/prefer-default-export
 export { signupRequest } from './userReducers';
