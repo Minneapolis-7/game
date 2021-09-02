@@ -214,6 +214,7 @@ export default class Game {
   buildLevelObjects(level: Level): LevelObjects {
     const indexedObjects = this.gameObjects.reduce((acc, gameObject) => {
       acc[gameObject.id] = gameObject;
+
       return acc;
     }, {} as Record<string | number, GameObjectConstructorOptions>);
 

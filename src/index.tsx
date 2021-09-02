@@ -2,11 +2,26 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 
+import ProtectedRoute from '@/modules/ProtectedRoute';
 import RootErrorBoundary from '@/modules/RootErrorBoundary';
 import paths from '@/shared/const/paths';
 import routes from '@/shared/const/routes';
 
 import '@/css/main.scss';
+
+function startServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', async () => {
+      try {
+        await navigator.serviceWorker.register('/service-worker.js');
+      } catch (error) {
+        throw new Error(error);
+      }
+    });
+  }
+}
+
+startServiceWorker();
 
 ReactDOM.render(
   <RootErrorBoundary>
@@ -54,10 +69,16 @@ ReactDOM.render(
         {routes.map((route) => {
           const Component = route.component;
 
+          let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
+
+          if (route.protected) {
+            RouteComponent = ProtectedRoute;
+          }
+
           return (
-            <Route key={route.path} path={route.path} exact={route.exact}>
+            <RouteComponent key={route.path} path={route.path} exact={route.exact}>
               <Component title={route.title} />
-            </Route>
+            </RouteComponent>
           );
         })}
       </Switch>

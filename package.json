@@ -87,6 +87,7 @@
     "postcss": "8.3.6",
     "postcss-em-media-query": "4.1.0",
     "postcss-loader": "6.1.1",
+    "postcss-pxtorem": "6.0.0",
     "prettier": "2.3.2",
     "regenerator-runtime": "0.13.9",
     "rimraf": "3.0.2",
@@ -107,7 +108,8 @@
     "webpack-dev-server": "4.0.0-rc.0",
     "webpack-manifest-plugin": "4.0.2",
     "webpack-merge": "5.8.0",
-    "webpack-remove-empty-scripts": "0.7.1"
+    "webpack-remove-empty-scripts": "0.7.1",
+    "workbox-webpack-plugin": "6.2.4"
   },
   "engines": {
     "node": ">=12.13.0"
