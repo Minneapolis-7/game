@@ -9,6 +9,20 @@ import routes from '@/shared/const/routes';
 
 import '@/css/main.scss';
 
+function startServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', async () => {
+      try {
+        await navigator.serviceWorker.register('/service-worker.js');
+      } catch (error) {
+        throw new Error(error);
+      }
+    });
+  }
+}
+
+startServiceWorker();
+
 ReactDOM.render(
   <RootErrorBoundary>
     <Router>

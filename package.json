@@ -106,7 +106,8 @@
     "webpack-dev-server": "4.0.0-rc.0",
     "webpack-manifest-plugin": "4.0.2",
     "webpack-merge": "5.8.0",
-    "webpack-remove-empty-scripts": "0.7.1"
+    "webpack-remove-empty-scripts": "0.7.1",
+    "workbox-webpack-plugin": "6.2.4"
   },
   "engines": {
     "node": ">=12.13.0"
