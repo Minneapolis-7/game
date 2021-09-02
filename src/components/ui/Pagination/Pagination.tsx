@@ -14,7 +14,8 @@ type PaginationItemProps = PropsWithChildren<{
   mod?: string | BemMods; // второй аргумент для `b()`: https://github.com/albburtsev/bem-cn#api
 }>;
 
-function PaginationItem({ children, href, title, mod = '' }: PaginationItemProps): JSX.Element {
+function PaginationItem(props: PaginationItemProps): JSX.Element {
+  const { children, href, title, mod = '' } = props;
   const tagBaseProps = {
     className: b('handle'),
     children,
@@ -36,12 +37,8 @@ type PaginationProps = {
   baseURL: string;
 };
 
-function Pagination({
-  className = '',
-  total,
-  current = 1,
-  baseURL = '',
-}: PaginationProps): JSX.Element {
+function Pagination(props: PaginationProps): JSX.Element {
+  const { className = '', total, current = 1, baseURL = '' } = props;
   const nextIndex = current + 1;
   const prevIndex = current - 1;
   const hasNext = nextIndex <= total;

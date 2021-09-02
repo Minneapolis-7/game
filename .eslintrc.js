@@ -49,7 +49,7 @@ module.exports = {
         'plugin:react-hooks/recommended',
         'plugin:import/typescript',
       ],
-      plugins: ['simple-import-sort'],
+      plugins: ['simple-import-sort', '@andreyvolokitin/destructuring'],
       parserOptions: {
         project: 'tsconfig.json',
       },
@@ -100,6 +100,10 @@ module.exports = {
         'import/first': 'error',
         'import/newline-after-import': 'error',
         'import/no-duplicates': 'error',
+        '@andreyvolokitin/destructuring/in-params': [
+          'error',
+          { 'max-params': 2, 'max-destructured': 3 },
+        ],
       },
 
       settings: {

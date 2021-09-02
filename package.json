@@ -46,6 +46,7 @@
     "yup": "0.32.9"
   },
   "devDependencies": {
+    "@andreyvolokitin/eslint-plugin-destructuring": "2.3.0",
     "@andreyvolokitin/postcss-inline-svg": "5.0.1",
     "@babel/core": "7.15.0",
     "@babel/plugin-transform-runtime": "7.15.0",

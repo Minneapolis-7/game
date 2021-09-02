@@ -6,9 +6,10 @@ import OriginalInput, { InputProps as OriginalInputProps } from '@/components/ui
 type InputProps = FormikFieldBaseProps & OriginalInputProps;
 
 export default forwardRef<HTMLInputElement, InputProps>(function Input(
-  { name, onChange, onBlur, ...rest }: InputProps,
+  props: InputProps,
   ref
 ): JSX.Element {
+  const { name, onChange, onBlur, ...rest } = props;
   const [field, meta] = useField(name);
   const { onChange: formikOnChange, onBlur: formikOnBlur } = field;
   const { error, touched } = meta;
