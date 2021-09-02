@@ -47,4 +47,6 @@ export const GAME_CONFIG = {
   PLAYER_SPEED: 2,
   // Мощность прыжка
   PLAYER_JUMP_POWER: 2.5,
+  // Максимальное кол-во жизней
+  MAX_HEALTH: 3,
 } as const;

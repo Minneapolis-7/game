@@ -42,3 +42,8 @@
 
 // Лэйаут
 @import '../layout/Page/page';
+
+// Компоненты игры
+@import '../components/GameReactComponent/game-react-component.scss';
+@import '../modules/GameOverlay/game-overlay.scss';
+@import '../modules/GameScreen/game-screen.scss';
