@@ -17,6 +17,7 @@ export default class GameObject {
   public z: 0 | 1;
   public onOver?: (target: { gameObject: GameObject; player: Player }) => void;
   public onAbove?: (target: { gameObject: GameObject; player: Player }) => void;
+  public counter?: number;
 
   constructor(options: GameObjectConstructorOptions) {
     const { id = 0, sprite = [0, 0], hasCollision = false, z = 0, onOver, onAbove } = options;
@@ -27,6 +28,26 @@ export default class GameObject {
     this.z = z;
     this.onOver = onOver;
     this.onAbove = onAbove;
+    this.counter = 0;
+  }
+
+  resetOnOverCallback(): void {
+    this.onOver = undefined;
+  }
+
+  resetOnAboveCallback(): void {
+    this.onAbove = undefined;
+  }
+
+  ignore(): void {
+    this.resetOnAboveCallback();
+    this.resetOnOverCallback();
+  }
+
+  hideAndIgnore(): void {
+    // "Прозрачный" спрайт
+    this.setSprite([32, 64]);
+    this.ignore();
   }
 
   setSprite(sprite: [number, number]): void {
