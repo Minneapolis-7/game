@@ -1,6 +1,8 @@
 // `scrollbar-width: thin` = 10px (с зазорами в ~2px по бокам)
-$scrollbar-size: 10px;
-$scrollbar-gap: 2px;
+// prettier-ignore
+$scrollbar-size: 10PX;
+// prettier-ignore
+$scrollbar-gap: 2PX;
 $scrollbar-track-color: transparent;
 $scrollbar-thumb-color: $muted-color;
 
