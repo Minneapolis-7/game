@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Button, Input } from '@/components/ui';
@@ -8,7 +8,9 @@ import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 import { signupRequest } from '@/store/reducers';
 import { useAppDispatch } from '@/store/store';
 
-function LoginPage({ title }: GenericPageProps): JSX.Element {
+function TestComponent({ title }: GenericPageProps): JSX.Element {
+  const [userId, setUserId] = useState<number | null>(null);
+  let error = '';
   const dispatch = useAppDispatch();
   const onSubmit = async () => {
     const user = {
@@ -22,11 +24,13 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
     };
 
     try {
-      const resultAction = await dispatch(signupRequest(user)).unwrap();
+      const responce = await dispatch(signupRequest(user)).unwrap();
 
-      console.log('success', `Получены данные пользователя ${resultAction}`);
+      setUserId(responce);
+      console.log('success', `Получены данные пользователя ${responce}`);
     } catch (err) {
       console.log('error', `Запрос завершился ошибкой: ${err.message}`);
+      error = err.message;
     }
   };
 
@@ -58,6 +62,10 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
             Войти
           </Button>
         </div>
+        <details>
+          <summary>{userId}</summary>
+          <strong>{error}</strong>
+        </details>
         <div className="gap-y-sm">
           <Link
             to={paths.REGISTER}
@@ -73,4 +81,4 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
   );
 }
 
-export default LoginPage;
+export default TestComponent;
