@@ -59,6 +59,7 @@ export default class Game {
       isDoorUnlocked: false,
       isLevelCompleted: false,
       playerHealth: 3,
+      time: 0,
     };
 
     this.updateGameState = onStateUpdate;
@@ -125,6 +126,7 @@ export default class Game {
           if (this.gameState.isDoorUnlocked) {
             gameObject.setSprite([32, 96]);
             this.soundController.play(SOUND.DOOR);
+            this.stop();
 
             setTimeout(() => {
               this.setGameState(GAME_STATE_KEY.IS_LEVEL_COMPLETED, true);
@@ -228,6 +230,7 @@ export default class Game {
   }
 
   stop(): void {
+    this.gameState.time = 0;
     window.cancelAnimationFrame(this.requestAnimationId);
   }
 
@@ -236,6 +239,12 @@ export default class Game {
     this.world.update(this.control.keys);
     this.view.update(this.world, this.control.keys);
     this.requestAnimationId = window.requestAnimationFrame(this.loop);
+
+    const now = performance.now();
+
+    if (now - this.gameState.time * 1000 >= 1000) {
+      this.setGameState(GAME_STATE_KEY.TIME, Math.round(now / 1000));
+    }
   }
 
   destroy(): void {

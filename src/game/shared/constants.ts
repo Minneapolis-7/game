@@ -35,6 +35,7 @@ export const GAME_STATE_KEY = {
   IS_DOOR_UNLOCKED: 'isDoorUnlocked',
   IS_LEVEL_COMPLETED: 'isLevelCompleted',
   PLAYER_HEALTH: 'playerHealth',
+  TIME: 'time',
 } as const;
 
 // Настройки баланса игры

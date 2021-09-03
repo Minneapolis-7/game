@@ -7,15 +7,15 @@ import lostHealthImage from 'assets/img/game/overlay-lost-health.png';
 
 const b = block('game-overlay');
 
-type GameProps = {
+type GameOverlayProps = {
   className: string;
   maxHealth: number;
   health: number;
   hasKey: boolean;
-  time: string;
+  time: number;
 };
 
-function GameOverlay(props: GameProps): JSX.Element {
+function GameOverlay(props: GameOverlayProps): JSX.Element {
   const { maxHealth = 3, health = 0, className, hasKey, time = '0' } = props;
 
   const getHealthElement = (total: number, number: number) => {

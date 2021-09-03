@@ -40,6 +40,7 @@ export type GameState = {
   isDoorUnlocked: boolean;
   isLevelCompleted: boolean;
   playerHealth: number;
+  time: number;
 };
 
 // Уровень

@@ -58,7 +58,7 @@ function GameReactComponent({ startLevelIndex = 0, onStateUpdate }: GameProps): 
         maxHealth={GAME_CONFIG.MAX_HEALTH}
         health={gameState?.playerHealth || GAME_CONFIG.MAX_HEALTH}
         hasKey={gameState?.isDoorUnlocked || false}
-        time={'20:00'}
+        time={gameState?.time || 0}
       />
     </div>
   );
