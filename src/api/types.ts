@@ -1,7 +1,7 @@
 import { User } from '@/shared/types/types';
 
 export type SignInRequest = {
-  email: string;
+  login: string;
   password: string;
 };
 
