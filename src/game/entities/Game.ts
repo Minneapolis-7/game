@@ -36,6 +36,7 @@ export default class Game {
 
   private _gameStartTimestamp!: number;
   private _defaultGameState = {
+    isKeyAcquired: false,
     isDoorUnlocked: false,
     isLevelCompleted: false,
     playerHealth: 3,
@@ -119,7 +120,7 @@ export default class Game {
         sprite: [0, 64],
         onOver: ({ gameObject }) => {
           gameObject.setSprite([32, 64]);
-          this.setGameState(GAME_STATE_KEY.IS_DOOR_UNLOCKED, true);
+          this.setGameState(GAME_STATE_KEY.IS_KEY_ACQUIRED, true);
           this.soundController.play(SOUND.KEY);
         },
       },
@@ -128,8 +129,9 @@ export default class Game {
         id: 7,
         sprite: [0, 96],
         onOver: ({ gameObject }) => {
-          if (this.gameState.isDoorUnlocked) {
+          if (this.gameState.isKeyAcquired) {
             gameObject.setSprite([32, 96]);
+            this.setGameState(GAME_STATE_KEY.IS_DOOR_UNLOCKED, true);
             this.soundController.play(SOUND.DOOR);
             this.stop();
 
@@ -237,13 +239,13 @@ export default class Game {
   }
 
   start(): void {
+    this._resetState();
     this._gameStartTimestamp = performance.now();
     this.loop();
   }
 
   stop(): void {
     window.cancelAnimationFrame(this.requestAnimationId);
-    this._resetState();
   }
 
   loop(): void {
@@ -254,7 +256,10 @@ export default class Game {
 
     const elapsedTime = performance.now() - this._gameStartTimestamp;
 
-    if (elapsedTime - this.gameState.time * 1000 >= 1000) {
+    if (
+      !this.gameState[GAME_STATE_KEY.IS_DOOR_UNLOCKED] &&
+      elapsedTime - this.gameState.time * 1000 >= 1000
+    ) {
       this.setGameState(GAME_STATE_KEY.TIME, Math.round(elapsedTime / 1000));
     }
   }

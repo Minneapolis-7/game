@@ -57,7 +57,7 @@ function GameReactComponent({ startLevelIndex = 0, onStateUpdate }: GameProps): 
         className={b('overlay')}
         maxHealth={GAME_CONFIG.MAX_HEALTH}
         health={gameState?.playerHealth || GAME_CONFIG.MAX_HEALTH}
-        hasKey={gameState?.isDoorUnlocked || false}
+        hasKey={gameState?.isKeyAcquired || false}
         time={gameState?.time || 0}
       />
     </div>

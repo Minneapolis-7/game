@@ -32,6 +32,7 @@ export const SOUND = {
 } as const;
 
 export const GAME_STATE_KEY = {
+  IS_KEY_ACQUIRED: 'isKeyAcquired',
   IS_DOOR_UNLOCKED: 'isDoorUnlocked',
   IS_LEVEL_COMPLETED: 'isLevelCompleted',
   PLAYER_HEALTH: 'playerHealth',
