@@ -16,7 +16,7 @@ type GameOverlayProps = {
 };
 
 function GameOverlay(props: GameOverlayProps): JSX.Element {
-  const { maxHealth = 3, health = 0, className, hasKey, time = '0' } = props;
+  const { maxHealth = 3, health = 0, className, hasKey, time = 0 } = props;
 
   const getHealthElement = (total: number, number: number) => {
     return (
@@ -44,7 +44,9 @@ function GameOverlay(props: GameOverlayProps): JSX.Element {
       )}
       <div className={b('bar-block')}>
         <span className={b('bar-label')}>Время</span>
-        <span className={b('time')}>{time}</span>
+        <span className={b('time')}>
+          {new Date(time).toLocaleTimeString([], { minute: '2-digit', second: '2-digit' })}
+        </span>
       </div>
     </div>
   );

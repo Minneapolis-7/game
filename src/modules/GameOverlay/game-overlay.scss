@@ -29,4 +29,6 @@
 
 .game-overlay__time {
   font-weight: bold;
+  font-feature-settings: 'tnum';
+  font-variant-numeric: tabular-nums;
 }

@@ -240,7 +240,7 @@ export default class Game {
 
   start(): void {
     this._resetState();
-    this._gameStartTimestamp = performance.now();
+    this._gameStartTimestamp = Date.now();
     this.loop();
   }
 
@@ -254,13 +254,13 @@ export default class Game {
     this.view.update(this.world, this.control.keys);
     this.requestAnimationId = window.requestAnimationFrame(this.loop);
 
-    const elapsedTime = performance.now() - this._gameStartTimestamp;
+    const elapsedTime = Date.now() - this._gameStartTimestamp;
 
     if (
       !this.gameState[GAME_STATE_KEY.IS_DOOR_UNLOCKED] &&
-      elapsedTime - this.gameState.time * 1000 >= 1000
+      elapsedTime - this.gameState.time >= 1000
     ) {
-      this.setGameState(GAME_STATE_KEY.TIME, Math.round(elapsedTime / 1000));
+      this.setGameState(GAME_STATE_KEY.TIME, elapsedTime);
     }
   }
 
