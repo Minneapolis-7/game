@@ -30,7 +30,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
   }, []);
 
   return (
-    <Page centered title={title}>
+    <Page centered title={title} hasSidebar={false}>
       <div className={bAuth()}>
         <h4 className="heading_4 heading">Регистрация</h4>
         <Formik
