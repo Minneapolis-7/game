@@ -10,9 +10,10 @@ import useKeydown from '@/shared/utils/useKeydown';
 import menuSvg from 'bootstrap-icons/icons/list.svg';
 import closeSvg from 'bootstrap-icons/icons/x-lg.svg';
 
-const b = block('sidebar');
 const SIDEBAR_SHOW_EVENT = 'sidebarshow';
 const SIDEBAR_HIDE_EVENT = 'sidebarhide';
+
+const b = block('sidebar');
 
 type SidebarProps = {
   className?: string;
