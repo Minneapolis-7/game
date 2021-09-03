@@ -37,7 +37,8 @@
 }
 
 .leaderboard__bottom-line {
-  height: 1px;
+  // prettier-ignore
+  height: 1PX;
   border: 0;
   background-color: $ui-color;
 }
@@ -50,4 +51,3 @@
   margin-left: $gap-x-generic;
   white-space: nowrap;
 }
-

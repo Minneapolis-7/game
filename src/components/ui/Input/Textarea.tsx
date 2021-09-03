@@ -3,7 +3,7 @@ import { block } from 'bem-cn';
 
 import { InputBaseProps } from './types';
 
-type TextareaProps = {
+export type TextareaProps = {
   // <textarea> не может менять свою высоту
   isFixed?: boolean;
 } & Omit<InputBaseProps, 'isFloating'> &
@@ -13,7 +13,10 @@ type TextareaProps = {
 const b = block('input');
 
 export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
-  {
+  props: TextareaProps,
+  ref
+): JSX.Element {
+  const {
     className = '',
     fieldClassName = '',
     theme = 'default',
@@ -21,12 +24,17 @@ export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
     display,
     hint,
     isFixed,
+    error,
     ...rest
-  }: TextareaProps,
-  ref
-): JSX.Element {
+  } = props;
+
   return (
-    <div className={b({ theme, sizing }).mix(className.split(' '))} data-display={display}>
+    <div
+      className={b({ theme, sizing })
+        .has({ error: Boolean(error) })
+        .mix(className.split(' '))}
+      data-display={display}
+    >
       <textarea
         ref={ref}
         className={b('field').mix(fieldClassName.split(' '))}
@@ -34,6 +42,7 @@ export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
         {...rest}
         placeholder={hint}
       />
+      {error && <div className={b('error').mix('error')}>{error}</div>}
     </div>
   );
 });

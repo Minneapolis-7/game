@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { block } from 'bem-cn';
+import { Form, Formik } from 'formik';
+import * as yup from 'yup';
+import { SchemaOf } from 'yup/es';
 
-import { Button, ButtonLink, Icon, Input, Pagination, Textarea } from '@/components/ui';
+import { Input, Textarea } from '@/components/formik-ui';
+import { Button, ButtonLink, Icon, Pagination } from '@/components/ui';
 import ForumComment from '@/modules/Forum/components/ForumComment';
 import ForumItemPreview from '@/modules/Forum/components/ForumItemPreview';
 import UserStamp from '@/modules/Forum/components/UserStamp';
@@ -13,6 +17,28 @@ import addNewThreadSvg from 'bootstrap-icons/icons/plus-lg.svg';
 
 const b = block('forum');
 const bLink = block('link');
+
+const createThreadInitialValues = {
+  topic: '',
+  message: '',
+};
+const createThreadSchema: SchemaOf<typeof createThreadInitialValues> = yup
+  .object()
+  .shape({
+    topic: yup.string().required('Заполните поле'),
+    message: yup.string().required('Заполните поле'),
+  })
+  .defined();
+
+const replyInitialValues = {
+  replyMessage: '',
+};
+const replySchema: SchemaOf<typeof createThreadInitialValues> = yup
+  .object()
+  .shape({
+    replyMessage: yup.string().required('Заполните поле'),
+  })
+  .defined();
 
 type ForumProps = {
   section?: string; // id выбранной секции
@@ -522,6 +548,13 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
     );
   }
 
+  const submitNewMessage = useCallback((values, actions) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      actions.setSubmitting(false);
+    }, 400);
+  }, []);
+
   if (thread) {
     const mockComment = {
       user: { id: 1, displayName: 'Ник', avatar: 'url' },
@@ -561,19 +594,37 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             <Pagination total={10} current={1} baseURL="/threads" className={b('pagination')} />
           </div>
         </div>
-        <form action="#" className={b('reply')}>
-          <Textarea
-            required
-            className="gap-y-gen"
-            theme="solid"
-            hint="Введите сообщение (можно использовать markdown)"
-            rows={10}
-          />
-          <Button type="submit">Отправить</Button>
-        </form>
+        <Formik
+          initialValues={replyInitialValues}
+          validationSchema={replySchema}
+          onSubmit={submitNewMessage}
+        >
+          {({ isSubmitting }) => (
+            <Form noValidate className={b('reply')}>
+              <Textarea
+                required
+                className="gap-y-lg"
+                theme="solid"
+                name="replyMessage"
+                hint="Введите сообщение (можно использовать markdown)"
+                rows={10}
+              />
+              <Button type="submit" disabled={isSubmitting}>
+                Отправить
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </>
     );
   }
+
+  const submitNewThread = useCallback((values, actions) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      actions.setSubmitting(false);
+    }, 400);
+  }, []);
 
   if (extendedSection) {
     forumBody = (
@@ -591,24 +642,35 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
         </h4>
 
         <h5 className="gap-y-gen heading_5 heading">Создайте тему</h5>
-
-        <form action="#" className={b('create-thread')}>
-          <Input
-            required
-            className="gap-y-gen"
-            theme="solid"
-            hint="Название темы"
-            isFloating={false}
-          />
-          <Textarea
-            required
-            className="gap-y-gen"
-            theme="solid"
-            hint="Введите сообщение (можно использовать markdown)"
-            rows={10}
-          />
-          <Button type="submit">Создать</Button>
-        </form>
+        <Formik
+          initialValues={createThreadInitialValues}
+          validationSchema={createThreadSchema}
+          onSubmit={submitNewThread}
+        >
+          {({ isSubmitting }) => (
+            <Form noValidate className={b('create-thread')}>
+              <Input
+                required
+                className="gap-y-lg"
+                theme="solid"
+                name="topic"
+                hint="Название темы"
+                isFloating={false}
+              />
+              <Textarea
+                required
+                className="gap-y-lg"
+                theme="solid"
+                name="message"
+                hint="Введите сообщение (можно использовать markdown)"
+                rows={10}
+              />
+              <Button type="submit" disabled={isSubmitting}>
+                Создать
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </>
     );
   }

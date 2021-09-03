@@ -22,6 +22,15 @@ export const CONTROL_KEY = {
   T: 't',
 } as const;
 
+export const SOUND = {
+  TRAMPOLINE: 'trampoline',
+  TELEPORT: 'teleport',
+  KEY: 'key',
+  SPIKES: 'spikes',
+  DOOR: 'door',
+  MUSIC: 'music',
+} as const;
+
 export const GAME_STATE_KEY = {
   IS_DOOR_UNLOCKED: 'isDoorUnlocked',
   IS_LEVEL_COMPLETED: 'isLevelCompleted',
