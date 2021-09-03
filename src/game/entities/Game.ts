@@ -34,6 +34,14 @@ export default class Game {
   public gameState: GameState;
   public updateGameState: (gameState: GameState) => void;
 
+  private _gameStartTimestamp!: number;
+  private _defaultGameState = {
+    isDoorUnlocked: false,
+    isLevelCompleted: false,
+    playerHealth: 3,
+    time: 0,
+  } as GameState;
+
   constructor(options: GameConstructorOptions) {
     const {
       world,
@@ -56,10 +64,7 @@ export default class Game {
     this.startLevelIndex = startLevelIndex;
 
     this.gameState = {
-      isDoorUnlocked: false,
-      isLevelCompleted: false,
-      playerHealth: 3,
-      time: 0,
+      ...this._defaultGameState,
     };
 
     this.updateGameState = onStateUpdate;
@@ -171,6 +176,12 @@ export default class Game {
     ];
   }
 
+  private _resetState(): void {
+    this.gameState = {
+      ...this._defaultGameState,
+    };
+  }
+
   setGameState<T extends keyof GameState, K extends GameState[T]>(key: T, value: K): void {
     this.gameState[key] = value;
     this.updateGameState({ ...this.gameState });
@@ -226,12 +237,13 @@ export default class Game {
   }
 
   start(): void {
+    this._gameStartTimestamp = performance.now();
     this.loop();
   }
 
   stop(): void {
-    this.gameState.time = 0;
     window.cancelAnimationFrame(this.requestAnimationId);
+    this._resetState();
   }
 
   loop(): void {
@@ -240,10 +252,10 @@ export default class Game {
     this.view.update(this.world, this.control.keys);
     this.requestAnimationId = window.requestAnimationFrame(this.loop);
 
-    const now = performance.now();
+    const elapsedTime = performance.now() - this._gameStartTimestamp;
 
-    if (now - this.gameState.time * 1000 >= 1000) {
-      this.setGameState(GAME_STATE_KEY.TIME, Math.round(now / 1000));
+    if (elapsedTime - this.gameState.time * 1000 >= 1000) {
+      this.setGameState(GAME_STATE_KEY.TIME, Math.round(elapsedTime / 1000));
     }
   }
 
