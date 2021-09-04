@@ -4,6 +4,7 @@ import { block } from 'bem-cn';
 import { Button, Icon } from '@/components/ui';
 import PageContext from '@/layout/Page/PageContext';
 import Nav from '@/modules/Nav';
+import text from '@/shared/const/text';
 import useFocusTrapping from '@/shared/utils/useFocusTrapping';
 import useKeydown from '@/shared/utils/useKeydown';
 
@@ -14,6 +15,7 @@ const SIDEBAR_SHOW_EVENT = 'sidebarshow';
 const SIDEBAR_HIDE_EVENT = 'sidebarhide';
 
 const b = block('sidebar');
+const { sidebar: txt } = text;
 
 type SidebarProps = {
   className?: string;
@@ -53,11 +55,11 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
       />
       <div ref={sidebarRef} className={b('container').is({ opened: isOpened })} tabIndex={-1}>
         <div className={b('head')}>
-          <h4 className="heading_4 heading nomrg">Выберите раздел</h4>
+          <h4 className="heading_4 heading nomrg">{txt.header}</h4>
           <Button
             className={b('closer')}
             theme="circle"
-            title="Закрыть"
+            title={txt.closeButtonTitle}
             display="inline"
             icon={<Icon name={closeSvg.id} />}
             onClick={closeSidebar}

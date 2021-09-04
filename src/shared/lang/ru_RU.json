@@ -1,4 +1,19 @@
 {
+  "nav": {
+    "main": "Главная",
+    "login": "Вход",
+    "register": "Регистрация",
+    "profile": "Профиль",
+    "leaderboard": "Лидеры",
+    "forum": "Форум",
+    "forumSection": "Форум секция",
+    "forumThread": "Форум тема",
+    "forumThreadCreate": "Форум создать тему"
+  },
+  "sidebar": {
+    "header": "Выберите раздел",
+    "closeButtonTitle": "Закрыть"
+  },
   "login": {
     "header": "Вход",
     "submitButton": "Войти",
