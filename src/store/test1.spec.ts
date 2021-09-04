@@ -1,9 +1,11 @@
 import { signupRequest } from './reducers';
 import store from './store';
 
-test('Updates id', () => {
-  jest.mock('@/api/userApi');
+import api from '../api/userApi';
 
+jest.mock('../api/userApi');
+
+test('Updates id', () => {
   let userId = store.getState().user.id;
 
   expect(userId).toBe(null);
@@ -18,7 +20,8 @@ test('Updates id', () => {
     password: '12344321',
   };
 
+  (<jest.Mock>api.signup).mockResolvedValue(5);
   store.dispatch(signupRequest(user));
   userId = store.getState().user.id;
-  expect(userId).not.toBe(null);
+  expect(userId).toBe(5);
 });
