@@ -2,11 +2,13 @@ import React, { PropsWithChildren } from 'react';
 import { BemMods, block } from 'bem-cn';
 
 import { Icon } from '@/components/ui';
+import text from '@/shared/const/text';
 
 import prevPageSvg from 'bootstrap-icons/icons/caret-left-fill.svg';
 import nextPageSvg from 'bootstrap-icons/icons/caret-right-fill.svg';
 
 const b = block('pagination');
+const { pagination: txt } = text;
 
 type PaginationItemProps = PropsWithChildren<{
   href?: string;
@@ -62,14 +64,14 @@ function Pagination(props: PaginationProps): JSX.Element {
       })}
       <PaginationItem
         href={hasPrev ? `${baseURL}/${prevIndex}` : undefined}
-        title={hasPrev ? 'Предыдущая страница' : undefined}
+        title={hasPrev ? txt.prevPageButtonTitle : undefined}
         mod={{ disabled: !hasPrev }}
       >
         <Icon name={prevPageSvg.id} />
       </PaginationItem>
       <PaginationItem
         href={hasNext ? `${baseURL}/${nextIndex}` : undefined}
-        title={hasNext ? 'Следующая страница' : undefined}
+        title={hasNext ? txt.nextPageButtonTitle : undefined}
         mod={{ disabled: !hasNext }}
       >
         <Icon name={nextPageSvg.id} />
