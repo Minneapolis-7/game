@@ -21,6 +21,7 @@ const registerInitialValues = {
   password: '',
   passwordRepeat: '',
 };
+const { register: txt } = text;
 
 function RegisterPage({ title }: GenericPageProps): JSX.Element {
   const submitRegister = useCallback((values, actions) => {
@@ -33,7 +34,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
   return (
     <Page centered title={title}>
       <div className={bAuth()}>
-        <h4 className="heading_4 heading">{text.register.header}</h4>
+        <h4 className="heading_4 heading">{txt.header}</h4>
         <Formik
           initialValues={registerInitialValues}
           validationSchema={registerSchema}
@@ -44,7 +45,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
               <div className="gap-y-xl">
                 <Input
                   className="gap-y-lg"
-                  hint={text.register.emailLabel}
+                  hint={txt.emailLabel}
                   required
                   type="email"
                   autoComplete="email"
@@ -53,7 +54,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                 />
                 <Input
                   className="gap-y-lg"
-                  hint={text.register.loginLabel}
+                  hint={txt.loginLabel}
                   required
                   autoComplete="username"
                   id="login"
@@ -61,7 +62,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                 />
                 <Input
                   className="gap-y-lg"
-                  hint={text.register.firstNameLabel}
+                  hint={txt.firstNameLabel}
                   required
                   autoComplete="given-name"
                   id="firstName"
@@ -69,7 +70,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                 />
                 <Input
                   className="gap-y-lg"
-                  hint={text.register.secondNameLabel}
+                  hint={txt.secondNameLabel}
                   required
                   autoComplete="family-name"
                   id="secondName"
@@ -78,7 +79,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                 <Input
                   type="password"
                   className="gap-y-lg"
-                  hint={text.register.passwordLabel}
+                  hint={txt.passwordLabel}
                   required
                   autoComplete="new-password"
                   id="password"
@@ -87,7 +88,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                 <Input
                   type="password"
                   className="gap-y-lg"
-                  hint={text.register.passwordRepeatLabel}
+                  hint={txt.passwordRepeatLabel}
                   required
                   autoComplete="new-password"
                   id="passwordRepeat"
@@ -96,7 +97,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
               </div>
               <div className="gap-y-sm">
                 <Button type="submit" display="block" disabled={isSubmitting}>
-                  {text.register.submitButton}
+                  {txt.submitButton}
                 </Button>
               </div>
               <div className="gap-y-sm">
@@ -104,7 +105,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                   to={paths.LOGIN}
                   component={getRoutedButtonLink({
                     display: 'block',
-                    children: text.register.loginLink,
+                    children: txt.loginLink,
                     theme: 'link',
                   })}
                 />

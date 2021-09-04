@@ -8,6 +8,7 @@ import prevPageSvg from 'bootstrap-icons/icons/caret-left-fill.svg';
 import nextPageSvg from 'bootstrap-icons/icons/caret-right-fill.svg';
 
 const b = block('pagination');
+const { pagination: txt } = text;
 
 type PaginationItemProps = PropsWithChildren<{
   href?: string;
@@ -66,14 +67,14 @@ function Pagination({
       })}
       <PaginationItem
         href={hasPrev ? `${baseURL}/${prevIndex}` : undefined}
-        title={hasPrev ? text.pagination.prevPageButtonTitle : undefined}
+        title={hasPrev ? txt.prevPageButtonTitle : undefined}
         mod={{ disabled: !hasPrev }}
       >
         <Icon name={prevPageSvg.id} />
       </PaginationItem>
       <PaginationItem
         href={hasNext ? `${baseURL}/${nextIndex}` : undefined}
-        title={hasNext ? text.pagination.nextPageButtonTitle : undefined}
+        title={hasNext ? txt.nextPageButtonTitle : undefined}
         mod={{ disabled: !hasNext }}
       >
         <Icon name={nextPageSvg.id} />

@@ -3,24 +3,20 @@ import { SchemaOf } from 'yup/es';
 
 import text from '@/shared/const/text';
 
+const { errors } = text.validation;
+
 // eslint-disable-next-line import/prefer-default-export
 export const registerSchema: SchemaOf<RegistrationData> = yup
   .object()
   .shape({
-    email: yup
-      .string()
-      .email(text.validation.errors.email)
-      .required(text.validation.errors.required),
-    login: yup
-      .string()
-      .min(3, `${text.validation.errors.min} 3 ${text.validation.errors.minMaxLabel}`)
-      .required(text.validation.errors.required),
-    firstName: yup.string().required(text.validation.errors.required),
-    secondName: yup.string().required(text.validation.errors.required),
-    password: yup.string().required(text.validation.errors.required),
+    email: yup.string().email(errors.email).required(errors.required),
+    login: yup.string().min(3, `${errors.min} 3 ${errors.minMaxLabel}`).required(errors.required),
+    firstName: yup.string().required(errors.required),
+    secondName: yup.string().required(errors.required),
+    password: yup.string().required(errors.required),
     passwordRepeat: yup
       .string()
-      .oneOf([yup.ref('password'), null], text.validation.errors.passwordRepeat)
-      .required(text.validation.errors.required),
+      .oneOf([yup.ref('password'), null], errors.passwordRepeat)
+      .required(errors.required),
   })
   .defined();

@@ -13,6 +13,7 @@ import deleteSvg from 'bootstrap-icons/icons/x-lg.svg';
 
 const b = block('forum-comment');
 const bLink = block('link');
+const { forum: txt } = text;
 
 type ForumCommentProps = PropsWithChildren<{
   className?: string;
@@ -47,14 +48,14 @@ function ForumComment({ data, className = '' }: ForumCommentProps): JSX.Element 
           </a>{' '}
           <Button
             display="inline"
-            title={text.forum.commentEditButtonTitle}
+            title={txt.commentEditButtonTitle}
             sizing="sm"
             theme="subtle"
             icon={<Icon name={editSvg.id} />}
           />
           <Button
             display="inline"
-            title={text.forum.commentDeleteButtonTitle}
+            title={txt.commentDeleteButtonTitle}
             sizing="sm"
             theme="subtle"
             icon={<Icon name={deleteSvg.id} />}
@@ -63,7 +64,7 @@ function ForumComment({ data, className = '' }: ForumCommentProps): JSX.Element 
         {content}
         <div className={b('toolbar')}>
           <Button display="inline" theme="link" icon={<Icon size="1.2em" name={replySvg.id} />}>
-            {text.forum.commentReplyButton}
+            {txt.commentReplyButton}
           </Button>
         </div>
       </div>

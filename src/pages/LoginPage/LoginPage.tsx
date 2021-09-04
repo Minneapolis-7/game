@@ -17,6 +17,7 @@ const loginInitialValues = {
   login: '',
   password: '',
 };
+const { login: txt } = text;
 
 function LoginPage({ title }: GenericPageProps): JSX.Element {
   const submitLogin = useCallback((values, actions) => {
@@ -29,7 +30,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
   return (
     <Page centered title={title}>
       <div className={bAuth()}>
-        <h4 className="heading_4 heading">{text.login.header}</h4>
+        <h4 className="heading_4 heading">{txt.header}</h4>
         <Formik
           initialValues={loginInitialValues}
           validationSchema={loginSchema}
@@ -40,7 +41,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
               <div className="gap-y-xl">
                 <Input
                   className="gap-y-lg"
-                  hint={text.login.loginLabel}
+                  hint={txt.loginLabel}
                   required
                   autoComplete="username"
                   id="login"
@@ -49,7 +50,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
                 <Input
                   type="password"
                   className="gap-y-lg"
-                  hint={text.login.passwordLabel}
+                  hint={txt.passwordLabel}
                   required
                   autoComplete="current-password"
                   id="password"
@@ -58,7 +59,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
               </div>
               <div className="gap-y-sm">
                 <Button type="submit" display="block" disabled={isSubmitting}>
-                  {text.login.submitButton}
+                  {txt.submitButton}
                 </Button>
               </div>
               <div className="gap-y-sm">
@@ -66,7 +67,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
                   to={paths.REGISTER}
                   component={getRoutedButtonLink({
                     display: 'block',
-                    children: text.login.registerLink,
+                    children: txt.registerLink,
                     theme: 'link',
                   })}
                 />

@@ -13,6 +13,7 @@ import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 import { PasswordFieldsSchema, ProfileFieldsSchema } from './schema';
 
 const b = block('profile');
+const { profile: txt } = text;
 
 const PasswordFieldsInitialValues = {
   oldPassword: '',
@@ -47,7 +48,7 @@ function ProfileTableRow({
       id={id}
       display="inline"
       theme="transparent"
-      hint={text.profile.editPlaceholder}
+      hint={txt.editPlaceholder}
       type={inputType}
       required={required}
       autoComplete={autoComplete}
@@ -117,7 +118,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
         <Avatar className={b('pic')} size="10rem" src={getResourceURL(user.avatar)} populatable>
           <Filepick
             className={b('pic-setter')}
-            title={text.profile.editAvatarTitle}
+            title={txt.editAvatarTitle}
             id="avatar"
             name="avatar"
             accept="image/jpeg, image/png, image/gif, image/tiff, .jpg, .jpeg, .png, .gif, .tif, .tiff"
@@ -139,32 +140,32 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                   {(action === 'edit' || !action) && (
                     <>
                       <ProfileTableRow
-                        label={text.profile.emailLabel}
+                        label={txt.emailLabel}
                         value={user.email}
                         id="email"
                         inputType="email"
                         action={action}
                       />
                       <ProfileTableRow
-                        label={text.profile.loginLabel}
+                        label={txt.loginLabel}
                         value={user.login}
                         id="login"
                         action={action}
                       />
                       <ProfileTableRow
-                        label={text.profile.firstNameLabel}
+                        label={txt.firstNameLabel}
                         value={user.firstName}
                         id="firstName"
                         action={action}
                       />
                       <ProfileTableRow
-                        label={text.profile.secondNameLabel}
+                        label={txt.secondNameLabel}
                         value={user.secondName}
                         id="secondName"
                         action={action}
                       />
                       <ProfileTableRow
-                        label={text.profile.nickNameLabel}
+                        label={txt.nickNameLabel}
                         value={user.displayName}
                         id="displayName"
                         action={action}
@@ -174,7 +175,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                   {action === 'edit-password' && (
                     <>
                       <ProfileTableRow
-                        label={text.profile.oldPasswordLabel}
+                        label={txt.oldPasswordLabel}
                         value={user.password}
                         id="oldPassword"
                         inputType="password"
@@ -182,7 +183,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                         action={action}
                       />
                       <ProfileTableRow
-                        label={text.profile.newPasswordLabel}
+                        label={txt.newPasswordLabel}
                         id="newPassword"
                         inputType="password"
                         autoComplete="new-password"
@@ -200,7 +201,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                             to={paths.PROFILE_EDIT}
                             component={getRoutedButtonLink({
                               theme: 'link',
-                              children: text.profile.editButton,
+                              children: txt.editButton,
                             })}
                           />
                         </td>
@@ -211,7 +212,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                             to={paths.PROFILE_EDIT_PASSWORD}
                             component={getRoutedButtonLink({
                               theme: 'link',
-                              children: text.profile.editPasswordButton,
+                              children: txt.editPasswordButton,
                             })}
                           />
                         </td>
@@ -219,7 +220,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                       <tr className={b('table-row')}>
                         <td colSpan={2} className={b('table-cell')}>
                           <Button className="js-profile__logout" theme="link-danger">
-                            {text.profile.logoutButton}
+                            {txt.logoutButton}
                           </Button>
                         </td>
                       </tr>
@@ -229,7 +230,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                     <tr className={b('table-row')}>
                       <td colSpan={2} className={b('table-cell')}>
                         <Button type="submit" disabled={isSubmitting}>
-                          {text.profile.saveButton}
+                          {txt.saveButton}
                         </Button>
                       </td>
                     </tr>

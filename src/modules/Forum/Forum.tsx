@@ -33,8 +33,11 @@ type ForumProps = {
   extendedSection?: string; // id секции, в которой создаётся тред
 };
 
-const gameAreaText = text.forum.categories.game;
-const generalAreaText = text.forum.categories.general;
+const { forum: txt } = text;
+const gameAreaText = txt.categories.game;
+const generalAreaText = txt.categories.general;
+const { gameDiscussion, featureRequests, bugReports, gameIndustryNews, generalConversation } =
+  gameAreaText.sections;
 
 function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
   let forumBody = (
@@ -47,10 +50,10 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             <>
               <h4 className={b('item-heading').mix('heading_4', 'heading')}>
                 <a className={bLink()} href="#">
-                  {gameAreaText.sections.gameDiscussion.header}
+                  {gameDiscussion.header}
                 </a>
               </h4>
-              <p>{gameAreaText.sections.gameDiscussion.description}</p>
+              <p>{gameDiscussion.description}</p>
             </>
           }
           statSlot={
@@ -72,10 +75,10 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             <>
               <h4 className={b('item-heading').mix('heading_4', 'heading')}>
                 <a className={bLink()} href="#">
-                  {gameAreaText.sections.featureRequests.header}
+                  {featureRequests.header}
                 </a>
               </h4>
-              <p>{gameAreaText.sections.featureRequests.description}</p>
+              <p>{featureRequests.description}</p>
             </>
           }
           statSlot={
@@ -97,10 +100,10 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             <>
               <h4 className={b('item-heading').mix('heading_4', 'heading')}>
                 <a className={bLink()} href="#">
-                  {gameAreaText.sections.bugReports.header}
+                  {bugReports.header}
                 </a>
               </h4>
-              <p>{gameAreaText.sections.bugReports.description}</p>
+              <p>{bugReports.description}</p>
             </>
           }
           statSlot={
@@ -125,10 +128,10 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             <>
               <h4 className={b('item-heading').mix('heading_4', 'heading')}>
                 <a className={bLink()} href="#">
-                  {generalAreaText.sections.gameIndustryNews.header}
+                  {gameIndustryNews.header}
                 </a>
               </h4>
-              <p>{generalAreaText.sections.gameIndustryNews.description}</p>
+              <p>{gameIndustryNews.description}</p>
             </>
           }
           statSlot={
@@ -150,10 +153,10 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
             <>
               <h4 className={b('item-heading').mix('heading_4', 'heading')}>
                 <a className={bLink()} href="#">
-                  {generalAreaText.sections.generalConversation.header}
+                  {generalConversation.header}
                 </a>
               </h4>
-              <p>{generalAreaText.sections.generalConversation.description}</p>
+              <p>{generalConversation.description}</p>
             </>
           }
           statSlot={
@@ -178,14 +181,14 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
       <>
         <h4 className={b('heading').mix('heading_4', 'heading')}>
           <ButtonLink
-            title={text.forum.createNewThreadButtonTitle}
+            title={txt.createNewThreadButtonTitle}
             className={b('heading-action')}
             sizing="sm"
             theme="circle"
           >
             <Icon name={addNewThreadSvg.id} />
           </ButtonLink>
-          {gameAreaText.sections.gameDiscussion.header}
+          {gameDiscussion.header}
         </h4>
         <div className={b('toolbar')}>
           <div className={b('toolbar-slot', { pagination: true })}>
@@ -562,7 +565,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           <Button
             className={b('heading-action', { shifted: true })}
             display="inline"
-            title={text.forum.backToSectionButtonTitle}
+            title={txt.backToSectionButtonTitle}
             sizing="md"
             theme="subtle"
             icon={<Icon scale={1.4} name={backSvg.id} />}
@@ -596,11 +599,11 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
                 className="gap-y-lg"
                 theme="solid"
                 name="replyMessage"
-                hint={text.forum.newMessageAreaPlaceholder}
+                hint={txt.newMessageAreaPlaceholder}
                 rows={10}
               />
               <Button type="submit" disabled={isSubmitting}>
-                {text.forum.newMessageButton}
+                {txt.newMessageButton}
               </Button>
             </Form>
           )}
@@ -623,7 +626,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           <Button
             className={b('heading-action', { shifted: true })}
             display="inline"
-            title={text.forum.backToSectionButtonTitle}
+            title={txt.backToSectionButtonTitle}
             sizing="md"
             theme="subtle"
             icon={<Icon scale={1.4} name={backSvg.id} />}
@@ -631,7 +634,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
           Название секции
         </h4>
 
-        <h5 className="gap-y-gen heading_5 heading">{text.forum.newThreadHeader}</h5>
+        <h5 className="gap-y-gen heading_5 heading">{txt.newThreadHeader}</h5>
         <Formik
           initialValues={createThreadInitialValues}
           validationSchema={createThreadSchema}
@@ -644,7 +647,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
                 className="gap-y-lg"
                 theme="solid"
                 name="topic"
-                hint={text.forum.newThreadNameInputPlaceholder}
+                hint={txt.newThreadNameInputPlaceholder}
                 isFloating={false}
               />
               <Textarea
@@ -652,11 +655,11 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
                 className="gap-y-lg"
                 theme="solid"
                 name="message"
-                hint={text.forum.newThreadMessageAreaPlaceholder}
+                hint={txt.newThreadMessageAreaPlaceholder}
                 rows={10}
               />
               <Button type="submit" disabled={isSubmitting}>
-                {text.forum.newThreadButton}
+                {txt.newThreadButton}
               </Button>
             </Form>
           )}
@@ -677,10 +680,10 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
       <main className={b('body')}>{forumBody}</main>
       <footer className={b('footer')}>
         <div className={b('footer-stat', { registered: true })}>
-          {text.forum.stats.registered} 2 {text.forum.stats.registeredUserLabel}
+          {txt.stats.registered} 2 {txt.stats.registeredUserLabel}
         </div>
         <div className={b('footer-stat', { online: true })}>
-          {text.forum.stats.online}{' '}
+          {txt.stats.online}{' '}
           <a className={bLink()} href="#">
             User
           </a>

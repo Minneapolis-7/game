@@ -7,6 +7,7 @@ import text from '@/shared/const/text';
 
 const b = block('user-stamp');
 const bLink = block('link');
+const { userStamp: txt } = text;
 
 type UserStampProps = {
   user: string;
@@ -25,7 +26,7 @@ function UserStamp({ user, date, profileURL }: UserStampProps): JSX.Element {
 
   return (
     <span className={b()}>
-      {text.userStamp.fromLabel}{' '}
+      {txt.fromLabel}{' '}
       <a className={bLink({ action: true })} href={profileURL}>
         {user}
       </a>{' '}
