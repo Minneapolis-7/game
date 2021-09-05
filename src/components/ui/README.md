@@ -98,7 +98,6 @@ import Button from 'components/ui/Button';
 - `className?: string` - кастомные классы
 - `size?: SizingLabel` - размер
 - `color?: string` - цвет
-- `position?: 'center' | `${CSSLengthString};${CSSLengthString}`` - положение центра спиннера (x;y)
 
 По умолчанию спиннер `display: block` (можно рассмотреть `none`, зависит от того, как он будет применяться на практике — через модификацию DOM или добавление класса).
 
@@ -128,4 +127,4 @@ import Button from 'components/ui/Button';
 }
 ```
 
-- инлайн-стилями через пропсы компонента
+- инлайн-стилями через пропсы компонента (кастомизируется только размер и цвет)
