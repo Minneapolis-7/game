@@ -26,6 +26,16 @@ module.exports = {
         'newlines-between': 'always',
       },
     ],
+    'padding-line-between-statements': [
+      'error',
+      { blankLine: 'always', prev: '*', next: 'block' },
+      { blankLine: 'always', prev: 'block', next: '*' },
+      { blankLine: 'always', prev: '*', next: 'block-like' },
+      { blankLine: 'always', prev: 'block-like', next: '*' },
+      { blankLine: 'always', prev: '*', next: 'return' },
+      { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
+      { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
+    ],
   },
 
   overrides: [
@@ -33,19 +43,13 @@ module.exports = {
     {
       files: ['src/**/*.ts', 'src/**/*.tsx', 'typings/**/*.ts', 'server/**/*.ts'],
       extends: [
-        'airbnb-base',
         'plugin:@typescript-eslint/recommended',
         'plugin:react/recommended',
         'plugin:react-hooks/recommended',
-        'plugin:import/recommended',
         'plugin:import/typescript',
-        'plugin:prettier/recommended',
       ],
-      plugins: ['simple-import-sort'],
+      plugins: ['simple-import-sort', '@andreyvolokitin/destructuring'],
       parserOptions: {
-        ecmaVersion: 2020,
-        sourceType: 'module',
-        allowImportExportEverywhere: true,
         project: 'tsconfig.json',
       },
       env: {
@@ -54,12 +58,12 @@ module.exports = {
       },
       rules: {
         'class-methods-use-this': 'warn',
+        'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
+
         // https://stackoverflow.com/a/64024916/718630
         'no-use-before-define': 'off',
         '@typescript-eslint/no-use-before-define': ['error'],
         '@typescript-eslint/no-this-alias': 'warn',
-        'no-underscore-dangle': 0,
-        'linebreak-style': 0,
 
         // https://stackoverflow.com/questions/59265981/typescript-eslint-missing-file-extension-ts-import-extensions
         'import/extensions': [
@@ -95,13 +99,10 @@ module.exports = {
         'import/first': 'error',
         'import/newline-after-import': 'error',
         'import/no-duplicates': 'error',
-
-        // https://github.com/prettier/eslint-config-prettier#special-rules
-        // https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base/rules
-        curly: ['error', 'all'],
-        'no-tabs': 'error',
-        'no-unexpected-multiline': 'error',
-        'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
+        '@andreyvolokitin/destructuring/in-params': [
+          'error',
+          { 'max-params': 2, 'max-destructured': 3 },
+        ],
       },
 
       settings: {

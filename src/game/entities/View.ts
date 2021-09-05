@@ -106,6 +106,7 @@ export default class View {
       this.ctx.lineWidth = 2;
       this.ctx.strokeStyle = 'yellow';
       const { top, right, bottom, left } = player.hitBox;
+
       this.ctx.strokeRect(left, top, right - left, bottom - top);
     }
   }

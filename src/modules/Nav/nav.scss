@@ -1,0 +1,19 @@
+.nav__item-i,
+a.nav__item-i:link,
+a.nav__item-i:visited {
+  display: block;
+  padding: 0.6em var(--section-pad-x-generic);
+  color: $dark-color;
+  font-size: $font-size-lg;
+  text-decoration: none;
+  transition: background-color $transition-duration, color $transition-duration;
+}
+a.nav__item-i:hover,
+a.nav__item-i:focus-visible,
+.nav__item_current > .nav__item-i {
+  @include focus-ring-reset;
+
+  background-color: $blue-dark;
+  color: $light-color;
+  transition-duration: 0s;
+}

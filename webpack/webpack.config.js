@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const { GenerateSW } = require('workbox-webpack-plugin');
 
 const loadPresets = require('./loadPresets');
 // eslint-disable-next-line import/no-dynamic-require, global-require
@@ -82,6 +83,10 @@ module.exports = ({ mode = 'production', presets = [] } = {}) =>
             type: 'asset/resource',
           },
           {
+            test: /\.(json)$/,
+            type: 'asset/source',
+          },
+          {
             test: /\.svg$/,
             use: [{ loader: 'svg-sprite-loader' }],
           },
@@ -97,6 +102,7 @@ module.exports = ({ mode = 'production', presets = [] } = {}) =>
           template: path.resolve(__dirname, '..', settings.paths.src.base, 'index.html'),
           publicPath: '/',
         }),
+        new GenerateSW(),
       ],
     },
     getModeConfig(mode),

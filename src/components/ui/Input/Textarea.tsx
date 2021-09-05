@@ -13,7 +13,10 @@ export type TextareaProps = {
 const b = block('input');
 
 export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
-  {
+  props: TextareaProps,
+  ref
+): JSX.Element {
+  const {
     className = '',
     fieldClassName = '',
     theme = 'default',
@@ -23,9 +26,8 @@ export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
     isFixed,
     error,
     ...rest
-  }: TextareaProps,
-  ref
-): JSX.Element {
+  } = props;
+
   return (
     <div
       className={b({ theme, sizing })

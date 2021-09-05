@@ -1,3 +1,5 @@
+@use 'src/css/abstracts/variables' as *;
+
 .link:link,
 .link:visited {
   color: $brand-color;

@@ -1,3 +1,3 @@
-// import './pagination.scss';
+import './pagination.scss';
 
 export { default } from './Pagination';

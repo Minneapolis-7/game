@@ -1,3 +1,5 @@
+@use 'src/css/abstracts/variables' as *;
+
 @mixin spinner($size: 1em, $color: $text-color) {
   width: $size;
   height: $size;
