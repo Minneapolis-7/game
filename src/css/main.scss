@@ -1,46 +1,14 @@
-// Конфигурация, хэлперы, миксины
-@import 'abstracts/variables';
-@import 'abstracts/functions';
-@import 'abstracts/mixins';
-
 // Базовые стили
-@import 'base/base';
-@import 'base/typography';
+@use 'base/base';
+@use 'base/typography';
 
 // CSS-компоненты
-@import 'components/scrollbar';
-@import 'components/link';
-@import 'components/block-link';
-@import 'components/heading';
-@import 'components/spinner';
-@import 'components/field-row';
-@import 'components/liquid-img';
-@import 'components/error';
-@import 'components/auth';
-
-///////////
-// React //
-///////////
-
-// UI-компоненты
-@import '../components/ui/Button/button';
-@import '../components/ui/Input/input';
-@import '../components/ui/Icon/icon';
-@import '../components/ui/Avatar/avatar';
-@import '../components/ui/Filepick/filepick';
-@import '../components/ui/Pagination/pagination';
-
-// Компоненты приложения
-@import '../modules/Forum/components/ForumItemPreview/forum-item-preview';
-@import '../modules/Forum/components/ForumComment/forum-comment';
-@import '../components/FallbackError/fallback-error';
-
-// Модули
-@import '../modules/Profile/profile';
-@import '../modules/Forum/forum';
-@import '../modules/Leaderboard/leaderboard';
-@import '../modules/Sidebar/sidebar';
-@import '../modules/Nav/nav';
-
-// Лэйаут
-@import '../layout/Page/page';
+@use 'components/scrollbar';
+@use 'components/link';
+@use 'components/block-link';
+@use 'components/heading';
+@use 'components/spinner';
+@use 'components/field-row';
+@use 'components/liquid-img';
+@use 'components/error';
+@use 'components/auth';

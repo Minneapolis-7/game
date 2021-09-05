@@ -1,3 +1,5 @@
+@use 'src/css/abstracts/mixins/non-selectable' as *;
+
 @mixin button-reset {
   @include non-selectable;
 

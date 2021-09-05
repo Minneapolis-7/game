@@ -1,3 +1,6 @@
+@use 'src/css/abstracts/variables' as *;
+@use 'src/css/abstracts/mixins' as *;
+
 $forum-body-gap-y: 1rem;
 
 .forum,

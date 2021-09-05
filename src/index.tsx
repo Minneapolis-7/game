@@ -1,3 +1,7 @@
+// Базовые стили должны идти первыми
+// eslint-disable-next-line simple-import-sort/imports
+import '@/css/main.scss';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -7,8 +11,6 @@ import ProtectedRoute from '@/modules/ProtectedRoute';
 import RootErrorBoundary from '@/modules/RootErrorBoundary';
 import routes from '@/shared/const/routes';
 import store from '@/store/store';
-
-import '@/css/main.scss';
 
 function startServiceWorker() {
   if ('serviceWorker' in navigator) {

@@ -1,4 +1,6 @@
 @use 'sass:math';
+@use 'src/css/abstracts/variables' as *;
+@use 'src/css/abstracts/mixins' as *;
 
 $button-height: $field-height;
 $button-text-color: $dark-color;

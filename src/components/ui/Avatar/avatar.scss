@@ -1,4 +1,6 @@
 @use 'sass:math';
+@use 'src/css/abstracts/variables' as *;
+@use 'src/css/abstracts/mixins' as *;
 
 $avatar-default-width: 6.25rem;
 $avatar-default-height: 6.25rem;

@@ -1,3 +1,3 @@
-// import './filepick.scss';
+import './filepick.scss';
 
 export { default } from './Filepick';

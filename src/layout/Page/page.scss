@@ -1,4 +1,5 @@
 @use 'sass:math';
+@use 'src/css/abstracts/variables' as *;
 
 .page,
 .page_delegated > *:not(.page__sidebar) {
