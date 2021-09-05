@@ -24,13 +24,14 @@ describe('Icon', () => {
     const { container } = render(<Icon name={nextPageSvg.id} className="test" />);
 
     // eslint-disable-next-line testing-library/no-node-access
-    expect(container.firstChild).toHaveClass('icon test');
+    expect(container.firstChild).toHaveClass('test');
   });
 
   it('applies proper size', () => {
     const size = '2em';
 
     render(<Icon name={nextPageSvg.id} size={size} />);
+
     expect(screen.getByRole('img')).toHaveStyle(`width: ${size}; height: ${size}`);
   });
 

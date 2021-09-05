@@ -6,16 +6,19 @@ import Input from './Input';
 describe('Input', () => {
   it('renders text value', () => {
     render(<Input defaultValue="test" />);
+
     expect(screen.getByRole('textbox')).toHaveDisplayValue('test');
   });
 
   it('renders proper type', () => {
     render(<Input type="email" />);
+
     expect(screen.getByRole('textbox')).toHaveAttribute('type', 'email');
   });
 
   it('receives attributes', () => {
     render(<Input data-test="test" />);
+
     expect(screen.getByRole('textbox')).toHaveAttribute('data-test');
   });
 

@@ -11,10 +11,10 @@ describe('Filepick', () => {
   });
 
   it('applies class names', () => {
-    render(<Filepick className="test" />);
+    const { container } = render(<Filepick className="test" />);
 
     // eslint-disable-next-line testing-library/no-node-access
-    expect(screen.getByLabelText('').parentNode).toHaveClass('test');
+    expect(container.firstChild).toHaveClass('test');
   });
 
   it('applies input class names', () => {

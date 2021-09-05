@@ -22,6 +22,7 @@ describe('Avatar', () => {
     const src = 'test.jpg';
 
     render(<Avatar src={src} />);
+
     expect(screen.getByRole('img')).toHaveAttribute('src', src);
   });
 
@@ -29,6 +30,7 @@ describe('Avatar', () => {
     const src = 'test.jpg';
 
     render(<Avatar src={src} />);
+
     // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('img').parentNode).toHaveAttribute('data-populated', 'true');
   });
@@ -37,17 +39,20 @@ describe('Avatar', () => {
     const size = '2em';
 
     render(<Avatar size={size} />);
+
     expect(screen.getByRole('figure')).toHaveStyle(`width: ${size}`);
   });
 
   it('applies proper aspect ratio', () => {
     render(<Avatar src="test.jpg" width="2em" height="1em" />);
+
     // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('img').parentNode).toHaveStyle('padding-top: 50%');
   });
 
   it('handles retina', () => {
     render(<Avatar src="test.jpg" retinaSuffix="@2x" />);
+
     // eslint-disable-next-line testing-library/no-node-access
     expect(screen.getByRole('img').parentNode).toHaveClass('avatar__pic_retina');
     // eslint-disable-next-line testing-library/no-node-access
@@ -60,6 +65,7 @@ describe('Avatar', () => {
         <button>Test</button>
       </Avatar>
     );
+
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 });

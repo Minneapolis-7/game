@@ -8,11 +8,13 @@ import Textarea from './Textarea';
 describe('Textarea', () => {
   it('renders text value', () => {
     render(<Textarea defaultValue="test" />);
+
     expect(screen.getByRole('textbox')).toHaveDisplayValue('test');
   });
 
   it('receives attributes', () => {
     render(<Textarea data-test="test" />);
+
     expect(screen.getByRole('textbox')).toHaveAttribute('data-test');
   });
 

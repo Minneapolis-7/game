@@ -37,6 +37,7 @@ describe('Textarea (formik wrapper)', () => {
         />
       </Formik>
     );
+
     await act(async () => {
       await fireEvent.change(screen.getByRole('textbox'), {
         target: {
@@ -45,6 +46,7 @@ describe('Textarea (formik wrapper)', () => {
       });
       await fireEvent.blur(screen.getByRole('textbox'));
     });
+
     expect(isOnChangeFired).toBe(true);
     expect(isOnBlurFired).toBe(true);
   });
