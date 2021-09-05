@@ -2,11 +2,12 @@
 @use 'src/css/abstracts/variables' as *;
 
 .page,
-.page_delegated > * {
+.page_delegated > *:not(.page__sidebar) {
   overflow: hidden;
   min-height: 100%;
   padding: $page-gap-y var(--section-pad-x-generic);
 }
+
 .page {
   display: flow-root;
 }

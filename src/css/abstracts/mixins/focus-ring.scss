@@ -3,3 +3,6 @@
 @mixin focus-ring {
   box-shadow: 0 0 0 0.25rem transparentize($brand-color, 0.7);
 }
+@mixin focus-ring-reset {
+  box-shadow: none !important;
+}

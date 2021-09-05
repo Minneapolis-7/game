@@ -41,7 +41,8 @@ $forum-body-gap-y: 1rem;
 
 .forum__header {
   margin-top: -#{$page-gap-y};
-  border-bottom: 1px solid $ui-color;
+  // prettier-ignore
+  border-bottom: 1PX solid $ui-color;
   text-align: center;
 }
 

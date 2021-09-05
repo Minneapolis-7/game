@@ -7,10 +7,11 @@ import OriginalTextarea, {
 
 type TextareaProps = FormikFieldBaseProps & OriginalTextareaProps;
 
-export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Input(
-  { name, onChange, onBlur, ...rest }: TextareaProps,
+export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
+  props: TextareaProps,
   ref
 ): JSX.Element {
+  const { name, onChange, onBlur, ...rest } = props;
   const [field, meta] = useField(name);
   const { onChange: formikOnChange, onBlur: formikOnBlur } = field;
   const { error, touched } = meta;

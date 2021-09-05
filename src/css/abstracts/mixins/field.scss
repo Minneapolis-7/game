@@ -6,7 +6,8 @@ $field-gap-x: 0;
 $field-gap-y: 1em;
 $field-font-size: 1rem;
 $field-line-height: 1.3;
-$field-border-width: 0 0 1px;
+// prettier-ignore
+$field-border-width: 0 0 1PX;
 $field-height: get-field-height($field-line-height, $field-gap-y, $field-border-width);
 $field-placeholder-color: $muted-color;
 $field-bg-color: transparent;

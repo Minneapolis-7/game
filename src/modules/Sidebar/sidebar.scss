@@ -1,0 +1,69 @@
+$sidebar-animation-duration: $transition-duration;
+.sidebar__container,
+.sidebar__backdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+.sidebar__container,
+body .sidebar__container {
+  z-index: $z-index-navigation + 2;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  max-width: 100%;
+  padding: $page-gap-y 0;
+  background: $brand-color;
+  color: $dark-color;
+  outline: none;
+  visibility: hidden;
+  transition: visibility $sidebar-animation-duration, transform $sidebar-animation-duration;
+  transform: translateX(-100%);
+  will-change: transform;
+}
+.sidebar__container.is-opened {
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.sidebar__head {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 0.5rem;
+  padding: 0 var(--section-pad-x-generic);
+}
+
+.sidebar__body {
+  flex-grow: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sidebar__opener,
+body .sidebar__opener {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $z-index-navigation;
+  min-height: 0;
+  box-shadow: 0 0 0.4em $main-bg;
+}
+.sidebar__closer {
+  margin-left: auto;
+}
+
+.sidebar__backdrop {
+  right: 0;
+  z-index: $z-index-navigation + 1;
+  background: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity $sidebar-animation-duration;
+  will-change: opacity;
+}
+.sidebar__container.is-opened ~ .sidebar__backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}

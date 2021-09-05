@@ -4,6 +4,10 @@
       paths: ['src/static/assets', 'node_modules'],
     },
     'postcss-em-media-query': {},
+    'postcss-pxtorem': {
+      rootValue: 16,
+      propList: ['*'],
+    },
     autoprefixer: {},
   },
 }

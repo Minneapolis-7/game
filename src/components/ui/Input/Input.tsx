@@ -8,7 +8,10 @@ export type InputProps = InputBaseProps & FieldBaseProps & InputHTMLAttributes<H
 const b = block('input');
 
 export default forwardRef<HTMLInputElement, InputProps>(function Input(
-  {
+  props: InputProps,
+  ref
+): JSX.Element {
+  const {
     className = '',
     fieldClassName = '',
     theme = 'default',
@@ -19,9 +22,7 @@ export default forwardRef<HTMLInputElement, InputProps>(function Input(
     isFloating = true,
     error,
     ...rest
-  }: InputProps,
-  ref
-): JSX.Element {
+  } = props;
   const canFloat = isFloating && hint && display !== 'inline';
   const mode = canFloat ? 'floating' : '';
 
