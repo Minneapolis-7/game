@@ -34,6 +34,15 @@ export default class Game {
   public gameState: GameState;
   public updateGameState: (gameState: GameState) => void;
 
+  private _gameStartTimestamp!: number;
+  private _defaultGameState = {
+    isKeyAcquired: false,
+    isDoorUnlocked: false,
+    isLevelCompleted: false,
+    playerHealth: 3,
+    time: 0,
+  } as GameState;
+
   constructor(options: GameConstructorOptions) {
     const {
       world,
@@ -56,9 +65,7 @@ export default class Game {
     this.startLevelIndex = startLevelIndex;
 
     this.gameState = {
-      isDoorUnlocked: false,
-      isLevelCompleted: false,
-      playerHealth: 3,
+      ...this._defaultGameState,
     };
 
     this.updateGameState = onStateUpdate;
@@ -122,10 +129,11 @@ export default class Game {
         id: 7,
         sprite: [0, 96],
         onOver: ({ gameObject }) => {
-          if (this.gameState.isDoorUnlocked) {
+          if (this.gameState.isKeyAcquired) {
             gameObject.setSprite([32, 96]);
             gameObject.deactivate();
             this.soundController.play(SOUND.DOOR);
+            this.stop();
 
             setTimeout(() => {
               this.setGameState(GAME_STATE_KEY.IS_LEVEL_COMPLETED, true);
@@ -168,6 +176,12 @@ export default class Game {
         },
       },
     ];
+  }
+
+  private _resetState(): void {
+    this.gameState = {
+      ...this._defaultGameState,
+    };
   }
 
   setGameState<T extends keyof GameState, K extends GameState[T]>(key: T, value: K): void {
@@ -225,6 +239,8 @@ export default class Game {
   }
 
   start(): void {
+    this._resetState();
+    this._gameStartTimestamp = Date.now();
     this.loop();
   }
 
@@ -237,6 +253,15 @@ export default class Game {
     this.world.update(this.control.keys);
     this.view.update(this.world, this.control.keys);
     this.requestAnimationId = window.requestAnimationFrame(this.loop);
+
+    const elapsedTime = Date.now() - this._gameStartTimestamp;
+
+    if (
+      !this.gameState[GAME_STATE_KEY.IS_DOOR_UNLOCKED] &&
+      elapsedTime - this.gameState.time >= 1000
+    ) {
+      this.setGameState(GAME_STATE_KEY.TIME, elapsedTime);
+    }
   }
 
   destroy(): void {

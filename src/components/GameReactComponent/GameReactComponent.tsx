@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { block } from 'bem-cn';
 
 import Control from '@/game/entities/Control';
 import Game from '@/game/entities/Game';
@@ -6,8 +7,13 @@ import Sprite from '@/game/entities/Sprite';
 import View from '@/game/entities/View';
 import World from '@/game/entities/World';
 import levels from '@/game/levels';
-import { SPRITES_FILE } from '@/game/shared/constants';
+import { GAME_CONFIG, SPRITES_FILE } from '@/game/shared/constants';
 import { GameState } from '@/game/types';
+import GameOverlay from '@/modules/GameOverlay';
+
+import './game-react-component.scss';
+
+const b = block('game-react-component');
 
 type GameProps = {
   startLevelIndex?: number;
@@ -46,7 +52,18 @@ function GameReactComponent({ startLevelIndex = 0, onStateUpdate }: GameProps): 
     return () => game.destroy();
   }, [startLevelIndex]);
 
-  return <canvas ref={gameCanvasRef} />;
+  return (
+    <div className={b()}>
+      <canvas ref={gameCanvasRef} />
+      <GameOverlay
+        className={b('overlay')}
+        maxHealth={GAME_CONFIG.MAX_HEALTH}
+        health={gameState?.playerHealth || GAME_CONFIG.MAX_HEALTH}
+        hasKey={gameState?.isKeyAcquired || false}
+        time={gameState?.time || 0}
+      />
+    </div>
+  );
 }
 
 export default GameReactComponent;

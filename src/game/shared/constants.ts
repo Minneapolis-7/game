@@ -32,9 +32,11 @@ export const SOUND = {
 } as const;
 
 export const GAME_STATE_KEY = {
+  IS_KEY_ACQUIRED: 'isKeyAcquired',
   IS_DOOR_UNLOCKED: 'isDoorUnlocked',
   IS_LEVEL_COMPLETED: 'isLevelCompleted',
   PLAYER_HEALTH: 'playerHealth',
+  TIME: 'time',
 } as const;
 
 // Настройки баланса игры
@@ -47,4 +49,6 @@ export const GAME_CONFIG = {
   PLAYER_SPEED: 2,
   // Мощность прыжка
   PLAYER_JUMP_POWER: 2.5,
+  // Максимальное кол-во жизней
+  MAX_HEALTH: 3,
 } as const;
