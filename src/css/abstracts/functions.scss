@@ -15,7 +15,7 @@
   }
 
   @if $val == 0 {
-    $val: #{$val}px;
+    $val: #{$val}PX;
   }
 
   @return $val;

@@ -1,3 +1,5 @@
+@use 'src/css/abstracts/variables' as *;
+
 .game-overlay {
   display: flex;
   gap: 24px;

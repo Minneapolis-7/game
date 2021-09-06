@@ -1,3 +1,3 @@
-// import './forum-item-preview.scss';
+import './forum-item-preview.scss';
 
 export { default } from './ForumItemPreview';

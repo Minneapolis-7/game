@@ -14,13 +14,15 @@ type FilepickProps = {
   iconPopulated?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-function Filepick({
-  className = '',
-  inputClassName = '',
-  icon = pickFileSvg.id,
-  iconPopulated = pickedFileSvg.id,
-  ...rest
-}: FilepickProps): JSX.Element {
+function Filepick(props: FilepickProps): JSX.Element {
+  const {
+    className = '',
+    inputClassName = '',
+    icon = pickFileSvg.id,
+    iconPopulated = pickedFileSvg.id,
+    ...rest
+  } = props;
+
   return (
     <label className={b({}).mix(className.split(' '))}>
       <input

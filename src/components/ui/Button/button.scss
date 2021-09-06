@@ -1,4 +1,6 @@
 @use 'sass:math';
+@use 'src/css/abstracts/variables' as *;
+@use 'src/css/abstracts/mixins' as *;
 
 $button-height: $field-height;
 $button-text-color: $dark-color;
@@ -205,6 +207,15 @@ $button-spinner-half-size: math.div($button-spinner-size, 2);
 .button_theme_subtle:not(:disabled):hover,
 .button_theme_subtle:not(:disabled):focus-visible {
   background-color: transparentize($text-color, 0.85);
+}
+
+.button_theme_morphed {
+  background-color: $main-bg;
+  color: $text-color;
+}
+.button_theme_morphed:not(:disabled):hover,
+.button_theme_morphed:not(:disabled):focus-visible {
+  background-color: lighten($main-bg, 10);
 }
 
 // Размеры (все размерности шрифтозависимы, потому можно просто поменять `font-size`)

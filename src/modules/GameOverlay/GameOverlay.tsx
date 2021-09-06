@@ -5,6 +5,8 @@ import healthImage from 'assets/img/game/overlay-health.png';
 import keyImage from 'assets/img/game/overlay-key.png';
 import lostHealthImage from 'assets/img/game/overlay-lost-health.png';
 
+import './game-overlay.scss';
+
 const b = block('game-overlay');
 
 type GameOverlayProps = {

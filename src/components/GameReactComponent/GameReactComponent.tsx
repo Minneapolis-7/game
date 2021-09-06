@@ -11,6 +11,8 @@ import { GAME_CONFIG, SPRITES_FILE } from '@/game/shared/constants';
 import { GameState } from '@/game/types';
 import GameOverlay from '@/modules/GameOverlay';
 
+import './game-react-component.scss';
+
 const b = block('game-react-component');
 
 type GameProps = {

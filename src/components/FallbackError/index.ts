@@ -1,3 +1,3 @@
-// import './fallback-error.scss';
+import './fallback-error.scss';
 
 export { default } from './FallbackError';

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Page from '@/layout/Page';
-import Leaderboard from '@/modules/Leaderboard/Leaderboard';
+import Leaderboard from '@/modules/Leaderboard';
 
 const mockUserList = [
   {

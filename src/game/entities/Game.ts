@@ -119,8 +119,8 @@ export default class Game {
         id: 6,
         sprite: [0, 64],
         onOver: ({ gameObject }) => {
-          gameObject.setSprite([32, 64]);
-          this.setGameState(GAME_STATE_KEY.IS_KEY_ACQUIRED, true);
+          gameObject.hideAndDeactivate();
+          this.setGameState(GAME_STATE_KEY.IS_DOOR_UNLOCKED, true);
           this.soundController.play(SOUND.KEY);
         },
       },
@@ -131,7 +131,7 @@ export default class Game {
         onOver: ({ gameObject }) => {
           if (this.gameState.isKeyAcquired) {
             gameObject.setSprite([32, 96]);
-            this.setGameState(GAME_STATE_KEY.IS_DOOR_UNLOCKED, true);
+            gameObject.deactivate();
             this.soundController.play(SOUND.DOOR);
             this.stop();
 
