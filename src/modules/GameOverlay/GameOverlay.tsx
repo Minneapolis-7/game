@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { block } from 'bem-cn';
 
 import healthImage from 'assets/img/game/overlay-health.png';
@@ -18,11 +18,11 @@ type GameOverlayProps = {
 function GameOverlay(props: GameOverlayProps): JSX.Element {
   const { maxHealth = 3, health = 0, className, hasKey, time = 0 } = props;
 
-  const getHealthElement = (total: number, number: number) => {
+  const getHealthElement = useMemo(() => {
     return (
       <div className={b('bar-block')}>
-        {Array.from({ length: total }).map((_, index) => {
-          return number > index ? (
+        {Array.from({ length: maxHealth }).map((_, index) => {
+          return health > index ? (
             <img className={b('health-icon')} src={healthImage} alt="" key={index} />
           ) : (
             <img className={b('lost-health-icon')} src={lostHealthImage} alt="" key={index} />
@@ -30,11 +30,11 @@ function GameOverlay(props: GameOverlayProps): JSX.Element {
         })}
       </div>
     );
-  };
+  }, [maxHealth, health]);
 
   return (
     <div className={b({}).mix(className)}>
-      {getHealthElement(maxHealth, health)}
+      {getHealthElement}
       {hasKey && (
         <div className={b('bar-block')}>
           <span className={b('bar-label')}>Ключ</span>
