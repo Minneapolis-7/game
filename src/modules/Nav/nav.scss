@@ -1,3 +1,6 @@
+@use 'src/css/abstracts/variables' as *;
+@use 'src/css/abstracts/mixins' as *;
+
 .nav__item-i,
 a.nav__item-i:link,
 a.nav__item-i:visited {
