@@ -36,8 +36,8 @@ type ForumProps = {
 const { forum: txt } = text;
 const gameAreaText = txt.categories.game;
 const generalAreaText = txt.categories.general;
-const { gameDiscussion, featureRequests, bugReports, gameIndustryNews, generalConversation } =
-  gameAreaText.sections;
+const { gameDiscussion, featureRequests, bugReports } = gameAreaText.sections;
+const { gameIndustryNews, generalConversation } = generalAreaText.sections;
 
 function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
   let forumBody = (
