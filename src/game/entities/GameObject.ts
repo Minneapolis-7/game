@@ -39,15 +39,15 @@ export default class GameObject {
     this.onAbove = undefined;
   }
 
-  ignore(): void {
+  deactivate(): void {
     this.resetOnAboveCallback();
     this.resetOnOverCallback();
   }
 
-  hideAndIgnore(): void {
+  hideAndDeactivate(): void {
     // "Прозрачный" спрайт
     this.setSprite([32, 64]);
-    this.ignore();
+    this.deactivate();
   }
 
   setSprite(sprite: [number, number]): void {

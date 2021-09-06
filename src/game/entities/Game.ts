@@ -112,7 +112,7 @@ export default class Game {
         id: 6,
         sprite: [0, 64],
         onOver: ({ gameObject }) => {
-          gameObject.hideAndIgnore();
+          gameObject.hideAndDeactivate();
           this.setGameState(GAME_STATE_KEY.IS_DOOR_UNLOCKED, true);
           this.soundController.play(SOUND.KEY);
         },
@@ -124,7 +124,7 @@ export default class Game {
         onOver: ({ gameObject }) => {
           if (this.gameState.isDoorUnlocked) {
             gameObject.setSprite([32, 96]);
-            gameObject.ignore();
+            gameObject.deactivate();
             this.soundController.play(SOUND.DOOR);
 
             setTimeout(() => {
