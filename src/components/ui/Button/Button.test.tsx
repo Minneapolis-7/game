@@ -43,4 +43,12 @@ describe('Button', () => {
       'button button_theme_test button_sizing_xl test-button'
     );
   });
+
+  it('applies waiting state', () => {
+    render(<Button waiting={true} />);
+
+    expect(screen.getByRole('progressbar')).toBeInTheDocument();
+    expect(screen.getByRole('button')).toBeDisabled();
+    expect(screen.getByRole('button')).toHaveClass('is-waiting');
+  });
 });
