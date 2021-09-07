@@ -24,12 +24,9 @@ const { login: txt } = text;
 function LoginPage({ title }: GenericPageProps): JSX.Element {
   const dispatch = useAppDispatch();
   const submitLogin = useCallback(async (values, actions) => {
-    console.log('---submitLogin');
-
     try {
-      const resultAction = await dispatch(signinRequest(values)).unwrap();
-
-      console.log('success', `Получены данные пользователя ${resultAction}`);
+      await dispatch(signinRequest(values)).unwrap();
+      console.log('success signin');
       actions.setSubmitting(false);
     } catch (err) {
       console.log('error', `Запрос завершился ошибкой: ${err.message}`);

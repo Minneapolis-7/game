@@ -90,13 +90,11 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
     formData.append('avatar', e.target.files[0]);
 
     try {
-      const resultAction = await dispatch(updateAvatarRequest(formData)).unwrap();
-
-      console.log('success', `Получены данные пользователя ${resultAction}`);
+      await dispatch(updateAvatarRequest(formData)).unwrap();
+      console.log('success updateAvatar');
     } catch (err) {
       console.log('error', `Запрос завершился ошибкой: ${err.message}`);
     }
-    // alert(`Загрузить ${e.target.files[0].name}`);
   }, []);
 
   let initialValues = {};
@@ -116,12 +114,12 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
     try {
       if (action === 'edit') {
         await dispatch(updateProfileRequest(values)).unwrap();
-        console.log('success', 'Профиль успешно обновлен');
+        console.log('success updateProfile');
       }
 
       if (action === 'edit-password') {
         await dispatch(updatePasswordRequest(values)).unwrap();
-        console.log('success', 'Пароль успешно обновлен');
+        console.log('success updatePassword');
       }
 
       actions.setSubmitting(false);

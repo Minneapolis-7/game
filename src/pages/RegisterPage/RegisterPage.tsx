@@ -29,9 +29,8 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
   const dispatch = useAppDispatch();
   const submitRegister = useCallback(async (values, actions) => {
     try {
-      const resultAction = await dispatch(signupRequest(values)).unwrap();
-
-      console.log('success', `Получены данные пользователя ${resultAction}`);
+      await dispatch(signupRequest(values)).unwrap();
+      console.log('success signup');
       actions.setSubmitting(false);
     } catch (err) {
       console.log('error', `Запрос завершился ошибкой: ${err.message}`);

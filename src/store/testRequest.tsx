@@ -22,9 +22,9 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
     };
 
     try {
-      const resultAction = await dispatch(signupRequest(user)).unwrap();
+      const result = await dispatch(signupRequest(user)).unwrap();
 
-      console.log('success', `Получены данные пользователя ${resultAction}`);
+      console.log('success', `Получены данные пользователя ${result}`);
     } catch (err) {
       console.log('error', `Запрос завершился ошибкой: ${err.message}`);
     }
