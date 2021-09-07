@@ -1,3 +1,5 @@
+@use 'src/css/abstracts/variables' as *;
+
 $sidebar-animation-duration: $transition-duration;
 .sidebar__container,
 .sidebar__backdrop {

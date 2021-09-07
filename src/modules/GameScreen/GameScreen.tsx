@@ -10,6 +10,8 @@ import introImage from 'assets/img/game/intro.png';
 import lossImage from 'assets/img/game/loss.png';
 import winImage from 'assets/img/game/win.png';
 
+import './game-screen.scss';
+
 const GAME_SCREEN = {
   START: 'start',
   PLAY: 'play',
@@ -75,7 +77,7 @@ function GameScreen(): JSX.Element {
         </div>
       ),
     };
-  }, []);
+  }, [handleGameStart]);
 
   return gameScreenElement[gameScreen];
 }
