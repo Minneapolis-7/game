@@ -2,11 +2,13 @@ import React, { PropsWithChildren } from 'react';
 import { BemMods, block } from 'bem-cn';
 
 import { Icon } from '@/components/ui';
+import text from '@/shared/const/text';
 
 import prevPageSvg from 'bootstrap-icons/icons/caret-left-fill.svg';
 import nextPageSvg from 'bootstrap-icons/icons/caret-right-fill.svg';
 
 const b = block('pagination');
+const { pagination: txt } = text;
 
 type PaginationItemProps = PropsWithChildren<{
   href?: string;
@@ -14,7 +16,8 @@ type PaginationItemProps = PropsWithChildren<{
   mod?: string | BemMods; // второй аргумент для `b()`: https://github.com/albburtsev/bem-cn#api
 }>;
 
-function PaginationItem({ children, href, title, mod = '' }: PaginationItemProps): JSX.Element {
+function PaginationItem(props: PaginationItemProps): JSX.Element {
+  const { children, href, title, mod = '' } = props;
   const tagBaseProps = {
     className: b('handle'),
     children,
@@ -36,12 +39,8 @@ type PaginationProps = {
   baseURL: string;
 };
 
-function Pagination({
-  className = '',
-  total,
-  current = 1,
-  baseURL = '',
-}: PaginationProps): JSX.Element {
+function Pagination(props: PaginationProps): JSX.Element {
+  const { className = '', total, current = 1, baseURL = '' } = props;
   const nextIndex = current + 1;
   const prevIndex = current - 1;
   const hasNext = nextIndex <= total;
@@ -65,14 +64,14 @@ function Pagination({
       })}
       <PaginationItem
         href={hasPrev ? `${baseURL}/${prevIndex}` : undefined}
-        title={hasPrev ? 'Предыдущая страница' : undefined}
+        title={hasPrev ? txt.prevPageButtonTitle : undefined}
         mod={{ disabled: !hasPrev }}
       >
         <Icon name={prevPageSvg.id} />
       </PaginationItem>
       <PaginationItem
         href={hasNext ? `${baseURL}/${nextIndex}` : undefined}
-        title={hasNext ? 'Следующая страница' : undefined}
+        title={hasNext ? txt.nextPageButtonTitle : undefined}
         mod={{ disabled: !hasNext }}
       >
         <Icon name={nextPageSvg.id} />

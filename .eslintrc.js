@@ -19,7 +19,6 @@ module.exports = {
     curly: ['error', 'all'],
     'no-tabs': 'error',
     'no-unexpected-multiline': 'error',
-
     'import/order': [
       'error',
       {
@@ -39,8 +38,8 @@ module.exports = {
     ],
   },
 
-  // Линтинг TypeScript (сорсы и сервер)
   overrides: [
+    // Линтинг TypeScript (сорсы и сервер)
     {
       files: ['src/**/*.ts', 'src/**/*.tsx', 'typings/**/*.ts', 'server/**/*.ts'],
       extends: [
@@ -49,7 +48,7 @@ module.exports = {
         'plugin:react-hooks/recommended',
         'plugin:import/typescript',
       ],
-      plugins: ['simple-import-sort'],
+      plugins: ['simple-import-sort', '@andreyvolokitin/destructuring'],
       parserOptions: {
         project: 'tsconfig.json',
       },
@@ -100,6 +99,10 @@ module.exports = {
         'import/first': 'error',
         'import/newline-after-import': 'error',
         'import/no-duplicates': 'error',
+        '@andreyvolokitin/destructuring/in-params': [
+          'error',
+          { 'max-params': 2, 'max-destructured': 3 },
+        ],
       },
 
       settings: {
@@ -114,6 +117,19 @@ module.exports = {
             config: './webpack/webpack.config.js',
           },
         },
+      },
+    },
+    // Линтинг тестов
+    {
+      files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+      extends: ['plugin:testing-library/react', 'plugin:jest-dom/recommended'],
+      rules: {
+        'import/no-extraneous-dependencies': [
+          'error',
+          {
+            devDependencies: ['**/*.test.ts', '**/*.spec.ts', '**/*.test.tsx', '**/*.spec.tsx'],
+          },
+        ],
       },
     },
   ],

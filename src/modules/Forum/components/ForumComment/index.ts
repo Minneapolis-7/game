@@ -1,3 +1,3 @@
-// import './forum-comment.scss';
+import './forum-comment.scss';
 
 export { default } from './ForumComment';

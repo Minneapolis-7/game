@@ -7,6 +7,7 @@ import { Input } from '@/components/formik-ui';
 import { Button } from '@/components/ui';
 import Page from '@/layout/Page';
 import paths from '@/shared/const/paths';
+import text from '@/shared/const/text';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 
 import { registerSchema } from './schema';
@@ -20,6 +21,7 @@ const registerInitialValues = {
   password: '',
   passwordRepeat: '',
 };
+const { register: txt } = text;
 
 function RegisterPage({ title }: GenericPageProps): JSX.Element {
   const submitRegister = useCallback((values, actions) => {
@@ -30,9 +32,9 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
   }, []);
 
   return (
-    <Page centered title={title}>
+    <Page centered title={title} hasSidebar={false}>
       <div className={bAuth()}>
-        <h4 className="heading_4 heading">Регистрация</h4>
+        <h4 className="heading_4 heading">{txt.header}</h4>
         <Formik
           initialValues={registerInitialValues}
           validationSchema={registerSchema}
@@ -43,7 +45,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
               <div className="gap-y-xl">
                 <Input
                   className="gap-y-lg"
-                  hint="E-mail"
+                  hint={txt.emailLabel}
                   required
                   type="email"
                   autoComplete="email"
@@ -52,7 +54,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                 />
                 <Input
                   className="gap-y-lg"
-                  hint="Логин"
+                  hint={txt.loginLabel}
                   required
                   autoComplete="username"
                   id="login"
@@ -60,7 +62,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                 />
                 <Input
                   className="gap-y-lg"
-                  hint="Имя"
+                  hint={txt.firstNameLabel}
                   required
                   autoComplete="given-name"
                   id="firstName"
@@ -68,7 +70,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                 />
                 <Input
                   className="gap-y-lg"
-                  hint="Фамилия"
+                  hint={txt.secondNameLabel}
                   required
                   autoComplete="family-name"
                   id="secondName"
@@ -77,7 +79,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                 <Input
                   type="password"
                   className="gap-y-lg"
-                  hint="Пароль"
+                  hint={txt.passwordLabel}
                   required
                   autoComplete="new-password"
                   id="password"
@@ -86,7 +88,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                 <Input
                   type="password"
                   className="gap-y-lg"
-                  hint="Повторите пароль"
+                  hint={txt.passwordRepeatLabel}
                   required
                   autoComplete="new-password"
                   id="passwordRepeat"
@@ -95,7 +97,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
               </div>
               <div className="gap-y-sm">
                 <Button type="submit" display="block" disabled={isSubmitting}>
-                  Зарегистрироваться
+                  {txt.submitButton}
                 </Button>
               </div>
               <div className="gap-y-sm">
@@ -103,7 +105,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                   to={paths.LOGIN}
                   component={getRoutedButtonLink({
                     display: 'block',
-                    children: 'Войти',
+                    children: txt.loginLink,
                     theme: 'link',
                   })}
                 />

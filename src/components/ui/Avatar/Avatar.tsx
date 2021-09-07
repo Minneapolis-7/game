@@ -14,18 +14,19 @@ type AvatarProps = PropsWithChildren<{
 
 const b = block('avatar');
 
-function Avatar({
-  className = '',
-  src,
-  theme,
-  populatable = false,
-  size,
-  width,
-  height,
-  retinaSuffix,
-  children,
-  ...rest
-}: AvatarProps): JSX.Element {
+function Avatar(props: AvatarProps): JSX.Element {
+  const {
+    className = '',
+    src,
+    theme,
+    populatable = false,
+    size,
+    width,
+    height,
+    retinaSuffix,
+    children,
+    ...rest
+  } = props;
   const w = size || width;
   const picStyle: {
     '--at2x'?: string;

@@ -1,11 +1,13 @@
 import { User } from '@/shared/types/types';
 
 export type SignInRequest = {
-  email: string;
+  login: string;
   password: string;
 };
 
 export type SignUpRequest = Omit<User, 'id' | 'displayName' | 'avatar'>;
+
+export type GetProfileRequest = Omit<User, 'password'>;
 
 export type UpdateProfileRequest = Omit<User, 'id' | 'password' | 'avatar'>;
 

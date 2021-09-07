@@ -1,4 +1,7 @@
 @use 'sass:math';
+@use 'src/css/abstracts/variables' as *;
+@use 'src/css/abstracts/mixins' as *;
+@use 'src/css/abstracts/functions' as *;
 
 .input {
   position: relative;

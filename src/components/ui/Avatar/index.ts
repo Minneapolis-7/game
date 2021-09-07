@@ -1,3 +1,3 @@
-// import './avatar.scss';
+import './avatar.scss';
 
 export { default } from './Avatar';

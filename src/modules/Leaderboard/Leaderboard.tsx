@@ -1,7 +1,10 @@
 import React from 'react';
 import { block } from 'bem-cn';
 
+import text from '@/shared/const/text';
+
 const b = block('leaderboard');
+const { leaderboard: txt } = text;
 
 type leaderUser = {
   id: number;
@@ -34,7 +37,7 @@ function Leaderboard({ userList }: LeaderboardProps): JSX.Element {
   return (
     <div className={b()}>
       <header className={b('head')}>
-        <h3>Рейтинг игроков</h3>
+        <h3>{txt.header}</h3>
       </header>
       <div className={b('content')}>
         <ul className={b('players-list')}>

@@ -1,0 +1,11 @@
+.game-react-component {
+  position: relative;
+}
+
+.game-react-component__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 32px;
+}

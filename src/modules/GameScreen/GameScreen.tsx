@@ -4,6 +4,7 @@ import { block } from 'bem-cn';
 import { GameReactComponent } from '@/components';
 import { Button } from '@/components/ui';
 import { GameState } from '@/game/types';
+import text from '@/shared/const/text';
 
 import introImage from 'assets/img/game/intro.png';
 import lossImage from 'assets/img/game/loss.png';
@@ -19,6 +20,7 @@ const GAME_SCREEN = {
 };
 
 const b = block('game-screen');
+const { game: txt } = text;
 
 function GameScreen(): JSX.Element {
   const [gameScreen, setGameScreen] = useState(GAME_SCREEN.START);
@@ -47,7 +49,7 @@ function GameScreen(): JSX.Element {
         <div className={b({ [GAME_SCREEN.START]: true })}>
           <img className="liquid-img" src={introImage} alt="Персонаж игры в прыжке за ключом" />
           <Button onClick={handleGameStart} sizing="lg">
-            Играть
+            {txt.playButton}
           </Button>
         </div>
       ),
@@ -59,23 +61,23 @@ function GameScreen(): JSX.Element {
       [GAME_SCREEN.WIN]: (
         <div className={b({ [GAME_SCREEN.WIN]: true })}>
           <img className="liquid-img" src={winImage} alt="Персонаж игры выходит в открытые двери" />
-          <h2 className="heading_2 heading">Победа!</h2>
+          <h2 className="heading_2 heading">{txt.winText}</h2>
           <Button onClick={handleGameStart} sizing="lg">
-            Могу лучше!
+            {txt.playMoreButton}
           </Button>
         </div>
       ),
       [GAME_SCREEN.LOSS]: (
         <div className={b({ [GAME_SCREEN.LOSS]: true })}>
           <img className="liquid-img" src={lossImage} alt="Персонаж игры лежит после проигрыша" />
-          <h2 className="heading_2 heading">Потрачено</h2>
+          <h2 className="heading_2 heading">{txt.lossText}</h2>
           <Button onClick={handleGameStart} sizing="lg">
-            Ещё раз!
+            {txt.retryButton}
           </Button>
         </div>
       ),
     };
-  }, []);
+  }, [handleGameStart]);
 
   return gameScreenElement[gameScreen];
 }

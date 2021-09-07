@@ -1,3 +1,3 @@
-// import './forum.scss';
+import './forum.scss';
 
 export { default } from './Forum';

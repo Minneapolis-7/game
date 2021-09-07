@@ -1,3 +1,3 @@
-// import './profile.scss';
+import './profile.scss';
 
 export { default } from './Profile';
