@@ -602,7 +602,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
                 hint={txt.newMessageAreaPlaceholder}
                 rows={10}
               />
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" waiting={isSubmitting}>
                 {txt.newMessageButton}
               </Button>
             </Form>
@@ -658,7 +658,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
                 hint={txt.newThreadMessageAreaPlaceholder}
                 rows={10}
               />
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" waiting={isSubmitting}>
                 {txt.newThreadButton}
               </Button>
             </Form>

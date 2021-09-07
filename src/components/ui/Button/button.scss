@@ -96,7 +96,7 @@ $button-text-color: $dark-color;
 
 $button-spinner-size: 1.125em;
 
-.button__spinner {
+.button > .button__spinner {
   --size: #{$button-spinner-size};
 
   top: 50%;

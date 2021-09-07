@@ -5,7 +5,10 @@ import { Spinner } from '@/components/ui';
 
 import { ButtonBaseProps } from './types';
 
-type ButtonProps = ButtonBaseProps & ButtonHTMLAttributes<HTMLButtonElement>;
+type ButtonProps = {
+  waiting?: boolean;
+} & ButtonBaseProps &
+  ButtonHTMLAttributes<HTMLButtonElement>;
 
 const b = block('button');
 
@@ -35,9 +38,9 @@ export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
       disabled={waiting}
       {...rest}
     >
-      {waiting && <Spinner className={b('spinner')} />}
       {icon && <span className={b('icon')}>{icon}</span>}
       <span className={b('text')}>{children}</span>
+      {waiting && <Spinner className={b('spinner')} />}
     </button>
   );
 });

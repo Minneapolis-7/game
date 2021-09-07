@@ -222,7 +222,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                   {action && (
                     <tr className={b('table-row')}>
                       <td colSpan={2} className={b('table-cell')}>
-                        <Button type="submit" disabled={isSubmitting}>
+                        <Button type="submit" waiting={isSubmitting}>
                           {txt.saveButton}
                         </Button>
                       </td>
