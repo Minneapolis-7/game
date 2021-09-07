@@ -85,50 +85,26 @@ $button-text-color: $dark-color;
   margin-left: 0;
 }
 
-.button.is-processing .button__icon,
-.button.is-processing .button__text,
-.button.is-successful .button__icon,
-.button.is-successful .button__text,
-.button.is-failed .button__icon,
-.button.is-failed .button__text {
+.button.is-waiting .button__icon,
+.button.is-waiting .button__text {
   opacity: 0;
 }
-.button[data-display='block'].is-processing .button__icon,
-.button[data-display='block'].is-processing .button__text,
-.button[data-display='block'].is-successful .button__icon,
-.button[data-display='block'].is-successful .button__text,
-.button[data-display='block'].is-failed .button__icon,
-.button[data-display='block'].is-failed .button__text {
+.button[data-display='block'].is-waiting .button__icon,
+.button[data-display='block'].is-waiting .button__text {
   opacity: 1;
 }
 
 $button-spinner-size: 1.125em;
 
-.button > .spinner {
+.button__spinner {
   --size: #{$button-spinner-size};
 
   top: 50%;
   left: 50%;
 }
-.button[data-display='block'] > .spinner {
+.button[data-display='block'] > .button__spinner {
   right: 0.5em;
   left: auto;
-}
-
-.button::after {
-  content: '';
-  background-position: 0 0;
-  background-repeat: no-repeat;
-}
-.button.is-successful::after {
-  background-image: svg-load('img/icons/ok.svg', fill=$button-text-color);
-}
-.button.is-failed::after {
-  background-image: svg-load('img/icons/not-ok.svg', fill=$button-text-color);
-}
-
-.button.is-processing::after {
-  display: none;
 }
 
 // Темы
@@ -152,8 +128,8 @@ $button-spinner-size: 1.125em;
   text-decoration: underline;
 }
 
-.button_theme_link > .spinner,
-.button_theme_link-danger > .spinner {
+.button_theme_link > .button__spinner,
+.button_theme_link-danger > .button__spinner {
   right: calc(-2 * #{$button-spinner-size}); // 2 — чтобы нивелировать translateX(-50%)
   left: auto;
 }

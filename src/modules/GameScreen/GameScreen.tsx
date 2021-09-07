@@ -48,7 +48,7 @@ function GameScreen(): JSX.Element {
       [GAME_SCREEN.START]: (
         <div className={b({ [GAME_SCREEN.START]: true })}>
           <img className="liquid-img" src={introImage} alt="Персонаж игры в прыжке за ключом" />
-          <Button onClick={handleGameStart} sizing="lg">
+          <Button waiting={true} onClick={handleGameStart} sizing="lg">
             {txt.playButton}
           </Button>
         </div>
