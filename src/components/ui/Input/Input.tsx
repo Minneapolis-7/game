@@ -40,7 +40,11 @@ export default forwardRef<HTMLInputElement, InputProps>(function Input(
         {...rest}
         placeholder={hint}
       />
-      {error && <div className={b('error').mix('error')}>{error}</div>}
+      {error && (
+        <div role="alert" className={b('error').mix('error')}>
+          {error}
+        </div>
+      )}
       {canFloat && (
         <label className={b('hint')} htmlFor={rest.id}>
           {hint}

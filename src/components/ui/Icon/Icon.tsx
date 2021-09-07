@@ -19,7 +19,7 @@ function Icon(props: IconProps): JSX.Element {
       className={b({}).mix(className.split(' '))}
       {...rest}
     >
-      <svg style={{ width: size, height: size }} className={b('svg')}>
+      <svg role="img" style={{ width: size, height: size }} className={b('svg')}>
         <use href={`#${name}`} />
       </svg>
     </span>
