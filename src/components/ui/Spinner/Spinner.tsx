@@ -10,7 +10,7 @@ type SpinnerProps = {
 const b = block('spinner');
 
 function Spinner(props: SpinnerProps): JSX.Element {
-  const { className = '', size, color } = props;
+  const { className = '', size, color, ...rest } = props;
   const style = {} as Record<string, string>;
 
   if (color) {
@@ -18,7 +18,12 @@ function Spinner(props: SpinnerProps): JSX.Element {
   }
 
   return (
-    <div role="progressbar" style={style} className={b({ size }).mix(className.split(' '))}></div>
+    <div
+      role="progressbar"
+      style={style}
+      className={b({ size }).mix(className.split(' '))}
+      {...rest}
+    ></div>
   );
 }
 
