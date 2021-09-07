@@ -14,8 +14,8 @@ export default forwardRef<HTMLInputElement, InputProps>(function Input(
   const {
     className = '',
     fieldClassName = '',
-    theme = 'default',
-    sizing = 'default',
+    theme,
+    sizing,
     display,
     type = 'text',
     hint,

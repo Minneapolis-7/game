@@ -103,22 +103,13 @@ $button-text-color: $dark-color;
 }
 
 $button-spinner-size: 1.125em;
-$button-spinner-half-size: math.div($button-spinner-size, 2);
 
-.button::after,
 .button > .spinner {
-  position: absolute;
+  --size: #{$button-spinner-size};
+
   top: 50%;
   left: 50%;
-  width: $button-spinner-size;
-  height: $button-spinner-size;
-  transform: translate(-50%, -50%);
 }
-.button > .spinner {
-  @include spinner($button-spinner-size, $button-text-color);
-}
-
-.button[data-display='block']::after,
 .button[data-display='block'] > .spinner {
   right: 0.5em;
   left: auto;
@@ -161,16 +152,10 @@ $button-spinner-half-size: math.div($button-spinner-size, 2);
   text-decoration: underline;
 }
 
-.button_theme_link::after,
-.button_theme_link > .spinner {
-  right: -0.5em;
-}
-.button_theme_link-danger::after,
+.button_theme_link > .spinner,
 .button_theme_link-danger > .spinner {
-  right: -2rem;
-}
-.button_theme_link-danger > .spinner {
-  @include spinner($button-spinner-size, $danger-color);
+  right: calc(-2 * #{$button-spinner-size}); // 2 — чтобы нивелировать translateX(-50%)
+  left: auto;
 }
 /* stylelint-enable no-descending-specificity */
 
