@@ -9,6 +9,8 @@ import Page from '@/layout/Page';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
+import { signinRequest } from '@/store/reducers';
+import { useAppDispatch } from '@/store/store';
 
 import { loginSchema } from './schema';
 
@@ -20,11 +22,18 @@ const loginInitialValues = {
 const { login: txt } = text;
 
 function LoginPage({ title }: GenericPageProps): JSX.Element {
-  const submitLogin = useCallback((values, actions) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+  const dispatch = useAppDispatch();
+  const submitLogin = useCallback(async (values, actions) => {
+    console.log('---submitLogin');
+
+    try {
+      const resultAction = await dispatch(signinRequest(values)).unwrap();
+
+      console.log('success', `Получены данные пользователя ${resultAction}`);
       actions.setSubmitting(false);
-    }, 400);
+    } catch (err) {
+      console.log('error', `Запрос завершился ошибкой: ${err.message}`);
+    }
   }, []);
 
   return (

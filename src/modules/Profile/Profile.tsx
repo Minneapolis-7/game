@@ -9,6 +9,8 @@ import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
+import { updateAvatarRequest, updatePasswordRequest, updateProfileRequest } from '@/store/reducers';
+import { useAppDispatch } from '@/store/store';
 
 import { PasswordFieldsSchema, ProfileFieldsSchema } from './schema';
 
@@ -81,8 +83,20 @@ type ProfileProps = {
 };
 
 function Profile({ user, action }: ProfileProps): JSX.Element {
-  const handleAvatarChange = useCallback((e) => {
-    alert(`Загрузить ${e.target.files[0].name}`);
+  const dispatch = useAppDispatch();
+  const handleAvatarChange = useCallback(async (e) => {
+    const formData = new FormData();
+
+    formData.append('avatar', e.target.files[0]);
+
+    try {
+      const resultAction = await dispatch(updateAvatarRequest(formData)).unwrap();
+
+      console.log('success', `Получены данные пользователя ${resultAction}`);
+    } catch (err) {
+      console.log('error', `Запрос завершился ошибкой: ${err.message}`);
+    }
+    // alert(`Загрузить ${e.target.files[0].name}`);
   }, []);
 
   let initialValues = {};
@@ -98,11 +112,22 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
     validationSchema = PasswordFieldsSchema;
   }
 
-  const submitProfile = useCallback((values, actions) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+  const submitProfile = useCallback(async (values, actions) => {
+    try {
+      if (action === 'edit') {
+        await dispatch(updateProfileRequest(values)).unwrap();
+        console.log('success', 'Профиль успешно обновлен');
+      }
+
+      if (action === 'edit-password') {
+        await dispatch(updatePasswordRequest(values)).unwrap();
+        console.log('success', 'Пароль успешно обновлен');
+      }
+
       actions.setSubmitting(false);
-    }, 400);
+    } catch (err) {
+      console.log('error', `Запрос завершился ошибкой: ${err.message}`);
+    }
   }, []);
 
   return (
