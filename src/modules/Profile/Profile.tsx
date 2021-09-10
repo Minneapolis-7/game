@@ -13,6 +13,7 @@ import { updateAvatarRequest, updatePasswordRequest, updateProfileRequest } from
 import { useAppDispatch } from '@/store/store';
 
 import { PasswordFieldsSchema, ProfileFieldsSchema } from './schema';
+import { actionType } from './types';
 
 const b = block('profile');
 const { profile: txt } = text;
@@ -53,11 +54,11 @@ function ProfileTableRow(props: ProfileTableRowProps): JSX.Element {
   // ZERO-WIDTH-SPACE (\u200B) — на случай, если `value` пуст, нужно для выравнвиания текста
   let rowCellContent = <span className={b('field')}>{value || '\u200B'}</span>;
 
-  if (action === 'edit') {
+  if (action === actionType.edit) {
     rowCellContent = BaseInput;
   }
 
-  if (action === 'edit-password') {
+  if (action === actionType.editPassword) {
     rowCellContent = React.cloneElement(BaseInput, { type: 'password' });
   }
 
@@ -84,6 +85,7 @@ type ProfileProps = {
 
 function Profile({ user, action }: ProfileProps): JSX.Element {
   const dispatch = useAppDispatch();
+
   const handleAvatarChange = useCallback(async (e) => {
     const formData = new FormData();
 
@@ -100,24 +102,24 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
   let initialValues = {};
   let validationSchema = {};
 
-  if (action === 'edit') {
+  if (action === actionType.edit) {
     initialValues = user;
     validationSchema = ProfileFieldsSchema;
   }
 
-  if (action === 'edit-password') {
+  if (action === actionType.editPassword) {
     initialValues = PasswordFieldsInitialValues;
     validationSchema = PasswordFieldsSchema;
   }
 
   const submitProfile = useCallback(async (values, actions) => {
     try {
-      if (action === 'edit') {
+      if (action === actionType.edit) {
         await dispatch(updateProfileRequest(values)).unwrap();
         console.log('success updateProfile');
       }
 
-      if (action === 'edit-password') {
+      if (action === actionType.editPassword) {
         await dispatch(updatePasswordRequest(values)).unwrap();
         console.log('success updatePassword');
       }
@@ -153,7 +155,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
             <Form data-action={action} className="js-profile__form" noValidate>
               <table className={b('table')}>
                 <tbody className={b('table-body')}>
-                  {(action === 'edit' || !action) && (
+                  {(action === actionType.edit || !action) && (
                     <>
                       <ProfileTableRow
                         label={txt.emailLabel}
@@ -188,7 +190,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                       />
                     </>
                   )}
-                  {action === 'edit-password' && (
+                  {action === actionType.editPassword && (
                     <>
                       <ProfileTableRow
                         label={txt.oldPasswordLabel}

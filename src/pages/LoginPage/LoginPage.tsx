@@ -8,6 +8,7 @@ import { Button } from '@/components/ui';
 import Page from '@/layout/Page';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
+import translateErrorMessage from '@/shared/utils';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 import { signinRequest } from '@/store/reducers';
 import { useAppDispatch } from '@/store/store';
@@ -29,7 +30,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
       console.log('success signin');
       actions.setSubmitting(false);
     } catch (err) {
-      console.log('error', `Запрос завершился ошибкой: ${err.message}`);
+      console.log('error', translateErrorMessage(err.message));
     }
   }, []);
 

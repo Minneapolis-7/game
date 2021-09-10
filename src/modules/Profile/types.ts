@@ -6,3 +6,8 @@ export type PasswordFields = {
   oldPassword: string;
   newPassword: string;
 };
+
+export const actionType = {
+  edit: 'edit',
+  editPassword: 'edit-password',
+};
