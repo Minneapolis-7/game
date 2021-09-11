@@ -58,7 +58,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
                 />
               </div>
               <div className="gap-y-sm">
-                <Button type="submit" display="block" disabled={isSubmitting}>
+                <Button waiting={isSubmitting} type="submit" display="block">
                   {txt.submitButton}
                 </Button>
               </div>

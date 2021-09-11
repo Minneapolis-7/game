@@ -96,7 +96,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                 />
               </div>
               <div className="gap-y-sm">
-                <Button type="submit" display="block" disabled={isSubmitting}>
+                <Button type="submit" display="block" waiting={isSubmitting}>
                   {txt.submitButton}
                 </Button>
               </div>
