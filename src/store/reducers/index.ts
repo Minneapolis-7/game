@@ -1,2 +1,7 @@
-// eslint-disable-next-line import/prefer-default-export
-export { signupRequest } from './userReducers';
+export {
+  signinRequest,
+  signupRequest,
+  updateProfileRequest,
+  updatePasswordRequest,
+  updateAvatarRequest,
+} from './userReducers';

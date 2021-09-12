@@ -8,7 +8,10 @@ import { Button } from '@/components/ui';
 import Page from '@/layout/Page';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
+import translateErrorMessage from '@/shared/utils';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
+import { signinRequest } from '@/store/reducers';
+import { useAppDispatch } from '@/store/store';
 
 import { loginSchema } from './schema';
 
@@ -20,11 +23,15 @@ const loginInitialValues = {
 const { login: txt } = text;
 
 function LoginPage({ title }: GenericPageProps): JSX.Element {
-  const submitLogin = useCallback((values, actions) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+  const dispatch = useAppDispatch();
+  const submitLogin = useCallback(async (values, actions) => {
+    try {
+      await dispatch(signinRequest(values)).unwrap();
+      console.log('success signin');
       actions.setSubmitting(false);
-    }, 400);
+    } catch (err) {
+      console.log('error', translateErrorMessage(err.message));
+    }
   }, []);
 
   return (

@@ -72,7 +72,7 @@ export const userSlice = createSlice({
         state.id = action.payload;
       })
       .addCase(updateProfileRequest.fulfilled, (state, action) => {
-        Object.assign(state, action.payload);
+        state = { ...state, ...action.payload };
       })
       .addCase(updateAvatarRequest.fulfilled, (state, action) => {
         state.avatar = action.payload.avatar;

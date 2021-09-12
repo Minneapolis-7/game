@@ -9,8 +9,11 @@ import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
+import { updateAvatarRequest, updatePasswordRequest, updateProfileRequest } from '@/store/reducers';
+import { useAppDispatch } from '@/store/store';
 
 import { PasswordFieldsSchema, ProfileFieldsSchema } from './schema';
+import { actionType } from './types';
 
 const b = block('profile');
 const { profile: txt } = text;
@@ -51,11 +54,11 @@ function ProfileTableRow(props: ProfileTableRowProps): JSX.Element {
   // ZERO-WIDTH-SPACE (\u200B) — на случай, если `value` пуст, нужно для выравнвиания текста
   let rowCellContent = <span className={b('field')}>{value || '\u200B'}</span>;
 
-  if (action === 'edit') {
+  if (action === actionType.edit) {
     rowCellContent = BaseInput;
   }
 
-  if (action === 'edit-password') {
+  if (action === actionType.editPassword) {
     rowCellContent = React.cloneElement(BaseInput, { type: 'password' });
   }
 
@@ -81,28 +84,50 @@ type ProfileProps = {
 };
 
 function Profile({ user, action }: ProfileProps): JSX.Element {
-  const handleAvatarChange = useCallback((e) => {
-    alert(`Загрузить ${e.target.files[0].name}`);
+  const dispatch = useAppDispatch();
+
+  const handleAvatarChange = useCallback(async (e) => {
+    const formData = new FormData();
+
+    formData.append('avatar', e.target.files[0]);
+
+    try {
+      await dispatch(updateAvatarRequest(formData)).unwrap();
+      console.log('success updateAvatar');
+    } catch (err) {
+      console.log('error', `Запрос завершился ошибкой: ${err.message}`);
+    }
   }, []);
 
   let initialValues = {};
   let validationSchema = {};
 
-  if (action === 'edit') {
+  if (action === actionType.edit) {
     initialValues = user;
     validationSchema = ProfileFieldsSchema;
   }
 
-  if (action === 'edit-password') {
+  if (action === actionType.editPassword) {
     initialValues = PasswordFieldsInitialValues;
     validationSchema = PasswordFieldsSchema;
   }
 
-  const submitProfile = useCallback((values, actions) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+  const submitProfile = useCallback(async (values, actions) => {
+    try {
+      if (action === actionType.edit) {
+        await dispatch(updateProfileRequest(values)).unwrap();
+        console.log('success updateProfile');
+      }
+
+      if (action === actionType.editPassword) {
+        await dispatch(updatePasswordRequest(values)).unwrap();
+        console.log('success updatePassword');
+      }
+
       actions.setSubmitting(false);
-    }, 400);
+    } catch (err) {
+      console.log('error', `Запрос завершился ошибкой: ${err.message}`);
+    }
   }, []);
 
   return (
@@ -130,7 +155,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
             <Form data-action={action} className="js-profile__form" noValidate>
               <table className={b('table')}>
                 <tbody className={b('table-body')}>
-                  {(action === 'edit' || !action) && (
+                  {(action === actionType.edit || !action) && (
                     <>
                       <ProfileTableRow
                         label={txt.emailLabel}
@@ -165,7 +190,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                       />
                     </>
                   )}
-                  {action === 'edit-password' && (
+                  {action === actionType.editPassword && (
                     <>
                       <ProfileTableRow
                         label={txt.oldPasswordLabel}
