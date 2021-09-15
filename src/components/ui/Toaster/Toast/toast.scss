@@ -1,0 +1,82 @@
+@use 'src/css/abstracts/variables' as *;
+
+.toast {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  width: 320px;
+  max-height: 100px;
+  margin-bottom: 15px;
+  padding: 20px 10px 10px 10px;
+  border-radius: 3px;
+  background: $light-color;
+  color: $dark-color;
+  box-shadow: 0 0 10px $grey;
+  opacity: 0.9;
+}
+
+.toast:hover {
+  box-shadow: 0 0 12px $light-color;
+  opacity: 1;
+}
+
+.toaster_position_top-right > .toast {
+  transition: transform 0.3s ease-in-out;
+  animation: toast-in-right 0.4s;
+}
+
+.toaster_position_bottom-right > .toast {
+  transition: transform 0.4s ease-in-out;
+  animation: toast-in-right 0.4s;
+}
+
+.toaster_position_top-left > .toast {
+  transition: transform 0.3s ease-in;
+  animation: toast-in-left 0.4s;
+}
+
+.toaster_position_bottom-left > .toast {
+  transition: transform 0.3s ease-in;
+  animation: toast-in-left 0.4s;
+}
+
+.toast__message {
+  margin: 0;
+  padding: 0 5px;
+  font-size: $font-size-md;
+  -webkit-line-clamp: 2;
+}
+
+.toast__image {
+  width: 34px;
+  height: 30px;
+  margin-right: 5px;
+}
+
+.toast__image_type_success {
+  background: svg-load('bootstrap-icons/icons/emoji-sunglasses.svg') no-repeat;
+  background-size: 30px;
+}
+
+.toast__image_type_warning {
+  background: svg-load('bootstrap-icons/icons/exclamation-triangle.svg') no-repeat;
+  background-size: 30px;
+}
+
+@keyframes toast-in-right {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
