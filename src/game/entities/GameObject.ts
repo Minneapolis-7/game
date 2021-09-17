@@ -1,38 +1,61 @@
-import Player from '@/game/entities/Player';
+import Sprite from '@/game/entities/Sprite';
+import { GameObjectCallbackParams, Height, Width, X, Y } from '@/game/types';
 
 export type GameObjectConstructorOptions = {
-  id: number;
-  sprite: [number, number];
+  id: number | string;
+  sprite: Sprite;
+  x?: X;
+  y?: Y;
+  width: Width;
+  height: Height;
+  spriteWidth?: Width;
+  spriteHeight?: Height;
   hasCollision?: boolean;
-  // Глубина отображения блока. 0 за игроком, 1 перед ним
-  z?: 0 | 1;
-  onOver?: (target: { gameObject: GameObject; player: Player }) => void;
-  onAbove?: (target: { gameObject: GameObject; player: Player }) => void;
+  z?: number;
+  onOver?: (params: GameObjectCallbackParams) => void;
+  onOut?: (params: GameObjectCallbackParams) => void;
+  onAbove?: (params: GameObjectCallbackParams) => void;
 };
 
 export default class GameObject {
-  public id: number;
-  public sprite: [number, number];
+  public id: number | string;
+  public x: X;
+  public y: Y;
+  public width: Width;
+  public height: Height;
+  public sprite: Sprite;
+  public spriteFrame: number;
+  public spriteWidth: Width;
+  public spriteHeight: Height;
   public hasCollision: boolean;
-  public z: 0 | 1;
-  public onOver?: (target: { gameObject: GameObject; player: Player }) => void;
-  public onAbove?: (target: { gameObject: GameObject; player: Player }) => void;
-  public counter?: number;
+  public z: number;
+  public onOver?: (params: GameObjectCallbackParams) => void;
+  public onOut?: (params: GameObjectCallbackParams) => void;
+  public onAbove?: (params: GameObjectCallbackParams) => void;
 
   constructor(options: GameObjectConstructorOptions) {
-    const { id = 0, sprite = [0, 0], hasCollision = false, z = 0, onOver, onAbove } = options;
-
-    this.id = id;
-    this.sprite = sprite;
-    this.hasCollision = hasCollision;
-    this.z = z;
-    this.onOver = onOver;
-    this.onAbove = onAbove;
-    this.counter = 0;
+    this.id = options.id;
+    this.x = options.x || 0;
+    this.y = options.y || 0;
+    this.width = options.width || 0;
+    this.height = options.height || 0;
+    this.sprite = options.sprite;
+    this.spriteFrame = 0;
+    this.spriteWidth = options.spriteWidth || options.width;
+    this.spriteHeight = options.spriteHeight || options.height;
+    this.hasCollision = options.hasCollision ?? false;
+    this.z = options.z ?? 0;
+    this.onOver = options.onOver;
+    this.onOut = options.onOut;
+    this.onAbove = options.onAbove;
   }
 
   resetOnOverCallback(): void {
     this.onOver = undefined;
+  }
+
+  resetOnOutCallback(): void {
+    this.onOut = undefined;
   }
 
   resetOnAboveCallback(): void {
@@ -41,16 +64,17 @@ export default class GameObject {
 
   deactivate(): void {
     this.resetOnAboveCallback();
+    this.resetOnOutCallback();
     this.resetOnOverCallback();
+  }
+
+  setSpriteFrame(frame: number): void {
+    this.spriteFrame = frame;
   }
 
   hideAndDeactivate(): void {
     // "Прозрачный" спрайт
-    this.setSprite([32, 64]);
+    this.setSpriteFrame(-1);
     this.deactivate();
-  }
-
-  setSprite(sprite: [number, number]): void {
-    this.sprite = sprite;
   }
 }

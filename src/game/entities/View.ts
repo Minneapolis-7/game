@@ -1,148 +1,105 @@
 import GameObject from '@/game/entities/GameObject';
 import Player from '@/game/entities/Player';
-import Sprite from '@/game/entities/Sprite';
-import World, { LevelObjects } from '@/game/entities/World';
+import World from '@/game/entities/World';
+
 import {
   CANVAS_BACKGROUND,
-  CANVAS_SIZE_X,
-  CANVAS_SIZE_Y,
-  SPRITE_SIZE_X,
-  SPRITE_SIZE_Y,
-} from '@/game/shared/constants';
-import { ControlKeysState } from '@/game/types';
+  CANVAS_HEIGHT,
+  CANVAS_WIDTH,
+  DEBUG_DRAW_COLOR,
+  GAME_CONFIG,
+  SPRITE_WIDTH,
+} from '../shared/constants';
+import { GameEntities } from '../types';
 
 export default class View {
-  public canvas: HTMLCanvasElement;
-  public ctx: CanvasRenderingContext2D | null;
-  public sprite: Sprite;
-  public isDebugDraw: boolean;
+  public canvas?: HTMLCanvasElement;
+  public ctx?: CanvasRenderingContext2D | null;
 
-  constructor(canvas: HTMLCanvasElement, sprite: Sprite) {
+  registerCanvas(canvas: HTMLCanvasElement): void {
     this.canvas = canvas;
     this.ctx = this.canvas.getContext('2d');
     // Размеры полотна (экран игры)
-    this.canvas.width = CANVAS_SIZE_X;
-    this.canvas.height = CANVAS_SIZE_Y;
-    this.sprite = sprite;
-    this.isDebugDraw = false;
-
-    this.cleanScreen();
+    this.canvas.width = CANVAS_WIDTH;
+    this.canvas.height = CANVAS_HEIGHT;
+    this.prepareCanvas();
   }
 
-  async init(): Promise<void> {
-    // Загрузка изображения со спрайтами
-    await this.sprite.load();
-  }
-
-  update(world: World, control: ControlKeysState): void {
-    this.cleanScreen();
-    this.renderLevelObjects(world.levelObjects, control);
-    this.renderPlayer(world.player);
-  }
-
-  renderDebugLevelTiles(gameObject: GameObject, colIndex: number, rowIndex: number): void {
-    if (this.ctx) {
-      this.ctx.lineWidth = 2;
-      this.ctx.font = 'bold 10px sans-serif';
-      this.ctx.strokeStyle = 'white';
-      this.ctx.textAlign = 'center';
-      this.ctx.textBaseline = 'middle';
-      this.ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-      this.ctx.fillRect(
-        colIndex * SPRITE_SIZE_X,
-        rowIndex * SPRITE_SIZE_Y,
-        SPRITE_SIZE_X,
-        SPRITE_SIZE_Y
-      );
-      this.ctx.strokeRect(
-        colIndex * SPRITE_SIZE_X,
-        rowIndex * SPRITE_SIZE_Y,
-        SPRITE_SIZE_X,
-        SPRITE_SIZE_Y
-      );
-      this.ctx.fillStyle = 'black';
-      this.ctx.fillText(
-        `${colIndex}, ${rowIndex}`,
-        (colIndex + 1) * SPRITE_SIZE_X - SPRITE_SIZE_X / 2,
-        (rowIndex + 1) * SPRITE_SIZE_Y - SPRITE_SIZE_Y / 1.4,
-        32
-      );
-      this.ctx.fillStyle = 'blue';
-      this.ctx.fillText(
-        `${gameObject.id}`,
-        (colIndex + 1) * SPRITE_SIZE_X - SPRITE_SIZE_X / 2,
-        (rowIndex + 1) * SPRITE_SIZE_Y - SPRITE_SIZE_Y / 4,
-        32
-      );
+  // Очистка экрана
+  prepareCanvas(): void {
+    if (this.canvas && this.ctx) {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.fillStyle = CANVAS_BACKGROUND;
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
   }
 
-  // Получает данные о уровне и отрисовывает его
-  renderLevelObjects(levelObjects: LevelObjects, control: ControlKeysState): void {
-    levelObjects.forEach((row: GameObject[], rowIndex) => {
-      row.forEach((gameObject, colIndex) => {
+  renderWorld(world: World): void {
+    world.levelObjects?.forEach((row: GameObject[], rowIndex) => {
+      row.forEach((object, colIndex) => {
         this.ctx?.drawImage(
-          this.sprite.image,
-          // Получаем координаты спрайта из игрового объекта
-          ...gameObject.sprite,
-          SPRITE_SIZE_X,
-          SPRITE_SIZE_Y,
-          colIndex * SPRITE_SIZE_X,
-          rowIndex * SPRITE_SIZE_Y,
-          SPRITE_SIZE_X,
-          SPRITE_SIZE_Y
+          object.sprite.image,
+          object.spriteFrame * object.spriteWidth,
+          0,
+          object.spriteWidth,
+          object.spriteHeight,
+          colIndex * object.width,
+          rowIndex * object.height,
+          object.width,
+          object.height
         );
-
-        if (control.t) {
-          this.renderDebugLevelTiles(gameObject, colIndex, rowIndex);
-        }
       });
     });
   }
 
-  renderDebugPlayerHitBox(player: Player): void {
-    if (this.ctx) {
-      this.ctx.beginPath();
-      this.ctx.lineWidth = 2;
-      this.ctx.strokeStyle = 'yellow';
-      const { top, right, bottom, left } = player.hitBox;
-
-      this.ctx.strokeRect(left, top, right - left, bottom - top);
-    }
-  }
-
-  // Получает данные о игроке и отрисовывает его
   renderPlayer(player: Player): void {
-    if (!this.ctx) {
+    if (!player.sprite) {
       return;
     }
 
-    this.ctx.drawImage(
-      this.sprite.image,
-      // Положение и размер спрайта игрока на карте спрайтов
-      ...player.sprite,
-      SPRITE_SIZE_X,
-      SPRITE_SIZE_Y,
-      // Положение и размер игрока на Canvas
+    this.ctx?.drawImage(
+      player.sprite.image,
+      player.spriteFrame * player.spriteWidth,
+      0,
+      player.spriteWidth || player.width,
+      player.spriteHeight || player.height,
       player.x,
       player.y,
-      SPRITE_SIZE_X,
-      SPRITE_SIZE_Y
+      player.width,
+      player.height
     );
 
-    if (this.isDebugDraw) {
+    if (GAME_CONFIG.IS_DEBUG_DRAW) {
       this.renderDebugPlayerHitBox(player);
     }
   }
 
-  // Очистка экрана
-  cleanScreen(): void {
-    if (!this.ctx) {
-      return;
-    }
+  renderDebugPlayerHitBox(player: Player): void {
+    if (this.ctx) {
+      const { top, right, bottom, left } = player.hitBox;
 
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.ctx.fillStyle = CANVAS_BACKGROUND;
-    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.beginPath();
+      this.ctx.lineWidth = 2;
+      this.ctx.strokeStyle = DEBUG_DRAW_COLOR.HIT_BOX;
+      this.ctx.strokeRect(left, top, right - left, bottom - top);
+
+      const [px, py] = player.position;
+
+      this.ctx.beginPath();
+      this.ctx.lineWidth = 2;
+      this.ctx.strokeStyle = DEBUG_DRAW_COLOR.ON_ABOVE_TILE;
+      this.ctx.strokeRect(px * SPRITE_WIDTH, (py + 1) * SPRITE_WIDTH, player.width, player.height);
+
+      this.ctx.beginPath();
+      this.ctx.lineWidth = 2;
+      this.ctx.strokeStyle = DEBUG_DRAW_COLOR.ON_OVER_TILE;
+      this.ctx.strokeRect(px * SPRITE_WIDTH, py * SPRITE_WIDTH, player.width, player.height);
+    }
+  }
+
+  update({ world, player }: GameEntities): void {
+    this.prepareCanvas();
+    this.renderWorld(world);
+    this.renderPlayer(player);
   }
 }

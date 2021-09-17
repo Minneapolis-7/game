@@ -1,31 +1,37 @@
-import { SoundSample } from '@/game/types';
+import SoundSample from '@/game/entities/SoundSample';
+
+type DecodedSoundSample = {
+  buffer: Promise<AudioBuffer>;
+  isLooped: boolean;
+  lastNode: AudioBufferSourceNode | null;
+};
 
 export default class SoundController {
   ctx: AudioContext;
-  samples: Record<string, SoundSample>;
+  decodedSamples: Record<number | string, DecodedSoundSample>;
 
   constructor() {
     this.ctx = new AudioContext();
-    this.samples = {};
+    this.decodedSamples = {};
   }
 
-  async add(id: string, src: string, isLooped: boolean): Promise<void> {
-    const response = await fetch(src);
-    const arrayBuffer = await response.arrayBuffer();
-
-    this.samples[id] = {
-      buffer: this.ctx.decodeAudioData(arrayBuffer),
-      isLooped,
+  async add(soundSample: SoundSample): Promise<void> {
+    this.decodedSamples[soundSample.id] = {
+      buffer: this.ctx.decodeAudioData(soundSample.buffer),
+      isLooped: soundSample.isLooped,
+      lastNode: null,
     };
   }
 
   async play(id: string): Promise<void> {
-    if (!this.samples[id]) {
+    if (!this.decodedSamples[id]) {
       return;
     }
 
-    const sample = this.samples[id];
+    const sample = this.decodedSamples[id];
     const sourceNode = this.ctx.createBufferSource();
+
+    sample.lastNode = sourceNode;
 
     sourceNode.buffer = await sample.buffer;
     sourceNode.loop = sample.isLooped || false;
@@ -33,10 +39,18 @@ export default class SoundController {
     sourceNode.start();
   }
 
+  async stop(id: string): Promise<void> {
+    if (!this.decodedSamples[id]) {
+      return;
+    }
+
+    const sample = this.decodedSamples[id];
+
+    sample.lastNode?.stop();
+  }
+
   destroy(): void {
-    this.samples = {};
-    setTimeout(() => {
-      this.ctx.close();
-    }, 1000);
+    this.decodedSamples = {};
+    this.ctx.close();
   }
 }
