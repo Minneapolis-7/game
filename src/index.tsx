@@ -46,11 +46,12 @@ delete window.__INITIAL_STATE__;
 
 function App(): JSX.Element {
   const [toastList, setToastList] = useState<Array<ToastItem>>([]);
+
   const ctx = {
     addToastMessage(toast: ToastItem) {
       setToastList((oldToastList) => [...oldToastList, toast]);
     },
-    removeToastMessage(id: number) {
+    removeToastMessage(id: string) {
       setToastList((oldToastList) => {
         const toastListItem = oldToastList.findIndex((e) => e.id === id);
 
@@ -85,7 +86,7 @@ function App(): JSX.Element {
             </Switch>
           </RootErrorBoundary>
         </ConnectedRouter>
-        <Toast toastList={toastList} position="bottom-right" timeout={5000} />
+        <Toaster toastList={toastList} position="bottom-right" />
       </AppContext.Provider>
     </Provider>
   );

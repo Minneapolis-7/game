@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
+import { v1 as uuidv1 } from 'uuid';
 
 import oauthApi from '@/api/oauthApi';
 import AppContext from '@/AppContext';
@@ -37,9 +38,10 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
       actions.setSubmitting(false);
     } catch (err) {
       const toast = {
-        id: Math.floor(Math.random() * 100 + 1),
+        id: uuidv1(),
         type: 'warning',
         description: translateErrorMessage(err.message),
+        timeout: 5000,
       };
 
       appContext?.addToastMessage(toast as ToastItem);
