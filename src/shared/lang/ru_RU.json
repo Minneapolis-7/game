@@ -15,6 +15,7 @@
     "closeButtonTitle": "Закрыть"
   },
   "login": {
+    "title": "Вход",
     "header": "Вход",
     "submitButton": "Войти",
     "loginLabel": "Логин",
@@ -22,6 +23,7 @@
     "registerLink": "Зарегистрироваться"
   },
   "register": {
+    "title": "Регистрация",
     "header": "Регистрация",
     "submitButton": "Зарегистрироваться",
     "emailLabel": "E-mail",
@@ -33,6 +35,9 @@
     "loginLink": "Войти"
   },
   "profile": {
+    "title": "Профиль",
+    "editTitle": "Редактирование профиля",
+    "editPasswordTitle": "Смена пароля",
     "emailLabel": "Почта",
     "loginLabel": "Логин",
     "firstNameLabel": "Имя",
@@ -48,6 +53,7 @@
     "editAvatarTitle": "Выбрать аватар"
   },
   "forum": {
+    "title": "Форум",
     "categories": {
       "game": {
         "header": "Об игре",
@@ -98,9 +104,17 @@
     "newThreadButton": "Создать"
   },
   "leaderboard": {
+    "title": "Рейтинг",
     "header": "Рейтинг игроков"
   },
+  "page404": {
+    "title": "Нет страницы"
+  },
+  "page500": {
+    "title": "Ошибка сервера"
+  },
   "game": {
+    "title": "Играть",
     "playButton": "Играть",
     "playMoreButton": "Могу лучше!",
     "retryButton": "Ещё раз!",

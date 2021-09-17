@@ -1,13 +1,20 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import Page from '@/layout/Page';
 import Forum from '@/modules/Forum';
+import text from '@/shared/const/text';
 
-function ForumMainPage({ title }: GenericPageProps): JSX.Element {
+function ForumMainPage(): JSX.Element {
   return (
-    <Page delegated title={title}>
-      <Forum />
-    </Page>
+    <>
+      <Helmet>
+        <title>{text.forum.title}</title>
+      </Helmet>
+      <Page delegated>
+        <Forum />
+      </Page>
+    </>
   );
 }
 

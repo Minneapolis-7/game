@@ -1,7 +1,9 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import Page from '@/layout/Page';
 import Profile from '@/modules/Profile';
+import text from '@/shared/const/text';
 
 const mockUserData = {
   firstName: 'Имя',
@@ -11,11 +13,16 @@ const mockUserData = {
   email: 'my@email.com',
 };
 
-function ProfilePage({ title }: GenericPageProps): JSX.Element {
+function ProfilePage(): JSX.Element {
   return (
-    <Page title={title}>
-      <Profile user={mockUserData} />
-    </Page>
+    <>
+      <Helmet>
+        <title>{text.profile.title}</title>
+      </Helmet>
+      <Page>
+        <Profile user={mockUserData} />
+      </Page>
+    </>
   );
 }
 

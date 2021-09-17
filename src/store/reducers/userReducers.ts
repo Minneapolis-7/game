@@ -8,10 +8,10 @@ import {
   UpdateProfileRequest,
 } from '@/api/types';
 import api from '@/api/userApi';
+import type { RootState } from '@/shared/types/redux';
 import { User } from '@/shared/types/types';
-import type { RootState } from '@/store/store';
 
-const initialState: User = {
+export const initialState: User = {
   id: null,
   firstName: '',
   secondName: '',

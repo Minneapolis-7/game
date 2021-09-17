@@ -1,7 +1,9 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import Page from '@/layout/Page';
 import Leaderboard from '@/modules/Leaderboard';
+import text from '@/shared/const/text';
 
 const mockUserList = [
   {
@@ -36,11 +38,16 @@ const mockUserList = [
   },
 ];
 
-function LeaderboardPage({ title }: { title: string }): JSX.Element {
+function LeaderboardPage(): JSX.Element {
   return (
-    <Page title={title}>
-      <Leaderboard userList={mockUserList} />
-    </Page>
+    <>
+      <Helmet>
+        <title>{text.leaderboard.title}</title>
+      </Helmet>
+      <Page>
+        <Leaderboard userList={mockUserList} />
+      </Page>
+    </>
   );
 }
 
