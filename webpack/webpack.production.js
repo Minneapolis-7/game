@@ -23,6 +23,16 @@ module.exports = (env) => ({
   optimization: {
     moduleIds: 'deterministic',
     minimizer: [`...`, new CssMinimizerPlugin()],
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+          filename: '[name].[chunkhash:8].bundle.js',
+        },
+      },
+    },
   },
   plugins: [
     // https://github.com/webpack-contrib/compression-webpack-plugin#options

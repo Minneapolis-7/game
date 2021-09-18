@@ -5,4 +5,4 @@ RUN npm install -f && npm run build
 
 FROM node:14-alpine
 COPY --from=build /app/dist /dist
-CMD node ./dist/server.js
+CMD node start-server.js

@@ -1,5 +1,4 @@
 import compression from 'compression';
-import cookieParserMiddleware from 'cookie-parser';
 import express from 'express';
 import path from 'path';
 
@@ -10,7 +9,7 @@ import settings from '../../webpack/settings';
 const app = express();
 const distStatic = path.resolve(__dirname, settings.paths.dist.static);
 
-app.use(compression()).use(express.static(distStatic)).use(cookieParserMiddleware());
+app.use(compression()).use(express.static(distStatic));
 
 app.get('*', ssr);
 

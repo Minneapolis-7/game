@@ -15,7 +15,7 @@ import initStore from '@/store/store';
 
 // eslint-disable-next-line
 // @ts-ignore
-import manifestJson from '../../../dist/static/manifest.json';
+import manifestJson from '../../../dist/static/manifest.json'; // eslint-disable-line
 import sprite from 'svg-sprite-loader/runtime/sprite.build';
 
 const manifest = typeof manifestJson === 'string' ? JSON.parse(manifestJson) : manifestJson;
@@ -33,6 +33,7 @@ function getPageHTML(appHTML: string, reduxState = {}, helmetData: HelmetData): 
       <meta name="format-detection" content="telephone=no" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="stylesheet" href="/${manifest['main.css']}">
+      ${manifest['vendors.js'] ? `<script src="/${manifest['vendors.js']}" defer></script>` : ''}
       <script src="/${manifest['main.js']}" defer></script>
     </head>
     <body>
@@ -45,50 +46,52 @@ function getPageHTML(appHTML: string, reduxState = {}, helmetData: HelmetData): 
   </html>`;
 }
 
-export default function ssr(req: Request, res: Response) {
+export default async function ssr(req: Request, res: Response) {
   const location = req.url;
   const ctx: StaticRouterContext = {};
   let html = '';
   const { store } = initStore(getInitialState(location), location);
 
-  console.log(req.cookies, req.signedCookies);
+  function renderApp() {
+    try {
+      html = renderToString(
+        <Provider store={store}>
+          <StaticRouter location={req.url} context={ctx}>
+            <Switch>
+              {routes.map((route) => {
+                const Component = route.component;
 
-  try {
-    html = renderToString(
-      <Provider store={store}>
-        <StaticRouter location={req.url} context={ctx}>
-          <Switch>
-            {routes.map((route) => {
-              const Component = route.component;
+                let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
 
-              let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
+                if (route.protected) {
+                  RouteComponent = ProtectedRoute;
+                }
 
-              if (route.protected) {
-                RouteComponent = ProtectedRoute;
-              }
+                return (
+                  <RouteComponent key={route.path} path={route.path} exact={route.exact}>
+                    <Component />
+                  </RouteComponent>
+                );
+              })}
+            </Switch>
+          </StaticRouter>
+        </Provider>
+      );
+    } catch (e) {
+      ctx.url = paths.SERVER_ERROR;
+    }
 
-              return (
-                <RouteComponent key={route.path} path={route.path} exact={route.exact}>
-                  <Component />
-                </RouteComponent>
-              );
-            })}
-          </Switch>
-        </StaticRouter>
-      </Provider>
-    );
-  } catch (e) {
-    ctx.url = paths.SERVER_ERROR;
+    if (ctx.url) {
+      res.redirect(ctx.url);
+
+      return;
+    }
+
+    const reduxState = store.getState();
+    const helmetData = Helmet.renderStatic();
+
+    res.status(ctx.statusCode || 200).send(getPageHTML(html, reduxState, helmetData));
   }
 
-  if (ctx.url) {
-    res.redirect(ctx.url);
-
-    return;
-  }
-
-  const reduxState = store.getState();
-  const helmetData = Helmet.renderStatic();
-
-  res.status(ctx.statusCode || 200).send(getPageHTML(html, reduxState, helmetData));
+  renderApp();
 }
