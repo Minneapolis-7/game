@@ -7,7 +7,6 @@ import Sprite from '@/game/entities/Sprite';
 import View from '@/game/entities/View';
 import World from '@/game/entities/World';
 import { GAME_SESSION_KEY, SPRITE_HEIGHT, SPRITE_WIDTH } from '@/game/shared/constants';
-import { SOUND_ID } from '@/game/sounds';
 
 import { SPRITE_ID } from '../sprites';
 import {
@@ -255,7 +254,8 @@ export default class Game {
 
   stop(): void {
     this.control.destroy();
-    this.sound.stop(SOUND_ID.MUSIC);
+    this.sound.stop(this.registeredLevels[0].music);
+
     window.cancelAnimationFrame(this.requestAnimationId);
   }
 
