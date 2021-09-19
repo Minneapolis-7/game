@@ -24,7 +24,7 @@ function Toaster(props: ToastProps): JSX.Element {
   return (
     <div className={b({ position: `${position}` })}>
       {toastList.map((toast) => (
-        <Toast key={toast.id} deleteToast={deleteToast} toast={toast}></Toast>
+        <Toast key={toast.id} deleteToast={deleteToast} toast={toast} />
       ))}
     </div>
   );
