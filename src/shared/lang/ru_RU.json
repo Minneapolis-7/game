@@ -17,6 +17,7 @@
   "login": {
     "header": "Вход",
     "submitButton": "Войти",
+    "yandexOAuthButton": "Войти через Яндекс",
     "loginLabel": "Логин",
     "passwordLabel": "Пароль",
     "registerLink": "Зарегистрироваться"

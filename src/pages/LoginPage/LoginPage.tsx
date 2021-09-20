@@ -1,11 +1,13 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
 
+import oauthApi from '@/api/oauthApi';
 import { Input } from '@/components/formik-ui';
 import { Button } from '@/components/ui';
 import Page from '@/layout/Page';
+import { OAUTH_REDIRECT_URI, YANDEX_OAUTH } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import translateErrorMessage from '@/shared/utils';
@@ -31,6 +33,22 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
       actions.setSubmitting(false);
     } catch (err) {
       console.log('error', translateErrorMessage(err.message));
+    }
+  }, []);
+  const [isOAuthInProgress, setIsOAuthInProgress] = useState(false);
+  const startYandexOAuth = useCallback(async () => {
+    setIsOAuthInProgress(true);
+
+    try {
+      const id = await oauthApi.getClientId({
+        redirectUri: OAUTH_REDIRECT_URI,
+      });
+
+      window.location.replace(
+        `${YANDEX_OAUTH}?response_type=code&client_id=${id}&redirect_uri=${OAUTH_REDIRECT_URI}`
+      );
+    } catch (e) {
+      throw new Error(e);
     }
   }, []);
 
@@ -67,6 +85,11 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
               <div className="gap-y-sm">
                 <Button waiting={isSubmitting} type="submit" display="block">
                   {txt.submitButton}
+                </Button>
+              </div>
+              <div className="gap-y-sm">
+                <Button onClick={startYandexOAuth} waiting={isOAuthInProgress} display="block">
+                  {txt.yandexOAuthButton}
                 </Button>
               </div>
               <div className="gap-y-sm">

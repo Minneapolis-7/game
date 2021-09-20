@@ -6,19 +6,18 @@ import {
   SignUpRequest,
   UpdatePasswordRequest,
   UpdateProfileRequest,
+  UserProfile,
 } from '@/api/types';
 import api from '@/api/userApi';
-import { User } from '@/shared/types/types';
 import type { RootState } from '@/store/store';
 
-const initialState: User = {
+const initialState: UserProfile = {
   id: null,
   firstName: '',
   secondName: '',
   displayName: null,
   login: '',
   email: '',
-  password: '',
   phone: '',
   avatar: null,
 };
@@ -35,6 +34,12 @@ export const signupRequest = createAsyncThunk('user/signupRequest', async (user:
 
 export const logoutRequest = createAsyncThunk('user/logoutRequest', async () => {
   await api.logout();
+});
+
+export const userRequest = createAsyncThunk('user/userRequest', async () => {
+  const response = await api.getUser();
+
+  return response;
 });
 
 export const updateProfileRequest = createAsyncThunk(
@@ -72,15 +77,18 @@ export const userSlice = createSlice({
         state.id = action.payload;
       })
       .addCase(updateProfileRequest.fulfilled, (state, action) => {
-        state = { ...state, ...action.payload };
+        Object.assign(state, action.payload);
       })
       .addCase(updateAvatarRequest.fulfilled, (state, action) => {
         state.avatar = action.payload.avatar;
+      })
+      .addCase(userRequest.fulfilled, (state, action) => {
+        Object.assign(state, action.payload);
       });
   },
 });
 
-export const userState = (state: RootState): User => ({
+export const userState = (state: RootState): UserProfile => ({
   ...state.user,
 });
 
