@@ -5,3 +5,5 @@ export {
   updatePasswordRequest,
   updateAvatarRequest,
 } from './userReducers';
+
+export { addToLeaderboard, getAllLeaderboard, getTeamLeaderboard } from './leaderboardReducers';

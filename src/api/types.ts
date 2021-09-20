@@ -24,3 +24,25 @@ export type OauthSignInRequest = {
   code: string;
   redirectUri: string;
 };
+
+export type Leader = {
+  id: number;
+  nickname: string;
+  points: number;
+};
+
+export type AddToLeaderboard = {
+  data: Leader;
+  ratingFieldName: string;
+};
+
+export type GetLeaderboard = {
+  ratingFieldName: string;
+  cursor: number;
+  limit: number;
+};
+
+export type GetTeamLeaderboard = {
+  teamName: string;
+  value: GetLeaderboard;
+};

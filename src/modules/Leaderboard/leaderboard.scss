@@ -13,6 +13,11 @@
   text-align: center;
 }
 
+.leaderboard__empty {
+  font-size: $font-size-lg;
+  text-align: center;
+}
+
 .leaderboard__wrapper-row {
   display: flex;
   justify-content: space-between;

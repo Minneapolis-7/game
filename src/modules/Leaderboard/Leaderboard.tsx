@@ -40,11 +40,15 @@ function Leaderboard({ userList }: LeaderboardProps): JSX.Element {
         <h3>{txt.header}</h3>
       </header>
       <div className={b('content')}>
-        <ul className={b('players-list')}>
-          {userList.map((user) => {
-            return <Row key={user.id} label={user.nickname} value={user.points} />;
-          })}
-        </ul>
+        {userList.length ? (
+          <ul className={b('players-list')}>
+            {userList.map((user) => {
+              return <Row key={user.id} label={user.nickname} value={user.points} />;
+            })}
+          </ul>
+        ) : (
+          <div className={b('empty')}>{txt.empty}</div>
+        )}
       </div>
     </div>
   );

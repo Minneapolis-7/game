@@ -1,50 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 
 import Page from '@/layout/Page';
 import Leaderboard from '@/modules/Leaderboard';
-
-const mockUserList = [
-  {
-    id: 5,
-    nickname: 'SchumacherSchumacherSchumacherSchumacher',
-    points: 100,
-  },
-  {
-    id: 7,
-    nickname: 'Vettel',
-    points: 98,
-  },
-  {
-    id: 3,
-    nickname: 'Senna',
-    points: 86,
-  },
-  {
-    id: 1,
-    nickname: 'Alonso',
-    points: 80,
-  },
-  {
-    id: 15,
-    nickname: 'Hamilton',
-    points: 72,
-  },
-  {
-    id: 4,
-    nickname: 'Lauda',
-    points: 68,
-  },
-];
+import translateErrorMessage from '@/shared/utils';
+import { getAllLeaderboard } from '@/store/reducers';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 
 function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
+  const leaderboard = useAppSelector((state) => state.leaderboard.leaderboard);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const value = {
+          ratingFieldName: 'points',
+          cursor: 0,
+          limit: 10,
+        };
+
+        await dispatch(getAllLeaderboard(value)).unwrap();
+      } catch (err) {
+        console.log('error', translateErrorMessage(err.message));
+      }
+    })();
+  }, []);
+
   return (
     <>
       <Helmet>
         <title>{title}</title>
       </Helmet>
       <Page>
-        <Leaderboard userList={mockUserList} />
+        <Leaderboard userList={leaderboard} />
       </Page>
     </>
   );
