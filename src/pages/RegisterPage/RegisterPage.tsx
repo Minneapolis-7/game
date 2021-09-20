@@ -20,6 +20,7 @@ const registerInitialValues = {
   login: '',
   firstName: '',
   secondName: '',
+  phone: '',
   password: '',
   passwordRepeat: '',
 };
@@ -81,6 +82,15 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                   autoComplete="family-name"
                   id="secondName"
                   name="secondName"
+                />
+                <Input
+                  className="gap-y-lg"
+                  hint={txt.phoneLabel}
+                  required
+                  type="tel"
+                  autoComplete="tel"
+                  id="phone"
+                  name="phone"
                 />
                 <Input
                   type="password"
