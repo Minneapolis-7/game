@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
@@ -12,6 +12,7 @@ import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import translateErrorMessage from '@/shared/utils';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
+import useProgress from '@/shared/utils/hooks/useProgress';
 import { signinRequest } from '@/store/reducers';
 import { useAppDispatch } from '@/store/store';
 
@@ -35,10 +36,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
       console.log('error', translateErrorMessage(err.message));
     }
   }, []);
-  const [isOAuthInProgress, setIsOAuthInProgress] = useState(false);
-  const startYandexOAuth = useCallback(async () => {
-    setIsOAuthInProgress(true);
-
+  const [isOAuthInProgress, startYandexOAuth] = useProgress(async () => {
     try {
       const id = await oauthApi.getClientId({
         redirectUri: OAUTH_REDIRECT_URI,
@@ -50,7 +48,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
     } catch (e) {
       throw new Error(e);
     }
-  }, []);
+  }, true);
 
   return (
     <Page centered title={title} hasSidebar={false}>
