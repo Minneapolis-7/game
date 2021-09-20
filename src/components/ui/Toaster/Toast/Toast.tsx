@@ -10,48 +10,45 @@ import closeSvg from 'bootstrap-icons/icons/x-lg.svg';
 type ToastProps = {
   toast: ToastItem;
   deleteToast: (id: string) => void;
+  defaultTimeout: number;
 } & HTMLAttributes<HTMLDivElement>;
 
 const b = block('toast');
 
 function Toast(props: ToastProps): JSX.Element {
-  const { toast, deleteToast } = props;
-  const [timer, setTimer] = useState<NodeJS.Timeout>();
+  const { toast, deleteToast, defaultTimeout } = props;
+  const [timer, setTimer] = useState<ReturnType<typeof setTimeout>>();
   const [startTimer, setStartTimer] = useState(0);
   const [leftTimerTime, setLeftTimerTime] = useState(0);
+  const timeout = toast.timeout || defaultTimeout;
 
   useEffect(() => {
     setStartTimer(performance.now());
-    const timeout = setTimeout(() => {
-      if (toast.timeout) {
-        deleteToast(toast.id);
-      }
-    }, toast.timeout || 1);
 
-    setTimer(timeout);
+    const timeoutId = setTimeout(() => {
+      deleteToast(toast.id);
+    }, timeout);
+
+    setTimer(timeoutId);
 
     return () => {
-      clearTimeout(timer as NodeJS.Timeout);
+      clearTimeout(timer as ReturnType<typeof setTimeout>);
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [toast.timeout]);
 
   function onMouseEnter() {
-    if (toast.timeout) {
-      setLeftTimerTime(5000 - (performance.now() - startTimer));
-      clearTimeout(timer as NodeJS.Timeout);
-    }
+    setLeftTimerTime(timeout - (performance.now() - startTimer));
+    clearTimeout(timer as ReturnType<typeof setTimeout>);
   }
 
   function onMouseLeave() {
-    if (toast.timeout) {
-      const timeout = setTimeout(() => {
-        deleteToast(toast.id);
-      }, leftTimerTime);
+    const timeoutId = setTimeout(() => {
+      deleteToast(toast.id);
+    }, leftTimerTime);
 
-      setTimer(timeout);
-    }
+    setTimer(timeoutId);
   }
 
   return (
