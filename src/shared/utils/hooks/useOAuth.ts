@@ -25,6 +25,7 @@ export default function useOAuth() {
         } catch (e) {
           throw new Error(e);
         } finally {
+          window.history.replaceState(null, document.title, window.location.pathname);
           setIsAuthorizing(false);
         }
       };
