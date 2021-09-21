@@ -23,15 +23,27 @@ const initialState: User = {
   avatar: null,
 };
 
-export const signinRequest = createAsyncThunk('user/signinRequest', async (user: SignInRequest) => {
-  await api.signin(user);
-});
-
-export const signupRequest = createAsyncThunk('user/signupRequest', async (user: SignUpRequest) => {
-  const response = await api.signup(user);
+export const userRequest = createAsyncThunk('user/userRequest', async () => {
+  const response = await api.getUser();
 
   return response;
 });
+
+export const signinRequest = createAsyncThunk(
+  'user/signinRequest',
+  async (user: SignInRequest, thunkAPI) => {
+    await api.signin(user);
+    await thunkAPI.dispatch(userRequest());
+  }
+);
+
+export const signupRequest = createAsyncThunk(
+  'user/signupRequest',
+  async (user: SignUpRequest, thunkAPI) => {
+    await api.signup(user);
+    await thunkAPI.dispatch(userRequest());
+  }
+);
 
 export const logoutRequest = createAsyncThunk('user/logoutRequest', async () => {
   await api.logout();
@@ -68,14 +80,17 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(signupRequest.fulfilled, (state, action) => {
-        state.id = action.payload;
+      .addCase(logoutRequest.fulfilled, (state) => {
+        Object.assign(state, initialState);
       })
       .addCase(updateProfileRequest.fulfilled, (state, action) => {
         state = { ...state, ...action.payload };
       })
       .addCase(updateAvatarRequest.fulfilled, (state, action) => {
         state.avatar = action.payload.avatar;
+      })
+      .addCase(userRequest.fulfilled, (state, action) => {
+        Object.assign(state, action.payload);
       });
   },
 });

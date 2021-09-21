@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
 
@@ -11,7 +11,7 @@ import text from '@/shared/const/text';
 import translateErrorMessage from '@/shared/utils';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 import { signinRequest } from '@/store/reducers';
-import { useAppDispatch } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import { loginSchema } from './schema';
 
@@ -24,15 +24,22 @@ const { login: txt } = text;
 
 function LoginPage({ title }: GenericPageProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const history = useHistory();
   const submitLogin = useCallback(async (values, actions) => {
     try {
       await dispatch(signinRequest(values)).unwrap();
       console.log('success signin');
       actions.setSubmitting(false);
+      history.replace('/');
     } catch (err) {
       console.log('error', translateErrorMessage(err.message));
     }
   }, []);
+  const userId = useAppSelector((state) => state.user.id);
+
+  if (userId) {
+    history.replace('/');
+  }
 
   return (
     <Page centered title={title} hasSidebar={false}>

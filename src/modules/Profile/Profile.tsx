@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
 
@@ -9,7 +9,9 @@ import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
+import useProgress from '@/shared/utils/hooks/useProgress';
 import { updateAvatarRequest, updatePasswordRequest, updateProfileRequest } from '@/store/reducers';
+import { logoutRequest } from '@/store/reducers/userReducers';
 import { useAppDispatch } from '@/store/store';
 
 import { PasswordFieldsSchema, ProfileFieldsSchema } from './schema';
@@ -85,6 +87,7 @@ type ProfileProps = {
 
 function Profile({ user, action }: ProfileProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
   const handleAvatarChange = useCallback(async (e) => {
     const formData = new FormData();
@@ -98,6 +101,15 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
       console.log('error', `Запрос завершился ошибкой: ${err.message}`);
     }
   }, []);
+
+  const [isLoggingOut, logout] = useProgress(async () => {
+    try {
+      await dispatch(logoutRequest()).unwrap();
+      history.replace(paths.LOGIN);
+    } catch (e) {
+      throw new Error(e);
+    }
+  });
 
   let initialValues = {};
   let validationSchema = {};
@@ -237,7 +249,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                       </tr>
                       <tr className={b('table-row')}>
                         <td colSpan={2} className={b('table-cell')}>
-                          <Button className="js-profile__logout" theme="link-danger">
+                          <Button onClick={logout} waiting={isLoggingOut} theme="link-danger">
                             {txt.logoutButton}
                           </Button>
                         </td>

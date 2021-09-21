@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
 
@@ -10,7 +10,7 @@ import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 import { signupRequest } from '@/store/reducers';
-import { useAppDispatch } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import { registerSchema } from './schema';
 
@@ -28,15 +28,22 @@ const { register: txt } = text;
 
 function RegisterPage({ title }: GenericPageProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const history = useHistory();
   const submitRegister = useCallback(async (values, actions) => {
     try {
       await dispatch(signupRequest(values)).unwrap();
       console.log('success signup');
       actions.setSubmitting(false);
+      history.replace('/');
     } catch (err) {
       console.log('error', `Запрос завершился ошибкой: ${err.message}`);
     }
   }, []);
+  const userId = useAppSelector((state) => state.user.id);
+
+  if (userId) {
+    history.replace('/');
+  }
 
   return (
     <Page centered title={title} hasSidebar={false}>
