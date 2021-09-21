@@ -2,7 +2,7 @@
 @use 'src/css/abstracts/mixins' as *;
 
 .leaderboard {
-  max-width: 35rem;
+  max-width: 36rem;
   margin: $gap-y-lg auto;
 }
 
@@ -58,4 +58,15 @@
 .leaderboard__points {
   margin-left: $gap-x-generic;
   white-space: nowrap;
+}
+
+.leaderboard__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.leaderboard__toolbar-slot_pagination {
+  margin-left: auto;
+  text-align: center;
 }

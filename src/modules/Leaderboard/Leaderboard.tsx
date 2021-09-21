@@ -1,6 +1,7 @@
 import React from 'react';
 import { block } from 'bem-cn';
 
+import { Pagination } from '@/components/ui';
 import text from '@/shared/const/text';
 
 const b = block('leaderboard');
@@ -50,6 +51,18 @@ function Leaderboard({ userList }: LeaderboardProps): JSX.Element {
           <div className={b('empty')}>{txt.empty}</div>
         )}
       </div>
+      {userList.length >= 10 && (
+        <div className={b('toolbar')}>
+          <div className={b('toolbar-slot', { pagination: true })}>
+            <Pagination
+              total={10}
+              current={1}
+              baseURL="/leaderboard/all"
+              className={b('pagination')}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
