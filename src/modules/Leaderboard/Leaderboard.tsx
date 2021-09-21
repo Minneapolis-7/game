@@ -2,6 +2,7 @@ import React from 'react';
 import { block } from 'bem-cn';
 
 import { Pagination } from '@/components/ui';
+import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 
 const b = block('leaderboard');
@@ -57,7 +58,7 @@ function Leaderboard({ userList }: LeaderboardProps): JSX.Element {
             <Pagination
               total={10}
               current={1}
-              baseURL="/leaderboard/all"
+              baseURL={`${paths.LEADERBOARD}/page`}
               className={b('pagination')}
             />
           </div>
