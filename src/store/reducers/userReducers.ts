@@ -23,47 +23,39 @@ const initialState: UserProfile = {
 };
 
 export const signinRequest = createAsyncThunk('user/signinRequest', async (user: SignInRequest) => {
-  await api.signin(user);
+  return api.signin(user);
 });
 
 export const signupRequest = createAsyncThunk('user/signupRequest', async (user: SignUpRequest) => {
-  const response = await api.signup(user);
-
-  return response;
+  return api.signup(user);
 });
 
 export const logoutRequest = createAsyncThunk('user/logoutRequest', async () => {
-  await api.logout();
+  return api.logout();
 });
 
 export const userRequest = createAsyncThunk('user/userRequest', async () => {
-  const response = await api.getUser();
-
-  return response;
+  return api.getUser();
 });
 
 export const updateProfileRequest = createAsyncThunk(
   'user/updateProfileRequest',
   async (user: UpdateProfileRequest) => {
-    const response = await api.updateProfile(user);
-
-    return response;
+    return api.updateProfile(user);
   }
 );
 
 export const updateAvatarRequest = createAsyncThunk(
   'user/updateAvatarRequest',
   async (formData: FormData) => {
-    const response = await api.updateAvatar(formData);
-
-    return response;
+    return api.updateAvatar(formData);
   }
 );
 
 export const updatePasswordRequest = createAsyncThunk(
   'user/logoutRequest',
   async (password: UpdatePasswordRequest) => {
-    await api.updatePassword(password);
+    return api.updatePassword(password);
   }
 );
 
