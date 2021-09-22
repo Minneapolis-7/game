@@ -1,13 +1,19 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import Page from '@/layout/Page';
 import Forum from '@/modules/Forum';
 
 function ForumThreadCreatePage({ title }: GenericPageProps): JSX.Element {
   return (
-    <Page delegated title={title}>
-      <Forum extendedSection="12" />
-    </Page>
+    <>
+      <Helmet>
+        <title>{title}</title>
+      </Helmet>
+      <Page delegated>
+        <Forum extendedSection="12" />
+      </Page>
+    </>
   );
 }
 

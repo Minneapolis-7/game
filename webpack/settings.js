@@ -6,6 +6,7 @@ module.exports = {
     src: {
       base: './src',
       css: './css',
+      server: './server',
     },
     dist: {
       base: './dist',

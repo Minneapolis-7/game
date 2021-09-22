@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import Page from '@/layout/Page';
 import Profile from '@/modules/Profile';
@@ -13,9 +14,14 @@ const mockUserData = {
 
 function ProfilePage({ title }: GenericPageProps): JSX.Element {
   return (
-    <Page title={title}>
-      <Profile user={mockUserData} />
-    </Page>
+    <>
+      <Helmet>
+        <title>{title}</title>
+      </Helmet>
+      <Page>
+        <Profile user={mockUserData} />
+      </Page>
+    </>
   );
 }
 

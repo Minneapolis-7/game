@@ -5,12 +5,14 @@ import '@/css/main.scss';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
+import { Route, Switch } from 'react-router-dom';
 
 import ProtectedRoute from '@/modules/ProtectedRoute';
 import RootErrorBoundary from '@/modules/RootErrorBoundary';
 import routes from '@/shared/const/routes';
-import store from '@/store/store';
+import initStore from '@/store/store';
+import { RootState } from '@/shared/types/redux';
 
 function startServiceWorker() {
   if ('serviceWorker' in navigator) {
@@ -24,12 +26,25 @@ function startServiceWorker() {
   }
 }
 
-startServiceWorker();
+if (process.env.NODE_ENV === 'production') {
+  startServiceWorker();
+}
 
-ReactDOM.render(
+declare global {
+  interface Window {
+    __INITIAL_STATE__?: RootState;
+  }
+  type AppDispatch = typeof store.dispatch;
+}
+
+const { store, history } = initStore(window.__INITIAL_STATE__!);
+
+delete window.__INITIAL_STATE__;
+
+ReactDOM.hydrate(
   <Provider store={store}>
-    <RootErrorBoundary>
-      <Router>
+    <ConnectedRouter history={history}>
+      <RootErrorBoundary>
         <Switch>
           {routes.map((route) => {
             const Component = route.component;
@@ -42,13 +57,13 @@ ReactDOM.render(
 
             return (
               <RouteComponent key={route.path} path={route.path} exact={route.exact}>
-                <Component title={route.title} />
+                <Component title={route.title || ''} />
               </RouteComponent>
             );
           })}
         </Switch>
-      </Router>
-    </RootErrorBoundary>
+      </RootErrorBoundary>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 );

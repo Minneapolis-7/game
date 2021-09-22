@@ -1,16 +1,31 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory, createMemoryHistory } from 'history';
+import { Reducer } from 'redux';
+
+import { RootState } from '@/shared/types/redux';
+import isServer from '@/shared/utils/isServer';
 
 import userReducers from './reducers/userReducers';
 
-const store = configureStore({
-  reducer: {
-    user: userReducers,
-  },
-});
+function initStore(initialState: RootState, url = '/') {
+  const history = isServer
+    ? createMemoryHistory({ initialEntries: [url] })
+    : createBrowserHistory();
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+  const store = configureStore({
+    reducer: {
+      user: userReducers,
+      router: connectRouter(history) as Reducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(routerMiddleware(history)),
+    preloadedState: initialState,
+  });
+
+  return { store, history };
+}
+
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
-export default store;
+export default initStore;

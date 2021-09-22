@@ -1,7 +1,16 @@
 import { useCallback, useState } from 'react';
 
+/**
+ * Переиспользование логики при запуске асинхронных действий.
+ * Возвращает саму функцию, обработанную через `useCallback`, и флаг состояния.
+ * @param action - асинхронная функция, которую нужно исполнить
+ * @param deps - зависимости для `useCallback`
+ * @param keepProgress - не сбрасывать флаг `isInProgress` после завершения функции
+ * @returns [isInProgress, cb] - флаг состояния, и функция для запуска
+ */
 export default function useProgress(
   action: () => Promise<unknown>,
+  deps = [],
   keepProgress = false
 ): [boolean, () => Promise<unknown>] {
   const [isInProgress, setIsInProgress] = useState(false);
@@ -17,7 +26,8 @@ export default function useProgress(
         setIsInProgress(false);
       }
     }
-  }, [action, keepProgress]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [...deps, action, keepProgress]);
 
   return [isInProgress, cb];
 }

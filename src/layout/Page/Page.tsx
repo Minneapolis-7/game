@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useEffect, useState } from 'react';
+import React, { HTMLAttributes, useState } from 'react';
 import { block } from 'bem-cn';
 
 import PageContext from '@/layout/Page/PageContext';
@@ -10,7 +10,6 @@ type PageProps = {
   // делегировать некоторые CSS-свойства, присущие для `.page` — ребёнку
   // (см. `page.scss`, нужно для управления высотой содержимого)
   delegated?: boolean;
-  title?: string;
   hasSidebar?: boolean;
 } & HTMLAttributes<HTMLDivElement>;
 
@@ -22,7 +21,6 @@ function Page(props: PageProps): JSX.Element {
     centered = false,
     fullscreen = false,
     delegated = false,
-    title = '',
     hasSidebar = true,
     children,
     ...rest
@@ -34,10 +32,6 @@ function Page(props: PageProps): JSX.Element {
       setIsSidebarOpened((prev) => force ?? !prev);
     },
   };
-
-  useEffect(() => {
-    document.title = title;
-  }, [title]);
 
   return (
     <PageContext.Provider value={ctx}>

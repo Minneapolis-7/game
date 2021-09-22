@@ -70,6 +70,8 @@ module.exports = {
           'error',
           'ignorePackages',
           {
+            js: 'never',
+            jsx: 'never',
             ts: 'never',
             tsx: 'never',
           },
@@ -114,7 +116,7 @@ module.exports = {
             paths: ['static'],
           },
           webpack: {
-            config: './webpack/webpack.config.js',
+            config: './webpack/webpack.client.js',
           },
         },
       },
