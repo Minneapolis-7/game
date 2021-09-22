@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet';
 
 import Page from '@/layout/Page';
 import Leaderboard from '@/modules/Leaderboard';
-import text from '@/shared/const/text';
 
 const mockUserList = [
   {
@@ -38,11 +37,11 @@ const mockUserList = [
   },
 ];
 
-function LeaderboardPage(): JSX.Element {
+function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
   return (
     <>
       <Helmet>
-        <title>{text.leaderboard.title}</title>
+        <title>{title}</title>
       </Helmet>
       <Page>
         <Leaderboard userList={mockUserList} />

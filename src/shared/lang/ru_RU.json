@@ -54,20 +54,24 @@
   },
   "forum": {
     "title": "Форум",
+    "createNewThreadTitle": "Создать новую тему",
     "categories": {
       "game": {
         "header": "Об игре",
         "sections": {
           "gameDiscussion": {
             "header": "Обсуждение игры",
+            "title": "Обсуждение игры",
             "description": "Ваши впечатления и вопросы по игре"
           },
           "featureRequests": {
             "header": "Запрос новых фич",
+            "title": "Запрос новых фич",
             "description": "Предложения по новым функциями и улучшениям"
           },
           "bugReports": {
             "header": "Баг-репорты",
+            "title": "Баг-репорты",
             "description": "Если вы нашли ошибку, сообщите о ней тут"
           }
         }
@@ -77,10 +81,12 @@
         "sections": {
           "gameIndustryNews": {
             "header": "Новости игровой индустрии",
+            "title": "Новости игровой индустрии",
             "description": "Следите за новостями"
           },
           "generalConversation": {
             "header": "Общение",
+            "title": "Общение",
             "description": "Здесь вы можете общаться на любые темы"
           }
         }

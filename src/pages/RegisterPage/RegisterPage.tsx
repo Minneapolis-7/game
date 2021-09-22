@@ -26,7 +26,7 @@ const registerInitialValues = {
 };
 const { register: txt } = text;
 
-function RegisterPage(): JSX.Element {
+function RegisterPage({ title }: GenericPageProps): JSX.Element {
   const dispatch = useAppDispatch();
   const submitRegister = useCallback(async (values, actions) => {
     try {
@@ -41,7 +41,7 @@ function RegisterPage(): JSX.Element {
   return (
     <>
       <Helmet>
-        <title>{txt.title}</title>
+        <title>{title}</title>
       </Helmet>
       <Page centered hasSidebar={false}>
         <div className={bAuth()}>

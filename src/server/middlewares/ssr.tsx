@@ -52,46 +52,42 @@ export default async function ssr(req: Request, res: Response) {
   let html = '';
   const { store } = initStore(getInitialState(location), location);
 
-  function renderApp() {
-    try {
-      html = renderToString(
-        <Provider store={store}>
-          <StaticRouter location={req.url} context={ctx}>
-            <Switch>
-              {routes.map((route) => {
-                const Component = route.component;
+  try {
+    html = renderToString(
+      <Provider store={store}>
+        <StaticRouter location={req.url} context={ctx}>
+          <Switch>
+            {routes.map((route) => {
+              const Component = route.component;
 
-                let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
+              let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
 
-                if (route.protected) {
-                  RouteComponent = ProtectedRoute;
-                }
+              if (route.protected) {
+                RouteComponent = ProtectedRoute;
+              }
 
-                return (
-                  <RouteComponent key={route.path} path={route.path} exact={route.exact}>
-                    <Component />
-                  </RouteComponent>
-                );
-              })}
-            </Switch>
-          </StaticRouter>
-        </Provider>
-      );
-    } catch (e) {
-      ctx.url = paths.SERVER_ERROR;
-    }
-
-    if (ctx.url) {
-      res.redirect(ctx.url);
-
-      return;
-    }
-
-    const reduxState = store.getState();
-    const helmetData = Helmet.renderStatic();
-
-    res.status(ctx.statusCode || 200).send(getPageHTML(html, reduxState, helmetData));
+              return (
+                <RouteComponent key={route.path} path={route.path} exact={route.exact}>
+                  <Component title={route.title || ''} />
+                </RouteComponent>
+              );
+            })}
+          </Switch>
+        </StaticRouter>
+      </Provider>
+    );
+  } catch (e) {
+    ctx.url = paths.SERVER_ERROR;
   }
 
-  renderApp();
+  if (ctx.url) {
+    res.redirect(ctx.url);
+
+    return;
+  }
+
+  const reduxState = store.getState();
+  const helmetData = Helmet.renderStatic();
+
+  res.status(ctx.statusCode || 200).send(getPageHTML(html, reduxState, helmetData));
 }

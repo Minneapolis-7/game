@@ -3,13 +3,12 @@ import { Helmet } from 'react-helmet';
 
 import Page from '@/layout/Page';
 import GameScreen from '@/modules/GameScreen';
-import text from '@/shared/const/text';
 
-function MainPage(): JSX.Element {
+function MainPage({ title }: GenericPageProps): JSX.Element {
   return (
     <>
       <Helmet>
-        <title>{text.game.title}</title>
+        <title>{title}</title>
       </Helmet>
       <Page centered>
         <GameScreen />

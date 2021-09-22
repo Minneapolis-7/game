@@ -57,7 +57,7 @@ ReactDOM.hydrate(
 
             return (
               <RouteComponent key={route.path} path={route.path} exact={route.exact}>
-                <Component />
+                <Component title={route.title || ''} />
               </RouteComponent>
             );
           })}

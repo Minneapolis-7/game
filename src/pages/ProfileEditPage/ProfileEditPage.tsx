@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet';
 
 import Page from '@/layout/Page';
 import Profile from '@/modules/Profile';
-import text from '@/shared/const/text';
 
 const mockUserData = {
   firstName: 'Имя',
@@ -13,11 +12,11 @@ const mockUserData = {
   email: 'my@email.com',
 };
 
-function ProfileEditPage(): JSX.Element {
+function ProfileEditPage({ title }: GenericPageProps): JSX.Element {
   return (
     <>
       <Helmet>
-        <title>{text.profile.editTitle}</title>
+        <title>{title}</title>
       </Helmet>
       <Page>
         <Profile user={mockUserData} action="edit" />

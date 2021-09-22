@@ -23,7 +23,7 @@ const loginInitialValues = {
 };
 const { login: txt } = text;
 
-function LoginPage(): JSX.Element {
+function LoginPage({ title }: GenericPageProps): JSX.Element {
   const dispatch = useAppDispatch();
   const submitLogin = useCallback(async (values, actions) => {
     try {
@@ -38,7 +38,7 @@ function LoginPage(): JSX.Element {
   return (
     <>
       <Helmet>
-        <title>{txt.title}</title>
+        <title>{title}</title>
       </Helmet>
       <Page centered hasSidebar={false}>
         <div className={bAuth()}>

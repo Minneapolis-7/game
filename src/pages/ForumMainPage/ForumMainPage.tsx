@@ -3,13 +3,12 @@ import { Helmet } from 'react-helmet';
 
 import Page from '@/layout/Page';
 import Forum from '@/modules/Forum';
-import text from '@/shared/const/text';
 
-function ForumMainPage(): JSX.Element {
+function ForumMainPage({ title }: GenericPageProps): JSX.Element {
   return (
     <>
       <Helmet>
-        <title>{text.forum.title}</title>
+        <title>{title}</title>
       </Helmet>
       <Page delegated>
         <Forum />
