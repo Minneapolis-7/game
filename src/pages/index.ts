@@ -9,3 +9,5 @@ export { default as ForumSectionPage } from './ForumSectionPage';
 export { default as ForumThreadPage } from './ForumThreadPage';
 export { default as ForumThreadCreatePage } from './ForumThreadCreatePage';
 export { default as LeaderboardPage } from './LeaderboardPage';
+export { default as Page500 } from './Page500';
+export { default as Page404 } from './Page404';

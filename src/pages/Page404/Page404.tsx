@@ -2,19 +2,19 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 import Page from '@/layout/Page';
-import GameScreen from '@/modules/GameScreen';
+import Status from '@/modules/Status';
 
-function MainPage({ title }: GenericPageProps): JSX.Element {
+function Page404({ title }: GenericPageProps): JSX.Element {
   return (
-    <>
+    <Status code={404}>
       <Helmet>
         <title>{title}</title>
       </Helmet>
       <Page centered>
-        <GameScreen />
+        <h2>Не найдено</h2>
       </Page>
-    </>
+    </Status>
   );
 }
 
-export default MainPage;
+export default Page404;

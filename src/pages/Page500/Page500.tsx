@@ -2,19 +2,19 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 
 import Page from '@/layout/Page';
-import GameScreen from '@/modules/GameScreen';
+import Status from '@/modules/Status';
 
-function MainPage({ title }: GenericPageProps): JSX.Element {
+function Page500({ title }: GenericPageProps): JSX.Element {
   return (
-    <>
+    <Status code={500}>
       <Helmet>
         <title>{title}</title>
       </Helmet>
       <Page centered>
-        <GameScreen />
+        <h2>Ошибка сервера</h2>
       </Page>
-    </>
+    </Status>
   );
 }
 
-export default MainPage;
+export default Page500;
