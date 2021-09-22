@@ -36,19 +36,23 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
       console.log('error', translateErrorMessage(err.message));
     }
   }, []);
-  const [isOAuthInProgress, startYandexOAuth] = useProgress(async () => {
-    try {
-      const id = await oauthApi.getClientId({
-        redirectUri: OAUTH_REDIRECT_URI,
-      });
+  const [isOAuthInProgress, startYandexOAuth] = useProgress(
+    async () => {
+      try {
+        const id = await oauthApi.getClientId({
+          redirectUri: OAUTH_REDIRECT_URI,
+        });
 
-      window.location.replace(
-        `${YANDEX_OAUTH}?response_type=code&client_id=${id}&redirect_uri=${OAUTH_REDIRECT_URI}`
-      );
-    } catch (e) {
-      throw new Error(e);
-    }
-  }, true);
+        window.location.replace(
+          `${YANDEX_OAUTH}?response_type=code&client_id=${id}&redirect_uri=${OAUTH_REDIRECT_URI}`
+        );
+      } catch (e) {
+        throw new Error(e);
+      }
+    },
+    [],
+    true
+  );
 
   return (
     <Page centered title={title} hasSidebar={false}>
