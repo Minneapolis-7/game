@@ -14,7 +14,7 @@ import getInitialState from '@/store/getInitialState';
 import initStore from '@/store/store';
 
 // eslint-disable-next-line
-// @ts-ignore
+// @ts-ignore убрать ошибку если файла ещё нет (когда клиентский билд ни разу не выполнялся)
 import manifestJson from '../../../dist/static/manifest.json'; // eslint-disable-line
 import sprite from 'svg-sprite-loader/runtime/sprite.build';
 

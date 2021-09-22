@@ -40,8 +40,6 @@ const { gameDiscussion, featureRequests, bugReports } = gameAreaText.sections;
 const { gameIndustryNews, generalConversation } = generalAreaText.sections;
 
 function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
-  // throw new Error();
-
   let forumBody = (
     <>
       <div className={b('category')}>

@@ -27,7 +27,7 @@
 - [SASS](https://sass-lang.com/)
 - [PostCSS](https://github.com/postcss/postcss)
 
-Линтинг и форматрирование:
+Линтинг и форматирование:
 
 - [ESLint](https://eslint.org/),
 - [stylelint](https://stylelint.io/),
