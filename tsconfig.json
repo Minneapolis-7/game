@@ -13,6 +13,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "moduleResolution": "node",
+    "allowJs": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
@@ -20,6 +21,6 @@
     "outDir": "./dist",
     "typeRoots": ["typings/**/*.d.ts", "node_modules/@types"]
   },
-  "include": ["src/**/*", "typings/**/*.d.ts", "server/*", "./jest-setup.ts"],
+  "include": ["src/**/*", "typings/**/*.d.ts", "src/server/*", "./jest-setup.ts"],
   "exclude": ["**/*.js"]
 }

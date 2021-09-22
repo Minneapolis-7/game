@@ -15,6 +15,7 @@
     "closeButtonTitle": "Закрыть"
   },
   "login": {
+    "title": "Вход",
     "header": "Вход",
     "submitButton": "Войти",
     "yandexOAuthButton": "Войти через Яндекс",
@@ -23,6 +24,7 @@
     "registerLink": "Зарегистрироваться"
   },
   "register": {
+    "title": "Регистрация",
     "header": "Регистрация",
     "submitButton": "Зарегистрироваться",
     "emailLabel": "E-mail",
@@ -34,6 +36,9 @@
     "loginLink": "Войти"
   },
   "profile": {
+    "title": "Профиль",
+    "editTitle": "Редактирование профиля",
+    "editPasswordTitle": "Смена пароля",
     "emailLabel": "Почта",
     "loginLabel": "Логин",
     "firstNameLabel": "Имя",
@@ -49,20 +54,25 @@
     "editAvatarTitle": "Выбрать аватар"
   },
   "forum": {
+    "title": "Форум",
+    "createNewThreadTitle": "Создать новую тему",
     "categories": {
       "game": {
         "header": "Об игре",
         "sections": {
           "gameDiscussion": {
             "header": "Обсуждение игры",
+            "title": "Обсуждение игры",
             "description": "Ваши впечатления и вопросы по игре"
           },
           "featureRequests": {
             "header": "Запрос новых фич",
+            "title": "Запрос новых фич",
             "description": "Предложения по новым функциями и улучшениям"
           },
           "bugReports": {
             "header": "Баг-репорты",
+            "title": "Баг-репорты",
             "description": "Если вы нашли ошибку, сообщите о ней тут"
           }
         }
@@ -72,10 +82,12 @@
         "sections": {
           "gameIndustryNews": {
             "header": "Новости игровой индустрии",
+            "title": "Новости игровой индустрии",
             "description": "Следите за новостями"
           },
           "generalConversation": {
             "header": "Общение",
+            "title": "Общение",
             "description": "Здесь вы можете общаться на любые темы"
           }
         }
@@ -99,9 +111,17 @@
     "newThreadButton": "Создать"
   },
   "leaderboard": {
+    "title": "Рейтинг",
     "header": "Рейтинг игроков"
   },
+  "page404": {
+    "title": "Нет страницы"
+  },
+  "page500": {
+    "title": "Ошибка сервера"
+  },
   "game": {
+    "title": "Играть",
     "playButton": "Играть",
     "playMoreButton": "Могу лучше!",
     "retryButton": "Ещё раз!",

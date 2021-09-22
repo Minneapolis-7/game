@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import Page from '@/layout/Page';
 import Leaderboard from '@/modules/Leaderboard';
@@ -36,11 +37,16 @@ const mockUserList = [
   },
 ];
 
-function LeaderboardPage({ title }: { title: string }): JSX.Element {
+function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
   return (
-    <Page title={title}>
-      <Leaderboard userList={mockUserList} />
-    </Page>
+    <>
+      <Helmet>
+        <title>{title}</title>
+      </Helmet>
+      <Page>
+        <Leaderboard userList={mockUserList} />
+      </Page>
+    </>
   );
 }
 

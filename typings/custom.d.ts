@@ -27,6 +27,12 @@ declare module 'focusable-selectors' {
   const content: string[];
   export default content;
 }
+
+declare module 'svg-sprite-loader/runtime/sprite.build' {
+  const content: any;
+  export default content;
+}
+
 declare module '*.mp3' {
   const content: any;
   export default content;

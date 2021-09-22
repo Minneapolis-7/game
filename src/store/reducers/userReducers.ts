@@ -9,9 +9,9 @@ import {
   UserProfile,
 } from '@/api/types';
 import api from '@/api/userApi';
-import type { RootState } from '@/store/store';
+import type { RootState } from '@/shared/types/redux';
 
-const initialState: UserProfile = {
+export const initialState: UserProfile = {
   id: null,
   firstName: '',
   secondName: '',
