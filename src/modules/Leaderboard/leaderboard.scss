@@ -1,7 +1,7 @@
 @use 'src/css/abstracts/variables' as *;
 @use 'src/css/abstracts/mixins' as *;
 
-.leaderboard {
+.leaderboard__content {
   max-width: 36rem;
   margin: $gap-y-lg auto;
 }
@@ -16,6 +16,14 @@
 .leaderboard__empty {
   font-size: $font-size-lg;
   text-align: center;
+}
+
+.leaderboard_spinner {
+  --size: 10rem;
+
+  top: 50%;
+  left: 50%;
+  color: rgb(236, 230, 230);
 }
 
 .leaderboard__wrapper-row {
@@ -60,13 +68,6 @@
   white-space: nowrap;
 }
 
-.leaderboard__toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.leaderboard__toolbar-slot_pagination {
-  margin-left: auto;
+.leaderboard__pagination {
   text-align: center;
 }

@@ -2,27 +2,27 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import api from '@/api/leaderboardApi';
-import { AddToLeaderboard, GetLeaderboard, GetTeamLeaderboard, Leader } from '@/api/types';
+import { Leader, LeaderboardRequest, NewLeaderData, TeamLeaderboardRequest } from '@/api/types';
 import type { RootState } from '@/store/store';
 
 type leaderboardState = {
-  leaderboard: Leader[];
+  leaderList: Leader[];
 };
 
 const initialState: leaderboardState = {
-  leaderboard: [],
+  leaderList: [],
 };
 
 export const addToLeaderboard = createAsyncThunk(
   'leaderboard/addToLeaderboard',
-  async (value: AddToLeaderboard) => {
+  async (value: NewLeaderData) => {
     await api.addToLeaderboard(value);
   }
 );
 
 export const getAllLeaderboard = createAsyncThunk(
   'leaderboard/getAllLeaderboard',
-  async (value: GetLeaderboard) => {
+  async (value: LeaderboardRequest) => {
     const response = await api.getAllLeaderboard(value);
 
     return response;
@@ -31,7 +31,7 @@ export const getAllLeaderboard = createAsyncThunk(
 
 export const getTeamLeaderboard = createAsyncThunk(
   'leaderboard/getTeamLeaderboard',
-  async (payload: GetTeamLeaderboard) => {
+  async (payload: TeamLeaderboardRequest) => {
     const response = await api.getTeamLeaderboard(payload.teamName, payload.value);
 
     return response;
@@ -45,10 +45,10 @@ export const leaderboardSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAllLeaderboard.fulfilled, (state, action) => {
-        state.leaderboard = action.payload;
+        state.leaderList = action.payload;
       })
       .addCase(getTeamLeaderboard.fulfilled, (state, action) => {
-        state.leaderboard = action.payload;
+        state.leaderList = action.payload;
       });
   },
 });

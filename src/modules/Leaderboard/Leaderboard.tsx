@@ -5,6 +5,8 @@ import { Pagination } from '@/components/ui';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 
+const LEADERBOARD_LENGTH = 8;
+
 const b = block('leaderboard');
 const { leaderboard: txt } = text;
 
@@ -15,7 +17,7 @@ type leaderUser = {
 };
 
 type LeaderboardProps = {
-  userList: leaderUser[];
+  leaderList: leaderUser[];
 };
 
 type RowProps = {
@@ -23,7 +25,7 @@ type RowProps = {
   value: number;
 };
 
-function Leaderboard({ userList }: LeaderboardProps): JSX.Element {
+function Leaderboard({ leaderList }: LeaderboardProps): JSX.Element {
   function Row({ label, value }: RowProps): JSX.Element {
     return (
       <li>
@@ -42,9 +44,9 @@ function Leaderboard({ userList }: LeaderboardProps): JSX.Element {
         <h3>{txt.header}</h3>
       </header>
       <div className={b('content')}>
-        {userList.length ? (
+        {leaderList.length ? (
           <ul className={b('players-list')}>
-            {userList.map((user) => {
+            {leaderList.map((user) => {
               return <Row key={user.id} label={user.nickname} value={user.points} />;
             })}
           </ul>
@@ -52,17 +54,13 @@ function Leaderboard({ userList }: LeaderboardProps): JSX.Element {
           <div className={b('empty')}>{txt.empty}</div>
         )}
       </div>
-      {userList.length >= 10 && (
-        <div className={b('toolbar')}>
-          <div className={b('toolbar-slot', { pagination: true })}>
-            <Pagination
-              total={10}
-              current={1}
-              baseURL={`${paths.LEADERBOARD}/page`}
-              className={b('pagination')}
-            />
-          </div>
-        </div>
+      {leaderList.length >= LEADERBOARD_LENGTH && (
+        <Pagination
+          total={10}
+          current={1}
+          baseURL={`${paths.LEADERBOARD}/page`}
+          className={b('pagination')}
+        />
       )}
     </div>
   );

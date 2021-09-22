@@ -31,18 +31,18 @@ export type Leader = {
   points: number;
 };
 
-export type AddToLeaderboard = {
+export type NewLeaderData = {
   data: Leader;
   ratingFieldName: string;
 };
 
-export type GetLeaderboard = {
+export type LeaderboardRequest = {
   ratingFieldName: string;
   cursor: number;
   limit: number;
 };
 
-export type GetTeamLeaderboard = {
+export type TeamLeaderboardRequest = {
   teamName: string;
-  value: GetLeaderboard;
+  value: LeaderboardRequest;
 };
