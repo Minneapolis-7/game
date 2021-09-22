@@ -6,59 +6,56 @@ import {
   SignUpRequest,
   UpdatePasswordRequest,
   UpdateProfileRequest,
+  UserProfile,
 } from '@/api/types';
 import api from '@/api/userApi';
-import type { RootState } from '@/shared/types/redux';
-import { User } from '@/shared/types/types';
+import { RootState } from '@/shared/types/redux';
 
-export const initialState: User = {
+export const initialState: UserProfile = {
   id: null,
   firstName: '',
   secondName: '',
   displayName: null,
   login: '',
   email: '',
-  password: '',
   phone: '',
   avatar: null,
 };
 
 export const signinRequest = createAsyncThunk('user/signinRequest', async (user: SignInRequest) => {
-  await api.signin(user);
+  return api.signin(user);
 });
 
 export const signupRequest = createAsyncThunk('user/signupRequest', async (user: SignUpRequest) => {
-  const response = await api.signup(user);
-
-  return response;
+  return api.signup(user);
 });
 
 export const logoutRequest = createAsyncThunk('user/logoutRequest', async () => {
-  await api.logout();
+  return api.logout();
+});
+
+export const userRequest = createAsyncThunk('user/userRequest', async () => {
+  return api.getUser();
 });
 
 export const updateProfileRequest = createAsyncThunk(
   'user/updateProfileRequest',
   async (user: UpdateProfileRequest) => {
-    const response = await api.updateProfile(user);
-
-    return response;
+    return api.updateProfile(user);
   }
 );
 
 export const updateAvatarRequest = createAsyncThunk(
   'user/updateAvatarRequest',
   async (formData: FormData) => {
-    const response = await api.updateAvatar(formData);
-
-    return response;
+    return api.updateAvatar(formData);
   }
 );
 
 export const updatePasswordRequest = createAsyncThunk(
   'user/logoutRequest',
   async (password: UpdatePasswordRequest) => {
-    await api.updatePassword(password);
+    return api.updatePassword(password);
   }
 );
 
@@ -72,15 +69,18 @@ export const userSlice = createSlice({
         state.id = action.payload;
       })
       .addCase(updateProfileRequest.fulfilled, (state, action) => {
-        state = { ...state, ...action.payload };
+        Object.assign(state, action.payload);
       })
       .addCase(updateAvatarRequest.fulfilled, (state, action) => {
         state.avatar = action.payload.avatar;
+      })
+      .addCase(userRequest.fulfilled, (state, action) => {
+        Object.assign(state, action.payload);
       });
   },
 });
 
-export const userState = (state: RootState): User => ({
+export const userState = (state: RootState): UserProfile => ({
   ...state.user,
 });
 
