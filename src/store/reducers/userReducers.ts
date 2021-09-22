@@ -9,7 +9,7 @@ import {
   UserProfile,
 } from '@/api/types';
 import api from '@/api/userApi';
-import type { RootState } from '@/shared/types/redux';
+import { RootState } from '@/shared/types/redux';
 
 export const initialState: UserProfile = {
   id: null,

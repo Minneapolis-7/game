@@ -1,8 +1,8 @@
 import { RouterState } from 'connected-react-router';
 
-import { User } from '@/shared/types/types';
+import { UserProfile } from '@/api/types';
 
 export type RootState = {
-  readonly user: User;
+  readonly user: UserProfile;
   readonly router: RouterState;
 };
