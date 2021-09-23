@@ -2,7 +2,7 @@
 // eslint-disable-next-line simple-import-sort/imports
 import '@/css/main.scss';
 
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
@@ -13,6 +13,9 @@ import RootErrorBoundary from '@/modules/RootErrorBoundary';
 import routes from '@/shared/const/routes';
 import initStore from '@/store/store';
 import { RootState } from '@/shared/types/redux';
+import { ToastItem } from '@/components/ui/Toaster/Toast/types';
+import AppContext from './AppContext';
+import { Toaster } from '@/components/ui';
 
 function startServiceWorker() {
   if ('serviceWorker' in navigator) {
@@ -41,29 +44,52 @@ const { store, history } = initStore(window.__INITIAL_STATE__!);
 
 delete window.__INITIAL_STATE__;
 
-ReactDOM.hydrate(
-  <Provider store={store}>
-    <ConnectedRouter history={history}>
-      <RootErrorBoundary>
-        <Switch>
-          {routes.map((route) => {
-            const Component = route.component;
+function App(): JSX.Element {
+  const [toastList, setToastList] = useState<Array<ToastItem>>([]);
 
-            let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
+  const ctx = {
+    addToastMessage(toast: ToastItem) {
+      setToastList((oldToastList) => [...oldToastList, toast]);
+    },
+    removeToastMessage(id: string) {
+      setToastList((oldToastList) => {
+        const toastListItem = oldToastList.findIndex((e) => e.id === id);
 
-            if (route.protected) {
-              RouteComponent = ProtectedRoute;
-            }
+        oldToastList.splice(toastListItem, 1);
 
-            return (
-              <RouteComponent key={route.path} path={route.path} exact={route.exact}>
-                <Component title={route.title || ''} />
-              </RouteComponent>
-            );
-          })}
-        </Switch>
-      </RootErrorBoundary>
-    </ConnectedRouter>
-  </Provider>,
-  document.getElementById('root')
-);
+        return [...oldToastList];
+      });
+    },
+  };
+
+  return (
+    <Provider store={store}>
+      <AppContext.Provider value={ctx}>
+        <ConnectedRouter history={history}>
+          <RootErrorBoundary>
+            <Switch>
+              {routes.map((route) => {
+                const Component = route.component;
+
+                let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
+
+                if (route.protected) {
+                  RouteComponent = ProtectedRoute;
+                }
+
+                return (
+                  <RouteComponent key={route.path} path={route.path} exact={route.exact}>
+                    <Component title={route.title || ''} />
+                  </RouteComponent>
+                );
+              })}
+            </Switch>
+          </RootErrorBoundary>
+        </ConnectedRouter>
+        <Toaster toastList={toastList} position="bottom-right" />
+      </AppContext.Provider>
+    </Provider>
+  );
+}
+
+ReactDOM.hydrate(<App />, document.getElementById('root'));
