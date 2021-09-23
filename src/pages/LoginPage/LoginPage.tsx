@@ -1,12 +1,15 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
+import { v1 as uuidv1 } from 'uuid';
 
 import oauthApi from '@/api/oauthApi';
+import AppContext from '@/AppContext';
 import { Input } from '@/components/formik-ui';
 import { Button } from '@/components/ui';
+import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import Page from '@/layout/Page';
 import { OAUTH_REDIRECT_URI, YANDEX_OAUTH } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
@@ -27,14 +30,21 @@ const loginInitialValues = {
 const { login: txt } = text;
 
 function LoginPage({ title }: GenericPageProps): JSX.Element {
+  const appContext = useContext(AppContext);
   const dispatch = useAppDispatch();
   const submitLogin = useCallback(async (values, actions) => {
     try {
       await dispatch(signinRequest(values)).unwrap();
-      console.log('success signin');
       actions.setSubmitting(false);
     } catch (err) {
-      console.log('error', translateErrorMessage(err.message));
+      const toast = {
+        id: uuidv1(),
+        type: 'warning',
+        description: translateErrorMessage(err.message),
+        timeout: 5000,
+      };
+
+      appContext?.addToastMessage(toast as ToastItem);
     }
   }, []);
   const [isOAuthInProgress, startYandexOAuth] = useProgress(
