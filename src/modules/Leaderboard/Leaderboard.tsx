@@ -5,7 +5,7 @@ import { Pagination } from '@/components/ui';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 
-const LEADERBOARD_LENGTH = 8;
+const LEADERBOARD_PAGE_SIZE = 8;
 
 const b = block('leaderboard');
 const { leaderboard: txt } = text;
@@ -54,7 +54,7 @@ function Leaderboard({ leaderList }: LeaderboardProps): JSX.Element {
           <div className={b('empty')}>{txt.empty}</div>
         )}
       </div>
-      {leaderList.length >= LEADERBOARD_LENGTH && (
+      {leaderList.length >= LEADERBOARD_PAGE_SIZE && (
         <Pagination
           total={10}
           current={1}

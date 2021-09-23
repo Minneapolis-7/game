@@ -2,21 +2,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import api from '@/api/leaderboardApi';
-import { Leader, LeaderboardRequest, NewLeaderData, TeamLeaderboardRequest } from '@/api/types';
-import type { RootState } from '@/store/store';
+import { LeaderboardRequest, NewLeaderData, TeamLeaderboardRequest } from '@/api/types';
+import { LeaderboardState, RootState } from '@/shared/types/redux';
 
-type leaderboardState = {
-  leaderList: Leader[];
-};
-
-const initialState: leaderboardState = {
+export const initialState: LeaderboardState = {
   leaderList: [],
 };
 
 export const addToLeaderboard = createAsyncThunk(
   'leaderboard/addToLeaderboard',
   async (value: NewLeaderData) => {
-    await api.addToLeaderboard(value);
+    return api.addToLeaderboard(value);
   }
 );
 
@@ -53,7 +49,7 @@ export const leaderboardSlice = createSlice({
   },
 });
 
-export const leaderboardState = (state: RootState): leaderboardState => ({
+export const leaderboardState = (state: RootState): LeaderboardState => ({
   ...state.leaderboard,
 });
 

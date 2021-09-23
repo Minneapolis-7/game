@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
 import { Spinner } from '@/components/ui';
@@ -11,10 +11,12 @@ import { useAppDispatch, useAppSelector } from '@/store/store';
 function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
   const leaderList = useAppSelector((state) => state.leaderboard.leaderList);
   const dispatch = useAppDispatch();
-  let waiting = false;
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
+      setLoading(true);
+
       try {
         const value = {
           ratingFieldName: 'points',
@@ -22,11 +24,10 @@ function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
           limit: 10,
         };
 
-        waiting = true;
         await dispatch(getAllLeaderboard(value)).unwrap();
-        waiting = false;
+        setLoading(false);
       } catch (err) {
-        waiting = false;
+        setLoading(false);
         console.log('error', translateErrorMessage(err.message));
       }
     })();
@@ -38,8 +39,8 @@ function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
         <title>{title}</title>
       </Helmet>
       <Page>
-        <Leaderboard userList={leaderList} />
-        {waiting && <Spinner className="leaderboard__spinner" />}
+        <Leaderboard leaderList={leaderList} />
+        {loading && <Spinner className="leaderboard__spinner" />}
       </Page>
     </>
   );
