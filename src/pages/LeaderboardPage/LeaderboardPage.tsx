@@ -40,7 +40,12 @@ function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
       </Helmet>
       <Page>
         <Leaderboard leaderList={leaderList} />
-        {loading && <Spinner className="leaderboard__spinner" />}
+        {loading && (
+          <>
+            <div className="leaderboard__shadow" />
+            <Spinner className="leaderboard__spinner" />
+          </>
+        )}
       </Page>
     </>
   );
