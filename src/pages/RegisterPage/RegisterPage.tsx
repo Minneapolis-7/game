@@ -5,13 +5,14 @@ import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
 
 import { Input } from '@/components/formik-ui';
-import { Button } from '@/components/ui';
+import { Button, Spinner } from '@/components/ui';
 import Page from '@/layout/Page';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
+import useBeingLoggedIn from '@/shared/utils/hooks/useBeingLoggedIn';
 import { signupRequest } from '@/store/reducers';
-import { useAppDispatch, useAppSelector } from '@/store/store';
+import { useAppDispatch } from '@/store/store';
 
 import { registerSchema } from './schema';
 
@@ -40,10 +41,11 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
       console.log('error', `Запрос завершился ошибкой: ${err.message}`);
     }
   }, []);
-  const userId = useAppSelector((state) => state.user.id);
 
-  if (userId) {
-    history.replace('/');
+  const isChecking = useBeingLoggedIn();
+
+  if (isChecking) {
+    return <Spinner size="xl" />;
   }
 
   return (

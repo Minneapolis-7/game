@@ -8,7 +8,7 @@ import { v1 as uuidv1 } from 'uuid';
 import oauthApi from '@/api/oauthApi';
 import AppContext from '@/AppContext';
 import { Input } from '@/components/formik-ui';
-import { Button } from '@/components/ui';
+import { Button, Spinner } from '@/components/ui';
 import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import Page from '@/layout/Page';
 import { OAUTH_REDIRECT_URI, YANDEX_OAUTH } from '@/shared/const/const';
@@ -16,9 +16,10 @@ import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import translateErrorMessage from '@/shared/utils';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
+import useBeingLoggedIn from '@/shared/utils/hooks/useBeingLoggedIn';
 import useProgress from '@/shared/utils/hooks/useProgress';
 import { signinRequest } from '@/store/reducers';
-import { useAppDispatch, useAppSelector } from '@/store/store';
+import { useAppDispatch } from '@/store/store';
 
 import { loginSchema } from './schema';
 
@@ -36,6 +37,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
   const submitLogin = useCallback(async (values, actions) => {
     try {
       await dispatch(signinRequest(values)).unwrap();
+
       actions.setSubmitting(false);
       history.replace('/');
     } catch (err) {
@@ -66,10 +68,10 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
     [],
     true
   );
-  const userId = useAppSelector((state) => state.user.id);
+  const isChecking = useBeingLoggedIn();
 
-  if (userId) {
-    history.replace('/');
+  if (isChecking) {
+    return <Spinner size="xl" />;
   }
 
   return (

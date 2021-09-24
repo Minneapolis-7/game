@@ -127,7 +127,12 @@ $button-spinner-size: 1.125em;
 .button_theme_link-danger > .button__text {
   text-decoration: underline;
 }
-
+.button_theme_link.is-waiting > .button__icon,
+.button_theme_link.is-waiting > .button__text,
+.button_theme_link-danger.is-waiting > .button__icon,
+.button_theme_link-danger.is-waiting > .button__text {
+  opacity: 1;
+}
 .button_theme_link > .button__spinner,
 .button_theme_link-danger > .button__spinner {
   right: calc(-2 * #{$button-spinner-size}); // 2 — чтобы нивелировать translateX(-50%)

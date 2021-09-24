@@ -105,7 +105,9 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
   const [isLoggingOut, logout] = useProgress(async () => {
     try {
       await dispatch(logoutRequest()).unwrap();
-      history.replace(paths.LOGIN);
+
+      // позволить `useProgress` полностью отработать
+      setTimeout(() => history.replace(paths.LOGIN), 0);
     } catch (e) {
       throw new Error(e);
     }
