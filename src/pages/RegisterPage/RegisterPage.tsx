@@ -1,14 +1,18 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
+import { v1 as uuidv1 } from 'uuid';
 
+import AppContext from '@/AppContext';
 import { Input } from '@/components/formik-ui';
 import { Button, Spinner } from '@/components/ui';
+import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import Page from '@/layout/Page';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
+import translateErrorMessage from '@/shared/utils';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 import useBeingLoggedIn from '@/shared/utils/hooks/useBeingLoggedIn';
 import { signupRequest } from '@/store/reducers';
@@ -29,16 +33,21 @@ const registerInitialValues = {
 const { register: txt } = text;
 
 function RegisterPage({ title }: GenericPageProps): JSX.Element {
+  const appContext = useContext(AppContext);
   const dispatch = useAppDispatch();
-  const history = useHistory();
   const submitRegister = useCallback(async (values, actions) => {
     try {
       await dispatch(signupRequest(values)).unwrap();
-      console.log('success signup');
       actions.setSubmitting(false);
-      history.replace('/');
     } catch (err) {
-      console.log('error', `Запрос завершился ошибкой: ${err.message}`);
+      const toast = {
+        id: uuidv1(),
+        type: 'warning',
+        description: translateErrorMessage(err.message),
+        timeout: 5000,
+      };
+
+      appContext?.addToastMessage(toast as ToastItem);
     }
   }, []);
 

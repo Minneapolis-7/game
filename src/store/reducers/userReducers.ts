@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { replace } from 'connected-react-router';
 
 import {
   SignInRequest,
@@ -9,6 +10,7 @@ import {
   UserProfile,
 } from '@/api/types';
 import api from '@/api/userApi';
+import paths from '@/shared/const/paths';
 import { RootState } from '@/shared/types/redux';
 
 export const initialState: UserProfile = {
@@ -31,6 +33,8 @@ export const signinRequest = createAsyncThunk(
   async (user: SignInRequest, thunkAPI) => {
     await api.signin(user);
     await thunkAPI.dispatch(userRequest());
+
+    thunkAPI.dispatch(replace('/'));
   }
 );
 
@@ -39,11 +43,16 @@ export const signupRequest = createAsyncThunk(
   async (user: SignUpRequest, thunkAPI) => {
     await api.signup(user);
     await thunkAPI.dispatch(userRequest());
+
+    thunkAPI.dispatch(replace('/'));
   }
 );
 
-export const logoutRequest = createAsyncThunk('user/logoutRequest', async () => {
-  return api.logout();
+export const logoutRequest = createAsyncThunk('user/logoutRequest', async (_unused, thunkAPI) => {
+  await api.logout();
+
+  // подождать пока `useProgress` исполнится
+  setTimeout(() => thunkAPI.dispatch(replace(paths.LOGIN)), 0);
 });
 
 export const updateProfileRequest = createAsyncThunk(

@@ -1,6 +1,6 @@
 import React, { useCallback, useContext } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
 import { v1 as uuidv1 } from 'uuid';
@@ -33,13 +33,11 @@ const { login: txt } = text;
 function LoginPage({ title }: GenericPageProps): JSX.Element {
   const appContext = useContext(AppContext);
   const dispatch = useAppDispatch();
-  const history = useHistory();
   const submitLogin = useCallback(async (values, actions) => {
     try {
       await dispatch(signinRequest(values)).unwrap();
 
       actions.setSubmitting(false);
-      history.replace('/');
     } catch (err) {
       const toast = {
         id: uuidv1(),

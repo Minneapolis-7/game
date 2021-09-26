@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
 
@@ -87,7 +87,6 @@ type ProfileProps = {
 
 function Profile({ user, action }: ProfileProps): JSX.Element {
   const dispatch = useAppDispatch();
-  const history = useHistory();
 
   const handleAvatarChange = useCallback(async (e) => {
     const formData = new FormData();
@@ -105,9 +104,6 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
   const [isLoggingOut, logout] = useProgress(async () => {
     try {
       await dispatch(logoutRequest()).unwrap();
-
-      // позволить `useProgress` полностью отработать
-      setTimeout(() => history.replace(paths.LOGIN), 0);
     } catch (e) {
       throw new Error(e);
     }
