@@ -19,18 +19,14 @@ export const addToLeaderboard = createAsyncThunk(
 export const getAllLeaderboard = createAsyncThunk(
   'leaderboard/getAllLeaderboard',
   async (value: LeaderboardRequest) => {
-    const response = await api.getAllLeaderboard(value);
-
-    return response;
+    return api.getAllLeaderboard(value);
   }
 );
 
 export const getTeamLeaderboard = createAsyncThunk(
   'leaderboard/getTeamLeaderboard',
   async (payload: TeamLeaderboardRequest) => {
-    const response = await api.getTeamLeaderboard(payload.teamName, payload.value);
-
-    return response;
+    return api.getTeamLeaderboard(payload.teamName, payload.value);
   }
 );
 
