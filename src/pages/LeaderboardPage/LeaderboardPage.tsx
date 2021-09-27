@@ -1,50 +1,51 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
+import { Spinner } from '@/components/ui';
 import Page from '@/layout/Page';
 import Leaderboard from '@/modules/Leaderboard';
-
-const mockUserList = [
-  {
-    id: 5,
-    nickname: 'SchumacherSchumacherSchumacherSchumacher',
-    points: 100,
-  },
-  {
-    id: 7,
-    nickname: 'Vettel',
-    points: 98,
-  },
-  {
-    id: 3,
-    nickname: 'Senna',
-    points: 86,
-  },
-  {
-    id: 1,
-    nickname: 'Alonso',
-    points: 80,
-  },
-  {
-    id: 15,
-    nickname: 'Hamilton',
-    points: 72,
-  },
-  {
-    id: 4,
-    nickname: 'Lauda',
-    points: 68,
-  },
-];
+import translateErrorMessage from '@/shared/utils';
+import { getAllLeaderboard } from '@/store/reducers';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 
 function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
+  const leaderList = useAppSelector((state) => state.leaderboard.leaderList);
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+
+      try {
+        const value = {
+          ratingFieldName: 'points',
+          cursor: 0,
+          limit: 10,
+        };
+
+        await dispatch(getAllLeaderboard(value)).unwrap();
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+        console.log('error', translateErrorMessage(err.message));
+      }
+    })();
+  }, []);
+
   return (
     <>
       <Helmet>
         <title>{title}</title>
       </Helmet>
       <Page>
-        <Leaderboard userList={mockUserList} />
+        <Leaderboard leaderList={leaderList} />
+        {loading && (
+          <>
+            <div className="leaderboard__shadow" />
+            <Spinner className="leaderboard__spinner" />
+          </>
+        )}
       </Page>
     </>
   );

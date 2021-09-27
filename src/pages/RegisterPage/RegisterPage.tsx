@@ -10,7 +10,7 @@ import Page from '@/layout/Page';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
-import { signupRequest } from '@/store/reducers';
+import { signup } from '@/store/reducers';
 import { useAppDispatch } from '@/store/store';
 
 import { registerSchema } from './schema';
@@ -30,7 +30,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
   const dispatch = useAppDispatch();
   const submitRegister = useCallback(async (values, actions) => {
     try {
-      await dispatch(signupRequest(values)).unwrap();
+      await dispatch(signup(values)).unwrap();
       console.log('success signup');
       actions.setSubmitting(false);
     } catch (err) {

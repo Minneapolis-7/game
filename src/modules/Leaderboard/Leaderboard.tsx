@@ -1,7 +1,11 @@
 import React from 'react';
 import { block } from 'bem-cn';
 
+import { Pagination } from '@/components/ui';
+import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
+
+const LEADERBOARD_PAGE_SIZE = 8;
 
 const b = block('leaderboard');
 const { leaderboard: txt } = text;
@@ -13,7 +17,7 @@ type leaderUser = {
 };
 
 type LeaderboardProps = {
-  userList: leaderUser[];
+  leaderList: leaderUser[];
 };
 
 type RowProps = {
@@ -21,7 +25,7 @@ type RowProps = {
   value: number;
 };
 
-function Leaderboard({ userList }: LeaderboardProps): JSX.Element {
+function Leaderboard({ leaderList }: LeaderboardProps): JSX.Element {
   function Row({ label, value }: RowProps): JSX.Element {
     return (
       <li>
@@ -40,12 +44,24 @@ function Leaderboard({ userList }: LeaderboardProps): JSX.Element {
         <h3>{txt.header}</h3>
       </header>
       <div className={b('content')}>
-        <ul className={b('players-list')}>
-          {userList.map((user) => {
-            return <Row key={user.id} label={user.nickname} value={user.points} />;
-          })}
-        </ul>
+        {leaderList.length ? (
+          <ul className={b('players-list')}>
+            {leaderList.map((user) => {
+              return <Row key={user.id} label={user.nickname} value={user.points} />;
+            })}
+          </ul>
+        ) : (
+          <div className={b('empty')}>{txt.empty}</div>
+        )}
       </div>
+      {leaderList.length >= LEADERBOARD_PAGE_SIZE && (
+        <Pagination
+          total={10}
+          current={1}
+          baseURL={`${paths.LEADERBOARD}/page`}
+          className={b('pagination')}
+        />
+      )}
     </div>
   );
 }
