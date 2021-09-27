@@ -7,7 +7,7 @@
   width: 320px;
   max-height: 100px;
   margin-bottom: 15px;
-  padding: 20px 10px 10px 10px;
+  padding: 10px;
   border-radius: 3px;
   background: $light-color;
   color: $dark-color;
@@ -48,9 +48,8 @@
 }
 
 .toast__image {
-  width: 34px;
+  min-width: 34px;
   height: 30px;
-  margin-right: 5px;
 }
 
 .toast__image_type_success {

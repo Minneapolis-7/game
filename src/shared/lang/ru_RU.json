@@ -52,7 +52,10 @@
     "logoutButton": "Выйти",
     "saveButton": "Сохранить",
     "editPlaceholder": "Редактировать",
-    "editAvatarTitle": "Выбрать аватар"
+    "editAvatarTitle": "Выбрать аватар",
+    "successUpdateAvatar": "Аватар успешно обновлен",
+    "successUpdateProfile": "Профиль успешно обновлен",
+    "successUpdatePassword": "Пароль успешно обновлен"
   },
   "forum": {
     "title": "Форум",

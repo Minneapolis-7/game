@@ -43,7 +43,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
       const toast = {
         id: uuidv1(),
         type: 'warning',
-        description: translateErrorMessage(err.message),
+        description: translateErrorMessage(err.reason),
         timeout: 5000,
       };
 
