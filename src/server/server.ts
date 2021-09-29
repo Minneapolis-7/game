@@ -3,6 +3,7 @@ import express from 'express';
 import path from 'path';
 
 import ssr from './middlewares/ssr';
+import sequelize from './sequelize';
 
 import settings from '../../webpack/settings';
 
@@ -14,4 +15,4 @@ app.use(compression()).use(express.static(distStatic));
 app.get('*', ssr);
 
 // eslint-disable-next-line import/prefer-default-export
-export { app };
+export { app, sequelize };
