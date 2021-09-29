@@ -27,7 +27,3 @@ node_modules/
 dist/
 
 .env
-
-# нужно ли добавлять в gitignore локальные папки?
-postgresdata
-pgadmin-data

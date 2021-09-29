@@ -1,7 +1,6 @@
 version: '3.9'
 services:
   app:
-    env_file: ./.env
     depends_on:
       - postgres
     build:
@@ -9,8 +8,6 @@ services:
     ports:
       - '${APP_PORT_HOST}:${APP_PORT}'
     restart: always
-    networks:
-      - app-network
 
   postgres:
     image: postgres:13
@@ -20,8 +17,6 @@ services:
     volumes:
       - ./postgresdata:/var/lib/postgresql/data
     restart: always
-    networks:
-      - app-network
 
   pgadmin:
     image: dpage/pgadmin4:5.7
@@ -33,12 +28,6 @@ services:
       - pgadmin-data:/var/lib/pgadmin
     depends_on:
       - postgres
-    networks:
-      - app-network
 
 volumes:
   pgadmin-data:
-
-networks:
-  app-network:
-    driver: bridge
