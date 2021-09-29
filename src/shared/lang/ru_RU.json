@@ -53,9 +53,9 @@
     "saveButton": "Сохранить",
     "editPlaceholder": "Редактировать",
     "editAvatarTitle": "Выбрать аватар",
-    "successUpdateAvatar": "Аватар успешно обновлен",
-    "successUpdateProfile": "Профиль успешно обновлен",
-    "successUpdatePassword": "Пароль успешно обновлен"
+    "updateAvatarSuccess": "Аватар успешно обновлен",
+    "updateProfileSuccess": "Профиль успешно обновлен",
+    "updatePasswordSuccess": "Пароль успешно обновлен"
   },
   "forum": {
     "title": "Форум",
@@ -159,5 +159,15 @@
       "max": "Введите не более",
       "minMaxLabel": "символов"
     }
+  },
+  "serverResponses": {
+    "User already in system": "Пользователь уже в системе",
+    "Not found": "Не найдено",
+    "login is empty, but required": "Логин не введён, обязательное поле",
+    "Email already exists": "Пользователь с таким email уже существует",
+    "Cookie is not valid": "Вы не авторизованы. Войдите или зарегистрируйтесь",
+    "phone is not valid": "Неверный формат телефона",
+    "No chat": "Не выбран чат",
+    "Login or password is incorrect": "Неправильные логин или пароль"
   }
 }

@@ -101,8 +101,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
       const toast = {
         id: uuidv1(),
         type: 'success',
-        description: text.successUpdateAvatar,
-        timeout: 5000,
+        description: text.updateAvatarSuccess,
       };
 
       appContext?.addToastMessage(toast as ToastItem);
@@ -111,7 +110,6 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
         id: uuidv1(),
         type: 'warning',
         description: translateErrorMessage(err.reason),
-        timeout: 5000,
       };
 
       appContext?.addToastMessage(toast as ToastItem);
@@ -147,8 +145,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
         const toast = {
           id: uuidv1(),
           type: 'success',
-          description: text.successUpdateProfile,
-          timeout: 5000,
+          description: text.updateProfileSuccess,
         };
 
         appContext?.addToastMessage(toast as ToastItem);
@@ -159,8 +156,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
         const toast = {
           id: uuidv1(),
           type: 'success',
-          description: text.successUpdatePassword,
-          timeout: 5000,
+          description: text.updatePasswordSuccess,
         };
 
         appContext?.addToastMessage(toast as ToastItem);
@@ -172,7 +168,6 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
         id: uuidv1(),
         type: 'warning',
         description: translateErrorMessage(err.reason),
-        timeout: 5000,
       };
 
       appContext?.addToastMessage(toast as ToastItem);

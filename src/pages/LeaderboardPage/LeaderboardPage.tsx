@@ -36,7 +36,6 @@ function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
           id: uuidv1(),
           type: 'warning',
           description: translateErrorMessage(err.reason),
-          timeout: 5000,
         };
 
         appContext?.addToastMessage(toast as ToastItem);
