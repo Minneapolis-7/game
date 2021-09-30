@@ -1,22 +1,51 @@
-import { AllowNull, BelongsTo, Column, Model, Table } from 'sequelize-typescript';
+import {
+  AllowNull,
+  BelongsTo,
+  BelongsToMany,
+  Column,
+  DataType,
+  Default,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 
-// eslint-disable-next-line import/no-cycle
-import ForumUser from './ForumUser';
+/* eslint-disable import/no-cycle */
+import { Emoji, ForumCommentEmoji, ForumThread, ForumUser } from '@/server/models';
+/* eslint-enable */
 
 @Table({
-  timestamps: false,
   modelName: 'ForumComment',
   tableName: 'ForumComments',
 })
 export default class ForumComment extends Model<ForumComment> {
   @AllowNull(false)
-  @Column
+  @Column(DataType.TEXT)
   content!: string;
 
   @AllowNull(false)
-  @Column
-  rating!: string;
+  @Default(false)
+  @Column(DataType.BOOLEAN)
+  isModified!: boolean;
+
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  parentId!: number;
+
+  @ForeignKey(() => ForumUser)
+  @Column(DataType.INTEGER)
+  forumUserId!: number;
 
   @BelongsTo(() => ForumUser)
   user?: ForumUser;
+
+  @ForeignKey(() => ForumThread)
+  @Column(DataType.INTEGER)
+  forumThreadId!: number;
+
+  @BelongsTo(() => ForumThread)
+  thread?: ForumThread;
+
+  @BelongsToMany(() => Emoji, () => ForumCommentEmoji)
+  emojis!: Emoji[];
 }

@@ -1,34 +1,46 @@
-import { AllowNull, Column, HasMany, Index, Model, Table } from 'sequelize-typescript';
+import {
+  AllowNull,
+  Column,
+  DataType,
+  Default,
+  HasMany,
+  Index,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 
-// eslint-disable-next-line import/no-cycle
-import ForumComment from './ForumComment';
-// eslint-disable-next-line import/no-cycle
-import ForumThread from './ForumThread';
+/* eslint-disable import/no-cycle */
+import { ForumComment, ForumThread } from '@/server/models';
+/* eslint-enable */
 
 @Table({
-  timestamps: false,
   modelName: 'ForumUser',
   tableName: 'ForumUsers',
 })
 export default class ForumUser extends Model<ForumUser> {
   @AllowNull(false)
   @Index
-  @Column
+  @Column(DataType.INTEGER)
   yandexUserId!: number;
 
   @AllowNull(false)
-  @Column
+  @Column(DataType.TEXT)
   firstName!: string;
 
   @AllowNull(false)
-  @Column
+  @Column(DataType.TEXT)
   secondName!: string;
 
-  @Column
+  @Column(DataType.TEXT)
   displayName?: string;
 
-  @Column
+  @Column(DataType.TEXT)
   avatarUrl?: string;
+
+  @AllowNull(false)
+  @Default(false)
+  @Column(DataType.BOOLEAN)
+  isOnline!: boolean;
 
   @HasMany(() => ForumComment)
   comments?: ForumComment[];
