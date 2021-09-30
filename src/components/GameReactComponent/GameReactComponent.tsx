@@ -1,13 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { block } from 'bem-cn';
 
-import Control from '@/game/entities/Control';
-import Game from '@/game/entities/Game';
-import Sprite from '@/game/entities/Sprite';
-import View from '@/game/entities/View';
-import World from '@/game/entities/World';
-import levels from '@/game/levels';
-import { GAME_CONFIG, SPRITES_FILE } from '@/game/shared/constants';
+import game from '@/game';
+import { GAME_CONFIG } from '@/game/shared/constants';
 import { GameState } from '@/game/types';
 import GameOverlay from '@/modules/GameOverlay';
 
@@ -16,11 +11,10 @@ import './game-react-component.scss';
 const b = block('game-react-component');
 
 type GameProps = {
-  startLevelIndex?: number;
-  onStateUpdate: (gameState: GameState | null) => void;
+  onStateUpdate: (gameSession: GameState | null) => void;
 };
 
-function GameReactComponent({ startLevelIndex = 0, onStateUpdate }: GameProps): JSX.Element {
+function GameReactComponent({ onStateUpdate }: GameProps): JSX.Element {
   const [gameState, setGameState] = useState<GameState | null>(null);
   const gameCanvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -35,22 +29,18 @@ function GameReactComponent({ startLevelIndex = 0, onStateUpdate }: GameProps): 
       return;
     }
 
-    const game = new Game({
-      world: new World(),
-      view: new View(gameCanvasRef.current, new Sprite(SPRITES_FILE)),
-      control: new Control(),
-      levels,
-      startLevelIndex,
-      // Отрисовывать отладочную графику
-      isDebugDraw: false,
-      onStateUpdate: setGameState,
-    });
+    game.view.registerCanvas(gameCanvasRef.current);
+    game.onStateUpdate = setGameState;
 
-    game.init();
+    if (!game.isLoaded) {
+      game.init();
+    } else {
+      game.reset();
+    }
 
     // eslint-disable-next-line consistent-return
-    return () => game.destroy();
-  }, [startLevelIndex]);
+    return () => game.stop();
+  }, []);
 
   return (
     <div className={b()}>
