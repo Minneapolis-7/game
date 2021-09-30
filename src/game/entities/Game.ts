@@ -7,6 +7,7 @@ import Sprite from '@/game/entities/Sprite';
 import View from '@/game/entities/View';
 import World from '@/game/entities/World';
 import { GAME_SESSION_KEY, SPRITE_HEIGHT, SPRITE_WIDTH } from '@/game/shared/constants';
+import text from '@/shared/const/text';
 
 import { SPRITE_ID } from '../sprites';
 import {
@@ -25,7 +26,7 @@ export default class Game {
   public registeredLevels: LevelRegisterOptions[];
   public sprites: Record<number | string, Sprite>;
   public sounds: Record<number | string, SoundSample>;
-  public gameObjectConstructors: Record<number | string, GameObjectRegisterOptions>;
+  public gameObjectOptions: Record<number | string, GameObjectRegisterOptions>;
   public world: World;
   public control: Control;
   public player: Player;
@@ -54,7 +55,7 @@ export default class Game {
 
     this.sprites = {};
     this.sounds = {};
-    this.gameObjectConstructors = {};
+    this.gameObjectOptions = {};
 
     this.control = new Control();
     this.world = new World();
@@ -91,7 +92,7 @@ export default class Game {
 
   private prepareSprite = (sprite: Sprite) => {
     if (this.sprites[sprite.id]) {
-      throw Error('Идентификатор спрайтов должен быть уникальным');
+      throw Error(text.game.errors.uniqueSprite);
     }
 
     this.sprites[sprite.id] = sprite;
@@ -102,15 +103,13 @@ export default class Game {
 
     sprites.forEach(this.prepareSprite);
 
-    const loads = sprites.map((sprite) => sprite.load());
-
-    await Promise.all(loads);
+    await Promise.all(sprites.map((sprite) => sprite.load()));
     this.isLoaded = true;
   }
 
   private prepareSound = (sound: SoundSample): void => {
     if (this.sounds[sound.id]) {
-      throw Error('Идентификатор звуков должен быть уникальным');
+      throw Error(text.game.errors.loadingSound);
     }
 
     this.sound?.add(sound);
@@ -119,25 +118,23 @@ export default class Game {
   private async prepareSounds() {
     const sounds = this.registeredSounds.map((options) => new SoundSample(options));
 
-    const loads = sounds.map((sound) => sound.load());
-
-    await Promise.all(loads);
+    await Promise.all(sounds.map((sound) => sound.load()));
     sounds.forEach(this.prepareSound);
     this.isLoaded = true;
   }
 
   private prepareGameObject = (gameObject: GameObjectRegisterOptions) => {
-    if (this.gameObjectConstructors[gameObject.id]) {
-      throw Error('Идентификатор игровых объектов должен быть уникальным');
+    if (this.gameObjectOptions[gameObject.id]) {
+      throw Error(text.game.errors.loadingSound);
     }
 
-    this.gameObjectConstructors[gameObject.id] = gameObject;
+    this.gameObjectOptions[gameObject.id] = gameObject;
   };
 
   private prepareGameObjects() {
     this.registeredGameObjects.forEach(this.prepareGameObject);
 
-    return this.gameObjectConstructors;
+    return this.gameObjectOptions;
   }
 
   private prepareLevel() {
@@ -149,18 +146,18 @@ export default class Game {
 
     const levelObjects = currentRegisterLevel.map.map((row, rowIndex) => {
       return row.map((objectId, colIndex) => {
-        if (!this.gameObjectConstructors[objectId]) {
-          throw Error(`Ошибка создания уровня. Игровой блок "${objectId}" не зарегистрирован`);
+        if (!this.gameObjectOptions[objectId]) {
+          throw Error(`${text.game.errors.unregisteredGameObject} "${objectId}"`);
         }
 
-        const { spriteId } = this.gameObjectConstructors[objectId];
+        const { spriteId } = this.gameObjectOptions[objectId];
 
         if (!this.sprites[spriteId]) {
-          throw Error(`Ошибка создания уровня. Спрайт "${spriteId}" не зарегистрирован`);
+          throw Error(`${text.game.errors.unregisteredSprite} "${spriteId}"`);
         }
 
         return new GameObject({
-          ...this.gameObjectConstructors[objectId],
+          ...this.gameObjectOptions[objectId],
           sprite: this.sprites[spriteId],
           x: colIndex * SPRITE_WIDTH,
           y: rowIndex * SPRITE_HEIGHT,
@@ -201,7 +198,7 @@ export default class Game {
 
   get gameEntities(): GameEntities {
     return {
-      gameObjects: this.gameObjectConstructors,
+      gameObjects: this.gameObjectOptions,
       control: this.control,
       world: this.world,
       player: this.player,
@@ -231,7 +228,7 @@ export default class Game {
   }
 
   resetGameObjects(): void {
-    this.gameObjectConstructors = {};
+    this.gameObjectOptions = {};
     this.prepareGameObjects();
   }
 
@@ -257,11 +254,5 @@ export default class Game {
     this.sound.stop(this.registeredLevels[0].music);
 
     window.cancelAnimationFrame(this.requestAnimationId);
-  }
-
-  destroy(): void {
-    this.stop();
-    this.player.restoreDefault();
-    this._resetGameState();
   }
 }

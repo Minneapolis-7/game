@@ -1,3 +1,5 @@
+import text from '@/shared/const/text';
+
 export type SoundSampleConstructorOptions = {
   id: number | string;
   src: string;
@@ -25,7 +27,7 @@ export default class SoundSample {
 
       return this;
     } catch (error) {
-      throw new Error('Не удалось получить звук');
+      throw new Error(text.game.errors.loadingSound);
     }
   }
 }

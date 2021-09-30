@@ -11,11 +11,10 @@ import './game-react-component.scss';
 const b = block('game-react-component');
 
 type GameProps = {
-  startLevelIndex?: number;
   onStateUpdate: (gameSession: GameState | null) => void;
 };
 
-function GameReactComponent({ startLevelIndex = 0, onStateUpdate }: GameProps): JSX.Element {
+function GameReactComponent({ onStateUpdate }: GameProps): JSX.Element {
   const [gameState, setGameState] = useState<GameState | null>(null);
   const gameCanvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -41,7 +40,7 @@ function GameReactComponent({ startLevelIndex = 0, onStateUpdate }: GameProps): 
 
     // eslint-disable-next-line consistent-return
     return () => game.stop();
-  }, [startLevelIndex]);
+  }, []);
 
   return (
     <div className={b()}>

@@ -40,6 +40,7 @@ export default class World {
 
   destroy(): void {
     this.levelObjects = [];
+    this.lastOveredGameObject = null;
   }
 
   // Проверка коллизии. p* положение hitbox c коллизией, op* (offset position) без коллизии

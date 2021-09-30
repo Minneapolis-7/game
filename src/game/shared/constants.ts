@@ -8,7 +8,6 @@ export const CONTROL_KEY = {
   LEFT: 'left',
   RIGHT: 'right',
   SPACE: 'space',
-  R: 'r',
 } as const;
 
 export const HIT_BOX_KEY = {
@@ -47,4 +46,8 @@ export const GAME_CONFIG = {
   PLAYER_JUMP_POWER: 2.5,
   // Максимальное здоровье
   MAX_HEALTH: 3,
+  // Длительность кадра фреймовых анимаций по-умолчанию в ms
+  SPRITE_ANIMATION_FRAME_DURATION: 1000 / 60,
+  // Векторная скорость выше которой спрайт персонажа поворачивается в сторону вектора
+  PLAYER_MOVEMENT_SPITE_SENSITIVITY: 0.2,
 } as const;

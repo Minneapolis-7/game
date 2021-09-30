@@ -215,9 +215,9 @@ export default class Player {
     }
 
     // Спрайт при движении
-    if (this.vx > 0.2) {
+    if (this.vx > GAME_CONFIG.PLAYER_MOVEMENT_SPITE_SENSITIVITY) {
       this.setSpriteFrame(1);
-    } else if (this.vx < -0.2) {
+    } else if (this.vx < -GAME_CONFIG.PLAYER_MOVEMENT_SPITE_SENSITIVITY) {
       this.setSpriteFrame(2);
     } else {
       this.setSpriteFrame(0);
