@@ -7,15 +7,23 @@ type DecodedSoundSample = {
 };
 
 export default class SoundController {
-  ctx: AudioContext;
+  ctx: AudioContext | null;
   decodedSamples: Record<number | string, DecodedSoundSample>;
 
   constructor() {
-    this.ctx = new AudioContext();
+    this.ctx = null;
     this.decodedSamples = {};
   }
 
+  init(): void {
+    this.ctx = new AudioContext();
+  }
+
   async add(soundSample: SoundSample): Promise<void> {
+    if (!this.ctx) {
+      return;
+    }
+
     this.decodedSamples[soundSample.id] = {
       buffer: this.ctx.decodeAudioData(soundSample.buffer),
       isLooped: soundSample.isLooped,
@@ -24,7 +32,7 @@ export default class SoundController {
   }
 
   async play(id: string): Promise<void> {
-    if (!this.decodedSamples[id]) {
+    if (!this.decodedSamples[id] || !this.ctx) {
       return;
     }
 
@@ -50,6 +58,10 @@ export default class SoundController {
   }
 
   destroy(): void {
+    if (!this.ctx) {
+      return;
+    }
+
     this.decodedSamples = {};
     this.ctx.close();
   }

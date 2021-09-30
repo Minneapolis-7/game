@@ -175,6 +175,7 @@ export default class Game {
   }
 
   async init(callback?: (gameEntities: GameEntities) => void): Promise<void> {
+    this.sound.init();
     await this.prepareSprites();
     await this.prepareSounds();
     this.start();
