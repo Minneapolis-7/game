@@ -180,6 +180,10 @@ $button-spinner-size: 1.125em;
 }
 
 // Размеры (все размерности шрифтозависимы, потому можно просто поменять `font-size`)
+.button_sizing_xs {
+  font-size: $font-size-xs;
+}
+
 .button_sizing_sm {
   font-size: $font-size-sm;
 }

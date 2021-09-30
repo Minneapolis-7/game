@@ -7,3 +7,4 @@ export { default as Avatar } from './Avatar';
 export { default as Filepick } from './Filepick';
 export { default as Pagination } from './Pagination';
 export { default as Spinner } from './Spinner';
+export { default as Toaster } from './Toaster';

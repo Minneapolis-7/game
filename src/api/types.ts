@@ -1,5 +1,7 @@
 import { User } from '@/shared/types/types';
 
+export type UserProfile = Omit<User, 'password'>;
+
 export type SignInRequest = {
   login: string;
   password: string;
@@ -7,13 +9,40 @@ export type SignInRequest = {
 
 export type SignUpRequest = Omit<User, 'id' | 'displayName' | 'avatar'>;
 
-export type GetProfileRequest = Omit<User, 'password'>;
-
-export type UpdateProfileRequest = Omit<User, 'id' | 'password' | 'avatar'>;
-
-export type UpdateProfileResponse = Omit<User, 'password'>;
+export type UpdateProfileRequest = Omit<UserProfile, 'id' | 'avatar'>;
 
 export type UpdatePasswordRequest = {
   oldPassword: string;
   newPassword: string;
+};
+
+export type OAuthClientIdRequest = {
+  redirectUri: string;
+};
+
+export type OauthSignInRequest = {
+  code: string;
+  redirectUri: string;
+};
+
+export type Leader = {
+  id: number;
+  nickname: string;
+  points: number;
+};
+
+export type NewLeaderData = {
+  data: Leader;
+  ratingFieldName: string;
+};
+
+export type LeaderboardRequest = {
+  ratingFieldName: string;
+  cursor: number;
+  limit: number;
+};
+
+export type TeamLeaderboardRequest = {
+  teamName: string;
+  value: LeaderboardRequest;
 };

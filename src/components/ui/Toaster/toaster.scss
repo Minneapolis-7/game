@@ -1,0 +1,26 @@
+@use 'src/css/abstracts/variables' as *;
+
+.toaster {
+  position: fixed;
+  z-index: $z-index-notification;
+}
+
+.toaster_position_top-right {
+  top: 12px;
+  right: 12px;
+}
+
+.toaster_position_bottom-right {
+  right: 12px;
+  bottom: 12px;
+}
+
+.toaster_position_top-left {
+  top: 12px;
+  left: 12px;
+}
+
+.toaster_position_bottom-left {
+  bottom: 12px;
+  left: 12px;
+}

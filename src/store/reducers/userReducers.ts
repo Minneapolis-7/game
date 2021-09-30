@@ -6,59 +6,53 @@ import {
   SignUpRequest,
   UpdatePasswordRequest,
   UpdateProfileRequest,
+  UserProfile,
 } from '@/api/types';
 import api from '@/api/userApi';
-import { User } from '@/shared/types/types';
-import type { RootState } from '@/store/store';
+import { RootState } from '@/shared/types/redux';
 
-const initialState: User = {
+export const initialState: UserProfile = {
   id: null,
   firstName: '',
   secondName: '',
   displayName: null,
   login: '',
   email: '',
-  password: '',
   phone: '',
   avatar: null,
 };
 
-export const signinRequest = createAsyncThunk('user/signinRequest', async (user: SignInRequest) => {
-  await api.signin(user);
+export const signin = createAsyncThunk('user/signin', async (user: SignInRequest) => {
+  return api.signin(user);
 });
 
-export const signupRequest = createAsyncThunk('user/signupRequest', async (user: SignUpRequest) => {
-  const response = await api.signup(user);
-
-  return response;
+export const signup = createAsyncThunk('user/signup', async (user: SignUpRequest) => {
+  return api.signup(user);
 });
 
-export const logoutRequest = createAsyncThunk('user/logoutRequest', async () => {
-  await api.logout();
+export const logout = createAsyncThunk('user/logout', async () => {
+  return api.logout();
 });
 
-export const updateProfileRequest = createAsyncThunk(
-  'user/updateProfileRequest',
+export const userRequest = createAsyncThunk('user/userRequest', async () => {
+  return api.getUser();
+});
+
+export const updateProfile = createAsyncThunk(
+  'user/updateProfile',
   async (user: UpdateProfileRequest) => {
-    const response = await api.updateProfile(user);
-
-    return response;
+    return api.updateProfile(user);
   }
 );
 
-export const updateAvatarRequest = createAsyncThunk(
-  'user/updateAvatarRequest',
-  async (formData: FormData) => {
-    const response = await api.updateAvatar(formData);
+export const updateAvatar = createAsyncThunk('user/updateAvatar', async (formData: FormData) => {
+  return api.updateAvatar(formData);
+});
 
-    return response;
-  }
-);
-
-export const updatePasswordRequest = createAsyncThunk(
-  'user/logoutRequest',
+export const updatePassword = createAsyncThunk(
+  'user/logout',
   async (password: UpdatePasswordRequest) => {
-    await api.updatePassword(password);
+    return api.updatePassword(password);
   }
 );
 
@@ -68,19 +62,22 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(signupRequest.fulfilled, (state, action) => {
+      .addCase(signup.fulfilled, (state, action) => {
         state.id = action.payload;
       })
-      .addCase(updateProfileRequest.fulfilled, (state, action) => {
+      .addCase(updateProfile.fulfilled, (state, action) => {
         state = { ...state, ...action.payload };
       })
-      .addCase(updateAvatarRequest.fulfilled, (state, action) => {
+      .addCase(updateAvatar.fulfilled, (state, action) => {
         state.avatar = action.payload.avatar;
+      })
+      .addCase(userRequest.fulfilled, (state, action) => {
+        Object.assign(state, action.payload);
       });
   },
 });
 
-export const userState = (state: RootState): User => ({
+export const userState = (state: RootState): UserProfile => ({
   ...state.user,
 });
 

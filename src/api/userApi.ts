@@ -1,11 +1,10 @@
 import { apiYandex } from './api';
 import {
-  GetProfileRequest,
   SignInRequest,
   SignUpRequest,
   UpdatePasswordRequest,
   UpdateProfileRequest,
-  UpdateProfileResponse,
+  UserProfile,
 } from './types';
 
 export default {
@@ -23,20 +22,20 @@ export default {
     await apiYandex.post('/auth/logout');
   },
 
-  async getUser(): Promise<GetProfileRequest> {
+  async getUser(): Promise<UserProfile> {
     const { data } = await apiYandex.get('/auth/user');
 
     return data;
   },
 
-  async updateProfile(user: UpdateProfileRequest): Promise<UpdateProfileResponse> {
-    const { data } = await apiYandex.put<UpdateProfileResponse>('/user/profile', user);
+  async updateProfile(user: UpdateProfileRequest): Promise<UserProfile> {
+    const { data } = await apiYandex.put<UserProfile>('/user/profile', user);
 
     return data;
   },
 
-  async updateAvatar(formData: FormData): Promise<UpdateProfileResponse> {
-    const { data } = await apiYandex.put<UpdateProfileResponse>('/user/profile/avatar', formData);
+  async updateAvatar(formData: FormData): Promise<UserProfile> {
+    const { data } = await apiYandex.put<UserProfile>('/user/profile/avatar', formData);
 
     return data;
   },

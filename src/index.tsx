@@ -2,15 +2,20 @@
 // eslint-disable-next-line simple-import-sort/imports
 import '@/css/main.scss';
 
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
+import { Route, Switch } from 'react-router-dom';
 
 import ProtectedRoute from '@/modules/ProtectedRoute';
 import RootErrorBoundary from '@/modules/RootErrorBoundary';
 import routes from '@/shared/const/routes';
-import store from '@/store/store';
+import initStore from '@/store/store';
+import { RootState } from '@/shared/types/redux';
+import { ToastItem } from '@/components/ui/Toaster/Toast/types';
+import AppContext from './AppContext';
+import { Toaster } from '@/components/ui';
 
 function startServiceWorker() {
   if ('serviceWorker' in navigator) {
@@ -24,31 +29,67 @@ function startServiceWorker() {
   }
 }
 
-startServiceWorker();
+if (process.env.NODE_ENV === 'production') {
+  startServiceWorker();
+}
 
-ReactDOM.render(
-  <Provider store={store}>
-    <RootErrorBoundary>
-      <Router>
-        <Switch>
-          {routes.map((route) => {
-            const Component = route.component;
+declare global {
+  interface Window {
+    __INITIAL_STATE__?: RootState;
+  }
+  type AppDispatch = typeof store.dispatch;
+}
 
-            let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
+const { store, history } = initStore(window.__INITIAL_STATE__!);
 
-            if (route.protected) {
-              RouteComponent = ProtectedRoute;
-            }
+delete window.__INITIAL_STATE__;
 
-            return (
-              <RouteComponent key={route.path} path={route.path} exact={route.exact}>
-                <Component title={route.title} />
-              </RouteComponent>
-            );
-          })}
-        </Switch>
-      </Router>
-    </RootErrorBoundary>
-  </Provider>,
-  document.getElementById('root')
-);
+function App(): JSX.Element {
+  const [toastList, setToastList] = useState<Array<ToastItem>>([]);
+
+  const ctx = {
+    addToastMessage(toast: ToastItem) {
+      setToastList((oldToastList) => [...oldToastList, toast]);
+    },
+    removeToastMessage(id: string) {
+      setToastList((oldToastList) => {
+        const toastListItem = oldToastList.findIndex((e) => e.id === id);
+
+        oldToastList.splice(toastListItem, 1);
+
+        return [...oldToastList];
+      });
+    },
+  };
+
+  return (
+    <Provider store={store}>
+      <AppContext.Provider value={ctx}>
+        <ConnectedRouter history={history}>
+          <RootErrorBoundary>
+            <Switch>
+              {routes.map((route) => {
+                const Component = route.component;
+
+                let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
+
+                if (route.protected) {
+                  RouteComponent = ProtectedRoute;
+                }
+
+                return (
+                  <RouteComponent key={route.path} path={route.path} exact={route.exact}>
+                    <Component title={route.title || ''} />
+                  </RouteComponent>
+                );
+              })}
+            </Switch>
+          </RootErrorBoundary>
+        </ConnectedRouter>
+        <Toaster toastList={toastList} position="bottom-right" />
+      </AppContext.Provider>
+    </Provider>
+  );
+}
+
+ReactDOM.hydrate(<App />, document.getElementById('root'));

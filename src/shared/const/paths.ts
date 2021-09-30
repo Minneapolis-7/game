@@ -9,6 +9,8 @@ const paths = {
   FORUM_THREAD: '/forum/section/thread/id',
   FORUM_THREAD_CREATE: '/forum/section/thread/create',
   LEADERBOARD: '/leaderboard',
+  SERVER_ERROR: '/server-error',
+  NOT_FOUND: '/not-found',
 };
 
 export default paths;
