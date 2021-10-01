@@ -9,8 +9,8 @@ import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
-import { updateAvatar, updatePassword, updateProfile } from '@/store/reducers';
-import { useAppDispatch } from '@/store/store';
+import { logout, updateAvatar, updatePassword, updateProfile } from '@/store/reducers';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import { PasswordFieldsSchema, ProfileFieldsSchema } from './schema';
 import { actionType } from './types';
@@ -98,6 +98,15 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
       console.log('error', `Запрос завершился ошибкой: ${err.message}`);
     }
   }, []);
+
+  const doLogout = useCallback(async () => {
+    try {
+      await dispatch(logout()).unwrap();
+    } catch (e) {
+      throw new Error(e);
+    }
+  }, []);
+  const isLoggingOut = useAppSelector((state) => state.user.isLoggingOut);
 
   let initialValues = {};
   let validationSchema = {};
@@ -237,7 +246,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                       </tr>
                       <tr className={b('table-row')}>
                         <td colSpan={2} className={b('table-cell')}>
-                          <Button className="js-profile__logout" theme="link-danger">
+                          <Button onClick={doLogout} waiting={isLoggingOut} theme="link-danger">
                             {txt.logoutButton}
                           </Button>
                         </td>

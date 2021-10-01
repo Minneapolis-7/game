@@ -1,15 +1,20 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
+import { v1 as uuidv1 } from 'uuid';
 
+import AppContext from '@/AppContext';
 import { Input } from '@/components/formik-ui';
-import { Button } from '@/components/ui';
+import { Button, Spinner } from '@/components/ui';
+import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import Page from '@/layout/Page';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
+import translateErrorMessage from '@/shared/utils';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
+import useBeingLoggedIn from '@/shared/utils/hooks/useBeingLoggedIn';
 import { signup } from '@/store/reducers';
 import { useAppDispatch } from '@/store/store';
 
@@ -21,22 +26,36 @@ const registerInitialValues = {
   login: '',
   firstName: '',
   secondName: '',
+  phone: '',
   password: '',
   passwordRepeat: '',
 };
 const { register: txt } = text;
 
 function RegisterPage({ title }: GenericPageProps): JSX.Element {
+  const appContext = useContext(AppContext);
   const dispatch = useAppDispatch();
   const submitRegister = useCallback(async (values, actions) => {
     try {
       await dispatch(signup(values)).unwrap();
-      console.log('success signup');
       actions.setSubmitting(false);
     } catch (err) {
-      console.log('error', `Запрос завершился ошибкой: ${err.message}`);
+      const toast = {
+        id: uuidv1(),
+        type: 'warning',
+        description: translateErrorMessage(err.message),
+        timeout: 5000,
+      };
+
+      appContext?.addToastMessage(toast as ToastItem);
     }
   }, []);
+
+  const isChecking = useBeingLoggedIn();
+
+  if (isChecking) {
+    return <Spinner size="xl" />;
+  }
 
   return (
     <>
@@ -86,6 +105,15 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
                     autoComplete="family-name"
                     id="secondName"
                     name="secondName"
+                  />
+                  <Input
+                    className="gap-y-lg"
+                    hint={txt.phoneLabel}
+                    required
+                    type="tel"
+                    autoComplete="tel"
+                    id="phone"
+                    name="phone"
                   />
                   <Input
                     type="password"

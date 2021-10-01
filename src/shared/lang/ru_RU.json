@@ -31,6 +31,7 @@
     "loginLabel": "Логин",
     "firstNameLabel": "Имя",
     "secondNameLabel": "Фамилия",
+    "phoneLabel": "Телефон",
     "passwordLabel": "Пароль",
     "passwordRepeatLabel": "Повторите пароль",
     "loginLink": "Войти"
@@ -149,6 +150,7 @@
     "errors": {
       "required": "Заполните поле",
       "email": "Укажите email",
+      "phone": "Укажите телефон в формате +7(XXX)XXX-XX-XX",
       "passwordRepeat": "Повторите пароль",
       "min": "Введите более",
       "max": "Введите не более",
