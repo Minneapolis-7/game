@@ -9,10 +9,9 @@ import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
-import useProgress from '@/shared/utils/hooks/useProgress';
 import { updateAvatarRequest, updatePasswordRequest, updateProfileRequest } from '@/store/reducers';
 import { logoutRequest } from '@/store/reducers/userReducers';
-import { useAppDispatch } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import { PasswordFieldsSchema, ProfileFieldsSchema } from './schema';
 import { actionType } from './types';
@@ -101,13 +100,14 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
     }
   }, []);
 
-  const [isLoggingOut, logout] = useProgress(async () => {
+  const logout = useCallback(async () => {
     try {
       await dispatch(logoutRequest()).unwrap();
     } catch (e) {
       throw new Error(e);
     }
-  });
+  }, []);
+  const isLoggingOut = useAppSelector((state) => state.user.isLoggingOut);
 
   let initialValues = {};
   let validationSchema = {};

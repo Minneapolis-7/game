@@ -11,9 +11,13 @@ import {
 } from '@/api/types';
 import api from '@/api/userApi';
 import paths from '@/shared/const/paths';
-import { RootState } from '@/shared/types/redux';
+import type { RootState } from '@/shared/types/redux';
 
-export const initialState: UserProfile = {
+export type UserState = UserProfile & {
+  isLoggingOut: boolean;
+};
+
+export const initialState: UserState = {
   id: null,
   firstName: '',
   secondName: '',
@@ -22,6 +26,7 @@ export const initialState: UserProfile = {
   email: '',
   phone: '',
   avatar: null,
+  isLoggingOut: false,
 };
 
 export const userRequest = createAsyncThunk('user/userRequest', async () => {
@@ -30,30 +35,32 @@ export const userRequest = createAsyncThunk('user/userRequest', async () => {
 
 export const signinRequest = createAsyncThunk(
   'user/signinRequest',
-  async (user: SignInRequest, thunkAPI) => {
+  async (user: SignInRequest, { dispatch }) => {
     await api.signin(user);
-    await thunkAPI.dispatch(userRequest());
+    await dispatch(userRequest());
 
-    thunkAPI.dispatch(replace('/'));
+    dispatch(replace('/'));
   }
 );
 
 export const signupRequest = createAsyncThunk(
   'user/signupRequest',
-  async (user: SignUpRequest, thunkAPI) => {
+  async (user: SignUpRequest, { dispatch }) => {
     await api.signup(user);
-    await thunkAPI.dispatch(userRequest());
+    await dispatch(userRequest());
 
-    thunkAPI.dispatch(replace('/'));
+    dispatch(replace('/'));
   }
 );
 
-export const logoutRequest = createAsyncThunk('user/logoutRequest', async (_unused, thunkAPI) => {
-  await api.logout();
+export const logoutRequest = createAsyncThunk(
+  'user/logoutRequest',
+  async (_unused, { dispatch }) => {
+    await api.logout();
 
-  // подождать пока `useProgress` исполнится
-  setTimeout(() => thunkAPI.dispatch(replace(paths.LOGIN)), 0);
-});
+    dispatch(replace(paths.LOGIN));
+  }
+);
 
 export const updateProfileRequest = createAsyncThunk(
   'user/updateProfileRequest',
@@ -82,6 +89,12 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      .addCase(logoutRequest.pending, (state) => {
+        state.isLoggingOut = true;
+      })
+      .addCase(logoutRequest.rejected, (state) => {
+        state.isLoggingOut = false;
+      })
       .addCase(logoutRequest.fulfilled, (state) => {
         Object.assign(state, initialState);
       })
@@ -97,7 +110,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const userState = (state: RootState): UserProfile => ({
+export const userState = (state: RootState): UserState => ({
   ...state.user,
 });
 
