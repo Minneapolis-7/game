@@ -33,51 +33,39 @@ export const userRequest = createAsyncThunk('user/userRequest', async () => {
   return api.getUser();
 });
 
-export const signinRequest = createAsyncThunk(
-  'user/signinRequest',
-  async (user: SignInRequest, { dispatch }) => {
-    await api.signin(user);
-    await dispatch(userRequest());
+export const signin = createAsyncThunk('user/signin', async (user: SignInRequest, { dispatch }) => {
+  await api.signin(user);
+  await dispatch(userRequest());
 
-    dispatch(replace('/'));
-  }
-);
+  dispatch(replace('/'));
+});
 
-export const signupRequest = createAsyncThunk(
-  'user/signupRequest',
-  async (user: SignUpRequest, { dispatch }) => {
-    await api.signup(user);
-    await dispatch(userRequest());
+export const signup = createAsyncThunk('user/signup', async (user: SignUpRequest, { dispatch }) => {
+  await api.signup(user);
+  await dispatch(userRequest());
 
-    dispatch(replace('/'));
-  }
-);
+  dispatch(replace('/'));
+});
 
-export const logoutRequest = createAsyncThunk(
-  'user/logoutRequest',
-  async (_unused, { dispatch }) => {
-    await api.logout();
+export const logout = createAsyncThunk('user/logout', async (_unused, { dispatch }) => {
+  await api.logout();
 
-    dispatch(replace(paths.LOGIN));
-  }
-);
+  dispatch(replace(paths.LOGIN));
+});
 
-export const updateProfileRequest = createAsyncThunk(
-  'user/updateProfileRequest',
+export const updateProfile = createAsyncThunk(
+  'user/updateProfile',
   async (user: UpdateProfileRequest) => {
     return api.updateProfile(user);
   }
 );
 
-export const updateAvatarRequest = createAsyncThunk(
-  'user/updateAvatarRequest',
-  async (formData: FormData) => {
-    return api.updateAvatar(formData);
-  }
-);
+export const updateAvatar = createAsyncThunk('user/updateAvatar', async (formData: FormData) => {
+  return api.updateAvatar(formData);
+});
 
-export const updatePasswordRequest = createAsyncThunk(
-  'user/logoutRequest',
+export const updatePassword = createAsyncThunk(
+  'user/logout',
   async (password: UpdatePasswordRequest) => {
     return api.updatePassword(password);
   }
@@ -89,19 +77,19 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(logoutRequest.pending, (state) => {
+      .addCase(logout.pending, (state) => {
         state.isLoggingOut = true;
       })
-      .addCase(logoutRequest.rejected, (state) => {
+      .addCase(logout.rejected, (state) => {
         state.isLoggingOut = false;
       })
-      .addCase(logoutRequest.fulfilled, (state) => {
+      .addCase(logout.fulfilled, (state) => {
         Object.assign(state, initialState);
       })
-      .addCase(updateProfileRequest.fulfilled, (state, action) => {
+      .addCase(updateProfile.fulfilled, (state, action) => {
         Object.assign(state, action.payload);
       })
-      .addCase(updateAvatarRequest.fulfilled, (state, action) => {
+      .addCase(updateAvatar.fulfilled, (state, action) => {
         state.avatar = action.payload.avatar;
       })
       .addCase(userRequest.fulfilled, (state, action) => {

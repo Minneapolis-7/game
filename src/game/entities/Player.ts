@@ -1,158 +1,226 @@
+import Sprite from '@/game/entities/Sprite';
 import {
+  CANVAS_HEIGHT,
+  CANVAS_WIDTH,
   GAME_CONFIG,
-  PLAYER_SPRITE_COORDS,
-  SPRITE_SIZE_X,
-  SPRITE_SIZE_Y,
+  SPRITE_HEIGHT,
+  SPRITE_WIDTH,
 } from '@/game/shared/constants';
-import { ControlKeysState, PlayerHitBox, PlayerPosition } from '@/game/types';
-
-type World = import('@/game/entities/World').default;
+import { GameEntities, Height, HitBox, Position, VX, VY, Width, X, Y } from '@/game/types';
 
 export default class Player {
-  public x: number;
-  public y: number;
+  public x: X;
+  public y: Y;
+  public width: Width;
+  public height: Height;
   public speed: number;
   public jumpPower: number;
-  public velocityX: number;
-  public velocityY: number;
   public isJumping: boolean;
-  public sprite: [number, number];
-  public hitBox: PlayerHitBox;
+  public vx: VX;
+  public vy: VY;
+  public sprite?: Sprite;
+  public spriteFrame: number;
+  public spriteWidth: Width;
+  public spriteHeight: Height;
+  public hitBox: HitBox;
+  public default: {
+    x: X;
+    y: Y;
+    vx: VX;
+    vy: VY;
+    width: Width;
+    height: Height;
+    speed: number;
+    jumpPower: number;
+  };
 
   constructor() {
     // Стартовые координаты персонажа
-    this.x = 32;
-    this.y = 256;
-    this.speed = 0;
-    this.jumpPower = 0;
+    this.x = 0;
+    this.y = 0;
+
+    this.width = SPRITE_WIDTH;
+    this.height = SPRITE_HEIGHT;
+
+    this.speed = GAME_CONFIG.PLAYER_SPEED;
+    this.jumpPower = GAME_CONFIG.PLAYER_JUMP_POWER;
+
     // Векторная скорость персонажа
-    this.velocityX = 0;
-    this.velocityY = 0;
+    this.vx = 0;
+    this.vy = 0;
+
     this.isJumping = false;
-    this.sprite = PLAYER_SPRITE_COORDS.STATIONARY;
 
     this.hitBox = {
       top: 0,
-      right: 0,
-      bottom: 0,
+      right: CANVAS_WIDTH,
+      bottom: CANVAS_HEIGHT,
       left: 0,
     };
 
-    this.resetToDefault();
-  }
-
-  resetToDefault(): void {
-    this.speed = GAME_CONFIG.PLAYER_SPEED;
-    this.jumpPower = GAME_CONFIG.PLAYER_JUMP_POWER;
-  }
-
-  get position(): PlayerPosition {
-    const x = Math.round(this.x / SPRITE_SIZE_X);
-    const y = Math.round(this.y / SPRITE_SIZE_Y);
-
-    return {
-      // Положение игрока (координаты по тайлам)
-      x,
-      y,
-      // Соседние тайлы с игроком (координаты по тайлам)
-      top: y - 1,
-      right: x + 1,
-      bottom: y + 1,
-      left: x - 1,
+    this.default = {
+      x: this.x,
+      y: this.y,
+      vx: this.vx,
+      vy: this.vy,
+      width: this.width,
+      height: this.height,
+      speed: this.speed,
+      jumpPower: this.jumpPower,
     };
+
+    this.spriteWidth = 0;
+    this.spriteHeight = 0;
+    this.spriteFrame = 0;
   }
 
-  setHitBox(hitBox: PlayerHitBox): void {
-    const { top, right, bottom, left } = hitBox;
+  restoreDefault(): void {
+    this.deactivateHitBoxForNextFrame();
 
-    this.hitBox = {
-      top,
-      right,
-      bottom,
-      left,
-    };
+    this.x = this.default.x;
+    this.y = this.default.y;
+    this.vx = this.default.vx;
+    this.vy = this.default.vy;
+    this.width = this.default.width;
+    this.height = this.default.height;
+    this.speed = this.default.speed;
+    this.jumpPower = this.default.jumpPower;
   }
 
-  setX(x: number): void {
+  init({ world }: GameEntities): void {
+    const {
+      startPosition: [x, y],
+    } = world;
+
+    this.x = x;
+    this.y = y;
+    this.default.x = x;
+    this.default.y = y;
+  }
+
+  setSpriteFrame(frame: number): void {
+    this.spriteFrame = frame;
+  }
+
+  get position(): Position {
+    const px = Math.round(this.x / this.width);
+    const py = Math.round(this.y / this.height);
+
+    return [px, py];
+  }
+
+  setX(x: X): void {
+    this.deactivateHitBoxForNextFrame();
     this.x = x;
   }
 
-  setY(y: number): void {
+  setY(y: Y): void {
+    this.deactivateHitBoxForNextFrame();
     this.y = y;
   }
 
-  setVelocityX(x: number): void {
-    this.velocityX = x;
+  setVelocityX(vx: VX): void {
+    this.vx = vx;
   }
 
-  setVelocityY(y: number): void {
-    this.velocityY = y;
+  setVelocityY(vy: VY): void {
+    this.vy = vy;
   }
 
-  addVelocityX(x: number): void {
-    this.velocityX += x;
+  addVelocityX(vx: VX): void {
+    this.vx += vx;
   }
 
-  addVelocityY(y: number): void {
-    this.velocityY += y;
+  addVelocityY(vy: VY): void {
+    this.vy += vy;
   }
 
-  update(world: World, control: ControlKeysState): void {
-    // Управление игроком
-    if (control.space) {
-      // Прыжок
-      if (!this.isJumping) {
-        this.isJumping = true;
-        this.velocityY = -this.speed * this.jumpPower;
-      }
-    }
+  setHitBox(sides: Partial<HitBox>): void {
+    const { top, right, bottom, left } = sides;
+
+    this.hitBox = {
+      ...this.hitBox,
+      top: top || this.hitBox.top,
+      right: right || this.hitBox.right,
+      bottom: bottom || this.hitBox.bottom,
+      left: left || this.hitBox.left,
+    };
+  }
+
+  deactivateHitBoxForNextFrame(): void {
+    this.hitBox = {
+      top: 0,
+      right: CANVAS_WIDTH,
+      bottom: CANVAS_HEIGHT,
+      left: 0,
+    };
+  }
+
+  update({ control, world }: GameEntities): void {
+    const { left, right, space } = control.keys;
 
     // Движение влево
-    if (control.left) {
-      if (this.velocityX > -this.speed) {
-        this.velocityX -= 1;
+    if (left) {
+      if (this.vx > -this.speed) {
+        this.vx -= 1;
       }
     }
 
     // Движение вправо
-    if (control.right) {
-      if (this.velocityX < this.speed) {
-        this.velocityX += 1;
+    if (right) {
+      if (this.vx < this.speed) {
+        this.vx += 1;
       }
     }
 
-    this.velocityX *= world.friction;
-    this.velocityY += world.gravity;
-
-    this.x += this.velocityX;
-    this.y += this.velocityY;
-
-    // Коллизия слева и справа
-    if (this.x >= this.hitBox.right - SPRITE_SIZE_X) {
-      this.x = this.hitBox.right - SPRITE_SIZE_X;
-      this.velocityX = 0;
-    } else if (this.x <= this.hitBox.left) {
-      this.x = this.hitBox.left;
-      this.velocityX = 0;
+    // Прыжок
+    if (space) {
+      if (!this.isJumping) {
+        this.isJumping = true;
+        this.vy = -this.speed * this.jumpPower;
+      }
     }
 
-    // Коллизия сверху и снизу
-    if (this.y >= this.hitBox.bottom - SPRITE_SIZE_Y) {
-      this.y = this.hitBox.bottom - SPRITE_SIZE_Y;
+    // Воздействие физики мира на игрока
+    const { friction, gravity } = world;
+
+    this.vx *= friction;
+    this.vy += gravity;
+
+    // Перемещение
+    this.x += this.vx;
+    this.y += this.vy;
+
+    // Поиск коллизии слева и справа
+    const isLeftCollision = this.x >= this.hitBox.right - this.width;
+    const isRightCollision = this.x <= this.hitBox.left;
+    const isBottomCollision = this.y >= this.hitBox.bottom - this.height;
+    const isTopCollision = this.y <= this.hitBox.top;
+
+    if (isLeftCollision) {
+      this.x = this.hitBox.right - this.width;
+      this.vx = 0;
+    } else if (isRightCollision) {
+      this.x = this.hitBox.left;
+      this.vx = 0;
+    }
+
+    if (isBottomCollision) {
+      this.y = this.hitBox.bottom - this.height;
       this.isJumping = false;
-      this.velocityY = 0;
-    } else if (this.y <= this.hitBox.top) {
+      this.vy = 0;
+    } else if (isTopCollision) {
       this.y = this.hitBox.top;
-      this.velocityY = 0;
+      this.vy = 0;
     }
 
     // Спрайт при движении
-    if (this.velocityX > 0.2) {
-      this.sprite = PLAYER_SPRITE_COORDS.MOVING_RIGHT;
-    } else if (this.velocityX < -0.2) {
-      this.sprite = PLAYER_SPRITE_COORDS.MOVING_LEFT;
+    if (this.vx > GAME_CONFIG.PLAYER_MOVEMENT_SPITE_SENSITIVITY) {
+      this.setSpriteFrame(1);
+    } else if (this.vx < -GAME_CONFIG.PLAYER_MOVEMENT_SPITE_SENSITIVITY) {
+      this.setSpriteFrame(2);
     } else {
-      this.sprite = PLAYER_SPRITE_COORDS.STATIONARY;
+      this.setSpriteFrame(0);
     }
   }
 }

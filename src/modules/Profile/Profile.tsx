@@ -9,8 +9,7 @@ import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
-import { updateAvatarRequest, updatePasswordRequest, updateProfileRequest } from '@/store/reducers';
-import { logoutRequest } from '@/store/reducers/userReducers';
+import { logout, updateAvatar, updatePassword, updateProfile } from '@/store/reducers';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import { PasswordFieldsSchema, ProfileFieldsSchema } from './schema';
@@ -93,16 +92,16 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
     formData.append('avatar', e.target.files[0]);
 
     try {
-      await dispatch(updateAvatarRequest(formData)).unwrap();
+      await dispatch(updateAvatar(formData)).unwrap();
       console.log('success updateAvatar');
     } catch (err) {
       console.log('error', `Запрос завершился ошибкой: ${err.message}`);
     }
   }, []);
 
-  const logout = useCallback(async () => {
+  const doLogout = useCallback(async () => {
     try {
-      await dispatch(logoutRequest()).unwrap();
+      await dispatch(logout()).unwrap();
     } catch (e) {
       throw new Error(e);
     }
@@ -125,12 +124,12 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
   const submitProfile = useCallback(async (values, actions) => {
     try {
       if (action === actionType.edit) {
-        await dispatch(updateProfileRequest(values)).unwrap();
+        await dispatch(updateProfile(values)).unwrap();
         console.log('success updateProfile');
       }
 
       if (action === actionType.editPassword) {
-        await dispatch(updatePasswordRequest(values)).unwrap();
+        await dispatch(updatePassword(values)).unwrap();
         console.log('success updatePassword');
       }
 
@@ -247,7 +246,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                       </tr>
                       <tr className={b('table-row')}>
                         <td colSpan={2} className={b('table-cell')}>
-                          <Button onClick={logout} waiting={isLoggingOut} theme="link-danger">
+                          <Button onClick={doLogout} waiting={isLoggingOut} theme="link-danger">
                             {txt.logoutButton}
                           </Button>
                         </td>

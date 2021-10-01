@@ -18,7 +18,7 @@ import translateErrorMessage from '@/shared/utils';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 import useBeingLoggedIn from '@/shared/utils/hooks/useBeingLoggedIn';
 import useProgress from '@/shared/utils/hooks/useProgress';
-import { signinRequest } from '@/store/reducers';
+import { signin } from '@/store/reducers';
 import { useAppDispatch } from '@/store/store';
 
 import { loginSchema } from './schema';
@@ -35,8 +35,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
   const dispatch = useAppDispatch();
   const submitLogin = useCallback(async (values, actions) => {
     try {
-      await dispatch(signinRequest(values)).unwrap();
-
+      await dispatch(signin(values)).unwrap();
       actions.setSubmitting(false);
     } catch (err) {
       const toast = {

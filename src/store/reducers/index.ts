@@ -1,7 +1,10 @@
 export {
-  signinRequest,
-  signupRequest,
-  updateProfileRequest,
-  updatePasswordRequest,
-  updateAvatarRequest,
+  signin,
+  signup,
+  logout,
+  updateProfile,
+  updatePassword,
+  updateAvatar,
 } from './userReducers';
+
+export { addToLeaderboard, getAllLeaderboard, getTeamLeaderboard } from './leaderboardReducers';

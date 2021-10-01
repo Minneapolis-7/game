@@ -1,0 +1,33 @@
+version: '3.9'
+services:
+  app:
+    depends_on:
+      - postgres
+    build:
+      context: .
+    ports:
+      - '${APP_PORT_HOST}:${APP_PORT}'
+    restart: always
+
+  postgres:
+    image: postgres:13
+    env_file: ./.env
+    ports:
+      - '${POSTGRES_PORT_HOST}:${POSTGRES_PORT}'
+    volumes:
+      - ./postgresdata:/var/lib/postgresql/data
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4:5.7
+    restart: always
+    env_file: ./.env
+    ports:
+      - '${PGADMIN_PORT_HOST}:${PGADMIN_PORT}'
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+
+volumes:
+  pgadmin-data:

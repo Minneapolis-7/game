@@ -16,6 +16,14 @@
 - `npm run debug:prod` — запуск production-сборки в [дебаг-режиме Node.js](https://nodejs.org/en/docs/guides/debugging-getting-started/),
 - `npm run lint` — линтинг кода,
 
+## Запуск окружения в docker-compose
+
+Для запуска окружения (база данных + приложение) используется `docker-compose` (см. `docker-compose.yaml`):
+
+```bash
+docker-compose up
+```
+
 ## Инструментарий
 
 Типизация:

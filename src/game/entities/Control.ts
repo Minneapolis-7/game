@@ -5,9 +5,6 @@ export default class Control {
 
   constructor() {
     this.registeredKeys = {};
-
-    document.addEventListener('keydown', this.handleKeyPressed);
-    document.addEventListener('keyup', this.handleKeyReleased);
   }
 
   handleKeyPressed = (evt: KeyboardEvent): void => {
@@ -26,11 +23,8 @@ export default class Control {
     }
   };
 
-  addKey(keyCode: string, key: string): void {
-    this.registeredKeys[keyCode] = {
-      key,
-      state: false,
-    };
+  registerKey(keyCode: string, key: string): void {
+    this.registeredKeys[keyCode] = { key, state: false };
   }
 
   get keys(): ControlKeysState {
@@ -40,7 +34,15 @@ export default class Control {
     );
   }
 
+  init(): void {
+    document.addEventListener('keydown', this.handleKeyPressed);
+    document.addEventListener('keyup', this.handleKeyReleased);
+  }
+
   destroy(): void {
+    Object.keys(this.registeredKeys).forEach((key) => {
+      this.registeredKeys[key].state = false;
+    });
     document.removeEventListener('keydown', this.handleKeyPressed);
     document.removeEventListener('keyup', this.handleKeyReleased);
   }

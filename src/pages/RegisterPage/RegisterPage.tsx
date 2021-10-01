@@ -15,7 +15,7 @@ import text from '@/shared/const/text';
 import translateErrorMessage from '@/shared/utils';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 import useBeingLoggedIn from '@/shared/utils/hooks/useBeingLoggedIn';
-import { signupRequest } from '@/store/reducers';
+import { signup } from '@/store/reducers';
 import { useAppDispatch } from '@/store/store';
 
 import { registerSchema } from './schema';
@@ -37,7 +37,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
   const dispatch = useAppDispatch();
   const submitRegister = useCallback(async (values, actions) => {
     try {
-      await dispatch(signupRequest(values)).unwrap();
+      await dispatch(signup(values)).unwrap();
       actions.setSubmitting(false);
     } catch (err) {
       const toast = {

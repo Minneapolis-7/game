@@ -1,40 +1,44 @@
-import doorSound from '@/game/assets/door.mp3';
-import keySound from '@/game/assets/key.mp3';
-import musicSound from '@/game/assets/music.mp3';
-import spikesSound from '@/game/assets/spikes.mp3';
-import teleportSound from '@/game/assets/teleport.mp3';
-import trampolineSound from '@/game/assets/trampoline.mp3';
 import Control from '@/game/entities/Control';
-import GameObject, { GameObjectConstructorOptions } from '@/game/entities/GameObject';
+import GameObject from '@/game/entities/GameObject';
+import Player from '@/game/entities/Player';
 import SoundController from '@/game/entities/SoundController';
+import SoundSample from '@/game/entities/SoundSample';
+import Sprite from '@/game/entities/Sprite';
 import View from '@/game/entities/View';
-import World, { LevelObjects } from '@/game/entities/World';
-import { CONTROL_KEY, GAME_STATE_KEY, SOUND } from '@/game/shared/constants';
-import { GameState, Level } from '@/game/types';
+import World from '@/game/entities/World';
+import { GAME_SESSION_KEY, SPRITE_HEIGHT, SPRITE_WIDTH } from '@/game/shared/constants';
+import text from '@/shared/const/text';
 
-type GameConstructorOptions = {
-  world: World;
-  view: View;
-  control: Control;
-  levels: Level[];
-  startLevelIndex: number;
-  isDebugDraw: false;
-  onStateUpdate: (gameState: GameState) => void;
-};
+import { SPRITE_ID } from '../sprites';
+import {
+  GameEntities,
+  GameObjectRegisterOptions,
+  GameState,
+  LevelRegisterOptions,
+  SoundRegisterOptions,
+  SpriteRegisterOptions,
+} from '../types';
 
 export default class Game {
+  public registeredSprites: SpriteRegisterOptions[];
+  public registeredSounds: SoundRegisterOptions[];
+  public registeredGameObjects: GameObjectRegisterOptions[];
+  public registeredLevels: LevelRegisterOptions[];
+  public sprites: Record<number | string, Sprite>;
+  public sounds: Record<number | string, SoundSample>;
+  public gameObjectOptions: Record<number | string, GameObjectRegisterOptions>;
   public world: World;
-  public view: View;
-  public soundController: SoundController;
   public control: Control;
-  public levels: Level[];
-  public startLevelIndex: number;
-  public requestAnimationId: number;
-  public gameObjects: GameObjectConstructorOptions[];
+  public player: Player;
+  public view: View;
+  public sound: SoundController;
+  public isLoaded: boolean;
+  private requestAnimationId: number;
   public gameState: GameState;
-  public updateGameState: (gameState: GameState) => void;
+  public onStateUpdate: (gameSession: GameState) => void;
 
   private _gameStartTimestamp!: number;
+
   private _defaultGameState = {
     isKeyAcquired: false,
     isDoorUnlocked: false,
@@ -43,229 +47,213 @@ export default class Game {
     time: 0,
   } as GameState;
 
-  constructor(options: GameConstructorOptions) {
-    const {
-      world,
-      levels,
-      view,
-      control,
-      isDebugDraw = false,
-      startLevelIndex,
-      onStateUpdate,
-    } = options;
+  constructor() {
+    this.registeredSprites = [];
+    this.registeredSounds = [];
+    this.registeredGameObjects = [];
+    this.registeredLevels = [];
 
-    this.world = world;
-    this.view = view;
-    this.soundController = new SoundController();
-    this.view.isDebugDraw = isDebugDraw;
-    this.control = control;
-    this.loop = this.loop.bind(this);
+    this.sprites = {};
+    this.sounds = {};
+    this.gameObjectOptions = {};
+
+    this.control = new Control();
+    this.world = new World();
+    this.player = new Player();
+    this.view = new View();
+    this.sound = new SoundController();
+
+    this.isLoaded = false;
     this.requestAnimationId = 0;
-    this.levels = levels;
-    this.startLevelIndex = startLevelIndex;
 
-    this.gameState = {
-      ...this._defaultGameState,
-    };
+    this.gameState = { ...this._defaultGameState };
 
-    this.updateGameState = onStateUpdate;
+    this.onStateUpdate = () => undefined;
 
-    // id объекта соответствует значению на карте уровня
-    this.gameObjects = [
-      // Воздух
-      {
-        id: 0,
-        sprite: [480, 480],
-      },
-      // Кирпич
-      {
-        id: 1,
-        sprite: [480, 0],
-        hasCollision: true,
-      },
-      // Бетон
-      {
-        id: 2,
-        sprite: [448, 0],
-        hasCollision: true,
-      },
-      // Куст
-      {
-        id: 3,
-        sprite: [480, 32],
-      },
-      // Прыгалка
-      {
-        id: 4,
-        sprite: [480, 64],
-        hasCollision: true,
-        onAbove: ({ player }) => {
-          player.setVelocityY(-10);
-          this.soundController.play(SOUND.TRAMPOLINE);
-        },
-      },
-      // Лёд
-      {
-        id: 5,
-        sprite: [480, 96],
-        hasCollision: true,
-        onAbove: () => {
-          // Скольжение
-          this.world.friction = 0.99;
-        },
-      },
-      // Ключ
-      {
-        id: 6,
-        sprite: [0, 64],
-        onOver: ({ gameObject }) => {
-          gameObject.hideAndDeactivate();
-          this.setGameState(GAME_STATE_KEY.IS_DOOR_UNLOCKED, true);
-          this.soundController.play(SOUND.KEY);
-        },
-      },
-      // Дверь
-      {
-        id: 7,
-        sprite: [0, 96],
-        onOver: ({ gameObject }) => {
-          if (this.gameState.isKeyAcquired) {
-            gameObject.setSprite([32, 96]);
-            gameObject.deactivate();
-            this.soundController.play(SOUND.DOOR);
-            this.stop();
-
-            setTimeout(() => {
-              this.setGameState(GAME_STATE_KEY.IS_LEVEL_COMPLETED, true);
-            }, 2000);
-          }
-        },
-      },
-      // Шипы
-      {
-        id: 8,
-        sprite: [448, 64],
-        onOver: ({ player }) => {
-          this.setGameState(GAME_STATE_KEY.PLAYER_HEALTH, this.gameState.playerHealth - 1);
-          player.setVelocityY(-2);
-
-          if (player.velocityX > 0) {
-            player.setVelocityX(-10);
-          } else {
-            player.setVelocityX(10);
-          }
-
-          this.soundController.play(SOUND.SPIKES);
-        },
-      },
-      // Оранжевый портал
-      // TODO: Придумать телепортирование в друг-друга, здесь нельзя хардкодить координаты
-      {
-        id: 9,
-        sprite: [416, 64],
-      },
-      // Голубой портал
-      {
-        id: 10,
-        sprite: [384, 64],
-        onOver: ({ player }) => {
-          player.setVelocityY(0);
-          player.setX(32);
-          player.setY(128);
-          this.soundController.play(SOUND.TELEPORT);
-        },
-      },
-    ];
+    this.loop = this.loop.bind(this);
+    this.setGameState = this.setGameState.bind(this);
   }
 
-  private _resetState(): void {
-    this.gameState = {
-      ...this._defaultGameState,
-    };
+  public registerSprites(sprites: SpriteRegisterOptions[]): void {
+    this.registeredSprites = sprites;
+  }
+
+  public registerSounds(sounds: SoundRegisterOptions[]): void {
+    this.registeredSounds = sounds;
+  }
+
+  public registerGameObjects(gameObjects: GameObjectRegisterOptions[]): void {
+    this.registeredGameObjects = gameObjects;
+  }
+
+  public registerLevels(levels: LevelRegisterOptions[]): void {
+    this.registeredLevels = levels;
+  }
+
+  private prepareSprite = (sprite: Sprite) => {
+    if (this.sprites[sprite.id]) {
+      throw Error(text.game.errors.uniqueSprite);
+    }
+
+    this.sprites[sprite.id] = sprite;
+  };
+
+  private async prepareSprites() {
+    const sprites = this.registeredSprites.map((options) => new Sprite(options));
+
+    sprites.forEach(this.prepareSprite);
+
+    await Promise.all(sprites.map((sprite) => sprite.load()));
+    this.isLoaded = true;
+  }
+
+  private prepareSound = (sound: SoundSample): void => {
+    if (this.sounds[sound.id]) {
+      throw Error(text.game.errors.loadingSound);
+    }
+
+    this.sound?.add(sound);
+  };
+
+  private async prepareSounds() {
+    const sounds = this.registeredSounds.map((options) => new SoundSample(options));
+
+    await Promise.all(sounds.map((sound) => sound.load()));
+    sounds.forEach(this.prepareSound);
+    this.isLoaded = true;
+  }
+
+  private prepareGameObject = (gameObject: GameObjectRegisterOptions) => {
+    if (this.gameObjectOptions[gameObject.id]) {
+      throw Error(text.game.errors.loadingSound);
+    }
+
+    this.gameObjectOptions[gameObject.id] = gameObject;
+  };
+
+  private prepareGameObjects() {
+    this.registeredGameObjects.forEach(this.prepareGameObject);
+
+    return this.gameObjectOptions;
+  }
+
+  private prepareLevel() {
+    const currentRegisterLevel = this.registeredLevels[0];
+
+    this.sound?.play(currentRegisterLevel.music);
+
+    this.world.setStartPosition(currentRegisterLevel.startPosition);
+
+    const levelObjects = currentRegisterLevel.map.map((row, rowIndex) => {
+      return row.map((objectId, colIndex) => {
+        if (!this.gameObjectOptions[objectId]) {
+          throw Error(`${text.game.errors.unregisteredGameObject} "${objectId}"`);
+        }
+
+        const { spriteId } = this.gameObjectOptions[objectId];
+
+        if (!this.sprites[spriteId]) {
+          throw Error(`${text.game.errors.unregisteredSprite} "${spriteId}"`);
+        }
+
+        return new GameObject({
+          ...this.gameObjectOptions[objectId],
+          sprite: this.sprites[spriteId],
+          x: colIndex * SPRITE_WIDTH,
+          y: rowIndex * SPRITE_HEIGHT,
+        });
+      });
+    });
+
+    this.world.setLevelObjects(levelObjects);
+  }
+
+  private preparePlayer() {
+    this.player.sprite = this.sprites[SPRITE_ID.PLAYER];
+    this.player.spriteWidth = 64;
+    this.player.spriteHeight = 64;
+  }
+
+  async init(callback?: (gameEntities: GameEntities) => void): Promise<void> {
+    this.sound.init();
+    await this.prepareSprites();
+    await this.prepareSounds();
+    this.start();
+
+    if (callback) {
+      callback(this.gameEntities);
+    }
+  }
+
+  private _resetGameState(): void {
+    this.gameState = { ...this._defaultGameState };
   }
 
   setGameState<T extends keyof GameState, K extends GameState[T]>(key: T, value: K): void {
     this.gameState[key] = value;
-    this.updateGameState({ ...this.gameState });
+
+    if (this.onStateUpdate) {
+      this.onStateUpdate({ ...this.gameState });
+    }
   }
 
-  // Клавиши управления игрой (код клавиши, ключ состояния клавиши)
-  registerKeys(): void {
-    this.control.addKey('ArrowLeft', CONTROL_KEY.LEFT);
-    this.control.addKey('ArrowRight', CONTROL_KEY.RIGHT);
-    this.control.addKey('Space', CONTROL_KEY.SPACE);
-    this.control.addKey('KeyT', CONTROL_KEY.T);
-  }
-
-  async registerSounds(): Promise<void> {
-    const sounds = [
-      this.soundController.add(SOUND.TRAMPOLINE, trampolineSound, false),
-      this.soundController.add(SOUND.TELEPORT, teleportSound, false),
-      this.soundController.add(SOUND.KEY, keySound, false),
-      this.soundController.add(SOUND.SPIKES, spikesSound, false),
-      this.soundController.add(SOUND.DOOR, doorSound, false),
-      this.soundController.add(SOUND.MUSIC, musicSound, true),
-    ];
-
-    await Promise.all(sounds);
-  }
-
-  async init(): Promise<void> {
-    this.registerKeys();
-
-    await this.registerSounds();
-
-    await this.view.init();
-
-    this.soundController.play(SOUND.MUSIC);
-
-    const levelObjects = this.buildLevelObjects(this.levels[this.startLevelIndex]);
-
-    this.world.setLevelObjects(levelObjects);
-    this.start();
-    this.updateGameState({ ...this.gameState });
-  }
-
-  buildLevelObjects(level: Level): LevelObjects {
-    const indexedObjects = this.gameObjects.reduce((acc, gameObject) => {
-      acc[gameObject.id] = gameObject;
-
-      return acc;
-    }, {} as Record<string | number, GameObjectConstructorOptions>);
-
-    return level.tiles.map((row) => {
-      return row.map((tile) => new GameObject(indexedObjects[tile]));
-    });
-  }
-
-  start(): void {
-    this._resetState();
-    this._gameStartTimestamp = Date.now();
-    this.loop();
-  }
-
-  stop(): void {
-    window.cancelAnimationFrame(this.requestAnimationId);
+  get gameEntities(): GameEntities {
+    return {
+      gameObjects: this.gameObjectOptions,
+      control: this.control,
+      world: this.world,
+      player: this.player,
+      view: this.view,
+      sound: this.sound,
+      isLoaded: this.isLoaded,
+      gameState: this.gameState,
+      setGameState: this.setGameState,
+    };
   }
 
   loop(): void {
-    // Обновляется мир, в мир передаётся текущее состояние клавиш
-    this.world.update(this.control.keys);
-    this.view.update(this.world, this.control.keys);
+    this.world.update(this.gameEntities);
+    this.player.update(this.gameEntities);
+    this.view.update(this.gameEntities);
+
     this.requestAnimationId = window.requestAnimationFrame(this.loop);
 
     const elapsedTime = Date.now() - this._gameStartTimestamp;
 
     if (
-      !this.gameState[GAME_STATE_KEY.IS_DOOR_UNLOCKED] &&
+      !this.gameState[GAME_SESSION_KEY.IS_DOOR_UNLOCKED] &&
       elapsedTime - this.gameState.time >= 1000
     ) {
-      this.setGameState(GAME_STATE_KEY.TIME, elapsedTime);
+      this.setGameState(GAME_SESSION_KEY.TIME, elapsedTime);
     }
   }
 
-  destroy(): void {
+  resetGameObjects(): void {
+    this.gameObjectOptions = {};
+    this.prepareGameObjects();
+  }
+
+  start(): void {
+    this.resetGameObjects();
+    this.prepareLevel();
+    this.preparePlayer();
+    this.player.init(this.gameEntities);
+    this.control.init();
+    this._gameStartTimestamp = Date.now();
+    this.loop();
+  }
+
+  reset(): void {
+    this.player.restoreDefault();
+    this.world.destroy();
+    this._resetGameState();
+    this.start();
+  }
+
+  stop(): void {
     this.control.destroy();
-    this.soundController.destroy();
+    this.sound.stop(this.registeredLevels[0].music);
+
+    window.cancelAnimationFrame(this.requestAnimationId);
   }
 }

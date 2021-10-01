@@ -7,6 +7,7 @@ import { Route, StaticRouter, Switch } from 'react-router-dom';
 import { Request, Response } from 'express';
 import htmlescape from 'htmlescape';
 
+import { Toaster } from '@/components/ui';
 import ProtectedRoute from '@/modules/ProtectedRoute';
 import paths from '@/shared/const/paths';
 import routes from '@/shared/const/routes';
@@ -74,6 +75,7 @@ export default async function ssr(req: Request, res: Response) {
             })}
           </Switch>
         </StaticRouter>
+        <Toaster toastList={[]} position="bottom-right" />
       </Provider>
     );
   } catch (e) {
