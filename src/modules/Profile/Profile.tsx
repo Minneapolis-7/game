@@ -98,6 +98,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
 
     try {
       await dispatch(updateAvatar(formData)).unwrap();
+
       const toast = {
         id: uuidv1(),
         type: 'success',
@@ -142,6 +143,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
     try {
       if (action === actionType.edit) {
         await dispatch(updateProfile(values)).unwrap();
+
         const toast = {
           id: uuidv1(),
           type: 'success',
@@ -153,6 +155,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
 
       if (action === actionType.editPassword) {
         await dispatch(updatePassword(values)).unwrap();
+
         const toast = {
           id: uuidv1(),
           type: 'success',

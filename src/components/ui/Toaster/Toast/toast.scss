@@ -1,18 +1,32 @@
 @use 'src/css/abstracts/variables' as *;
+@use 'src/css/abstracts/mixins' as *;
 
+$toast-padding: 10px;
+$toast-icon-size: 30px;
+$toast-animation-duration: 0.2s;
 .toast {
   position: relative;
-  display: flex;
-  align-items: flex-start;
-  width: 320px;
-  max-height: 100px;
+  overflow: hidden;
   margin-bottom: 15px;
-  padding: 10px;
+  padding: $toast-padding;
+  padding-left: calc(2 * #{$toast-padding} + #{$toast-icon-size});
   border-radius: 3px;
-  background: $light-color;
+  background: $light-color no-repeat $toast-padding $toast-padding;
+  background-size: $toast-icon-size $toast-icon-size;
   color: $dark-color;
   box-shadow: 0 0 10px $grey;
   opacity: 0.9;
+}
+.toast:last-child {
+  margin-bottom: 0;
+}
+
+.toast_type_success {
+  background-image: svg-load('bootstrap-icons/icons/emoji-sunglasses.svg');
+}
+
+.toast_type_warning {
+  background-image: svg-load('bootstrap-icons/icons/exclamation-triangle.svg');
 }
 
 .toast:hover {
@@ -21,45 +35,19 @@
 }
 
 .toaster_position_top-right > .toast {
-  transition: transform 0.3s ease-in-out;
-  animation: toast-in-right 0.4s;
+  animation: toast-in-right $toast-animation-duration;
 }
 
 .toaster_position_bottom-right > .toast {
-  transition: transform 0.4s ease-in-out;
-  animation: toast-in-right 0.4s;
+  animation: toast-in-right $toast-animation-duration;
 }
 
 .toaster_position_top-left > .toast {
-  transition: transform 0.3s ease-in;
-  animation: toast-in-left 0.4s;
+  animation: toast-in-left $toast-animation-duration;
 }
 
 .toaster_position_bottom-left > .toast {
-  transition: transform 0.3s ease-in;
-  animation: toast-in-left 0.4s;
-}
-
-.toast__message {
-  margin: 0;
-  padding: 0 5px;
-  font-size: $font-size-md;
-  -webkit-line-clamp: 2;
-}
-
-.toast__image {
-  min-width: 34px;
-  height: 30px;
-}
-
-.toast__image_type_success {
-  background: svg-load('bootstrap-icons/icons/emoji-sunglasses.svg') no-repeat;
-  background-size: 30px;
-}
-
-.toast__image_type_warning {
-  background: svg-load('bootstrap-icons/icons/exclamation-triangle.svg') no-repeat;
-  background-size: 30px;
+  animation: toast-in-left $toast-animation-duration;
 }
 
 @keyframes toast-in-right {
@@ -78,4 +66,18 @@
   to {
     transform: translateX(0);
   }
+}
+
+.toast__message {
+  @include break-word;
+  @include line-clamp(3);
+
+  min-height: $toast-icon-size;
+  font-size: $font-size-md;
+  line-height: 1.2;
+}
+
+.toast__close {
+  float: right;
+  margin: -#{$toast-padding} -#{$toast-padding} 0.4em 0.4em;
 }
