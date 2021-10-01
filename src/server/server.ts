@@ -3,6 +3,7 @@ import express from 'express';
 import path from 'path';
 
 import ssr from './middlewares/ssr';
+import router from './router';
 import sequelize from './sequelize';
 
 import settings from '../../webpack/settings';
@@ -10,7 +11,7 @@ import settings from '../../webpack/settings';
 const app = express();
 const distStatic = path.resolve(__dirname, settings.paths.dist.static);
 
-app.use(compression()).use(express.static(distStatic));
+app.use(compression()).use(express.static(distStatic)).use(router);
 
 app.get('*', ssr);
 
