@@ -1,15 +1,7 @@
-import {
-  AllowNull,
-  Column,
-  DataType,
-  Default,
-  ForeignKey,
-  Model,
-  Table,
-} from 'sequelize-typescript';
+import { BelongsToMany, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
 
 /* eslint-disable import/no-cycle */
-import { Emoji, ForumComment } from '@/server/models';
+import { Emoji, ForumComment, ForumCommentEmojiUser, ForumUser } from '@/server/models';
 /* eslint-enable */
 
 @Table({
@@ -17,11 +9,6 @@ import { Emoji, ForumComment } from '@/server/models';
   tableName: 'ForumCommentEmojis',
 })
 export default class ForumCommentEmoji extends Model<ForumCommentEmoji> {
-  @AllowNull(false)
-  @Default(0)
-  @Column(DataType.INTEGER)
-  voteCount!: number;
-
   @ForeignKey(() => ForumComment)
   @Column(DataType.INTEGER)
   forumCommentId!: number;
@@ -29,4 +16,7 @@ export default class ForumCommentEmoji extends Model<ForumCommentEmoji> {
   @ForeignKey(() => Emoji)
   @Column(DataType.INTEGER)
   emojiId!: number;
+
+  @BelongsToMany(() => ForumUser, () => ForumCommentEmojiUser)
+  users!: ForumUser[];
 }

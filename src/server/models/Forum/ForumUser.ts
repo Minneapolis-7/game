@@ -1,5 +1,6 @@
 import {
   AllowNull,
+  BelongsToMany,
   Column,
   DataType,
   Default,
@@ -10,7 +11,14 @@ import {
 } from 'sequelize-typescript';
 
 /* eslint-disable import/no-cycle */
-import { ForumComment, ForumThread } from '@/server/models';
+import {
+  ForumComment,
+  ForumCommentEmoji,
+  ForumCommentEmojiUser,
+  ForumThread,
+  ForumThreadEmoji,
+  ForumThreadEmojiUser,
+} from '@/server/models';
 /* eslint-enable */
 
 @Table({
@@ -47,4 +55,10 @@ export default class ForumUser extends Model<ForumUser> {
 
   @HasMany(() => ForumThread)
   threads?: ForumThread[];
+
+  @BelongsToMany(() => ForumCommentEmoji, () => ForumCommentEmojiUser)
+  commentEmojis!: ForumCommentEmoji[];
+
+  @BelongsToMany(() => ForumThreadEmoji, () => ForumThreadEmojiUser)
+  threadEmojis!: ForumThreadEmoji[];
 }
