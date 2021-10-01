@@ -6,7 +6,20 @@
   align-items: center;
 }
 
+.game-screen_fullscreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .game-screen__image {
   object-fit: contain;
   height: 480px;
+}
+
+.game-screen__fullscreen-button {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1;
 }
