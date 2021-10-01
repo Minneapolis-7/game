@@ -27,7 +27,7 @@ export default class ForumSection extends Model<ForumSection> {
 
   @ForeignKey(() => ForumCategory)
   @Column(DataType.INTEGER)
-  forumCategoryId!: number;
+  categoryId!: number;
 
   @BelongsTo(() => ForumCategory)
   category?: ForumCategory;

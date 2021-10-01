@@ -11,7 +11,7 @@ import { ForumCommentEmoji, ForumUser } from '@/server/models';
 export default class ForumCommentEmojiUser extends Model<ForumCommentEmojiUser> {
   @ForeignKey(() => ForumCommentEmoji)
   @Column(DataType.INTEGER)
-  forumCommentEmojiId!: number;
+  commentEmojiId!: number;
 
   @ForeignKey(() => ForumUser)
   @Column(DataType.INTEGER)

@@ -34,14 +34,14 @@ export default class ForumComment extends Model<ForumComment> {
 
   @ForeignKey(() => ForumUser)
   @Column(DataType.INTEGER)
-  forumUserId!: number;
+  userId!: number;
 
   @BelongsTo(() => ForumUser)
   user?: ForumUser;
 
   @ForeignKey(() => ForumThread)
   @Column(DataType.INTEGER)
-  forumThreadId!: number;
+  threadId!: number;
 
   @BelongsTo(() => ForumThread)
   thread?: ForumThread;
