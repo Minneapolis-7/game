@@ -10,6 +10,13 @@ export const CONTROL_KEY = {
   SPACE: 'space',
 } as const;
 
+export const GAMEPAD_BUTTON = {
+  LEFT: 14,
+  RIGHT: 15,
+  // [X] PS, [A] XBOX
+  X: 0,
+} as const;
+
 export const HIT_BOX_KEY = {
   TOP: 'top',
   LEFT: 'left',
