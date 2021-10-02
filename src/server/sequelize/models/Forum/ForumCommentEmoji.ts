@@ -9,12 +9,12 @@ import {
 } from 'sequelize-typescript';
 
 /* eslint-disable import/no-cycle */
-import { Emoji, ForumComment, ForumCommentEmojiUser, ForumUser } from '@/server/models';
+import { Emoji, ForumComment, ForumCommentEmojiUser, User } from '@/server/sequelize/models';
 /* eslint-enable */
 
 @Table({
+  underscored: true,
   modelName: 'ForumCommentEmoji',
-  tableName: 'ForumCommentEmojis',
 })
 export default class ForumCommentEmoji extends Model<ForumCommentEmoji> {
   @PrimaryKey
@@ -29,6 +29,6 @@ export default class ForumCommentEmoji extends Model<ForumCommentEmoji> {
   @Column(DataType.INTEGER)
   emojiId!: number;
 
-  @BelongsToMany(() => ForumUser, () => ForumCommentEmojiUser)
-  users!: ForumUser[];
+  @BelongsToMany(() => User, () => ForumCommentEmojiUser)
+  users!: User[];
 }

@@ -12,12 +12,18 @@ import {
 } from 'sequelize-typescript';
 
 /* eslint-disable import/no-cycle */
-import { Emoji, ForumComment, ForumSection, ForumThreadEmoji, ForumUser } from '@/server/models';
+import {
+  Emoji,
+  ForumComment,
+  ForumSection,
+  ForumThreadEmoji,
+  User,
+} from '@/server/sequelize/models';
 /* eslint-enable */
 
 @Table({
+  underscored: true,
   modelName: 'ForumThread',
-  tableName: 'ForumThreads',
 })
 export default class ForumThread extends Model<ForumThread> {
   @AllowNull(false)
@@ -33,12 +39,12 @@ export default class ForumThread extends Model<ForumThread> {
   @Column(DataType.INTEGER)
   visitedCounter!: number;
 
-  @ForeignKey(() => ForumUser)
+  @ForeignKey(() => User)
   @Column(DataType.INTEGER)
   userId!: number;
 
-  @BelongsTo(() => ForumUser)
-  user!: ForumUser;
+  @BelongsTo(() => User)
+  user!: User;
 
   @ForeignKey(() => ForumSection)
   @Column(DataType.INTEGER)

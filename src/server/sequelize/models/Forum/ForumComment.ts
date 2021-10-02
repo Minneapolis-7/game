@@ -11,12 +11,12 @@ import {
 } from 'sequelize-typescript';
 
 /* eslint-disable import/no-cycle */
-import { Emoji, ForumCommentEmoji, ForumThread, ForumUser } from '@/server/models';
+import { Emoji, ForumCommentEmoji, ForumThread, User } from '@/server/sequelize/models';
 /* eslint-enable */
 
 @Table({
+  underscored: true,
   modelName: 'ForumComment',
-  tableName: 'ForumComments',
 })
 export default class ForumComment extends Model<ForumComment> {
   @AllowNull(false)
@@ -32,12 +32,12 @@ export default class ForumComment extends Model<ForumComment> {
   @Column(DataType.INTEGER)
   parentId!: number;
 
-  @ForeignKey(() => ForumUser)
+  @ForeignKey(() => User)
   @Column(DataType.INTEGER)
   userId!: number;
 
-  @BelongsTo(() => ForumUser)
-  user?: ForumUser;
+  @BelongsTo(() => User)
+  user?: User;
 
   @ForeignKey(() => ForumThread)
   @Column(DataType.INTEGER)

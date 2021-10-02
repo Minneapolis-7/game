@@ -3,7 +3,7 @@ import express from 'express';
 import path from 'path';
 
 import ssr from './middlewares/ssr';
-import sequelize from './sequelize';
+import sequelize from './sequelize/sequelize';
 
 import settings from '../../webpack/settings';
 

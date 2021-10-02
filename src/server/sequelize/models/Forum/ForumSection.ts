@@ -10,12 +10,12 @@ import {
 } from 'sequelize-typescript';
 
 /* eslint-disable import/no-cycle */
-import { ForumCategory, ForumThread } from '@/server/models';
+import { ForumCategory, ForumThread } from '@/server/sequelize/models';
 /* eslint-enable */
 
 @Table({
+  underscored: true,
   modelName: 'ForumSection',
-  tableName: 'ForumSections',
 })
 export default class ForumSection extends Model<ForumSection> {
   @AllowNull(false)

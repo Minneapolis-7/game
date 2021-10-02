@@ -5,7 +5,6 @@ import {
   DataType,
   Default,
   HasMany,
-  Index,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -18,16 +17,17 @@ import {
   ForumThread,
   ForumThreadEmoji,
   ForumThreadEmojiUser,
-} from '@/server/models';
+} from '@/server/sequelize/models';
+import UnderscoredIndex from '@/server/sequelize/utils/UnderscoredIndex';
 /* eslint-enable */
 
 @Table({
-  modelName: 'ForumUser',
-  tableName: 'ForumUsers',
+  underscored: true,
+  modelName: 'User',
 })
-export default class ForumUser extends Model<ForumUser> {
+export default class User extends Model<User> {
   @AllowNull(false)
-  @Index
+  @UnderscoredIndex
   @Column(DataType.INTEGER)
   yandexUserId!: number;
 

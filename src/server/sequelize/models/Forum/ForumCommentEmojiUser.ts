@@ -1,19 +1,19 @@
 import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
 
 /* eslint-disable import/no-cycle */
-import { ForumCommentEmoji, ForumUser } from '@/server/models';
+import { ForumCommentEmoji, User } from '@/server/sequelize/models';
 /* eslint-enable */
 
 @Table({
+  underscored: true,
   modelName: 'ForumCommentEmojiUser',
-  tableName: 'ForumCommentEmojiUsers',
 })
 export default class ForumCommentEmojiUser extends Model<ForumCommentEmojiUser> {
   @ForeignKey(() => ForumCommentEmoji)
   @Column(DataType.INTEGER)
   commentEmojiId!: number;
 
-  @ForeignKey(() => ForumUser)
+  @ForeignKey(() => User)
   @Column(DataType.INTEGER)
   userId!: number;
 }
