@@ -12,11 +12,16 @@ import {
 import { Emoji, ForumComment, ForumCommentEmojiUser, User } from '@/server/sequelize/models';
 /* eslint-enable */
 
+export type ForumCommentEmojiAttributes = {
+  commentId: number;
+  emojiId: number;
+};
+
 @Table({
   underscored: true,
   modelName: 'ForumCommentEmoji',
 })
-export default class ForumCommentEmoji extends Model {
+export default class ForumCommentEmoji extends Model<ForumCommentEmojiAttributes> {
   @PrimaryKey
   @Column(DataType.INTEGER)
   declare id: number;

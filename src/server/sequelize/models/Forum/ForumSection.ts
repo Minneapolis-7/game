@@ -16,6 +16,7 @@ import { ForumCategory, ForumThread } from '@/server/sequelize/models';
 export type ForumSectionAttributes = {
   title: string;
   description: string;
+  categoryId: number;
 };
 
 @Table({

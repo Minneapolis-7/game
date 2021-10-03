@@ -27,6 +27,8 @@ export type ForumThreadAttributes = {
   content: string;
   isModified: boolean;
   visitedCounter: number;
+  sectionId: number;
+  userId: number;
 };
 
 export type ForumThreadCreationAttributes = Optional<

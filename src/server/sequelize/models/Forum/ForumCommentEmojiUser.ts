@@ -4,11 +4,16 @@ import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript
 import { ForumCommentEmoji, User } from '@/server/sequelize/models';
 /* eslint-enable */
 
+export type ForumCommentEmojiUserAttributes = {
+  userId: number;
+  // ???
+};
+
 @Table({
   underscored: true,
   modelName: 'ForumCommentEmojiUser',
 })
-export default class ForumCommentEmojiUser extends Model {
+export default class ForumCommentEmojiUser extends Model<ForumCommentEmojiUserAttributes> {
   @ForeignKey(() => ForumCommentEmoji)
   @Column(DataType.INTEGER)
   commentEmojiId!: number;

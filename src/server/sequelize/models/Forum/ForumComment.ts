@@ -19,6 +19,8 @@ export type ForumCommentAttributes = {
   content: string;
   isModified: boolean;
   parentId: number;
+  userId: number;
+  threadId: number;
 };
 
 export type ForumCommentCreationAttributes = Optional<ForumCommentAttributes, 'isModified'>;

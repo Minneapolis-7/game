@@ -12,11 +12,16 @@ import {
 import { Emoji, ForumThread, ForumThreadEmojiUser, User } from '@/server/sequelize/models';
 /* eslint-enable */
 
+export type ForumThreadEmojiAttributes = {
+  threadId: number;
+  emojiId: number;
+};
+
 @Table({
   underscored: true,
   modelName: 'ForumThreadEmoji',
 })
-export default class ForumThreadEmoji extends Model {
+export default class ForumThreadEmoji extends Model<ForumThreadEmojiAttributes> {
   @PrimaryKey
   @Column(DataType.INTEGER)
   declare id: number;
