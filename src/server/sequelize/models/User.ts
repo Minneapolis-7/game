@@ -28,7 +28,7 @@ export type UserAttributes = {
   secondName: string;
   displayName: string;
   avatarUrl: string;
-  isOnline: string;
+  isOnline: boolean;
 };
 
 export type UserCreationAttributes = Optional<
