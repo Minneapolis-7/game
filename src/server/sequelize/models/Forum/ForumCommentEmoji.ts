@@ -10,12 +10,13 @@ import {
 
 /* eslint-disable import/no-cycle */
 import { Emoji, ForumComment, ForumCommentEmojiUser, User } from '@/server/sequelize/models';
+import { IntrinsicModelAttributes } from '@/server/shared/types';
 /* eslint-enable */
 
 export type ForumCommentEmojiAttributes = {
   commentId: number;
   emojiId: number;
-};
+} & IntrinsicModelAttributes;
 
 @Table({
   underscored: true,

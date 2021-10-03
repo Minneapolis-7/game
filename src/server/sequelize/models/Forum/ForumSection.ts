@@ -11,13 +11,14 @@ import {
 
 /* eslint-disable import/no-cycle */
 import { ForumCategory, ForumThread } from '@/server/sequelize/models';
+import { IntrinsicModelAttributes } from '@/server/shared/types';
 /* eslint-enable */
 
 export type ForumSectionAttributes = {
   title: string;
   description: string;
   categoryId: number;
-};
+} & IntrinsicModelAttributes;
 
 @Table({
   underscored: true,

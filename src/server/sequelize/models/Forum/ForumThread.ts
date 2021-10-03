@@ -20,6 +20,7 @@ import {
   ForumThreadEmoji,
   User,
 } from '@/server/sequelize/models';
+import { IntrinsicModelAttributes } from '@/server/shared/types';
 /* eslint-enable */
 
 export type ForumThreadAttributes = {
@@ -29,7 +30,7 @@ export type ForumThreadAttributes = {
   visitedCounter: number;
   sectionId: number;
   userId: number;
-};
+} & IntrinsicModelAttributes;
 
 export type ForumThreadCreationAttributes = Optional<
   ForumThreadAttributes,

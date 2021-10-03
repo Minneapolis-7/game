@@ -2,11 +2,12 @@ import { AllowNull, Column, DataType, HasMany, Model, Table } from 'sequelize-ty
 
 /* eslint-disable import/no-cycle */
 import { ForumSection } from '@/server/sequelize/models';
+import { IntrinsicModelAttributes } from '@/server/shared/types';
 /* eslint-enable */
 
 export type ForumCategoryAttributes = {
   title: string;
-};
+} & IntrinsicModelAttributes;
 
 @Table({
   underscored: true,

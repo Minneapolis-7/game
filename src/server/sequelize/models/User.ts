@@ -20,6 +20,7 @@ import {
   ForumThreadEmojiUser,
 } from '@/server/sequelize/models';
 import UnderscoredIndex from '@/server/sequelize/utils/UnderscoredIndex';
+import { IntrinsicModelAttributes } from '@/server/shared/types';
 /* eslint-enable */
 
 export type UserAttributes = {
@@ -29,7 +30,7 @@ export type UserAttributes = {
   displayName: string;
   avatarUrl: string;
   isOnline: boolean;
-};
+} & IntrinsicModelAttributes;
 
 export type UserCreationAttributes = Optional<
   UserAttributes,

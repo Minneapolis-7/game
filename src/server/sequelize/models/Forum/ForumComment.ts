@@ -13,6 +13,7 @@ import {
 
 /* eslint-disable import/no-cycle */
 import { Emoji, ForumCommentEmoji, ForumThread, User } from '@/server/sequelize/models';
+import { IntrinsicModelAttributes } from '@/server/shared/types';
 /* eslint-enable */
 
 export type ForumCommentAttributes = {
@@ -21,7 +22,7 @@ export type ForumCommentAttributes = {
   parentId: number;
   userId: number;
   threadId: number;
-};
+} & IntrinsicModelAttributes;
 
 export type ForumCommentCreationAttributes = Optional<ForumCommentAttributes, 'isModified'>;
 

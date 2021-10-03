@@ -7,11 +7,12 @@ import {
   ForumThread,
   ForumThreadEmoji,
 } from '@/server/sequelize/models';
+import { IntrinsicModelAttributes } from '@/server/shared/types';
 /* eslint-enable */
 
 export type EmojiAttributes = {
   code: string;
-};
+} & IntrinsicModelAttributes;
 
 @Table({
   underscored: true,

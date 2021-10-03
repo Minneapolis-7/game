@@ -2,12 +2,13 @@ import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript
 
 /* eslint-disable import/no-cycle */
 import { ForumCommentEmoji, User } from '@/server/sequelize/models';
+import { IntrinsicModelAttributes } from '@/server/shared/types';
 /* eslint-enable */
 
 export type ForumCommentEmojiUserAttributes = {
   userId: number;
   // ???
-};
+} & IntrinsicModelAttributes;
 
 @Table({
   underscored: true,
