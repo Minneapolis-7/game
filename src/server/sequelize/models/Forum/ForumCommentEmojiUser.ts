@@ -8,7 +8,7 @@ import { ForumCommentEmoji, User } from '@/server/sequelize/models';
   underscored: true,
   modelName: 'ForumCommentEmojiUser',
 })
-export default class ForumCommentEmojiUser extends Model<ForumCommentEmojiUser> {
+export default class ForumCommentEmojiUser extends Model {
   @ForeignKey(() => ForumCommentEmoji)
   @Column(DataType.INTEGER)
   commentEmojiId!: number;

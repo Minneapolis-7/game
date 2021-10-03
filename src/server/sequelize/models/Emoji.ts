@@ -9,11 +9,15 @@ import {
 } from '@/server/sequelize/models';
 /* eslint-enable */
 
+export type EmojiAttributes = {
+  code: string;
+};
+
 @Table({
   underscored: true,
   modelName: 'Emoji',
 })
-export default class Emoji extends Model<Emoji> {
+export default class Emoji extends Model<EmojiAttributes> {
   @AllowNull(false)
   @Column(DataType.TEXT)
   code!: string;

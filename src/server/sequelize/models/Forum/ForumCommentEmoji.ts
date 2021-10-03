@@ -16,7 +16,7 @@ import { Emoji, ForumComment, ForumCommentEmojiUser, User } from '@/server/seque
   underscored: true,
   modelName: 'ForumCommentEmoji',
 })
-export default class ForumCommentEmoji extends Model<ForumCommentEmoji> {
+export default class ForumCommentEmoji extends Model {
   @PrimaryKey
   @Column(DataType.INTEGER)
   declare id: number;

@@ -1,3 +1,4 @@
+import { Optional } from 'sequelize';
 import {
   AllowNull,
   BelongsToMany,
@@ -21,11 +22,25 @@ import {
 import UnderscoredIndex from '@/server/sequelize/utils/UnderscoredIndex';
 /* eslint-enable */
 
+export type UserAttributes = {
+  yandexUserId: number;
+  firstName: string;
+  secondName: string;
+  displayName: string;
+  avatarUrl: string;
+  isOnline: string;
+};
+
+export type UserCreationAttributes = Optional<
+  UserAttributes,
+  'displayName' | 'avatarUrl' | 'isOnline'
+>;
+
 @Table({
   underscored: true,
   modelName: 'User',
 })
-export default class User extends Model<User> {
+export default class User extends Model<UserAttributes, UserCreationAttributes> {
   @AllowNull(false)
   @UnderscoredIndex
   @Column(DataType.INTEGER)

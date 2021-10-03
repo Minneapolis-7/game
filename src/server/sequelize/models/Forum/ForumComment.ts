@@ -1,3 +1,4 @@
+import { Optional } from 'sequelize';
 import {
   AllowNull,
   BelongsTo,
@@ -14,11 +15,22 @@ import {
 import { Emoji, ForumCommentEmoji, ForumThread, User } from '@/server/sequelize/models';
 /* eslint-enable */
 
+export type ForumCommentAttributes = {
+  content: string;
+  isModified: boolean;
+  parentId: number;
+};
+
+export type ForumCommentCreationAttributes = Optional<ForumCommentAttributes, 'isModified'>;
+
 @Table({
   underscored: true,
   modelName: 'ForumComment',
 })
-export default class ForumComment extends Model<ForumComment> {
+export default class ForumComment extends Model<
+  ForumCommentAttributes,
+  ForumCommentCreationAttributes
+> {
   @AllowNull(false)
   @Column(DataType.TEXT)
   content!: string;

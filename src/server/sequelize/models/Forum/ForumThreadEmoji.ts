@@ -16,7 +16,7 @@ import { Emoji, ForumThread, ForumThreadEmojiUser, User } from '@/server/sequeli
   underscored: true,
   modelName: 'ForumThreadEmoji',
 })
-export default class ForumThreadEmoji extends Model<ForumThreadEmoji> {
+export default class ForumThreadEmoji extends Model {
   @PrimaryKey
   @Column(DataType.INTEGER)
   declare id: number;

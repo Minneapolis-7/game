@@ -1,3 +1,4 @@
+import { Optional } from 'sequelize';
 import {
   AllowNull,
   BelongsTo,
@@ -21,11 +22,26 @@ import {
 } from '@/server/sequelize/models';
 /* eslint-enable */
 
+export type ForumThreadAttributes = {
+  title: string;
+  content: string;
+  isModified: boolean;
+  visitedCounter: number;
+};
+
+export type ForumThreadCreationAttributes = Optional<
+  ForumThreadAttributes,
+  'isModified' | 'visitedCounter'
+>;
+
 @Table({
   underscored: true,
   modelName: 'ForumThread',
 })
-export default class ForumThread extends Model<ForumThread> {
+export default class ForumThread extends Model<
+  ForumThreadAttributes,
+  ForumThreadCreationAttributes
+> {
   @AllowNull(false)
   @Column(DataType.TEXT)
   title!: string;
@@ -33,6 +49,11 @@ export default class ForumThread extends Model<ForumThread> {
   @AllowNull(false)
   @Column(DataType.TEXT)
   content!: string;
+
+  @AllowNull(false)
+  @Default(false)
+  @Column(DataType.BOOLEAN)
+  isModified!: boolean;
 
   @AllowNull(false)
   @Default(0)
