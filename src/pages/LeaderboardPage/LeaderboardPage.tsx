@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { v1 as uuidv1 } from 'uuid';
 
 import AppContext from '@/AppContext';
 import { Spinner } from '@/components/ui';
@@ -33,7 +32,6 @@ function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
       } catch (err) {
         setLoading(false);
         const toast = {
-          id: uuidv1(),
           type: 'warning',
           description: translateErrorMessage(err.reason),
         };

@@ -2,7 +2,6 @@ import React, { useCallback, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
-import { v1 as uuidv1 } from 'uuid';
 
 import AppContext from '@/AppContext';
 import { Input } from '@/components/formik-ui';
@@ -100,7 +99,6 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
       await dispatch(updateAvatar(formData)).unwrap();
 
       const toast = {
-        id: uuidv1(),
         type: 'success',
         description: text.updateAvatarSuccess,
       };
@@ -108,7 +106,6 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
       appContext?.addToastMessage(toast as ToastItem);
     } catch (err) {
       const toast = {
-        id: uuidv1(),
         type: 'warning',
         description: translateErrorMessage(err.reason),
       };
@@ -145,7 +142,6 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
         await dispatch(updateProfile(values)).unwrap();
 
         const toast = {
-          id: uuidv1(),
           type: 'success',
           description: text.updateProfileSuccess,
         };
@@ -157,7 +153,6 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
         await dispatch(updatePassword(values)).unwrap();
 
         const toast = {
-          id: uuidv1(),
           type: 'success',
           description: text.updatePasswordSuccess,
         };
@@ -168,7 +163,6 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
       actions.setSubmitting(false);
     } catch (err) {
       const toast = {
-        id: uuidv1(),
         type: 'warning',
         description: translateErrorMessage(err.reason),
       };
