@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import { forumRoutes } from './routes';
+import { api } from './routes';
 
 const router = Router();
 
-forumRoutes(router);
+api(router);
 
 export default router;

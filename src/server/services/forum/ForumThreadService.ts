@@ -1,17 +1,18 @@
 import { ForumThread } from '@/server/sequelize/models';
 import type { ForumThreadCreationAttributes } from '@/server/sequelize/models/Forum/ForumThread';
 
-import BaseService from './BaseService';
+import BaseService from '../BaseService';
 
-export default class ForumThreadService extends BaseService {
+export type ForumThreadUpdatePayload = Partial<
+  Pick<ForumThreadCreationAttributes, 'title' | 'content'>
+>;
+
+class ForumThreadService extends BaseService {
   async create(record: ForumThreadCreationAttributes): Promise<ForumThread> {
     return ForumThread.create(record);
   }
 
-  async update(
-    threadId: number,
-    record: Partial<Pick<ForumThreadCreationAttributes, 'title' | 'content'>>
-  ): Promise<void> {
+  async update(threadId: number, record: ForumThreadUpdatePayload): Promise<void> {
     await ForumThread.update(
       {
         isModified: true,
@@ -42,3 +43,5 @@ export default class ForumThreadService extends BaseService {
     return ForumThread.findAll({ where: { userId } });
   }
 }
+
+export default new ForumThreadService();

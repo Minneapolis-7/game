@@ -34,7 +34,7 @@ export type ForumThreadAttributes = {
 
 export type ForumThreadCreationAttributes = Optional<
   ForumThreadAttributes,
-  'isModified' | 'visitedCounter'
+  'isModified' | 'visitedCounter' | keyof IntrinsicModelAttributes
 >;
 
 @Table({

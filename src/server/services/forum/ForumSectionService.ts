@@ -1,9 +1,9 @@
 import { ForumSection } from '@/server/sequelize/models';
 import type { ForumSectionAttributes } from '@/server/sequelize/models/Forum/ForumSection';
 
-import BaseService from './BaseService';
+import BaseService from '../BaseService';
 
-export default class ForumSectionService extends BaseService {
+class ForumSectionService extends BaseService {
   async create(record: ForumSectionAttributes): Promise<ForumSection> {
     return ForumSection.create(record);
   }
@@ -13,8 +13,6 @@ export default class ForumSectionService extends BaseService {
   }
 
   async delete(sectionId: number): Promise<void> {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     await ForumSection.destroy({ where: { id: sectionId } });
   }
 
@@ -22,3 +20,5 @@ export default class ForumSectionService extends BaseService {
     return ForumSection.findAll({ where: { categoryId: id } });
   }
 }
+
+export default new ForumSectionService();
