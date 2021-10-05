@@ -1,5 +1,5 @@
 import { ForumThread } from '@/server/sequelize/models';
-import type { ForumThreadCreationAttributes } from '@/server/sequelize/models/Forum/ForumThread';
+import { ForumThreadCreationAttributes } from '@/server/sequelize/models/Forum/ForumThread';
 
 import BaseService from '../BaseService';
 

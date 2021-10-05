@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 
 import { ForumSectionCreationAttributes } from '@/server/sequelize/models/Forum/ForumSection';
-import forumSectionService from '@/server/services/forum/ForumSectionService';
+import { forumSectionService } from '@/server/services/forum';
 
 export type CreateSectionRequest = {
   body: ForumSectionCreationAttributes;

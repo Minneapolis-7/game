@@ -1,9 +1,8 @@
 import type { Request, Response } from 'express';
 
 import { ForumThreadCreationAttributes } from '@/server/sequelize/models/Forum/ForumThread';
-import forumThreadService, {
-  ForumThreadUpdatePayload,
-} from '@/server/services/forum/ForumThreadService';
+import { forumThreadService } from '@/server/services/forum';
+import { ForumThreadUpdatePayload } from '@/server/services/forum/forumThreadService';
 
 export type CreateThreadRequest = {
   body: ForumThreadCreationAttributes;
@@ -76,7 +75,7 @@ const forumThreadApi = {
     const { id } = request.params;
 
     try {
-      await forumThreadService.delete(id);
+      await forumThreadService.delete(Number(id));
     } catch (e) {
       throw new Error(e);
     }

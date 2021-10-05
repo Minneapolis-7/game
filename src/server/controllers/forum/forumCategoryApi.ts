@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express';
 
 import { ForumCategoryCreationAttributes } from '@/server/sequelize/models/Forum/ForumCategory';
-import forumCategoryService from '@/server/services/forum/ForumCategoryService';
+import { forumCategoryService } from '@/server/services/forum';
 
 export type CreateCategoryRequest = {
   body: ForumCategoryCreationAttributes;

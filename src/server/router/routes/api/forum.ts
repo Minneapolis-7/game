@@ -1,8 +1,6 @@
 import { Router } from 'express';
 
-import forumCategoryApi from '@/server/controllers/forumCategoryApi';
-import forumSectionApi from '@/server/controllers/forumSectionApi';
-import forumThreadApi from '@/server/controllers/forumThreadApi';
+import { forumCategoryApi, forumSectionApi, forumThreadApi } from '@/server/controllers/forum';
 
 const forumRouter = Router();
 

@@ -1,5 +1,5 @@
 import { ForumSection } from '@/server/sequelize/models';
-import type { ForumSectionAttributes } from '@/server/sequelize/models/Forum/ForumSection';
+import { ForumSectionAttributes } from '@/server/sequelize/models/Forum/ForumSection';
 
 import BaseService from '../BaseService';
 
