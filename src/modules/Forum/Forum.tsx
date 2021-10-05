@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
 
+import { apiCustom } from '@/api/api';
 import { Input, Textarea } from '@/components/formik-ui';
 import { Button, ButtonLink, Icon, Pagination } from '@/components/ui';
 import ForumComment from '@/modules/Forum/components/ForumComment';
@@ -40,6 +41,24 @@ const { gameDiscussion, featureRequests, bugReports } = gameAreaText.sections;
 const { gameIndustryNews, generalConversation } = generalAreaText.sections;
 
 function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await apiCustom.post('/forum/categories', {
+          title: 'My cat',
+        });
+
+        console.log(response);
+
+        const cats = await apiCustom.get('/forum/categories');
+
+        console.log(cats);
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+  }, []);
+
   let forumBody = (
     <>
       <div className={b('category')}>
