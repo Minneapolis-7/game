@@ -80,4 +80,7 @@ export default class User extends Model<UserAttributes, UserCreationAttributes> 
 
   @HasMany(() => ForumCommentEmojiUser)
   commentEmojiUsers?: ForumCommentEmojiUser[];
+
+  @HasMany(() => ForumThreadEmojiUser)
+  threadEmojiUsers?: ForumThreadEmojiUser[];
 }

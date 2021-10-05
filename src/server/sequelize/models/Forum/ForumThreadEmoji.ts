@@ -1,9 +1,11 @@
 import {
   AllowNull,
+  BelongsTo,
   BelongsToMany,
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
@@ -37,6 +39,15 @@ export default class ForumThreadEmoji extends Model<ForumThreadEmojiAttributes> 
   @Column(DataType.INTEGER)
   emojiId!: number;
 
+  @BelongsTo(() => ForumThread)
+  thread?: ForumThread;
+
+  @BelongsTo(() => Emoji)
+  emoji?: Emoji;
+
   @BelongsToMany(() => User, () => ForumThreadEmojiUser)
   users!: User[];
+
+  @HasMany(() => ForumThreadEmojiUser)
+  threadEmojiUsers?: ForumThreadEmojiUser[];
 }

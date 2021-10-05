@@ -82,4 +82,7 @@ export default class ForumThread extends Model<
 
   @HasMany(() => ForumComment)
   comments?: ForumComment[];
+
+  @HasMany(() => ForumThreadEmoji)
+  threadEmojis?: ForumThreadEmoji[];
 }

@@ -39,4 +39,7 @@ export default class Emoji extends Model<EmojiAttributes> {
 
   @BelongsToMany(() => ForumThread, () => ForumThreadEmoji)
   threads!: ForumThread[];
+
+  @HasMany(() => ForumThreadEmoji)
+  threadEmojis?: ForumThreadEmoji[];
 }
