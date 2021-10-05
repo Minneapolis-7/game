@@ -29,7 +29,7 @@ const forumSectionApi = {
 
     try {
       if (Array.isArray(body)) {
-        await this.createBulk(request, response);
+        await forumSectionApi.createBulk(request, response);
 
         return;
       }

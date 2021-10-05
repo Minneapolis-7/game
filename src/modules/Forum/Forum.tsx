@@ -44,9 +44,14 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
   useEffect(() => {
     (async () => {
       try {
-        const response = await apiCustom.post('/forum/categories', {
-          title: 'My cat',
-        });
+        const response = await apiCustom.post('/forum/categories', [
+          {
+            title: 'My cat 1',
+          },
+          {
+            title: 'My cat 2',
+          },
+        ]);
 
         console.log(response);
 
