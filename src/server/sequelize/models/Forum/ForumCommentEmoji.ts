@@ -1,8 +1,11 @@
 import {
+  AllowNull,
+  BelongsTo,
   BelongsToMany,
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   PrimaryKey,
   Table,
@@ -24,6 +27,7 @@ export type ForumCommentEmojiAttributes = {
 })
 export default class ForumCommentEmoji extends Model<ForumCommentEmojiAttributes> {
   @PrimaryKey
+  @AllowNull(false)
   @Column(DataType.INTEGER)
   declare id: number;
 
@@ -35,6 +39,15 @@ export default class ForumCommentEmoji extends Model<ForumCommentEmojiAttributes
   @Column(DataType.INTEGER)
   emojiId!: number;
 
+  @BelongsTo(() => ForumComment)
+  comment?: ForumComment;
+
+  @BelongsTo(() => Emoji)
+  emoji?: Emoji;
+
   @BelongsToMany(() => User, () => ForumCommentEmojiUser)
   users!: User[];
+
+  @HasMany(() => ForumCommentEmojiUser)
+  commentEmojiUsers?: ForumCommentEmojiUser[];
 }

@@ -1,4 +1,5 @@
 import {
+  AllowNull,
   BelongsToMany,
   Column,
   DataType,
@@ -24,6 +25,7 @@ export type ForumThreadEmojiAttributes = {
 })
 export default class ForumThreadEmoji extends Model<ForumThreadEmojiAttributes> {
   @PrimaryKey
+  @AllowNull(false)
   @Column(DataType.INTEGER)
   declare id: number;
 

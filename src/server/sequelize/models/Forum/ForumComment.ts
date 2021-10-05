@@ -7,6 +7,7 @@ import {
   DataType,
   Default,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -63,4 +64,7 @@ export default class ForumComment extends Model<
 
   @BelongsToMany(() => Emoji, () => ForumCommentEmoji)
   emojis!: Emoji[];
+
+  @HasMany(() => ForumCommentEmoji)
+  commentEmojis?: ForumCommentEmoji[];
 }

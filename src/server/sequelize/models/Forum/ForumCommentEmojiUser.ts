@@ -1,4 +1,13 @@
-import { Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
+import {
+  AllowNull,
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript';
 
 /* eslint-disable import/no-cycle */
 import { ForumCommentEmoji, User } from '@/server/sequelize/models';
@@ -15,6 +24,11 @@ export type ForumCommentEmojiUserAttributes = {
   modelName: 'ForumCommentEmojiUser',
 })
 export default class ForumCommentEmojiUser extends Model<ForumCommentEmojiUserAttributes> {
+  @PrimaryKey
+  @AllowNull(false)
+  @Column(DataType.INTEGER)
+  declare id: number;
+
   @ForeignKey(() => ForumCommentEmoji)
   @Column(DataType.INTEGER)
   commentEmojiId!: number;
@@ -22,4 +36,10 @@ export default class ForumCommentEmojiUser extends Model<ForumCommentEmojiUserAt
   @ForeignKey(() => User)
   @Column(DataType.INTEGER)
   userId!: number;
+
+  @BelongsTo(() => ForumCommentEmoji)
+  commentEmoji?: ForumCommentEmoji;
+
+  @BelongsTo(() => User)
+  user?: User;
 }

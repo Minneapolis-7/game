@@ -1,4 +1,12 @@
-import { AllowNull, BelongsToMany, Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  AllowNull,
+  BelongsToMany,
+  Column,
+  DataType,
+  HasMany,
+  Model,
+  Table,
+} from 'sequelize-typescript';
 
 /* eslint-disable import/no-cycle */
 import {
@@ -25,6 +33,9 @@ export default class Emoji extends Model<EmojiAttributes> {
 
   @BelongsToMany(() => ForumComment, () => ForumCommentEmoji)
   comments!: ForumComment[];
+
+  @HasMany(() => ForumCommentEmoji)
+  commentEmojis?: ForumCommentEmoji[];
 
   @BelongsToMany(() => ForumThread, () => ForumThreadEmoji)
   threads!: ForumThread[];
