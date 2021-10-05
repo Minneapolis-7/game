@@ -3,24 +3,26 @@
 .toaster {
   position: fixed;
   z-index: $z-index-notification;
+  width: 320px;
+  max-width: calc(100% - 2 * var(--section-pad-x-generic));
 }
 
 .toaster_position_top-right {
-  top: 12px;
-  right: 12px;
+  top: var(--section-pad-x-generic);
+  right: var(--section-pad-x-generic);
 }
 
 .toaster_position_bottom-right {
-  right: 12px;
-  bottom: 12px;
+  right: var(--section-pad-x-generic);
+  bottom: var(--section-pad-x-generic);
 }
 
 .toaster_position_top-left {
-  top: 12px;
-  left: 12px;
+  top: var(--section-pad-x-generic);
+  left: var(--section-pad-x-generic);
 }
 
 .toaster_position_bottom-left {
-  bottom: 12px;
-  left: 12px;
+  bottom: var(--section-pad-x-generic);
+  left: var(--section-pad-x-generic);
 }

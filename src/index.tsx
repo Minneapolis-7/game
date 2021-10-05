@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router-dom';
+import { v1 as uuidv1 } from 'uuid';
 
 import ProtectedRoute from '@/modules/ProtectedRoute';
 import RootErrorBoundary from '@/modules/RootErrorBoundary';
@@ -49,6 +50,8 @@ function App(): JSX.Element {
 
   const ctx = {
     addToastMessage(toast: ToastItem) {
+      // eslint-disable-next-line no-param-reassign
+      toast.id = uuidv1();
       setToastList((oldToastList) => [...oldToastList, toast]);
     },
     removeToastMessage(id: string) {

@@ -3,7 +3,6 @@ import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
-import { v1 as uuidv1 } from 'uuid';
 
 import AppContext from '@/AppContext';
 import { Input } from '@/components/formik-ui';
@@ -41,10 +40,8 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
       actions.setSubmitting(false);
     } catch (err) {
       const toast = {
-        id: uuidv1(),
         type: 'warning',
-        description: translateErrorMessage(err.message),
-        timeout: 5000,
+        description: translateErrorMessage(err.reason),
       };
 
       appContext?.addToastMessage(toast as ToastItem);

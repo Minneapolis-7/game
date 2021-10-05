@@ -29,45 +29,74 @@ export const initialState: UserState = {
   isLoggingOut: false,
 };
 
-export const userRequest = createAsyncThunk('user/userRequest', async () => {
-  return api.getUser();
+export const signin = createAsyncThunk(
+  'user/signin',
+  async (user: SignInRequest, { rejectWithValue }) => {
+    try {
+      return await api.signin(user);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const signup = createAsyncThunk(
+  'user/signup',
+  async (user: SignUpRequest, { rejectWithValue }) => {
+    try {
+      return await api.signup(user);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const logout = createAsyncThunk('user/logout', async (_, { rejectWithValue }) => {
+  try {
+    return await api.logout();
+  } catch (err) {
+    return rejectWithValue(err.response.data);
+  }
 });
 
-export const signin = createAsyncThunk('user/signin', async (user: SignInRequest, { dispatch }) => {
-  await api.signin(user);
-  await dispatch(userRequest());
-
-  dispatch(replace('/'));
-});
-
-export const signup = createAsyncThunk('user/signup', async (user: SignUpRequest, { dispatch }) => {
-  await api.signup(user);
-  await dispatch(userRequest());
-
-  dispatch(replace('/'));
-});
-
-export const logout = createAsyncThunk('user/logout', async (_unused, { dispatch }) => {
-  await api.logout();
-
-  dispatch(replace(paths.LOGIN));
+export const userRequest = createAsyncThunk('user/userRequest', async (_, { rejectWithValue }) => {
+  try {
+    return await api.getUser();
+  } catch (err) {
+    return rejectWithValue(err.response.data);
+  }
 });
 
 export const updateProfile = createAsyncThunk(
   'user/updateProfile',
-  async (user: UpdateProfileRequest) => {
-    return api.updateProfile(user);
+  async (user: UpdateProfileRequest, { rejectWithValue }) => {
+    try {
+      return await api.updateProfile(user);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
-export const updateAvatar = createAsyncThunk('user/updateAvatar', async (formData: FormData) => {
-  return api.updateAvatar(formData);
-});
+export const updateAvatar = createAsyncThunk(
+  'user/updateAvatar',
+  async (formData: FormData, { rejectWithValue }) => {
+    try {
+      return await api.updateAvatar(formData);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const updatePassword = createAsyncThunk(
   'user/logout',
-  async (password: UpdatePasswordRequest) => {
-    return api.updatePassword(password);
+  async (password: UpdatePasswordRequest, { rejectWithValue }) => {
+    try {
+      return await api.updatePassword(password);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 

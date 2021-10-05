@@ -52,16 +52,19 @@ function Toast(props: ToastProps): JSX.Element {
   }
 
   return (
-    <div key={toast.id} className={b()} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-      <div className={b('image', { type: `${toast.type}` })}></div>
-      <p className={b('message')}>{toast.description}</p>
+    <div
+      key={toast.id}
+      className={b({ type: `${toast.type}` })}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       <Button
-        className={b('opener')}
+        className={b('close')}
         sizing="xs"
-        display="inline"
         icon={<Icon name={closeSvg.id} scale={1.5} />}
         onClick={() => deleteToast(toast.id)}
       />
+      <div className={b('message')}>{toast.description}</div>
     </div>
   );
 }

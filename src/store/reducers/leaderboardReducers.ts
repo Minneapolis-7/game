@@ -11,22 +11,34 @@ export const initialState: LeaderboardState = {
 
 export const addToLeaderboard = createAsyncThunk(
   'leaderboard/addToLeaderboard',
-  async (value: NewLeaderData) => {
-    return api.addToLeaderboard(value);
+  async (value: NewLeaderData, { rejectWithValue }) => {
+    try {
+      return await api.addToLeaderboard(value);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
 export const getAllLeaderboard = createAsyncThunk(
   'leaderboard/getAllLeaderboard',
-  async (value: LeaderboardRequest) => {
-    return api.getAllLeaderboard(value);
+  async (value: LeaderboardRequest, { rejectWithValue }) => {
+    try {
+      return await api.getAllLeaderboard(value);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
 export const getTeamLeaderboard = createAsyncThunk(
   'leaderboard/getTeamLeaderboard',
-  async (payload: TeamLeaderboardRequest) => {
-    return api.getTeamLeaderboard(payload.teamName, payload.value);
+  async (payload: TeamLeaderboardRequest, { rejectWithValue }) => {
+    try {
+      return await api.getTeamLeaderboard(payload.teamName, payload.value);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 

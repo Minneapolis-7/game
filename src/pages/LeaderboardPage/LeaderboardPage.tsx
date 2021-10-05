@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
+import AppContext from '@/AppContext';
 import { Spinner } from '@/components/ui';
+import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import Page from '@/layout/Page';
 import Leaderboard from '@/modules/Leaderboard';
 import translateErrorMessage from '@/shared/utils';
@@ -10,6 +12,7 @@ import { useAppDispatch, useAppSelector } from '@/store/store';
 
 function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
   const leaderList = useAppSelector((state) => state.leaderboard.leaderList);
+  const appContext = useContext(AppContext);
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
 
@@ -28,7 +31,12 @@ function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
         setLoading(false);
       } catch (err) {
         setLoading(false);
-        console.log('error', translateErrorMessage(err.message));
+        const toast = {
+          type: 'warning',
+          description: translateErrorMessage(err.reason),
+        };
+
+        appContext?.addToastMessage(toast as ToastItem);
       }
     })();
   }, []);
