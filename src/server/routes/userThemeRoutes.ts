@@ -2,12 +2,8 @@ import { Router } from 'express';
 
 import ThemeAPI from '../controllers/themeAPI';
 
-const userThemeRoutes = (router: Router): void => {
-  const userThemeRouter: Router = Router();
+const userThemeRouter = Router();
 
-  userThemeRouter.get('/', ThemeAPI.find);
+userThemeRouter.get('/', ThemeAPI.find);
 
-  router.use('/theme', userThemeRouter);
-};
-
-export default userThemeRoutes;
+export default userThemeRouter;

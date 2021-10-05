@@ -1,8 +1,10 @@
 import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
 
-import * as models from './models';
+import { UserTheme } from './models';
 
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT, IS_DOCKER } = process.env;
+
+console.log('-----ENV POSTGRES_USER', POSTGRES_USER);
 
 const sequelize = new Sequelize({
   username: POSTGRES_USER,
@@ -12,7 +14,8 @@ const sequelize = new Sequelize({
   host: IS_DOCKER ? 'postgres' : 'localhost',
   port: POSTGRES_PORT,
   dialect: 'postgres',
-  models: Object.values(models),
 } as SequelizeOptions);
+
+export const User = sequelize.addModels([UserTheme]);
 
 export default sequelize;

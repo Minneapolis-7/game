@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import userThemeRoutes from './routes/userThemeRoutes';
+import userThemeRouter from './routes/userThemeRoutes';
 
-const router: Router = Router();
+const router = Router();
 
-userThemeRoutes(router);
+router.use('/theme', userThemeRouter);
 
 export default router;
