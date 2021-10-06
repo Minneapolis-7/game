@@ -21,21 +21,15 @@ import {
 } from '@/server/sequelize/models';
 import UnderscoredIndex from '@/server/sequelize/utils/UnderscoredIndex';
 import { IntrinsicModelAttributes } from '@/server/shared/types';
+import type { UserData } from '@/shared/types/types';
 /* eslint-enable */
 
-export type UserAttributes = {
+export type UserAttributes = Omit<UserData, 'id' | 'password'> & {
   yandexUserId: number;
-  firstName: string;
-  secondName: string;
-  displayName: string;
-  avatarUrl: string;
   isOnline: boolean;
 } & IntrinsicModelAttributes;
 
-export type UserCreationAttributes = Optional<
-  UserAttributes,
-  'displayName' | 'avatarUrl' | 'isOnline'
->;
+export type UserCreationAttributes = Optional<UserAttributes, 'isOnline'>;
 
 @Table({
   underscored: true,
@@ -60,7 +54,16 @@ export default class User extends Model<UserAttributes, UserCreationAttributes> 
   displayName?: string;
 
   @Column(DataType.TEXT)
-  avatarUrl?: string;
+  avatar?: string;
+
+  @Column(DataType.TEXT)
+  login?: string;
+
+  @Column(DataType.TEXT)
+  email?: string;
+
+  @Column(DataType.TEXT)
+  phone?: string;
 
   @AllowNull(false)
   @Default(false)

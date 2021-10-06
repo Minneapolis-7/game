@@ -52,7 +52,7 @@ const forumCategoryApi = {
     const { id } = request.params;
 
     try {
-      await forumCategoryService.delete(Number(id));
+      await forumCategoryService.delete(id);
     } catch (e) {
       throw new Error(e);
     }

@@ -10,6 +10,9 @@ export type CreateThreadRequest = {
 
 export type UpdateThreadRequest = {
   body: ForumThreadUpdatePayload;
+  params: {
+    id: number;
+  };
 } & Request;
 
 export type UpdateThreadVisitedRequest = {
@@ -54,7 +57,7 @@ const forumThreadApi = {
     const { body } = request;
 
     try {
-      await forumThreadService.update(Number(id), body);
+      await forumThreadService.update(id, body);
     } catch (e) {
       throw new Error(e);
     }
@@ -75,7 +78,7 @@ const forumThreadApi = {
     const { id } = request.params;
 
     try {
-      await forumThreadService.delete(Number(id));
+      await forumThreadService.delete(id);
     } catch (e) {
       throw new Error(e);
     }

@@ -58,7 +58,7 @@ const forumSectionApi = {
     const { id } = request.params;
 
     try {
-      await forumSectionService.delete(Number(id));
+      await forumSectionService.delete(id);
     } catch (e) {
       throw new Error(e);
     }
@@ -68,7 +68,7 @@ const forumSectionApi = {
     const { id } = request.params;
 
     try {
-      const records = await forumSectionService.findByCategory(Number(id));
+      const records = await forumSectionService.findByCategory(id);
 
       response.json(records);
     } catch (e) {
