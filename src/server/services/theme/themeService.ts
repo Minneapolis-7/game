@@ -1,19 +1,24 @@
-import BaseRESTService from './BaseRESTService';
+import { SiteTheme, UserTheme } from '@/server/sequelize/models';
 
-import UserTheme from '../models/Themes/UserTheme';
+import BaseRESTService from '../BaseRESTService';
 
-interface FindRequest {
+type FindRequest = {
   userId: number;
-}
+};
 
 class ThemeService implements BaseRESTService {
   // найти тему из табл. UserTheme, где ownerId == userId
-  public find = ({ userId }: FindRequest) => {
+  static find = ({ userId }: FindRequest) => {
     return UserTheme.findOne({
       where: {
         ownerId: userId,
       },
     });
+  };
+
+  // получить все темы из SiteTheme
+  static findAll = () => {
+    return SiteTheme.findAll();
   };
 }
 

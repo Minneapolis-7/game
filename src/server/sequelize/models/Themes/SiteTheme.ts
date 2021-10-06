@@ -1,4 +1,6 @@
-import { AllowNull, Column, DataType, Index, Model, Table, Unique } from 'sequelize-typescript';
+import { AllowNull, Column, DataType, Model, Table, Unique } from 'sequelize-typescript';
+
+import UnderscoredIndex from '@/server/sequelize/utils/UnderscoredIndex';
 
 @Table({
   timestamps: false,
@@ -6,11 +8,11 @@ import { AllowNull, Column, DataType, Index, Model, Table, Unique } from 'sequel
   tableName: 'site_theme',
 })
 export default class SiteTheme extends Model<SiteTheme> {
-  @Index
+  @UnderscoredIndex
   @AllowNull(false)
   @Unique
   @Column(DataType.STRING)
-  theme!: string;
+  name!: string;
 
   @AllowNull(false)
   @Column(DataType.STRING)

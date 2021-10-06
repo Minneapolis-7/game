@@ -14,9 +14,6 @@ export default class UserTheme extends Model<UserTheme> {
   themeId!: number;
 
   @Column(DataType.STRING)
-  theme!: string;
-
-  @Column(DataType.STRING)
   device!: string;
 
   // @ForeignKey(() => User)

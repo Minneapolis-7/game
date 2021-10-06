@@ -5,9 +5,9 @@ const { APP_PORT = 4000 } = process.env;
 
 (async () => {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: process.env.NODE_ENV !== 'production' });
 
-    app.listen(APP_PORT, () => console.log(`Serverrrr http://localhost:${APP_PORT}`));
+    app.listen(APP_PORT, () => console.log(`Server http://localhost:${APP_PORT}`));
   } catch (e) {
     throw new Error(`Соединение с БД неудачно: ${e}`);
   }

@@ -1,6 +1,6 @@
 import { Request } from 'express';
 
-import themeService from '../service/themeService';
+import themeService from '@/server/services/theme/themeService';
 
 export default class ThemeAPI {
   // по userId получить тему из UserTheme
@@ -8,5 +8,10 @@ export default class ThemeAPI {
     const { body } = request;
 
     await themeService.find(body);
+  };
+
+  // получить все темы из SiteTheme
+  static findAll = async () => {
+    await themeService.findAll();
   };
 }
