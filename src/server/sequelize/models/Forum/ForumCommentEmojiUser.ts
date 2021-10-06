@@ -16,7 +16,7 @@ import { IntrinsicModelAttributes } from '@/server/shared/types';
 
 export type ForumCommentEmojiUserAttributes = {
   userId: number;
-  // ???
+  commentEmojiId: number;
 } & IntrinsicModelAttributes;
 
 @Table({
