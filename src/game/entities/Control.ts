@@ -2,7 +2,7 @@ import { ControlKeysState, RegisteredKeys } from '@/game/types';
 
 export default class Control {
   public registeredKeys: RegisteredKeys;
-  public registeredGamepadButtons: Record<number, string>;
+  public registeredGamepadButtons: Record<string, string>;
   public gamepad: Gamepad | null;
   public isActiveGamepad: boolean;
 
@@ -62,14 +62,14 @@ export default class Control {
       return;
     }
 
-    Object.keys(this.registeredGamepadButtons).forEach((button) => {
-      const key = this.registeredGamepadButtons[+button];
+    Object.entries(this.registeredGamepadButtons).forEach(([button, keyCode]) => {
+      const isPressed = navigator.getGamepads()[this.gamepad?.index || 0]?.buttons[+button].pressed;
 
-      if (navigator.getGamepads()[this.gamepad?.index || 0]?.buttons[+button].pressed) {
+      if (isPressed) {
         this.isActiveGamepad = true;
-        this.registeredKeys[key].state = true;
+        this.registeredKeys[keyCode].state = true;
       } else if (this.isActiveGamepad) {
-        this.registeredKeys[key].state = false;
+        this.registeredKeys[keyCode].state = false;
       }
     });
   }
