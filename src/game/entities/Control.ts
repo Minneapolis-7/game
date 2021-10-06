@@ -1,16 +1,21 @@
 import { ControlKeysState, RegisteredKeys } from '@/game/types';
+import text from '@/shared/const/text';
 
 export default class Control {
   public registeredKeys: RegisteredKeys;
-  public registeredGamepadButtons: Record<string, string>;
   public gamepad: Gamepad | null;
   public isActiveGamepad: boolean;
+  public assignableButton: string;
+  public keyCounter: number;
+  public isGamepadConfigured: boolean;
 
   constructor() {
     this.registeredKeys = {};
-    this.registeredGamepadButtons = {};
     this.gamepad = null;
     this.isActiveGamepad = false;
+    this.assignableButton = '';
+    this.keyCounter = 0;
+    this.isGamepadConfigured = false;
   }
 
   handleKeyPressed = (evt: KeyboardEvent): void => {
@@ -38,9 +43,9 @@ export default class Control {
     this.gamepad = null;
   };
 
-  registerKey(keyCode: string, key: string, gamepadButton: number): void {
-    this.registeredKeys[keyCode] = { key, state: false };
-    this.registeredGamepadButtons[gamepadButton] = keyCode;
+  registerKey(keyCode: string, key: string, description: string): void {
+    this.registeredKeys[keyCode] = { key, state: false, gamepadButton: null, description };
+    this.keyCounter += 1;
   }
 
   get keys(): ControlKeysState {
@@ -57,13 +62,49 @@ export default class Control {
     window.addEventListener('gamepaddisconnected', this.handleGamepadDisconnected);
   }
 
+  assignGamepadButtons(): void {
+    navigator.getGamepads()[this.gamepad?.index || 0]?.buttons.forEach((button, index) => {
+      if (button.pressed) {
+        if (this.assignableButton) {
+          const { assignableButton } = this;
+
+          this.assignableButton = '';
+          this.registeredKeys[assignableButton].gamepadButton = index;
+        }
+
+        Object.entries(this.registeredKeys).forEach(([keyCode, { gamepadButton, description }]) => {
+          if (gamepadButton === null && !this.assignableButton) {
+            // eslint-disable-next-line no-alert
+            alert(`${text.game.gamepadConfiguration} ${description}`);
+            this.assignableButton = keyCode;
+          }
+        });
+      }
+    });
+
+    this.isGamepadConfigured = Object.values(this.registeredKeys).every(
+      (el) => el.gamepadButton !== null
+    );
+  }
+
   update(): void {
     if (!this.gamepad) {
       return;
     }
 
-    Object.entries(this.registeredGamepadButtons).forEach(([button, keyCode]) => {
-      const isPressed = navigator.getGamepads()[this.gamepad?.index || 0]?.buttons[+button].pressed;
+    if (!this.isGamepadConfigured) {
+      this.assignGamepadButtons();
+
+      return;
+    }
+
+    Object.entries(this.registeredKeys).forEach(([keyCode, { gamepadButton }]) => {
+      if (gamepadButton === null) {
+        return;
+      }
+
+      const isPressed =
+        navigator.getGamepads()[this.gamepad?.index || 0]?.buttons[gamepadButton].pressed;
 
       if (isPressed) {
         this.isActiveGamepad = true;
