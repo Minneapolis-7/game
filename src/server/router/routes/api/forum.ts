@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { forumCategoryApi, forumSectionApi, forumThreadApi } from '@/server/controllers/forum';
+import forumThreadEmojiApi from '@/server/controllers/forum/ForumThreadEmojiApi';
 
 const forumRouter = Router();
 
@@ -20,5 +21,8 @@ forumRouter.get('/sections/:id/threads', forumThreadApi.findBySection);
 forumRouter.post('/threads', forumThreadApi.create);
 forumRouter.delete('/threads/:id', forumThreadApi.delete);
 forumRouter.put('/threads/:id', forumThreadApi.update);
+
+forumRouter.post('/threads/:id/emojis', forumThreadEmojiApi.create);
+forumRouter.delete('/threads/:id/emojis', forumThreadEmojiApi.delete);
 
 export default forumRouter;
