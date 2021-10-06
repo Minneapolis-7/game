@@ -1,4 +1,4 @@
-import { ForumThread } from '@/server/sequelize/models';
+import { Emoji, ForumThread, ForumThreadEmoji, User } from '@/server/sequelize/models';
 import { ForumThreadCreationAttributes } from '@/server/sequelize/models/Forum/ForumThread';
 
 import BaseService from '../BaseService';
@@ -36,11 +36,35 @@ class ForumThreadService extends BaseService {
   }
 
   async findBySection(sectionId: number): Promise<ForumThread[]> {
-    return ForumThread.findAll({ where: { sectionId } });
+    return ForumThread.findAll({
+      where: { sectionId },
+      include: {
+        model: ForumThreadEmoji,
+        include: [
+          {
+            model: User,
+            through: { attributes: [] },
+          },
+          Emoji,
+        ],
+      },
+    });
   }
 
   async findByUser(userId: number): Promise<ForumThread[]> {
-    return ForumThread.findAll({ where: { userId } });
+    return ForumThread.findAll({
+      where: { userId },
+      include: {
+        model: ForumThreadEmoji,
+        include: [
+          {
+            model: User,
+            through: { attributes: [] },
+          },
+          Emoji,
+        ],
+      },
+    });
   }
 }
 
