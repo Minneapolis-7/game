@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 
 import { ForumCategoryCreationAttributes } from '@/server/sequelize/models/Forum/ForumCategory';
 import { forumCategoryService } from '@/server/services/forum';
+import { HttpStatuses } from '@/shared/const/const';
 
 export type CreateCategoryRequest = {
   body: ForumCategoryCreationAttributes;
@@ -32,7 +33,7 @@ const forumCategoryApi = {
 
       response.json(record);
     } catch (e) {
-      throw new Error(e);
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
     }
   },
 
@@ -44,17 +45,17 @@ const forumCategoryApi = {
 
       response.json(records);
     } catch (e) {
-      throw new Error(e);
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
     }
   },
 
-  async delete(request: DeleteCategoryRequest): Promise<void> {
+  async delete(request: DeleteCategoryRequest, response: Response): Promise<void> {
     const { id } = request.params;
 
     try {
       await forumCategoryService.delete(id);
     } catch (e) {
-      throw new Error(e);
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
     }
   },
 
@@ -64,7 +65,7 @@ const forumCategoryApi = {
 
       response.json(records);
     } catch (e) {
-      throw new Error(e);
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
     }
   },
 };

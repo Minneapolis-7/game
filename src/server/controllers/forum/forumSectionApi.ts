@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 
 import { ForumSectionCreationAttributes } from '@/server/sequelize/models/Forum/ForumSection';
 import { forumSectionService } from '@/server/services/forum';
+import { HttpStatuses } from '@/shared/const/const';
 
 export type CreateSectionRequest = {
   body: ForumSectionCreationAttributes;
@@ -38,7 +39,7 @@ const forumSectionApi = {
 
       response.json(record);
     } catch (e) {
-      throw new Error(e);
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
     }
   },
 
@@ -50,17 +51,17 @@ const forumSectionApi = {
 
       response.json(records);
     } catch (e) {
-      throw new Error(e);
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
     }
   },
 
-  async delete(request: DeleteSectionRequest): Promise<void> {
+  async delete(request: DeleteSectionRequest, response: Response): Promise<void> {
     const { id } = request.params;
 
     try {
       await forumSectionService.delete(id);
     } catch (e) {
-      throw new Error(e);
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
     }
   },
 
@@ -72,7 +73,7 @@ const forumSectionApi = {
 
       response.json(records);
     } catch (e) {
-      throw new Error(e);
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
     }
   },
 };

@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 
 import { forumThreadEmojiService } from '@/server/services/forum';
 import { ForumThreadEmojiUserIdentifier } from '@/server/services/forum/forumThreadEmojiService';
+import { HttpStatuses } from '@/shared/const/const';
 
 export type CreateThreadEmojiRequest = {
   body: Omit<ForumThreadEmojiUserIdentifier, 'threadId'>;
@@ -25,11 +26,11 @@ const forumThreadEmojiApi = {
 
       response.json(record);
     } catch (e) {
-      throw new Error(e);
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
     }
   },
 
-  async delete(request: DeleteThreadRequest): Promise<void> {
+  async delete(request: DeleteThreadRequest, response: Response): Promise<void> {
     const { id: threadId } = request.params;
     const { body } = request;
 
@@ -39,7 +40,7 @@ const forumThreadEmojiApi = {
         ...body,
       });
     } catch (e) {
-      throw new Error(e);
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
     }
   },
 };

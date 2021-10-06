@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 
 import { UserCreationAttributes } from '@/server/sequelize/models/User';
 import userService, { UserUpdatePayload } from '@/server/services/userService';
+import { HttpStatuses } from '@/shared/const/const';
 
 export type CreateUserRequest = {
   body: UserCreationAttributes;
@@ -23,18 +24,18 @@ const userApi = {
 
       response.json(record);
     } catch (e) {
-      throw new Error(e);
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
     }
   },
 
-  async update(request: UpdateUserRequest): Promise<void> {
+  async update(request: UpdateUserRequest, response: Response): Promise<void> {
     const { id } = request.params;
     const { body } = request;
 
     try {
       await userService.update(id, body);
     } catch (e) {
-      throw new Error(e);
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
     }
   },
 };
