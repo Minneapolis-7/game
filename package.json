@@ -19,6 +19,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "db:seed": "npx sequelize-cli db:seed:all",
+    "db:unseed": "npx sequelize-cli db:seed:undo:all",
     "prepare": "husky install"
   },
   "repository": {

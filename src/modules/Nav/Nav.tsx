@@ -33,18 +33,6 @@ const navItems = [
     label: txt.forum,
     path: paths.FORUM,
   },
-  {
-    label: txt.forumSection,
-    path: paths.FORUM_SECTION,
-  },
-  {
-    label: txt.forumThread,
-    path: paths.FORUM_THREAD,
-  },
-  {
-    label: txt.forumThreadCreate,
-    path: paths.FORUM_THREAD_CREATE,
-  },
 ];
 
 function Nav(): JSX.Element {
@@ -54,15 +42,16 @@ function Nav(): JSX.Element {
     <nav className={b()}>
       <ul className={b('list').mix('nolist')}>
         {navItems.map((item) => {
-          const isCurrent = item.path === pathname;
+          const path = Array.isArray(item.path) ? item.path[0] : item.path;
+          const isCurrent = path === pathname;
           const basicProps = {
             className: b('item-i'),
             children: item.label,
           };
 
           return (
-            <li key={item.path} className={b('item', { current: isCurrent })}>
-              {isCurrent ? <span {...basicProps} /> : <Link {...basicProps} to={item.path} />}
+            <li key={path} className={b('item', { current: isCurrent })}>
+              {isCurrent ? <span {...basicProps} /> : <Link {...basicProps} to={path} />}
             </li>
           );
         })}

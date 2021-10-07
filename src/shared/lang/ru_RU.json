@@ -5,10 +5,7 @@
     "register": "Регистрация",
     "profile": "Профиль",
     "leaderboard": "Лидеры",
-    "forum": "Форум",
-    "forumSection": "Форум секция",
-    "forumThread": "Форум тема",
-    "forumThreadCreate": "Форум создать тему"
+    "forum": "Форум"
   },
   "sidebar": {
     "header": "Выберите раздел",

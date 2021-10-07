@@ -80,8 +80,14 @@ function App(): JSX.Element {
                   RouteComponent = ProtectedRoute;
                 }
 
+                let routeKey = route.path;
+
+                if (Array.isArray(routeKey)) {
+                  routeKey = routeKey.join('');
+                }
+
                 return (
-                  <RouteComponent key={route.path} path={route.path} exact={route.exact}>
+                  <RouteComponent key={routeKey} path={route.path} exact={route.exact}>
                     <Component title={route.title || ''} />
                   </RouteComponent>
                 );

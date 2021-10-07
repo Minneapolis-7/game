@@ -1,8 +1,5 @@
 import {
   ForumMainPage,
-  ForumSectionPage,
-  ForumThreadCreatePage,
-  ForumThreadPage,
   LeaderboardPage,
   LoginPage,
   MainPage,
@@ -63,27 +60,8 @@ const routes = [
     path: paths.FORUM,
     component: ForumMainPage,
     exact: true,
-    protected: false,
+    protected: true,
     title: text.forum.title,
-  },
-  {
-    path: paths.FORUM_SECTION,
-    component: ForumSectionPage,
-    exact: true,
-    protected: false,
-  },
-  {
-    path: paths.FORUM_THREAD,
-    component: ForumThreadPage,
-    exact: true,
-    protected: false,
-  },
-  {
-    path: paths.FORUM_THREAD_CREATE,
-    component: ForumThreadCreatePage,
-    exact: true,
-    protected: false,
-    title: text.forum.createNewThreadTitle,
   },
   {
     path: paths.LEADERBOARD,

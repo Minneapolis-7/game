@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useParams } from 'react-router';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
 
@@ -27,19 +28,20 @@ const replyInitialValues = {
   replyMessage: '',
 };
 
-type ForumProps = {
-  section?: string; // id выбранной секции
-  thread?: string; // id выбранного треда
-  extendedSection?: string; // id секции, в которой создаётся тред
-};
-
 const { forum: txt } = text;
 const gameAreaText = txt.categories.game;
 const generalAreaText = txt.categories.general;
 const { gameDiscussion, featureRequests, bugReports } = gameAreaText.sections;
 const { gameIndustryNews, generalConversation } = generalAreaText.sections;
 
-function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
+type ForumRouteParams = {
+  sectionId?: string;
+  threadId?: string;
+};
+
+function Forum(): JSX.Element {
+  const { sectionId, threadId } = useParams<ForumRouteParams>();
+
   let forumBody = (
     <>
       <div className={b('category')}>
@@ -176,7 +178,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
     </>
   );
 
-  if (section) {
+  if (sectionId) {
     forumBody = (
       <>
         <h4 className={b('heading').mix('heading_4', 'heading')}>
@@ -548,7 +550,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
     }, 400);
   }, []);
 
-  if (thread) {
+  if (threadId) {
     const mockComment = {
       user: { id: 1, displayName: 'Ник', avatar: 'url' },
       date: 'Tue Aug 17 2020 01:40:57 GMT+0400',
@@ -619,7 +621,7 @@ function Forum({ section, thread, extendedSection }: ForumProps): JSX.Element {
     }, 400);
   }, []);
 
-  if (extendedSection) {
+  if (threadId === 'create') {
     forumBody = (
       <>
         <h4 className={b('heading').mix('heading_4', 'heading')}>
