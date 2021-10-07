@@ -25,6 +25,7 @@ export type EmojiAttributes = {
 @Table({
   underscored: true,
   modelName: 'Emoji',
+  tableName: 'emojis',
 })
 export default class Emoji extends Model<EmojiAttributes> {
   @AllowNull(false)

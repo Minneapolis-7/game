@@ -24,6 +24,7 @@ export type ForumCommentEmojiAttributes = {
 @Table({
   underscored: true,
   modelName: 'ForumCommentEmoji',
+  tableName: 'forum_comment_emojis',
 })
 export default class ForumCommentEmoji extends Model<ForumCommentEmojiAttributes> {
   @PrimaryKey

@@ -12,6 +12,7 @@ export type ForumCategoryAttributes = {
 @Table({
   underscored: true,
   modelName: 'ForumCategory',
+  tableName: 'forum_categories',
 })
 export default class ForumCategory extends Model<ForumCategoryAttributes> {
   @AllowNull(false)

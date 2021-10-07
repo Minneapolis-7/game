@@ -40,6 +40,7 @@ export type UserCreationAttributes = Optional<
 @Table({
   underscored: true,
   modelName: 'User',
+  tableName: 'users',
 })
 export default class User extends Model<UserAttributes, UserCreationAttributes> {
   @AllowNull(false)

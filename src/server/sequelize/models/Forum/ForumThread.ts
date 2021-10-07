@@ -40,6 +40,7 @@ export type ForumThreadCreationAttributes = Optional<
 @Table({
   underscored: true,
   modelName: 'ForumThread',
+  tableName: 'forum_threads',
 })
 export default class ForumThread extends Model<
   ForumThreadAttributes,

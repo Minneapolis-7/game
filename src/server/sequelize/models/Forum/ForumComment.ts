@@ -30,6 +30,7 @@ export type ForumCommentCreationAttributes = Optional<ForumCommentAttributes, 'i
 @Table({
   underscored: true,
   modelName: 'ForumComment',
+  tableName: 'forum_comments',
 })
 export default class ForumComment extends Model<
   ForumCommentAttributes,

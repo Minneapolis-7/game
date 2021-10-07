@@ -23,6 +23,7 @@ export type ForumSectionAttributes = {
 @Table({
   underscored: true,
   modelName: 'ForumSection',
+  tableName: 'forum_sections',
 })
 export default class ForumSection extends Model<ForumSectionAttributes> {
   @AllowNull(false)
