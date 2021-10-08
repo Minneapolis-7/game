@@ -10,9 +10,9 @@ export type ForumThreadEmojiUserIdentifier = {
 
 class ForumThreadEmojiService extends BaseService {
   async create({ emojiId, userId, threadId }: ForumThreadEmojiUserIdentifier): Promise<void> {
-    const { id: threadEmojiId } = await ForumThreadEmoji.create({ threadId, emojiId });
+    const threadEmoji = await ForumThreadEmoji.create({ threadId, emojiId });
 
-    await ForumThreadEmojiUser.create({ userId, threadEmojiId });
+    await ForumThreadEmojiUser.create({ userId, threadEmojiId: threadEmoji.get('id') });
   }
 
   async delete({ emojiId, userId, threadId }: ForumThreadEmojiUserIdentifier): Promise<void> {
@@ -28,7 +28,7 @@ class ForumThreadEmojiService extends BaseService {
       return;
     }
 
-    const threadEmojiId = threadEmoji.id;
+    const threadEmojiId = threadEmoji.get('id');
 
     await ForumThreadEmoji.destroy(query);
     await ForumThreadEmojiUser.destroy({

@@ -33,7 +33,9 @@ const forumCategoryApi = {
 
       response.json(record);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 
@@ -45,7 +47,9 @@ const forumCategoryApi = {
 
       response.json(records);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 
@@ -54,8 +58,11 @@ const forumCategoryApi = {
 
     try {
       await forumCategoryService.delete(id);
+      response.sendStatus(200);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 
@@ -65,7 +72,9 @@ const forumCategoryApi = {
 
       response.json(records);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 };

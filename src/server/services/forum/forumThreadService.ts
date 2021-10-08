@@ -35,9 +35,10 @@ class ForumThreadService extends BaseService {
     await ForumThread.destroy({ where: { id: threadId } });
   }
 
-  async findBySection(sectionId: number): Promise<ForumThread[]> {
-    return ForumThread.findAll({
-      where: { sectionId },
+  async find(threadId: number): Promise<ForumThread | null> {
+    // todo: включить комментарии с их emoji
+    return ForumThread.findOne({
+      where: { id: threadId },
       include: {
         model: ForumThreadEmoji,
         include: [

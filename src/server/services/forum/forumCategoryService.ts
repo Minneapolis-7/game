@@ -1,4 +1,4 @@
-import { ForumCategory } from '@/server/sequelize/models';
+import { ForumCategory, ForumSection } from '@/server/sequelize/models';
 import { ForumCategoryCreationAttributes } from '@/server/sequelize/models/Forum/ForumCategory';
 
 import BaseService from '../BaseService';
@@ -17,7 +17,9 @@ class ForumCategoryService extends BaseService {
   }
 
   async findAll(): Promise<ForumCategory[]> {
-    return ForumCategory.findAll();
+    return ForumCategory.findAll({
+      include: ForumSection,
+    });
   }
 }
 

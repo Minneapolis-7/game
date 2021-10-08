@@ -1,4 +1,4 @@
-import { ForumSection } from '@/server/sequelize/models';
+import { ForumSection, ForumThread } from '@/server/sequelize/models';
 import { ForumSectionAttributes } from '@/server/sequelize/models/Forum/ForumSection';
 
 import BaseService from '../BaseService';
@@ -16,8 +16,8 @@ class ForumSectionService extends BaseService {
     await ForumSection.destroy({ where: { id: sectionId } });
   }
 
-  async findByCategory(id: number): Promise<ForumSection[]> {
-    return ForumSection.findAll({ where: { categoryId: id } });
+  async find(sectionId: number): Promise<ForumSection | null> {
+    return ForumSection.findOne({ where: { id: sectionId }, include: ForumThread });
   }
 }
 

@@ -16,27 +16,9 @@ export type UpdateThreadRequest = {
   };
 } & Request;
 
-export type UpdateThreadVisitedRequest = {
-  params: {
-    threadId: number;
-  };
-} & Request;
-
-export type DeleteThreadRequest = {
+export type ThreadRequest = {
   params: {
     id: number;
-  };
-} & Request;
-
-export type FindThreadsBySectionRequest = {
-  params: {
-    id: number;
-  };
-} & Request;
-
-export type FindThreadsByUserRequest = {
-  params: {
-    userId: number;
   };
 } & Request;
 
@@ -49,7 +31,9 @@ const forumThreadApi = {
 
       response.json(record);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 
@@ -59,53 +43,52 @@ const forumThreadApi = {
 
     try {
       await forumThreadService.update(id, body);
+      response.sendStatus(HttpStatuses.OK);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 
   // через какие http-глаголы использовать этот метод (и нужно ли это делать именно так)?
-  async updateVisited(request: UpdateThreadVisitedRequest, response: Response): Promise<void> {
-    const { threadId } = request.params;
+  async updateVisited(request: ThreadRequest, response: Response): Promise<void> {
+    const { id } = request.params;
 
     try {
-      await forumThreadService.updateVisited(threadId);
+      await forumThreadService.updateVisited(id);
+      response.sendStatus(HttpStatuses.OK);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 
-  async delete(request: DeleteThreadRequest, response: Response): Promise<void> {
+  async delete(request: ThreadRequest, response: Response): Promise<void> {
     const { id } = request.params;
 
     try {
       await forumThreadService.delete(id);
+      response.sendStatus(HttpStatuses.OK);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 
-  async findBySection(request: FindThreadsBySectionRequest, response: Response): Promise<void> {
+  async find(request: ThreadRequest, response: Response): Promise<void> {
     const { id } = request.params;
 
     try {
-      const records = await forumThreadService.findBySection(id);
+      const record = await forumThreadService.find(id);
 
-      response.json(records);
+      response.json(record);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
-    }
-  },
-
-  async findByUser(request: FindThreadsByUserRequest, response: Response): Promise<void> {
-    const { userId } = request.params;
-
-    try {
-      const records = await forumThreadService.findByUser(userId);
-
-      response.json(records);
-    } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 };

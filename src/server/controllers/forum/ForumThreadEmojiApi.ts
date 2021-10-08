@@ -26,7 +26,9 @@ const forumThreadEmojiApi = {
 
       response.json(record);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 
@@ -39,8 +41,11 @@ const forumThreadEmojiApi = {
         threadId,
         ...body,
       });
+      response.sendStatus(HttpStatuses.OK);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 };

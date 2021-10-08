@@ -12,13 +12,7 @@ export type CreateSectionsRequest = {
   body: ForumSectionCreationAttributes[];
 } & Request;
 
-export type DeleteSectionRequest = {
-  params: {
-    id: number;
-  };
-} & Request;
-
-export type FindSectionsByCategoryRequest = {
+export type SectionRequest = {
   params: {
     id: number;
   };
@@ -39,7 +33,9 @@ const forumSectionApi = {
 
       response.json(record);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 
@@ -51,29 +47,36 @@ const forumSectionApi = {
 
       response.json(records);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 
-  async delete(request: DeleteSectionRequest, response: Response): Promise<void> {
+  async delete(request: SectionRequest, response: Response): Promise<void> {
     const { id } = request.params;
 
     try {
       await forumSectionService.delete(id);
+      response.sendStatus(HttpStatuses.OK);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 
-  async findByCategory(request: FindSectionsByCategoryRequest, response: Response): Promise<void> {
+  async find(request: SectionRequest, response: Response): Promise<void> {
     const { id } = request.params;
 
     try {
-      const records = await forumSectionService.findByCategory(id);
+      const record = await forumSectionService.find(id);
 
-      response.json(records);
+      response.json(record);
     } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
+      response.status(HttpStatuses.SERVER_ERROR).json({
+        error: e,
+      });
     }
   },
 };
