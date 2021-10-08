@@ -1,12 +1,12 @@
 import { SiteTheme, UserTheme } from '@/server/sequelize/models';
 
-import BaseRESTService from '../BaseRESTService';
+import BaseService from '../BaseService';
 
 type FindRequest = {
   userId: number;
 };
 
-class ThemeService implements BaseRESTService {
+class ThemeService extends BaseService {
   // найти тему из табл. UserTheme, где ownerId == userId
   static find = ({ userId }: FindRequest) => {
     return UserTheme.findOne({

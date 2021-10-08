@@ -5,7 +5,8 @@ import UnderscoredIndex from '@/server/sequelize/utils/UnderscoredIndex';
 @Table({
   timestamps: false,
   paranoid: true,
-  tableName: 'site_theme',
+  tableName: 'site_themes',
+  modelName: 'SiteTheme',
 })
 export default class SiteTheme extends Model<SiteTheme> {
   @UnderscoredIndex
