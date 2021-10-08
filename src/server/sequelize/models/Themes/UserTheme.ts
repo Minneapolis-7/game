@@ -5,7 +5,8 @@ import SiteTheme from './SiteTheme';
 @Table({
   timestamps: false,
   paranoid: true,
-  tableName: 'user_theme',
+  tableName: 'user_themes',
+  modelName: 'UserTheme',
 })
 export default class UserTheme extends Model<UserTheme> {
   @ForeignKey(() => SiteTheme)
