@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import ThemeAPI from '../controllers/theme/themeAPI';
+import ThemeAPI from '@/server/controllers/theme/themeAPI';
 
 const userThemeRouter = Router();
 

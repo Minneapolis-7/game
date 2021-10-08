@@ -3,8 +3,8 @@ import express from 'express';
 import path from 'path';
 
 import ssr from './middlewares/ssr';
+import router from './router/router';
 import sequelize from './sequelize/sequelize';
-import router from './router';
 
 import settings from '../../webpack/settings';
 

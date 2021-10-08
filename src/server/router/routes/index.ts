@@ -1,2 +1,2 @@
 // eslint-disable-next-line import/prefer-default-export
-export { default as setApiRoutes } from './api/setRoutes';
+export { default as apiRouter } from './api/apiRouter';

@@ -1,9 +1,11 @@
 import { Router } from 'express';
 
-import { setApiRoutes } from './routes';
+import { API_CUSTOM } from '@/shared/const/const';
+
+import { apiRouter } from './routes';
 
 const router = Router();
 
-setApiRoutes(router);
+router.use(API_CUSTOM, apiRouter);
 
 export default router;
