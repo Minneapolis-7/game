@@ -4,6 +4,7 @@ const { forum: txt } = JSON.parse(fs.readFileSync('src/shared/lang/ru_RU.json', 
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
+    // todo: https://github.com/sequelize/sequelize/issues/8444
     const categoriesText = Object.values(txt.categories);
     const categoriesIds = await queryInterface.bulkInsert(
       'forum_categories',
