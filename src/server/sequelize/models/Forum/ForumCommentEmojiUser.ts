@@ -1,3 +1,4 @@
+import { Optional } from 'sequelize';
 import {
   AllowNull,
   AutoIncrement,
@@ -20,12 +21,20 @@ export type ForumCommentEmojiUserAttributes = {
   commentEmojiId: number;
 } & IntrinsicModelAttributes;
 
+export type ForumCommentEmojiUserACreationAttributes = Optional<
+  ForumCommentEmojiUserAttributes,
+  keyof IntrinsicModelAttributes
+>;
+
 @Table({
   underscored: true,
   modelName: 'ForumCommentEmojiUser',
   tableName: 'forum_comment_emoji_users',
 })
-export default class ForumCommentEmojiUser extends Model<ForumCommentEmojiUserAttributes> {
+export default class ForumCommentEmojiUser extends Model<
+  ForumCommentEmojiUserAttributes,
+  ForumCommentEmojiUserACreationAttributes
+> {
   @PrimaryKey
   @AllowNull(false)
   @AutoIncrement

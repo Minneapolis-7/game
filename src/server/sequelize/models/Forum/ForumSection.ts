@@ -1,3 +1,4 @@
+import { Optional } from 'sequelize';
 import {
   AllowNull,
   BelongsTo,
@@ -20,12 +21,20 @@ export type ForumSectionAttributes = {
   categoryId: number;
 } & IntrinsicModelAttributes;
 
+export type ForumSectionCreationAttributes = Optional<
+  ForumSectionAttributes,
+  keyof IntrinsicModelAttributes
+>;
+
 @Table({
   underscored: true,
   modelName: 'ForumSection',
   tableName: 'forum_sections',
 })
-export default class ForumSection extends Model<ForumSectionAttributes> {
+export default class ForumSection extends Model<
+  ForumSectionAttributes,
+  ForumSectionCreationAttributes
+> {
   @AllowNull(false)
   @Column(DataType.TEXT)
   title!: string;

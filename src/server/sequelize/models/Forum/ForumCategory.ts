@@ -1,3 +1,4 @@
+import { Optional } from 'sequelize';
 import { AllowNull, Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
 
 /* eslint-disable import/no-cycle */
@@ -9,12 +10,20 @@ export type ForumCategoryAttributes = {
   title: string;
 } & IntrinsicModelAttributes;
 
+export type ForumCategoryCreationAttributes = Optional<
+  ForumCategoryAttributes,
+  keyof IntrinsicModelAttributes
+>;
+
 @Table({
   underscored: true,
   modelName: 'ForumCategory',
   tableName: 'forum_categories',
 })
-export default class ForumCategory extends Model<ForumCategoryAttributes> {
+export default class ForumCategory extends Model<
+  ForumCategoryAttributes,
+  ForumCategoryCreationAttributes
+> {
   @AllowNull(false)
   @Column(DataType.TEXT)
   title!: string;

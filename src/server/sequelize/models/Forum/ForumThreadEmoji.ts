@@ -1,3 +1,4 @@
+import { Optional } from 'sequelize';
 import {
   AllowNull,
   AutoIncrement,
@@ -22,12 +23,20 @@ export type ForumThreadEmojiAttributes = {
   emojiId: number;
 } & IntrinsicModelAttributes;
 
+export type ForumThreadEmojiCreationAttributes = Optional<
+  ForumThreadEmojiAttributes,
+  keyof IntrinsicModelAttributes
+>;
+
 @Table({
   underscored: true,
   modelName: 'ForumThreadEmoji',
   tableName: 'forum_thread_emojis',
 })
-export default class ForumThreadEmoji extends Model<ForumThreadEmojiAttributes> {
+export default class ForumThreadEmoji extends Model<
+  ForumThreadEmojiAttributes,
+  ForumThreadEmojiCreationAttributes
+> {
   @PrimaryKey
   @AllowNull(false)
   @AutoIncrement
