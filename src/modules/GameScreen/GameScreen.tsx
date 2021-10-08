@@ -81,9 +81,9 @@ function GameScreen(): JSX.Element {
     }
   }, [fullscreenSupport, fullscreen]);
 
-  const handleToggleFullscreen = () => {
+  const handleToggleFullscreen = useCallback(() => {
     setFullscreen((prevValue) => !prevValue);
-  };
+  }, [setFullscreen]);
 
   const fullscreenButtonElement = useMemo(() => {
     if (!fullscreenSupport) {
@@ -99,7 +99,7 @@ function GameScreen(): JSX.Element {
         onClick={handleToggleFullscreen}
       />
     );
-  }, [fullscreenSupport, fullscreen]);
+  }, [fullscreenSupport, fullscreen, handleToggleFullscreen]);
 
   const gameScreenElement = useMemo(() => {
     return {
