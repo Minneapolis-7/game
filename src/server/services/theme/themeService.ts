@@ -8,7 +8,7 @@ type FindRequest = {
 
 class ThemeService extends BaseService {
   // найти тему из табл. UserTheme, где ownerId == userId
-  static find = ({ userId }: FindRequest) => {
+  find = ({ userId }: FindRequest) => {
     return UserTheme.findOne({
       where: {
         ownerId: userId,
@@ -17,7 +17,7 @@ class ThemeService extends BaseService {
   };
 
   // получить все темы из SiteTheme
-  static findAll = () => {
+  findAll = () => {
     return SiteTheme.findAll();
   };
 }
