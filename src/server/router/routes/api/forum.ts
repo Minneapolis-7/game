@@ -1,7 +1,13 @@
 import { Router } from 'express';
 
-import { forumCategoryApi, forumSectionApi, forumThreadApi } from '@/server/controllers/forum';
-import forumThreadEmojiApi from '@/server/controllers/forum/ForumThreadEmojiApi';
+import {
+  forumCategoryApi,
+  forumCommentApi,
+  forumCommentEmojiApi,
+  forumSectionApi,
+  forumThreadApi,
+  forumThreadEmojiApi,
+} from '@/server/controllers/forum';
 
 const forumRouter = Router();
 
@@ -18,7 +24,14 @@ forumRouter.post('/threads', forumThreadApi.create);
 forumRouter.delete('/threads/:id', forumThreadApi.delete);
 forumRouter.put('/threads/:id', forumThreadApi.update);
 
+forumRouter.post('/comments', forumCommentApi.create);
+forumRouter.delete('/comments/:id', forumCommentApi.delete);
+forumRouter.put('/comments/:id', forumCommentApi.update);
+
 forumRouter.post('/threads/:id/emojis', forumThreadEmojiApi.create);
 forumRouter.delete('/threads/:id/emojis', forumThreadEmojiApi.delete);
+
+forumRouter.post('/comments/:id/emojis', forumCommentEmojiApi.create);
+forumRouter.delete('/comments/:id/emojis', forumCommentEmojiApi.delete);
 
 export default forumRouter;

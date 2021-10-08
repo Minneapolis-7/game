@@ -1,4 +1,11 @@
-import { Emoji, ForumThread, ForumThreadEmoji, User } from '@/server/sequelize/models';
+import {
+  Emoji,
+  ForumComment,
+  ForumCommentEmoji,
+  ForumThread,
+  ForumThreadEmoji,
+  User,
+} from '@/server/sequelize/models';
 import { ForumThreadCreationAttributes } from '@/server/sequelize/models/Forum/ForumThread';
 
 import BaseService from '../BaseService';
@@ -36,19 +43,35 @@ class ForumThreadService extends BaseService {
   }
 
   async find(threadId: number): Promise<ForumThread | null> {
-    // todo: включить комментарии с их emoji
     return ForumThread.findOne({
       where: { id: threadId },
-      include: {
-        model: ForumThreadEmoji,
-        include: [
-          {
-            model: User,
-            through: { attributes: [] },
-          },
-          Emoji,
-        ],
-      },
+      include: [
+        {
+          model: ForumThreadEmoji,
+          include: [
+            {
+              model: User,
+              through: { attributes: [] },
+            },
+            Emoji,
+          ],
+        },
+        {
+          model: ForumComment,
+          include: [
+            {
+              model: ForumCommentEmoji,
+              include: [
+                {
+                  model: User,
+                  through: { attributes: [] },
+                },
+                Emoji,
+              ],
+            },
+          ],
+        },
+      ],
     });
   }
 
