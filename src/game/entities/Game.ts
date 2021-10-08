@@ -215,6 +215,7 @@ export default class Game {
     this.world.update(this.gameEntities);
     this.player.update(this.gameEntities);
     this.view.update(this.gameEntities);
+    this.control.update();
 
     this.requestAnimationId = window.requestAnimationFrame(this.loop);
 
