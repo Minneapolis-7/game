@@ -11,10 +11,11 @@ import './game-react-component.scss';
 const b = block('game-react-component');
 
 type GameProps = {
+  fullscreen: boolean;
   onStateUpdate: (gameSession: GameState | null) => void;
 };
 
-function GameReactComponent({ onStateUpdate }: GameProps): JSX.Element {
+function GameReactComponent({ fullscreen, onStateUpdate }: GameProps): JSX.Element {
   const [gameState, setGameState] = useState<GameState | null>(null);
   const gameCanvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -43,10 +44,10 @@ function GameReactComponent({ onStateUpdate }: GameProps): JSX.Element {
   }, []);
 
   return (
-    <div className={b()}>
-      <canvas ref={gameCanvasRef} />
+    <div className={b({ fullscreen })}>
+      <canvas ref={gameCanvasRef} className={b('canvas', { fullscreen })} />
       <GameOverlay
-        className={b('overlay')}
+        className={b('overlay', { fullscreen })}
         maxHealth={GAME_CONFIG.MAX_HEALTH}
         health={gameState?.playerHealth || GAME_CONFIG.MAX_HEALTH}
         hasKey={gameState?.isKeyAcquired || false}

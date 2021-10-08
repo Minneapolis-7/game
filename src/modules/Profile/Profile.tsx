@@ -1,16 +1,19 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
 
+import AppContext from '@/AppContext';
 import { Input } from '@/components/formik-ui';
 import { Avatar, Button, Filepick } from '@/components/ui';
+import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
+import translateErrorMessage from '@/shared/utils';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
-import { updateAvatar, updatePassword, updateProfile } from '@/store/reducers';
-import { useAppDispatch } from '@/store/store';
+import { logout, updateAvatar, updatePassword, updateProfile } from '@/store/reducers';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import { PasswordFieldsSchema, ProfileFieldsSchema } from './schema';
 import { actionType } from './types';
@@ -84,6 +87,7 @@ type ProfileProps = {
 };
 
 function Profile({ user, action }: ProfileProps): JSX.Element {
+  const appContext = useContext(AppContext);
   const dispatch = useAppDispatch();
 
   const handleAvatarChange = useCallback(async (e) => {
@@ -93,11 +97,31 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
 
     try {
       await dispatch(updateAvatar(formData)).unwrap();
-      console.log('success updateAvatar');
+
+      const toast = {
+        type: 'success',
+        description: text.updateAvatarSuccess,
+      };
+
+      appContext?.addToastMessage(toast as ToastItem);
     } catch (err) {
-      console.log('error', `Запрос завершился ошибкой: ${err.message}`);
+      const toast = {
+        type: 'warning',
+        description: translateErrorMessage(err.reason),
+      };
+
+      appContext?.addToastMessage(toast as ToastItem);
     }
   }, []);
+
+  const doLogout = useCallback(async () => {
+    try {
+      await dispatch(logout()).unwrap();
+    } catch (e) {
+      throw new Error(e);
+    }
+  }, []);
+  const isLoggingOut = useAppSelector((state) => state.user.isLoggingOut);
 
   let initialValues = {};
   let validationSchema = {};
@@ -116,17 +140,34 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
     try {
       if (action === actionType.edit) {
         await dispatch(updateProfile(values)).unwrap();
-        console.log('success updateProfile');
+
+        const toast = {
+          type: 'success',
+          description: text.updateProfileSuccess,
+        };
+
+        appContext?.addToastMessage(toast as ToastItem);
       }
 
       if (action === actionType.editPassword) {
         await dispatch(updatePassword(values)).unwrap();
-        console.log('success updatePassword');
+
+        const toast = {
+          type: 'success',
+          description: text.updatePasswordSuccess,
+        };
+
+        appContext?.addToastMessage(toast as ToastItem);
       }
 
       actions.setSubmitting(false);
     } catch (err) {
-      console.log('error', `Запрос завершился ошибкой: ${err.message}`);
+      const toast = {
+        type: 'warning',
+        description: translateErrorMessage(err.reason),
+      };
+
+      appContext?.addToastMessage(toast as ToastItem);
     }
   }, []);
 
@@ -237,7 +278,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                       </tr>
                       <tr className={b('table-row')}>
                         <td colSpan={2} className={b('table-cell')}>
-                          <Button className="js-profile__logout" theme="link-danger">
+                          <Button onClick={doLogout} waiting={isLoggingOut} theme="link-danger">
                             {txt.logoutButton}
                           </Button>
                         </td>

@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { replace } from 'connected-react-router';
 
 import {
   SignInRequest,
@@ -9,9 +10,14 @@ import {
   UserProfile,
 } from '@/api/types';
 import api from '@/api/userApi';
-import { RootState } from '@/shared/types/redux';
+import paths from '@/shared/const/paths';
+import type { RootState } from '@/shared/types/redux';
 
-export const initialState: UserProfile = {
+export type UserState = UserProfile & {
+  isLoggingOut: boolean;
+};
+
+export const initialState: UserState = {
   id: null,
   firstName: '',
   secondName: '',
@@ -20,39 +26,88 @@ export const initialState: UserProfile = {
   email: '',
   phone: '',
   avatar: null,
+  isLoggingOut: false,
 };
 
-export const signin = createAsyncThunk('user/signin', async (user: SignInRequest) => {
-  return api.signin(user);
+export const userRequest = createAsyncThunk('user/userRequest', async (_, { rejectWithValue }) => {
+  try {
+    return await api.getUser();
+  } catch (err) {
+    return rejectWithValue(err.response.data);
+  }
 });
 
-export const signup = createAsyncThunk('user/signup', async (user: SignUpRequest) => {
-  return api.signup(user);
-});
+export const signin = createAsyncThunk(
+  'user/signin',
+  async (user: SignInRequest, { dispatch, rejectWithValue }) => {
+    try {
+      await api.signin(user);
+      await dispatch(userRequest());
 
-export const logout = createAsyncThunk('user/logout', async () => {
-  return api.logout();
-});
-
-export const userRequest = createAsyncThunk('user/userRequest', async () => {
-  return api.getUser();
-});
-
-export const updateProfile = createAsyncThunk(
-  'user/updateProfile',
-  async (user: UpdateProfileRequest) => {
-    return api.updateProfile(user);
+      return dispatch(replace('/'));
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
-export const updateAvatar = createAsyncThunk('user/updateAvatar', async (formData: FormData) => {
-  return api.updateAvatar(formData);
-});
+export const signup = createAsyncThunk(
+  'user/signup',
+  async (user: SignUpRequest, { dispatch, rejectWithValue }) => {
+    try {
+      await api.signup(user);
+      await dispatch(userRequest());
+
+      return dispatch(replace('/'));
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const logout = createAsyncThunk(
+  'user/logout',
+  async (_unused, { dispatch, rejectWithValue }) => {
+    try {
+      await api.logout();
+
+      return dispatch(replace(paths.LOGIN));
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const updateProfile = createAsyncThunk(
+  'user/updateProfile',
+  async (user: UpdateProfileRequest, { rejectWithValue }) => {
+    try {
+      return await api.updateProfile(user);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const updateAvatar = createAsyncThunk(
+  'user/updateAvatar',
+  async (formData: FormData, { rejectWithValue }) => {
+    try {
+      return await api.updateAvatar(formData);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const updatePassword = createAsyncThunk(
   'user/logout',
-  async (password: UpdatePasswordRequest) => {
-    return api.updatePassword(password);
+  async (password: UpdatePasswordRequest, { rejectWithValue }) => {
+    try {
+      return await api.updatePassword(password);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
 );
 
@@ -62,11 +117,17 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(signup.fulfilled, (state, action) => {
-        state.id = action.payload;
+      .addCase(logout.pending, (state) => {
+        state.isLoggingOut = true;
+      })
+      .addCase(logout.rejected, (state) => {
+        state.isLoggingOut = false;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        Object.assign(state, initialState);
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
-        state = { ...state, ...action.payload };
+        Object.assign(state, action.payload);
       })
       .addCase(updateAvatar.fulfilled, (state, action) => {
         state.avatar = action.payload.avatar;
@@ -77,7 +138,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const userState = (state: RootState): UserProfile => ({
+export const userState = (state: RootState): UserState => ({
   ...state.user,
 });
 

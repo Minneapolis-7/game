@@ -10,3 +10,6 @@ export { default as ForumCommentEmoji } from './Forum/ForumCommentEmoji';
 export { default as ForumCommentEmojiUser } from './Forum/ForumCommentEmojiUser';
 export { default as ForumThreadEmoji } from './Forum/ForumThreadEmoji';
 export { default as ForumThreadEmojiUser } from './Forum/ForumThreadEmojiUser';
+
+export { default as SiteTheme } from './Themes/SiteTheme';
+export { default as UserTheme } from './Themes/UserTheme';

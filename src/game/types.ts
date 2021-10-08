@@ -55,7 +55,9 @@ export type HitBox = {
 //
 export type RegisteredKey = {
   key: string;
+  gamepadButton: number | null;
   state: boolean;
+  description: string;
 };
 
 export type RegisteredKeys = Record<string, RegisteredKey>;

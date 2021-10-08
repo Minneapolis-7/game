@@ -31,6 +31,7 @@
     "loginLabel": "Логин",
     "firstNameLabel": "Имя",
     "secondNameLabel": "Фамилия",
+    "phoneLabel": "Телефон",
     "passwordLabel": "Пароль",
     "passwordRepeatLabel": "Повторите пароль",
     "loginLink": "Войти"
@@ -51,7 +52,10 @@
     "logoutButton": "Выйти",
     "saveButton": "Сохранить",
     "editPlaceholder": "Редактировать",
-    "editAvatarTitle": "Выбрать аватар"
+    "editAvatarTitle": "Выбрать аватар",
+    "updateAvatarSuccess": "Аватар успешно обновлен",
+    "updateProfileSuccess": "Профиль успешно обновлен",
+    "updatePasswordSuccess": "Пароль успешно обновлен"
   },
   "forum": {
     "title": "Форум",
@@ -128,6 +132,12 @@
     "retryButton": "Ещё раз!",
     "lossText": "Потрачено",
     "winText": "Победа!",
+    "gamepadConfiguration": "Обнаружен геймпад! Нажмите ОК, затем кнопку на геймпаде, соответствующую действию:",
+    "control": {
+      "left": "Движение влево",
+      "right": "Движение вправо",
+      "jump": "Прыжок"
+    },
     "errors": {
       "loadingSprite": "Не удалось получить спрайт",
       "uniqueSprite": "Идентификатор спрайта должен быть уникальным",
@@ -149,10 +159,21 @@
     "errors": {
       "required": "Заполните поле",
       "email": "Укажите email",
+      "phone": "Укажите телефон в формате +7(XXX)XXX-XX-XX",
       "passwordRepeat": "Повторите пароль",
       "min": "Введите более",
       "max": "Введите не более",
       "minMaxLabel": "символов"
     }
+  },
+  "serverResponses": {
+    "User already in system": "Пользователь уже в системе",
+    "Not found": "Не найдено",
+    "login is empty, but required": "Логин не введён, обязательное поле",
+    "Email already exists": "Пользователь с таким email уже существует",
+    "Cookie is not valid": "Вы не авторизованы. Войдите или зарегистрируйтесь",
+    "phone is not valid": "Неверный формат телефона",
+    "No chat": "Не выбран чат",
+    "Login or password is incorrect": "Неправильные логин или пароль"
   }
 }
