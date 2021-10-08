@@ -1,5 +1,6 @@
 import {
   AllowNull,
+  AutoIncrement,
   BelongsTo,
   BelongsToMany,
   Column,
@@ -29,6 +30,7 @@ export type ForumThreadEmojiAttributes = {
 export default class ForumThreadEmoji extends Model<ForumThreadEmojiAttributes> {
   @PrimaryKey
   @AllowNull(false)
+  @AutoIncrement
   @Column(DataType.INTEGER)
   declare id: number;
 
@@ -49,6 +51,8 @@ export default class ForumThreadEmoji extends Model<ForumThreadEmojiAttributes> 
   @BelongsToMany(() => User, () => ForumThreadEmojiUser)
   users!: User[];
 
-  @HasMany(() => ForumThreadEmojiUser)
+  @HasMany(() => ForumThreadEmojiUser, {
+    onDelete: 'CASCADE',
+  })
   threadEmojiUsers?: ForumThreadEmojiUser[];
 }

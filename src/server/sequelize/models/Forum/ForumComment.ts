@@ -66,6 +66,8 @@ export default class ForumComment extends Model<
   @BelongsToMany(() => Emoji, () => ForumCommentEmoji)
   emojis!: Emoji[];
 
-  @HasMany(() => ForumCommentEmoji)
+  @HasMany(() => ForumCommentEmoji, {
+    onDelete: 'CASCADE',
+  })
   commentEmojis?: ForumCommentEmoji[];
 }

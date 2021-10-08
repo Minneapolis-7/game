@@ -1,5 +1,6 @@
 import {
   AllowNull,
+  AutoIncrement,
   BelongsTo,
   Column,
   DataType,
@@ -27,6 +28,7 @@ export type ForumThreadEmojiUserAttributes = {
 export default class ForumThreadEmojiUser extends Model<ForumThreadEmojiUserAttributes> {
   @PrimaryKey
   @AllowNull(false)
+  @AutoIncrement
   @Column(DataType.INTEGER)
   declare id: number;
 

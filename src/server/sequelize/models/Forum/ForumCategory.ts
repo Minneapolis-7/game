@@ -19,6 +19,10 @@ export default class ForumCategory extends Model<ForumCategoryAttributes> {
   @Column(DataType.TEXT)
   title!: string;
 
-  @HasMany(() => ForumSection)
+  @HasMany(() => ForumSection, {
+    // todo: не работает каскадное удаление из-за сидинга данных в базу
+    // https://github.com/sequelize/sequelize/issues/8444
+    onDelete: 'CASCADE',
+  })
   sections?: ForumSection[];
 }

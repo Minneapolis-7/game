@@ -81,9 +81,13 @@ export default class ForumThread extends Model<
   @BelongsToMany(() => Emoji, () => ForumThreadEmoji)
   emojis!: Emoji[];
 
-  @HasMany(() => ForumComment)
+  @HasMany(() => ForumComment, {
+    onDelete: 'CASCADE',
+  })
   comments?: ForumComment[];
 
-  @HasMany(() => ForumThreadEmoji)
+  @HasMany(() => ForumThreadEmoji, {
+    onDelete: 'CASCADE',
+  })
   threadEmojis?: ForumThreadEmoji[];
 }

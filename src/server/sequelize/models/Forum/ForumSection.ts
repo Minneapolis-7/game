@@ -40,6 +40,10 @@ export default class ForumSection extends Model<ForumSectionAttributes> {
   @BelongsTo(() => ForumCategory)
   category?: ForumCategory;
 
-  @HasMany(() => ForumThread)
+  @HasMany(() => ForumThread, {
+    // todo: не работает каскадное удаление из-за сидинга данных в базу
+    // https://github.com/sequelize/sequelize/issues/8444
+    onDelete: 'CASCADE',
+  })
   threads?: ForumThread[];
 }
