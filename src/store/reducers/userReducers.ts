@@ -29,11 +29,22 @@ export const initialState: UserState = {
   isLoggingOut: false,
 };
 
+export const userRequest = createAsyncThunk('user/userRequest', async (_, { rejectWithValue }) => {
+  try {
+    return await api.getUser();
+  } catch (err) {
+    return rejectWithValue(err.response.data);
+  }
+});
+
 export const signin = createAsyncThunk(
   'user/signin',
-  async (user: SignInRequest, { rejectWithValue }) => {
+  async (user: SignInRequest, { dispatch, rejectWithValue }) => {
     try {
-      return await api.signin(user);
+      await api.signin(user);
+      await dispatch(userRequest());
+
+      return dispatch(replace('/'));
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -42,30 +53,30 @@ export const signin = createAsyncThunk(
 
 export const signup = createAsyncThunk(
   'user/signup',
-  async (user: SignUpRequest, { rejectWithValue }) => {
+  async (user: SignUpRequest, { dispatch, rejectWithValue }) => {
     try {
-      return await api.signup(user);
+      await api.signup(user);
+      await dispatch(userRequest());
+
+      return dispatch(replace('/'));
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
   }
 );
 
-export const logout = createAsyncThunk('user/logout', async (_, { rejectWithValue }) => {
-  try {
-    return await api.logout();
-  } catch (err) {
-    return rejectWithValue(err.response.data);
-  }
-});
+export const logout = createAsyncThunk(
+  'user/logout',
+  async (_unused, { dispatch, rejectWithValue }) => {
+    try {
+      await api.logout();
 
-export const userRequest = createAsyncThunk('user/userRequest', async (_, { rejectWithValue }) => {
-  try {
-    return await api.getUser();
-  } catch (err) {
-    return rejectWithValue(err.response.data);
+      return dispatch(replace(paths.LOGIN));
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
   }
-});
+);
 
 export const updateProfile = createAsyncThunk(
   'user/updateProfile',
