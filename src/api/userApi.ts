@@ -1,4 +1,9 @@
-import { apiYandex } from './api';
+import type { Optional } from 'utility-types';
+
+import { UserCreationAttributes } from '@/server/sequelize/models/User';
+import { UserUpdatePayload } from '@/server/services/userService';
+
+import { apiCustom, apiYandex } from './api';
 import {
   SignInRequest,
   SignUpRequest,
@@ -13,9 +18,19 @@ export default {
   },
 
   async signup(user: SignUpRequest): Promise<number> {
-    const { data } = await apiYandex.post<{ id: number }>('/auth/signup', user);
+    const {
+      data: { id: yandexUserId },
+    } = await apiYandex.post<{ id: number }>('/auth/signup', user);
+    const userCopy: Optional<SignUpRequest, 'password'> = user;
 
-    return data.id;
+    delete userCopy.password;
+
+    await apiCustom.post('/user', {
+      yandexUserId,
+      ...userCopy,
+    } as UserCreationAttributes);
+
+    return yandexUserId;
   },
 
   async logout(): Promise<void> {
@@ -31,11 +46,16 @@ export default {
   async updateProfile(user: UpdateProfileRequest): Promise<UserProfile> {
     const { data } = await apiYandex.put<UserProfile>('/user/profile', user);
 
+    await apiCustom.put(`/user/${data.id}`, user as UserUpdatePayload);
+
     return data;
   },
 
   async updateAvatar(formData: FormData): Promise<UserProfile> {
     const { data } = await apiYandex.put<UserProfile>('/user/profile/avatar', formData);
+    const { avatar, id } = data;
+
+    await apiCustom.put(`/user/${id}`, { avatar } as UserUpdatePayload);
 
     return data;
   },

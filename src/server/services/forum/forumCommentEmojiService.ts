@@ -1,10 +1,9 @@
 import { ForumCommentEmoji, ForumCommentEmojiUser } from '@/server/sequelize/models';
+import { EmojiUserIdentifier } from '@/shared/types/types';
 
 import BaseService from '../BaseService';
 
-export type ForumCommentEmojiUserIdentifier = {
-  emojiId: number;
-  userId: number;
+export type ForumCommentEmojiUserIdentifier = EmojiUserIdentifier & {
   commentId: number;
 };
 

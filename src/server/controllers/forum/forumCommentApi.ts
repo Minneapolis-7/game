@@ -5,22 +5,17 @@ import { forumCommentService } from '@/server/services/forum';
 import { ForumCommentUpdatePayload } from '@/server/services/forum/ForumCommentService';
 import { HttpStatuses } from '@/shared/const/const';
 
-export type CreateCommentRequest = {
-  body: ForumCommentCreationAttributes;
-} & Request;
-
-export type UpdateCommentRequest = {
-  body: ForumCommentUpdatePayload;
-  params: {
-    id: number;
-  };
-} & Request;
-
-export type CommentRequest = {
-  params: {
-    id: number;
-  };
-} & Request;
+export type CreateCommentRequest = Request<unknown, unknown, ForumCommentCreationAttributes>;
+export type UpdateCommentRequest = Request<
+  {
+    id: string;
+  },
+  unknown,
+  ForumCommentUpdatePayload
+>;
+export type CommentRequest = Request<{
+  id: string;
+}>;
 
 const forumCommentApi = {
   async create(request: CreateCommentRequest, response: Response): Promise<void> {
@@ -42,7 +37,7 @@ const forumCommentApi = {
     const { body } = request;
 
     try {
-      await forumCommentService.update(id, body);
+      await forumCommentService.update(Number(id), body);
       response.sendStatus(HttpStatuses.OK);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
@@ -55,7 +50,7 @@ const forumCommentApi = {
     const { id } = request.params;
 
     try {
-      await forumCommentService.delete(id);
+      await forumCommentService.delete(Number(id));
       response.sendStatus(HttpStatuses.OK);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({

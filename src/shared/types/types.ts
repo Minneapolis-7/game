@@ -9,3 +9,8 @@ export type UserData = {
   phone: string;
   avatar: string | null;
 };
+
+export type EmojiUserIdentifier = {
+  userId: number;
+  emojiId: number;
+};

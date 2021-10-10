@@ -41,144 +41,145 @@ type ForumRouteParams = {
 
 function Forum(): JSX.Element {
   const { sectionId, threadId } = useParams<ForumRouteParams>();
+  let forumBody;
 
-  let forumBody = (
-    <>
-      <div className={b('category')}>
-        <h3 className={b('heading').mix('heading_3', 'heading')}>{gameAreaText.header}</h3>
-        <ForumItemPreview
-          className={b('section')}
-          descSlot={
-            <>
-              <h4 className={b('item-heading').mix('heading_4', 'heading')}>
-                <a className={bLink()} href="#">
-                  {gameDiscussion.header}
-                </a>
-              </h4>
-              <p>{gameDiscussion.description}</p>
-            </>
-          }
-          statSlot={
-            <>
-              <a className={bLink({ action: true })} href="#">
-                Поиграл в игру
-              </a>{' '}
-              <UserStamp
-                profileURL="#"
-                user="User"
-                date={new Date('Tue Aug 17 2021 01:40:57 GMT+0400')}
-              />
-            </>
-          }
-        />
-        <ForumItemPreview
-          className={b('section')}
-          descSlot={
-            <>
-              <h4 className={b('item-heading').mix('heading_4', 'heading')}>
-                <a className={bLink()} href="#">
-                  {featureRequests.header}
-                </a>
-              </h4>
-              <p>{featureRequests.description}</p>
-            </>
-          }
-          statSlot={
-            <>
-              <a className={bLink({ action: true })} href="#">
-                Сделайте новый уровень
-              </a>{' '}
-              <UserStamp
-                profileURL="#"
-                user="User"
-                date={new Date('Tue Aug 17 2021 01:40:57 GMT+0400')}
-              />
-            </>
-          }
-        />
-        <ForumItemPreview
-          className={b('section')}
-          descSlot={
-            <>
-              <h4 className={b('item-heading').mix('heading_4', 'heading')}>
-                <a className={bLink()} href="#">
-                  {bugReports.header}
-                </a>
-              </h4>
-              <p>{bugReports.description}</p>
-            </>
-          }
-          statSlot={
-            <>
-              <a className={bLink({ action: true })} href="#">
-                Девелоперы криворукие
-              </a>{' '}
-              <UserStamp
-                profileURL="#"
-                user="User"
-                date={new Date('Tue Aug 10 2021 01:40:57 GMT+0400')}
-              />
-            </>
-          }
-        />
-      </div>
-      <div className={b('category')}>
-        <h3 className={b('heading').mix('heading_3', 'heading')}>{generalAreaText.header}</h3>
-        <ForumItemPreview
-          className={b('section')}
-          descSlot={
-            <>
-              <h4 className={b('item-heading').mix('heading_4', 'heading')}>
-                <a className={bLink()} href="#">
-                  {gameIndustryNews.header}
-                </a>
-              </h4>
-              <p>{gameIndustryNews.description}</p>
-            </>
-          }
-          statSlot={
-            <>
-              <a className={bLink({ action: true })} href="#">
-                Вышла Half-Life 3
-              </a>{' '}
-              <UserStamp
-                profileURL="#"
-                user="User"
-                date={new Date('Tue Aug 16 2021 19:40:57 GMT+0400')}
-              />
-            </>
-          }
-        />
-        <ForumItemPreview
-          className={b('section')}
-          descSlot={
-            <>
-              <h4 className={b('item-heading').mix('heading_4', 'heading')}>
-                <a className={bLink()} href="#">
-                  {generalConversation.header}
-                </a>
-              </h4>
-              <p>{generalConversation.description}</p>
-            </>
-          }
-          statSlot={
-            <>
-              <a className={bLink({ action: true })} href="#">
-                Сходка
-              </a>{' '}
-              <UserStamp
-                profileURL="#"
-                user="User"
-                date={new Date('Tue Aug 17 2020 01:40:57 GMT+0400')}
-              />
-            </>
-          }
-        />
-      </div>
-    </>
-  );
-
-  if (sectionId) {
+  if (!sectionId) {
+    forumBody = (
+      <>
+        <div className={b('category')}>
+          <h3 className={b('heading').mix('heading_3', 'heading')}>{gameAreaText.header}</h3>
+          <ForumItemPreview
+            className={b('section')}
+            descSlot={
+              <>
+                <h4 className={b('item-heading').mix('heading_4', 'heading')}>
+                  <a className={bLink()} href="#">
+                    {gameDiscussion.header}
+                  </a>
+                </h4>
+                <p>{gameDiscussion.description}</p>
+              </>
+            }
+            statSlot={
+              <>
+                <a className={bLink({ action: true })} href="#">
+                  Поиграл в игру
+                </a>{' '}
+                <UserStamp
+                  profileURL="#"
+                  user="User"
+                  date={new Date('Tue Aug 17 2021 01:40:57 GMT+0400')}
+                />
+              </>
+            }
+          />
+          <ForumItemPreview
+            className={b('section')}
+            descSlot={
+              <>
+                <h4 className={b('item-heading').mix('heading_4', 'heading')}>
+                  <a className={bLink()} href="#">
+                    {featureRequests.header}
+                  </a>
+                </h4>
+                <p>{featureRequests.description}</p>
+              </>
+            }
+            statSlot={
+              <>
+                <a className={bLink({ action: true })} href="#">
+                  Сделайте новый уровень
+                </a>{' '}
+                <UserStamp
+                  profileURL="#"
+                  user="User"
+                  date={new Date('Tue Aug 17 2021 01:40:57 GMT+0400')}
+                />
+              </>
+            }
+          />
+          <ForumItemPreview
+            className={b('section')}
+            descSlot={
+              <>
+                <h4 className={b('item-heading').mix('heading_4', 'heading')}>
+                  <a className={bLink()} href="#">
+                    {bugReports.header}
+                  </a>
+                </h4>
+                <p>{bugReports.description}</p>
+              </>
+            }
+            statSlot={
+              <>
+                <a className={bLink({ action: true })} href="#">
+                  Девелоперы криворукие
+                </a>{' '}
+                <UserStamp
+                  profileURL="#"
+                  user="User"
+                  date={new Date('Tue Aug 10 2021 01:40:57 GMT+0400')}
+                />
+              </>
+            }
+          />
+        </div>
+        <div className={b('category')}>
+          <h3 className={b('heading').mix('heading_3', 'heading')}>{generalAreaText.header}</h3>
+          <ForumItemPreview
+            className={b('section')}
+            descSlot={
+              <>
+                <h4 className={b('item-heading').mix('heading_4', 'heading')}>
+                  <a className={bLink()} href="#">
+                    {gameIndustryNews.header}
+                  </a>
+                </h4>
+                <p>{gameIndustryNews.description}</p>
+              </>
+            }
+            statSlot={
+              <>
+                <a className={bLink({ action: true })} href="#">
+                  Вышла Half-Life 3
+                </a>{' '}
+                <UserStamp
+                  profileURL="#"
+                  user="User"
+                  date={new Date('Tue Aug 16 2021 19:40:57 GMT+0400')}
+                />
+              </>
+            }
+          />
+          <ForumItemPreview
+            className={b('section')}
+            descSlot={
+              <>
+                <h4 className={b('item-heading').mix('heading_4', 'heading')}>
+                  <a className={bLink()} href="#">
+                    {generalConversation.header}
+                  </a>
+                </h4>
+                <p>{generalConversation.description}</p>
+              </>
+            }
+            statSlot={
+              <>
+                <a className={bLink({ action: true })} href="#">
+                  Сходка
+                </a>{' '}
+                <UserStamp
+                  profileURL="#"
+                  user="User"
+                  date={new Date('Tue Aug 17 2020 01:40:57 GMT+0400')}
+                />
+              </>
+            }
+          />
+        </div>
+      </>
+    );
+  } else if (!threadId) {
     forumBody = (
       <>
         <h4 className={b('heading').mix('heading_4', 'heading')}>

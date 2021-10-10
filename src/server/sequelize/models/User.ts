@@ -29,7 +29,10 @@ export type UserAttributes = Omit<UserData, 'id' | 'password'> & {
   isOnline: boolean;
 } & IntrinsicModelAttributes;
 
-export type UserCreationAttributes = Optional<UserAttributes, 'isOnline'>;
+export type UserCreationAttributes = Optional<
+  UserAttributes,
+  'isOnline' | 'avatar' | 'displayName' | keyof IntrinsicModelAttributes
+>;
 
 @Table({
   underscored: true,

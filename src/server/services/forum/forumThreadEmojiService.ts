@@ -1,10 +1,9 @@
 import { ForumThreadEmoji, ForumThreadEmojiUser } from '@/server/sequelize/models';
+import { EmojiUserIdentifier } from '@/shared/types/types';
 
 import BaseService from '../BaseService';
 
-export type ForumThreadEmojiUserIdentifier = {
-  emojiId: number;
-  userId: number;
+export type ForumThreadEmojiUserIdentifier = EmojiUserIdentifier & {
   threadId: number;
 };
 

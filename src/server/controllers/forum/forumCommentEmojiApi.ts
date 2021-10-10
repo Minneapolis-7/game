@@ -1,27 +1,37 @@
 import type { Request, Response } from 'express';
 
 import { forumCommentEmojiService } from '@/server/services/forum';
-import { ForumCommentEmojiUserIdentifier } from '@/server/services/forum/forumCommentEmojiService';
 import { HttpStatuses } from '@/shared/const/const';
+import { EmojiUserIdentifier } from '@/shared/types/types';
 
-export type CreateCommentEmojiRequest = {
-  body: Omit<ForumCommentEmojiUserIdentifier, 'commentId'>;
-  params: {
-    id: number;
-  };
-} & Request;
-
-export type DeleteCommentRequest = CreateCommentEmojiRequest & Request;
+export type CommentCreateEmojiRequest = Request<
+  {
+    id: string;
+  },
+  unknown,
+  EmojiUserIdentifier
+>;
+export type CommentDeleteEmojiRequest = Request<
+  {
+    commentId: string;
+    emojiId: string;
+  },
+  unknown,
+  unknown,
+  {
+    user: string;
+  }
+>;
 
 const forumCommentEmojiApi = {
-  async create(request: CreateCommentEmojiRequest, response: Response): Promise<void> {
-    const { id: commentId } = request.params;
+  async create(request: CommentCreateEmojiRequest, response: Response): Promise<void> {
+    const { id } = request.params;
     const { body } = request;
 
     try {
       const record = await forumCommentEmojiService.create({
-        commentId,
         ...body,
+        commentId: Number(id),
       });
 
       response.json(record);
@@ -32,14 +42,15 @@ const forumCommentEmojiApi = {
     }
   },
 
-  async delete(request: DeleteCommentRequest, response: Response): Promise<void> {
-    const { id: commentId } = request.params;
-    const { body } = request;
+  async delete(request: CommentDeleteEmojiRequest, response: Response): Promise<void> {
+    const { commentId, emojiId } = request.params;
+    const { user } = request.query;
 
     try {
       await forumCommentEmojiService.delete({
-        commentId,
-        ...body,
+        commentId: Number(commentId),
+        emojiId: Number(emojiId),
+        userId: Number(user),
       });
       response.sendStatus(HttpStatuses.OK);
     } catch (e) {

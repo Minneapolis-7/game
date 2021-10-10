@@ -14,14 +14,6 @@ const navItems = [
     path: '/',
   },
   {
-    label: txt.login,
-    path: paths.LOGIN,
-  },
-  {
-    label: txt.register,
-    path: paths.REGISTER,
-  },
-  {
     label: txt.profile,
     path: paths.PROFILE,
   },

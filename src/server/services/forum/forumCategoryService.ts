@@ -8,10 +8,6 @@ class ForumCategoryService extends BaseService {
     return ForumCategory.create(record);
   }
 
-  async createBulk(records: ForumCategoryCreationAttributes[]): Promise<ForumCategory[]> {
-    return ForumCategory.bulkCreate(records);
-  }
-
   async delete(categoryId: number): Promise<void> {
     await ForumCategory.destroy({ where: { id: categoryId } });
   }

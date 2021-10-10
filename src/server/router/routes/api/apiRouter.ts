@@ -5,7 +5,7 @@ import { forum, theme, user } from '@/server/router/routes/api';
 const apiRouter = Router();
 
 apiRouter.use('/forum', forum);
-apiRouter.use('/users', user);
+apiRouter.use('/user', user);
 apiRouter.use('/theme', theme);
 
 export default apiRouter;

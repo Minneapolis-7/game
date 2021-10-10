@@ -25,7 +25,10 @@ export type ForumCommentAttributes = {
   threadId: number;
 } & IntrinsicModelAttributes;
 
-export type ForumCommentCreationAttributes = Optional<ForumCommentAttributes, 'isModified'>;
+export type ForumCommentCreationAttributes = Optional<
+  ForumCommentAttributes,
+  'isModified' | keyof IntrinsicModelAttributes
+>;
 
 @Table({
   underscored: true,

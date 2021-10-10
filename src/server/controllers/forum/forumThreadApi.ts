@@ -5,22 +5,17 @@ import { forumThreadService } from '@/server/services/forum';
 import { ForumThreadUpdatePayload } from '@/server/services/forum/forumThreadService';
 import { HttpStatuses } from '@/shared/const/const';
 
-export type CreateThreadRequest = {
-  body: ForumThreadCreationAttributes;
-} & Request;
-
-export type UpdateThreadRequest = {
-  body: ForumThreadUpdatePayload;
-  params: {
-    id: number;
-  };
-} & Request;
-
-export type ThreadRequest = {
-  params: {
-    id: number;
-  };
-} & Request;
+export type CreateThreadRequest = Request<unknown, unknown, ForumThreadCreationAttributes>;
+export type UpdateThreadRequest = Request<
+  {
+    id: string;
+  },
+  unknown,
+  ForumThreadUpdatePayload
+>;
+export type ThreadRequest = Request<{
+  id: string;
+}>;
 
 const forumThreadApi = {
   async create(request: CreateThreadRequest, response: Response): Promise<void> {
@@ -42,7 +37,7 @@ const forumThreadApi = {
     const { body } = request;
 
     try {
-      await forumThreadService.update(id, body);
+      await forumThreadService.update(Number(id), body);
       response.sendStatus(HttpStatuses.OK);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
@@ -51,12 +46,12 @@ const forumThreadApi = {
     }
   },
 
-  // через какие http-глаголы использовать этот метод (и нужно ли это делать именно так)?
+  // todo: https://stackoverflow.com/questions/1426845/incrementing-resource-counter-in-a-restful-way-put-vs-post
   async updateVisited(request: ThreadRequest, response: Response): Promise<void> {
     const { id } = request.params;
 
     try {
-      await forumThreadService.updateVisited(id);
+      await forumThreadService.updateVisited(Number(id));
       response.sendStatus(HttpStatuses.OK);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
@@ -69,7 +64,7 @@ const forumThreadApi = {
     const { id } = request.params;
 
     try {
-      await forumThreadService.delete(id);
+      await forumThreadService.delete(Number(id));
       response.sendStatus(HttpStatuses.OK);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
@@ -82,7 +77,7 @@ const forumThreadApi = {
     const { id } = request.params;
 
     try {
-      const record = await forumThreadService.find(id);
+      const record = await forumThreadService.find(Number(id));
 
       response.json(record);
     } catch (e) {

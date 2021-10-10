@@ -4,16 +4,14 @@ import { UserCreationAttributes } from '@/server/sequelize/models/User';
 import userService, { UserUpdatePayload } from '@/server/services/userService';
 import { HttpStatuses } from '@/shared/const/const';
 
-export type CreateUserRequest = {
-  body: UserCreationAttributes;
-} & Request;
-
-export type UpdateUserRequest = {
-  body: UserUpdatePayload;
-  params: {
-    id: number;
-  };
-} & Request;
+export type CreateUserRequest = Request<unknown, unknown, UserCreationAttributes>;
+export type UpdateUserRequest = Request<
+  {
+    id: string;
+  },
+  unknown,
+  UserUpdatePayload
+>;
 
 const userApi = {
   async create(request: CreateUserRequest, response: Response): Promise<void> {
@@ -35,7 +33,7 @@ const userApi = {
     const { body } = request;
 
     try {
-      await userService.update(id, body);
+      await userService.update(Number(id), body);
 
       response.sendStatus(HttpStatuses.OK);
     } catch (e) {

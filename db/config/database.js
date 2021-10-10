@@ -11,6 +11,5 @@ module.exports = {
     host: DB_HOST || 'localhost',
     port: POSTGRES_PORT,
     dialect: 'postgres',
-    seederStorage: 'sequelize',
   },
 };
