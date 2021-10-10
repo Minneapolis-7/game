@@ -34,7 +34,7 @@ $field-bg-color: transparent;
 
 @mixin field-skin {
   border-style: solid;
-  border-color: $brand-color;
+  border-color: var(--brand-color);
   background-color: $field-bg-color;
   color: $text-color;
 }

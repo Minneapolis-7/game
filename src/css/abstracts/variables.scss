@@ -20,6 +20,7 @@ $grey: #8e8e8f;
 $grey-light: #eef0f2ff;
 $white: #f8f9fb;
 $red: #ff2f2f;
+$dark-red: #b82a2a;
 
 $brand-color: $yellow;
 $brand-color-light: lighten(desaturate(adjust-hue($brand-color, -5), 2.68), 36.67);
@@ -60,11 +61,16 @@ $gap-y-sm: $gap-y-generic * 0.5;
 $gap-y-lg: $gap-y-generic * 1.5;
 $gap-y-xl: $gap-y-generic * 2;
 :root {
+  --brand-color: #{$yellow};
   --section-pad-x-generic: #{$gap-x-generic};
 
   @media (min-width: $narrow-screen-bp) {
     --section-pad-x-generic: #{$gap-x-generic-lg};
   }
+}
+
+.new-theme {
+  --brand-color: #{$dark-red};
 }
 
 $page-gap-y: $gap-y-generic;

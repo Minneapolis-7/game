@@ -11,7 +11,7 @@ $button-text-color: $dark-color;
   height: $button-height;
   padding: 0 1.15em;
   border: none;
-  background-color: $brand-color;
+  background-color: var(--brand-color);
   color: $button-text-color;
   line-height: 1;
   text-align: center;

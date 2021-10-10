@@ -42,6 +42,10 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
     sidebarRef.current?.dispatchEvent(new CustomEvent(SIDEBAR_HIDE_EVENT, { bubbles: true }));
   }, [pageContext]);
 
+  const changeTheme = useCallback(() => {
+    document.getElementsByTagName('body')[0].classList.add('new-theme');
+  }, []);
+
   useKeydown('Escape', closeSidebar);
   useFocusTrapping(SIDEBAR_SHOW_EVENT, SIDEBAR_HIDE_EVENT);
 
@@ -69,6 +73,7 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
         <div className={b('body').mix('scrollbar')}>
           <Nav />
         </div>
+        <Button onClick={changeTheme}>New theme</Button>
       </div>
       <div className={b('backdrop')} onMouseDown={closeSidebar}></div>
     </div>

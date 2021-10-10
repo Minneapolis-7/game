@@ -16,7 +16,7 @@ body .sidebar__container {
   width: 400px;
   max-width: 100%;
   padding: $page-gap-y 0;
-  background: $brand-color;
+  background: var(--brand-color);
   color: $dark-color;
   outline: none;
   visibility: hidden;

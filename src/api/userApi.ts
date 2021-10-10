@@ -67,6 +67,12 @@ export default {
     return data;
   },
 
+  async getUserTheme(): Promise<string> {
+    const { data } = await apiCustom.get('/theme');
+
+    return data;
+  },
+
   async updateProfile(user: UpdateProfileRequest): Promise<UserLocalProfile> {
     const { data } = await apiYandex.put<UserProfile>('/user/profile', user);
 
