@@ -2,20 +2,26 @@ import { AllowNull, Column, DataType, ForeignKey, Model, Table } from 'sequelize
 
 import SiteTheme from './SiteTheme';
 
+export type UserThemeCreationAttributes = {
+  themeId: number;
+  device: string | null;
+  ownerId: string;
+};
+
 @Table({
   timestamps: false,
   paranoid: true,
   tableName: 'user_themes',
   modelName: 'UserTheme',
 })
-export default class UserTheme extends Model<UserTheme> {
+export default class UserTheme extends Model<UserTheme, UserThemeCreationAttributes> {
   @ForeignKey(() => SiteTheme)
   @AllowNull(false)
   @Column(DataType.INTEGER)
   themeId!: number;
 
   @Column(DataType.STRING)
-  device!: string;
+  device!: string | null;
 
   // @ForeignKey(() => User)
   @AllowNull(false)

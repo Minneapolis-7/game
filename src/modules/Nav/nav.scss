@@ -17,6 +17,6 @@ a.nav__item-i:focus-visible,
   @include focus-ring-reset;
 
   background-color: $blue-dark;
-  color: var(--brand-color);
+  color: $light-color;
   transition-duration: 0s;
 }

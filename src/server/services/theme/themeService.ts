@@ -20,6 +20,13 @@ class ThemeService extends BaseService {
   findAll = () => {
     return SiteTheme.findAll();
   };
+
+  // сохранить выбор темы для user
+  update = (userId: string, value: number) => {
+    console.log('---UserTheme.upsert');
+
+    return UserTheme.upsert({ ownerId: userId, themeId: value, device: null });
+  };
 }
 
 const themeService = new ThemeService();

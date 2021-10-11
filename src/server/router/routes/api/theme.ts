@@ -5,6 +5,7 @@ import ThemeAPI from '@/server/controllers/theme/themeAPI';
 const userThemeRouter = Router();
 
 userThemeRouter.get('/all', ThemeAPI.findAll);
-userThemeRouter.post('/:id', ThemeAPI.find);
+userThemeRouter.get('/:id', ThemeAPI.find);
+userThemeRouter.post('/save', ThemeAPI.save);
 
 export default userThemeRouter;
