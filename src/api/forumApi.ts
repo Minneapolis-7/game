@@ -1,50 +1,42 @@
-import { ForumCategoryAttributes } from '@/server/sequelize/models/Forum/ForumCategory';
-import {
-  ForumCommentAttributes,
-  ForumCommentCreationAttributes,
-} from '@/server/sequelize/models/Forum/ForumComment';
-import { ForumSectionAttributes } from '@/server/sequelize/models/Forum/ForumSection';
-import {
-  ForumThreadAttributes,
-  ForumThreadCreationAttributes,
-} from '@/server/sequelize/models/Forum/ForumThread';
+import { ForumCommentCreationAttributes } from '@/server/sequelize/models/Forum/ForumComment';
+import { ForumThreadCreationAttributes } from '@/server/sequelize/models/Forum/ForumThread';
 import { ForumCommentEmojiUserIdentifier } from '@/server/services/forum/forumCommentEmojiService';
 import { ForumCommentUpdatePayload } from '@/server/services/forum/ForumCommentService';
 import { ForumThreadEmojiUserIdentifier } from '@/server/services/forum/forumThreadEmojiService';
 import { ForumThreadUpdatePayload } from '@/server/services/forum/forumThreadService';
-import { EmojiUserIdentifier } from '@/shared/types/types';
+import {
+  EmojiUserIdentifier,
+  ForumCategoryData,
+  ForumCommentData,
+  ForumSectionData,
+  ForumThreadData,
+} from '@/shared/types/types';
 
 import { apiCustom } from './api';
 
-type ForumCommentData = ForumCommentAttributes & {
-  commentEmojis: ForumCommentData[];
-};
-type ForumThreadData = ForumThreadAttributes & {
-  comments: ForumCommentData[];
-  threadEmojis: ForumCommentData[];
-};
-type ForumSectionData = ForumSectionAttributes & {
-  threads: ForumThreadAttributes[];
-};
-type ForumCategoryData = ForumCategoryAttributes & {
-  sections: ForumSectionAttributes[];
-};
-
 export default {
   async getCategories(): Promise<ForumCategoryData[]> {
-    return apiCustom.get('/forum/categories');
+    const { data } = await apiCustom.get('/forum/categories');
+
+    return data;
   },
 
   async getSection(id: number): Promise<ForumSectionData> {
-    return apiCustom.get(`/forum/sections/${id}`);
+    const { data } = await apiCustom.get(`/forum/sections/${id}`);
+
+    return data;
   },
 
   async getThread(id: number): Promise<ForumThreadData> {
-    return apiCustom.get(`/forum/threads/${id}`);
+    const { data } = await apiCustom.get(`/forum/threads/${id}`);
+
+    return data;
   },
 
-  async createThread(data: ForumThreadCreationAttributes): Promise<ForumThreadData> {
-    return apiCustom.post('/forum/threads', data);
+  async createThread(threadData: ForumThreadCreationAttributes): Promise<ForumThreadData> {
+    const { data } = await apiCustom.post('/forum/threads', threadData);
+
+    return data;
   },
 
   async editThread(id: number, data: ForumThreadUpdatePayload): Promise<void> {
@@ -65,8 +57,10 @@ export default {
     await apiCustom.delete(`/forum/threads/${threadId}/emojis/${emojiId}?user=${userId}`);
   },
 
-  async createComment(data: ForumCommentCreationAttributes): Promise<ForumCommentData> {
-    return apiCustom.post('/forum/comments', data);
+  async createComment(commentData: ForumCommentCreationAttributes): Promise<ForumCommentData> {
+    const { data } = await apiCustom.post('/forum/comments', commentData);
+
+    return data;
   },
 
   async editComment(id: number, data: ForumCommentUpdatePayload): Promise<void> {

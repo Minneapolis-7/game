@@ -6,7 +6,7 @@ import oauthApi from '@/api/oauthApi';
 import { UserProfile } from '@/api/types';
 import { UserCreationAttributes } from '@/server/sequelize/models/User';
 import { OAUTH_REDIRECT_URI } from '@/shared/const/const';
-import { userRequest } from '@/store/reducers/userReducers';
+import { getUser } from '@/store/reducers/actions';
 import { useAppDispatch } from '@/store/store';
 
 export default function useOAuth() {
@@ -25,7 +25,7 @@ export default function useOAuth() {
             redirectUri: OAUTH_REDIRECT_URI,
           });
 
-          const user: Optional<UserProfile, 'id'> = await dispatch(userRequest()).unwrap();
+          const user: Optional<UserProfile, 'id'> = await dispatch(getUser()).unwrap();
           const { id: yandexUserId } = user;
 
           delete user.id;

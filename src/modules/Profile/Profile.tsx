@@ -12,7 +12,7 @@ import text from '@/shared/const/text';
 import translateErrorMessage from '@/shared/utils';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
-import { logout, updateAvatar, updatePassword, updateProfile } from '@/store/reducers';
+import { logout, updateAvatar, updatePassword, updateProfile } from '@/store/reducers/actions';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import { PasswordFieldsSchema, ProfileFieldsSchema } from './schema';

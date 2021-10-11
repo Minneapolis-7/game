@@ -7,6 +7,7 @@ import { Reducer } from 'redux';
 import { RootState } from '@/shared/types/redux';
 import isServer from '@/shared/utils/isServer';
 
+import forumReducers from './reducers/forumReducers';
 import leaderboardReducers from './reducers/leaderboardReducers';
 import userReducers from './reducers/userReducers';
 
@@ -19,6 +20,7 @@ function initStore(initialState: RootState, url = '/') {
     reducer: {
       user: userReducers,
       leaderboard: leaderboardReducers,
+      forum: forumReducers,
       router: connectRouter(history) as Reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(routerMiddleware(history)),

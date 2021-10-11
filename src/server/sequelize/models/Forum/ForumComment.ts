@@ -20,7 +20,6 @@ import { IntrinsicModelAttributes } from '@/server/shared/types';
 export type ForumCommentAttributes = {
   content: string;
   isModified: boolean;
-  parentId: number;
   userId: number;
   threadId: number;
 } & IntrinsicModelAttributes;
@@ -47,10 +46,6 @@ export default class ForumComment extends Model<
   @Default(false)
   @Column(DataType.BOOLEAN)
   isModified!: boolean;
-
-  @AllowNull(false)
-  @Column(DataType.INTEGER)
-  parentId!: number;
 
   @ForeignKey(() => User)
   @Column(DataType.INTEGER)

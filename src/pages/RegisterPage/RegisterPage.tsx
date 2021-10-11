@@ -14,7 +14,7 @@ import text from '@/shared/const/text';
 import translateErrorMessage from '@/shared/utils';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 import useBeingLoggedIn from '@/shared/utils/hooks/useBeingLoggedIn';
-import { signup } from '@/store/reducers';
+import { signup } from '@/store/reducers/actions';
 import { useAppDispatch } from '@/store/store';
 
 import { registerSchema } from './schema';

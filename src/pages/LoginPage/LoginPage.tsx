@@ -17,7 +17,7 @@ import translateErrorMessage from '@/shared/utils';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 import useBeingLoggedIn from '@/shared/utils/hooks/useBeingLoggedIn';
 import useProgress from '@/shared/utils/hooks/useProgress';
-import { signin } from '@/store/reducers';
+import { signin } from '@/store/reducers/actions';
 import { useAppDispatch } from '@/store/store';
 
 import { loginSchema } from './schema';

@@ -47,11 +47,11 @@ const forumThreadApi = {
   },
 
   // todo: https://stackoverflow.com/questions/1426845/incrementing-resource-counter-in-a-restful-way-put-vs-post
-  async updateVisited(request: ThreadRequest, response: Response): Promise<void> {
+  async incrementVisited(request: ThreadRequest, response: Response): Promise<void> {
     const { id } = request.params;
 
     try {
-      await forumThreadService.updateVisited(Number(id));
+      await forumThreadService.incrementVisited(Number(id));
       response.sendStatus(HttpStatuses.OK);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({

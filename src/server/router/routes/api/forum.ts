@@ -28,6 +28,8 @@ forumRouter.post('/comments', forumCommentApi.create);
 forumRouter.delete('/comments/:id', forumCommentApi.delete);
 forumRouter.put('/comments/:id', forumCommentApi.update);
 
+forumRouter.put('/threads/:id/views', forumThreadApi.incrementVisited);
+
 forumRouter.post('/threads/:id/emojis', forumThreadEmojiApi.create);
 forumRouter.delete('/threads/:id/emojis', forumThreadEmojiApi.delete);
 

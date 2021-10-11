@@ -7,7 +7,7 @@ import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import Page from '@/layout/Page';
 import Leaderboard from '@/modules/Leaderboard';
 import translateErrorMessage from '@/shared/utils';
-import { getAllLeaderboard } from '@/store/reducers';
+import { getAllLeaderboard } from '@/store/reducers/actions';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 
 function LeaderboardPage({ title }: GenericPageProps): JSX.Element {

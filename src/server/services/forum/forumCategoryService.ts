@@ -1,4 +1,4 @@
-import { ForumCategory, ForumSection } from '@/server/sequelize/models';
+import { ForumCategory, ForumSection, ForumThread, User } from '@/server/sequelize/models';
 import { ForumCategoryCreationAttributes } from '@/server/sequelize/models/Forum/ForumCategory';
 
 import BaseService from '../BaseService';
@@ -14,7 +14,18 @@ class ForumCategoryService extends BaseService {
 
   async findAll(): Promise<ForumCategory[]> {
     return ForumCategory.findAll({
-      include: ForumSection,
+      include: {
+        model: ForumSection,
+        include: [
+          {
+            model: ForumThread,
+            limit: 1,
+            separate: true,
+            order: [['lastPosted', 'DESC']],
+            include: [User],
+          },
+        ],
+      },
     });
   }
 }

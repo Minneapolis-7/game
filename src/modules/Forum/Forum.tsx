@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useParams } from 'react-router';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
@@ -10,6 +10,8 @@ import ForumItemPreview from '@/modules/Forum/components/ForumItemPreview';
 import UserStamp from '@/modules/Forum/components/UserStamp';
 import { createThreadSchema, replySchema } from '@/modules/Forum/schema';
 import text from '@/shared/const/text';
+import { getCategories } from '@/store/reducers/actions';
+import { useAppDispatch } from '@/store/store';
 
 import backSvg from 'bootstrap-icons/icons/caret-left.svg';
 import commentCountSvg from 'bootstrap-icons/icons/chat-square.svg';
@@ -42,6 +44,11 @@ type ForumRouteParams = {
 function Forum(): JSX.Element {
   const { sectionId, threadId } = useParams<ForumRouteParams>();
   let forumBody;
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [sectionId, threadId]);
 
   if (!sectionId) {
     forumBody = (

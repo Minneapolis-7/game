@@ -29,7 +29,7 @@ class ForumThreadService extends BaseService {
     );
   }
 
-  async updateVisited(threadId: number): Promise<void> {
+  async incrementVisited(threadId: number): Promise<void> {
     await ForumThread.increment(
       {
         visitedCounter: 1,

@@ -7,7 +7,15 @@ export type ForumCommentUpdatePayload = Pick<ForumCommentCreationAttributes, 'co
 
 class ForumCommentService extends BaseService {
   async create(record: ForumCommentCreationAttributes): Promise<ForumComment> {
-    return ForumComment.create(record);
+    const comment = await ForumComment.create(record);
+    const thread = await comment.$get('thread');
+
+    if (thread) {
+      thread.set('lastPosted', comment.get('createdAt'));
+      await thread.save();
+    }
+
+    return comment;
   }
 
   async update(commentId: number, record: ForumCommentUpdatePayload): Promise<void> {
