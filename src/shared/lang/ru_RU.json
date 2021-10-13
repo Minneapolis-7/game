@@ -9,7 +9,9 @@
   },
   "sidebar": {
     "header": "Выберите раздел",
-    "closeButtonTitle": "Закрыть"
+    "closeButtonTitle": "Закрыть",
+    "redTheme": "Красная тема",
+    "yellowTheme": "Желтая тема"
   },
   "login": {
     "title": "Вход",

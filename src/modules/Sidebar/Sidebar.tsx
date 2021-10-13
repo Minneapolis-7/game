@@ -32,7 +32,6 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
 
-  console.log('---themeId', themeId);
   const [themeName, setThemeName] = useState(themeId === 0 ? 'Красная тема' : 'Желтая тема');
   const openSidebar = useCallback(
     (e) => {
@@ -54,11 +53,11 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
     let newThemeId;
 
     if (themeId === 0) {
-      setThemeName('Желтая тема');
+      setThemeName(txt.yellowTheme);
       newThemeId = 1;
       body.classList.add('new-theme');
     } else {
-      setThemeName('Красная тема');
+      setThemeName(txt.redTheme);
       newThemeId = 0;
       body.classList.remove('new-theme');
     }
