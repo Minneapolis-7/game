@@ -1,7 +1,13 @@
+import { AsyncThunk } from '@reduxjs/toolkit';
 import { RouterState } from 'connected-react-router';
 
 import { Leader } from '@/api/types';
-import { ForumCategoryData } from '@/shared/types/types';
+import {
+  ForumCategoryData,
+  ForumSectionData,
+  ForumStatsData,
+  ForumThreadData,
+} from '@/shared/types/types';
 import type { UserState } from '@/store/reducers/userReducers';
 
 export type LeaderboardState = {
@@ -10,6 +16,11 @@ export type LeaderboardState = {
 
 export type ForumState = {
   categories: ForumCategoryData[];
+  section: Nullable<ForumSectionData>;
+  thread: Nullable<ForumThreadData>;
+  stats: Nullable<ForumStatsData>;
+  isLoading: boolean;
+  isLoaded: boolean;
 };
 
 export type RootState = {
@@ -18,3 +29,9 @@ export type RootState = {
   readonly forum: ForumState;
   readonly router: RouterState;
 };
+
+// todo: понять что ставить вместо `any`, взятого из примера: https://redux-toolkit.js.org/api/createReducer#builderaddmatcher
+export type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>;
+export type PendingAction = ReturnType<GenericAsyncThunk['pending']>;
+export type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>;
+export type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>;

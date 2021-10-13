@@ -1,7 +1,7 @@
 import { ForumCommentCreationAttributes } from '@/server/sequelize/models/Forum/ForumComment';
 import { ForumThreadCreationAttributes } from '@/server/sequelize/models/Forum/ForumThread';
 import { ForumCommentEmojiUserIdentifier } from '@/server/services/forum/forumCommentEmojiService';
-import { ForumCommentUpdatePayload } from '@/server/services/forum/ForumCommentService';
+import { ForumCommentUpdatePayload } from '@/server/services/forum/forumCommentService';
 import { ForumThreadEmojiUserIdentifier } from '@/server/services/forum/forumThreadEmojiService';
 import { ForumThreadUpdatePayload } from '@/server/services/forum/forumThreadService';
 import {
@@ -9,12 +9,20 @@ import {
   ForumCategoryData,
   ForumCommentData,
   ForumSectionData,
+  ForumStatsData,
   ForumThreadData,
 } from '@/shared/types/types';
 
 import { apiCustom } from './api';
 
 export default {
+  // нужно/возможно ли типизовать возврат api? на входе в `response.json` данные типизируются, приходит `any`
+  async getStats(): Promise<ForumStatsData> {
+    const { data } = await apiCustom.get('/forum/stats');
+
+    return data;
+  },
+
   async getCategories(): Promise<ForumCategoryData[]> {
     const { data } = await apiCustom.get('/forum/categories');
 

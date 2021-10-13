@@ -39,4 +39,13 @@
 
 .forum-comment__content {
   @include break-word;
+
+  white-space: pre-line;
+}
+
+.forum-comment__toolbar_top {
+  margin-top: -0.4rem;
+}
+.forum-comment__toolbar_bottom {
+  margin-top: 1rem;
 }

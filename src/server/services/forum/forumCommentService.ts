@@ -32,6 +32,13 @@ class ForumCommentService extends BaseService {
     await ForumComment.destroy({ where: { id: commentId } });
   }
 
+  async find(commentId: number): Promise<ForumComment | null> {
+    return ForumComment.findOne({
+      where: { id: commentId },
+      include: User,
+    });
+  }
+
   async findByUser(userId: number): Promise<ForumComment[]> {
     return ForumComment.findAll({
       where: { userId },

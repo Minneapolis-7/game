@@ -1,4 +1,5 @@
 import React from 'react';
+import { generatePath } from 'react-router';
 import { Link, useLocation } from 'react-router-dom';
 import { block } from 'bem-cn';
 
@@ -15,7 +16,7 @@ const navItems = [
   },
   {
     label: txt.profile,
-    path: paths.PROFILE,
+    path: generatePath(paths.PROFILE),
   },
   {
     label: txt.leaderboard,
@@ -34,16 +35,15 @@ function Nav(): JSX.Element {
     <nav className={b()}>
       <ul className={b('list').mix('nolist')}>
         {navItems.map((item) => {
-          const path = Array.isArray(item.path) ? item.path[0] : item.path;
-          const isCurrent = path === pathname;
+          const isCurrent = item.path === pathname;
           const basicProps = {
             className: b('item-i'),
             children: item.label,
           };
 
           return (
-            <li key={path} className={b('item', { current: isCurrent })}>
-              {isCurrent ? <span {...basicProps} /> : <Link {...basicProps} to={path} />}
+            <li key={item.path} className={b('item', { current: isCurrent })}>
+              {isCurrent ? <span {...basicProps} /> : <Link {...basicProps} to={item.path} />}
             </li>
           );
         })}

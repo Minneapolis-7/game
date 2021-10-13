@@ -10,4 +10,14 @@ export {
 
 export { addToLeaderboard, getAllLeaderboard, getTeamLeaderboard } from './leaderboardReducers';
 
-export { getCategories } from './forumReducers';
+export {
+  getCategories,
+  getSection,
+  getThread,
+  createThread,
+  createComment,
+  addCommentEmoji,
+  deleteCommentEmoji,
+  addThreadEmoji,
+  deleteThreadEmoji,
+} from './forumReducers';

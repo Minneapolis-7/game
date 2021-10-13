@@ -46,6 +46,7 @@ class ForumThreadService extends BaseService {
     return ForumThread.findOne({
       where: { id: threadId },
       include: [
+        User,
         {
           model: ForumThreadEmoji,
           include: [
@@ -59,6 +60,7 @@ class ForumThreadService extends BaseService {
         {
           model: ForumComment,
           include: [
+            User,
             {
               model: ForumCommentEmoji,
               include: [
@@ -72,6 +74,7 @@ class ForumThreadService extends BaseService {
           ],
         },
       ],
+      order: [[{ model: ForumComment, as: 'comments' }, 'createdAt', 'ASC']],
     });
   }
 

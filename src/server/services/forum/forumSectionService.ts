@@ -17,6 +17,9 @@ class ForumSectionService extends BaseService {
       where: { id: sectionId },
       include: {
         model: ForumThread,
+        // todo: включать количество комментариев в тредах
+        // https://github.com/sequelize/sequelize/issues/222
+        // https://stackoverflow.com/questions/37817808/counting-associated-entries-with-sequelize
         include: [
           {
             model: ForumComment,
@@ -28,7 +31,7 @@ class ForumSectionService extends BaseService {
           User,
         ],
       },
-      order: [[ForumThread, 'lastPosted', 'DESC']],
+      order: [[{ model: ForumThread, as: 'threads' }, 'lastPosted', 'DESC']],
     });
   }
 }

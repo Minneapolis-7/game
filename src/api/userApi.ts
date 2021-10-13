@@ -9,9 +9,14 @@ import {
   SignUpRequest,
   UpdatePasswordRequest,
   UpdateProfileRequest,
+  UserLocalProfile,
   UserProfile,
 } from './types';
 
+/**
+ * Все возвраты информации о юзере содержат данные о "локальном" юзере: `id` используется из локальной БД,
+ * яндексовый `id` возвращается под свойством `yandexUserId`
+ */
 export default {
   async signin(user: SignInRequest): Promise<void> {
     await apiYandex.post('/auth/signin', user);
@@ -25,39 +30,63 @@ export default {
 
     delete userCopy.password;
 
-    await apiCustom.post('/user', {
+    const { data } = await apiCustom.post('/user', {
       yandexUserId,
       ...userCopy,
     } as UserCreationAttributes);
 
-    return yandexUserId;
+    return data.id;
   },
 
   async logout(): Promise<void> {
     await apiYandex.post('/auth/logout');
   },
 
-  async getUser(): Promise<UserProfile> {
+  async getUser(): Promise<UserLocalProfile> {
+    const yandexUser: Optional<UserProfile, 'id'> = await this.getYandexUser();
+    const yandexUserId = yandexUser.id;
+    let { data } = await apiCustom.get(`/user/${yandexUserId}`);
+
+    if (!data) {
+      delete yandexUser.id;
+
+      const localUserData = {
+        yandexUserId,
+        ...yandexUser,
+      };
+
+      ({ data } = await apiCustom.post('/user', localUserData));
+    }
+
+    return data;
+  },
+
+  async getYandexUser(): Promise<UserProfile> {
     const { data } = await apiYandex.get('/auth/user');
 
     return data;
   },
 
-  async updateProfile(user: UpdateProfileRequest): Promise<UserProfile> {
+  async updateProfile(user: UpdateProfileRequest): Promise<UserLocalProfile> {
     const { data } = await apiYandex.put<UserProfile>('/user/profile', user);
 
-    await apiCustom.put(`/user/${data.id}`, user as UserUpdatePayload);
+    const { data: updatedUser } = await apiCustom.put(
+      `/user/${data.id}`,
+      user as UserUpdatePayload
+    );
 
-    return data;
+    return updatedUser;
   },
 
-  async updateAvatar(formData: FormData): Promise<UserProfile> {
+  async updateAvatar(formData: FormData): Promise<UserLocalProfile> {
     const { data } = await apiYandex.put<UserProfile>('/user/profile/avatar', formData);
     const { avatar, id } = data;
 
-    await apiCustom.put(`/user/${id}`, { avatar } as UserUpdatePayload);
+    const { data: updatedUser } = await apiCustom.put(`/user/${id}`, {
+      avatar,
+    } as UserUpdatePayload);
 
-    return data;
+    return updatedUser;
   },
 
   async updatePassword(password: UpdatePasswordRequest): Promise<void> {

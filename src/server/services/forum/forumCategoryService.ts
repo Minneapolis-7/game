@@ -1,4 +1,10 @@
-import { ForumCategory, ForumSection, ForumThread, User } from '@/server/sequelize/models';
+import {
+  ForumCategory,
+  ForumComment,
+  ForumSection,
+  ForumThread,
+  User,
+} from '@/server/sequelize/models';
 import { ForumCategoryCreationAttributes } from '@/server/sequelize/models/Forum/ForumCategory';
 
 import BaseService from '../BaseService';
@@ -22,10 +28,23 @@ class ForumCategoryService extends BaseService {
             limit: 1,
             separate: true,
             order: [['lastPosted', 'DESC']],
-            include: [User],
+            include: [
+              {
+                model: ForumComment,
+                limit: 1,
+                separate: true,
+                order: [['createdAt', 'DESC']],
+                include: [User],
+              },
+              User,
+            ],
           },
         ],
       },
+      order: [
+        ['createdAt', 'DESC'],
+        [{ model: ForumSection, as: 'sections' }, 'createdAt', 'DESC'],
+      ],
     });
   }
 }

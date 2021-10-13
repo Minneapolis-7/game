@@ -6,7 +6,7 @@ import BaseService from './BaseService';
 export type UserUpdatePayload = Partial<Omit<UserCreationAttributes, 'yandexUserId'>>;
 
 class UserService extends BaseService {
-  async create(record: UserCreationAttributes): Promise<User | void> {
+  async create(record: UserCreationAttributes): Promise<User> {
     const [user] = await User.findOrCreate({
       where: {
         yandexUserId: record.yandexUserId,
@@ -17,8 +17,25 @@ class UserService extends BaseService {
     return user;
   }
 
-  async update(yandexUserId: number, record: UserUpdatePayload): Promise<void> {
-    await User.update(record, { where: { yandexUserId } });
+  async update(yandexUserId: number, record: UserUpdatePayload): Promise<User> {
+    const [_, users] = await User.update(record, {
+      where: { yandexUserId },
+      returning: true,
+    });
+
+    return users[0];
+  }
+
+  async request(yandexUserId: number): Promise<User | null> {
+    return User.findOne({ where: { yandexUserId } });
+  }
+
+  async requestByLocalId(id: number): Promise<User | null> {
+    return User.findOne({ where: { id } });
+  }
+
+  async requestTotal(): Promise<number> {
+    return User.count();
   }
 }
 

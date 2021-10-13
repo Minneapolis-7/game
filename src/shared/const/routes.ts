@@ -64,6 +64,35 @@ const routes = [
     title: text.forum.title,
   },
   {
+    path: paths.FORUM_SECTION,
+    component: ForumMainPage,
+    exact: true,
+    protected: true,
+    // todo: свой title для разных страниц форума
+    title: text.forum.title,
+  },
+  {
+    path: paths.FORUM_THREAD,
+    component: ForumMainPage,
+    exact: true,
+    protected: true,
+    title: text.forum.title,
+  },
+  {
+    path: paths.FORUM_THREAD_CREATE,
+    component: ForumMainPage,
+    exact: true,
+    protected: true,
+    title: text.forum.title,
+  },
+  {
+    path: paths.FORUM_COMMENT,
+    component: ForumMainPage,
+    exact: true,
+    protected: true,
+    title: text.forum.title,
+  },
+  {
     path: paths.LEADERBOARD,
     component: LeaderboardPage,
     exact: true,

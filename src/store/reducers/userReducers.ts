@@ -7,18 +7,19 @@ import {
   SignUpRequest,
   UpdatePasswordRequest,
   UpdateProfileRequest,
-  UserProfile,
+  UserLocalProfile,
 } from '@/api/types';
 import api from '@/api/userApi';
 import paths from '@/shared/const/paths';
 import type { RootState } from '@/shared/types/redux';
 
-export type UserState = UserProfile & {
+export type UserState = UserLocalProfile & {
   isLoggingOut: boolean;
 };
 
 export const initialState: UserState = {
   id: null,
+  yandexUserId: null,
   firstName: '',
   secondName: '',
   displayName: null,

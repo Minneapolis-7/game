@@ -5,11 +5,14 @@ import {
   forumCommentApi,
   forumCommentEmojiApi,
   forumSectionApi,
+  forumStatsApi,
   forumThreadApi,
   forumThreadEmojiApi,
 } from '@/server/controllers/forum';
 
 const forumRouter = Router();
+
+forumRouter.get('/stats', forumStatsApi.request);
 
 forumRouter.get('/categories', forumCategoryApi.findAll);
 forumRouter.post('/categories', forumCategoryApi.create);

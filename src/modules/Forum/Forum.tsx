@@ -1,40 +1,35 @@
-import React, { useCallback, useEffect } from 'react';
-import { useParams } from 'react-router';
+import React, { useCallback, useLayoutEffect } from 'react';
+import { generatePath, useParams } from 'react-router';
+import { Link, useHistory } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { Form, Formik } from 'formik';
 
 import { Input, Textarea } from '@/components/formik-ui';
-import { Button, ButtonLink, Icon, Pagination } from '@/components/ui';
+import { Button, Icon, Spinner } from '@/components/ui';
 import ForumComment from '@/modules/Forum/components/ForumComment';
 import ForumItemPreview from '@/modules/Forum/components/ForumItemPreview';
 import UserStamp from '@/modules/Forum/components/UserStamp';
 import { createThreadSchema, replySchema } from '@/modules/Forum/schema';
+import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
-import { getCategories } from '@/store/reducers/actions';
-import { useAppDispatch } from '@/store/store';
+import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
+import truncateString from '@/shared/utils/truncateString';
+import {
+  createComment,
+  createThread,
+  getCategories,
+  getSection,
+  getThread,
+} from '@/store/reducers/actions';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import backSvg from 'bootstrap-icons/icons/caret-left.svg';
-import commentCountSvg from 'bootstrap-icons/icons/chat-square.svg';
-import viewCountSvg from 'bootstrap-icons/icons/eye.svg';
 import addNewThreadSvg from 'bootstrap-icons/icons/plus-lg.svg';
 
 const b = block('forum');
 const bLink = block('link');
 
-const createThreadInitialValues = {
-  topic: '',
-  message: '',
-};
-
-const replyInitialValues = {
-  replyMessage: '',
-};
-
 const { forum: txt } = text;
-const gameAreaText = txt.categories.game;
-const generalAreaText = txt.categories.general;
-const { gameDiscussion, featureRequests, bugReports } = gameAreaText.sections;
-const { gameIndustryNews, generalConversation } = generalAreaText.sections;
 
 type ForumRouteParams = {
   sectionId?: string;
@@ -43,564 +38,271 @@ type ForumRouteParams = {
 
 function Forum(): JSX.Element {
   const { sectionId, threadId } = useParams<ForumRouteParams>();
-  let forumBody;
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
-  useEffect(() => {
-    dispatch(getCategories());
-  }, [sectionId, threadId]);
+  const isMainPage = !sectionId && !threadId;
+  const isSectionPage = Boolean(sectionId) && !threadId;
+  const isThreadPage = Boolean(threadId);
+  const isThreadCreatePage = threadId === 'create';
 
-  if (!sectionId) {
-    forumBody = (
-      <>
-        <div className={b('category')}>
-          <h3 className={b('heading').mix('heading_3', 'heading')}>{gameAreaText.header}</h3>
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
+  const isLoading = useAppSelector((state) => state.forum.isLoading);
+  const isLoaded = useAppSelector((state) => state.forum.isLoaded);
+  const categoriesData = useAppSelector((state) => state.forum.categories);
+  const statsData = useAppSelector((state) => state.forum.stats);
+  const sectionData = useAppSelector((state) => state.forum.section);
+  const threadData = useAppSelector((state) => state.forum.thread);
+  const userData = useAppSelector((state) => state.user);
+
+  let forumBody;
+
+  useLayoutEffect(() => {
+    if (isMainPage) {
+      dispatch(getCategories());
+    }
+
+    if (sectionId) {
+      dispatch(getSection(Number(sectionId)));
+    }
+
+    if (threadId && !isThreadCreatePage) {
+      dispatch(getThread(Number(threadId)));
+    }
+  }, [isMainPage, isSectionPage, isThreadPage, isThreadCreatePage, sectionId, threadId, dispatch]);
+
+  if (isMainPage) {
+    forumBody = categoriesData.map((category) => (
+      <div key={category.id} className={b('category')}>
+        <h3 className={b('heading').mix('heading_3', 'heading')}>{category.title}</h3>
+        {category.sections.map((section) => {
+          const sectionPath = generatePath(paths.FORUM_SECTION, {
+            sectionId: section.id,
+          });
+
+          const lastActiveThread = section.threads && section.threads[0];
+          let sectionStats = txt.emptyCategoryMsg;
+
+          if (lastActiveThread) {
+            const lastComment = lastActiveThread.comments && lastActiveThread.comments[0];
+            const lastActivePosting = lastComment || lastActiveThread;
+            const lastActiveUser = lastActivePosting.user;
+
+            const lastActiveUserPath =
+              userData.id === lastActiveUser.id
+                ? generatePath(paths.PROFILE)
+                : generatePath(paths.PROFILE, {
+                    userId: lastActiveUser.yandexUserId,
+                  });
+            const lastActivePostingPath = lastComment
+              ? generatePath(paths.FORUM_COMMENT, {
+                  sectionId: section.id,
+                  threadId: lastActiveThread.id,
+                  commentId: lastComment.id,
+                })
+              : generatePath(paths.FORUM_THREAD, {
+                  sectionId: section.id,
+                  threadId: lastActiveThread.id,
+                });
+
+            sectionStats = (
               <>
-                <h4 className={b('item-heading').mix('heading_4', 'heading')}>
-                  <a className={bLink()} href="#">
-                    {gameDiscussion.header}
-                  </a>
-                </h4>
-                <p>{gameDiscussion.description}</p>
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Поиграл в игру
+                <a className={bLink({ action: true })} href={lastActivePostingPath}>
+                  {lastActiveThread.title}
                 </a>{' '}
                 <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 17 2021 01:40:57 GMT+0400')}
+                  profileURL={lastActiveUserPath}
+                  user={lastActiveUser.name}
+                  date={new Date(lastActivePosting.createdAt)}
                 />
               </>
-            }
-          />
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
-              <>
-                <h4 className={b('item-heading').mix('heading_4', 'heading')}>
-                  <a className={bLink()} href="#">
-                    {featureRequests.header}
-                  </a>
-                </h4>
-                <p>{featureRequests.description}</p>
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Сделайте новый уровень
-                </a>{' '}
-                <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 17 2021 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-          />
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
-              <>
-                <h4 className={b('item-heading').mix('heading_4', 'heading')}>
-                  <a className={bLink()} href="#">
-                    {bugReports.header}
-                  </a>
-                </h4>
-                <p>{bugReports.description}</p>
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Девелоперы криворукие
-                </a>{' '}
-                <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 10 2021 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-          />
-        </div>
-        <div className={b('category')}>
-          <h3 className={b('heading').mix('heading_3', 'heading')}>{generalAreaText.header}</h3>
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
-              <>
-                <h4 className={b('item-heading').mix('heading_4', 'heading')}>
-                  <a className={bLink()} href="#">
-                    {gameIndustryNews.header}
-                  </a>
-                </h4>
-                <p>{gameIndustryNews.description}</p>
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Вышла Half-Life 3
-                </a>{' '}
-                <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 16 2021 19:40:57 GMT+0400')}
-                />
-              </>
-            }
-          />
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
-              <>
-                <h4 className={b('item-heading').mix('heading_4', 'heading')}>
-                  <a className={bLink()} href="#">
-                    {generalConversation.header}
-                  </a>
-                </h4>
-                <p>{generalConversation.description}</p>
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Сходка
-                </a>{' '}
-                <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 17 2020 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-          />
-        </div>
-      </>
-    );
-  } else if (!threadId) {
+            );
+          }
+
+          return (
+            <ForumItemPreview
+              key={section.id}
+              className={b('section').has({ 'no-threads': !lastActiveThread })}
+              descSlot={
+                <>
+                  <h4 className={b('item-heading').mix('heading_4', 'heading')}>
+                    <a className={bLink()} href={sectionPath}>
+                      {section.title}
+                    </a>
+                  </h4>
+                  <p>{section.description}</p>
+                </>
+              }
+              statSlot={sectionStats}
+            />
+          );
+        })}
+      </div>
+    ));
+  }
+
+  if (isSectionPage && sectionData) {
+    const createThreadPath = generatePath(paths.FORUM_THREAD_CREATE, {
+      sectionId: sectionData.id,
+      threadId: 'create',
+    });
+
     forumBody = (
       <>
         <h4 className={b('heading').mix('heading_4', 'heading')}>
-          <ButtonLink
-            title={txt.createNewThreadButtonTitle}
-            className={b('heading-action')}
-            sizing="sm"
-            theme="circle"
-          >
-            <Icon name={addNewThreadSvg.id} />
-          </ButtonLink>
-          {gameDiscussion.header}
+          <Link
+            to={paths.FORUM}
+            component={getRoutedButtonLink({
+              title: txt.backToForumButtonTitle,
+              sizing: 'md',
+              icon: <Icon scale={1.4} name={backSvg.id} />,
+              theme: 'subtle',
+              className: b('heading-action', { shifted: true }),
+            })}
+          />
+          <span className={b('heading-txt')}>{sectionData.title}</span>
+          <Link
+            to={createThreadPath}
+            component={getRoutedButtonLink({
+              title: txt.createNewThreadButtonTitle,
+              sizing: 'sm',
+              children: <Icon name={addNewThreadSvg.id} />,
+              theme: 'circle',
+              className: b('heading-action'),
+            })}
+          />
         </h4>
-        <div className={b('toolbar')}>
-          <div className={b('toolbar-slot', { pagination: true })}>
-            <Pagination total={10} current={1} baseURL="/threads" className={b('pagination')} />
-          </div>
-        </div>
+        {/* todo: добавить пагинацию */}
         <div className={b('page')}>
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
-              <>
-                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
-                  <a className={bLink()} href="#">
-                    Название темы
-                  </a>{' '}
-                  <span className={b('item-heading-misc')}>
-                    (<Icon align="middle" name={viewCountSvg.id} /> 2334 /{' '}
-                    <Icon align="middle" name={commentCountSvg.id} /> 1)
-                  </span>
-                </h4>
-                <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 17 2020 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Отрывок текста...
-                </a>
-                <UserStamp
-                  profileURL="#"
-                  user="NewUser"
-                  date={new Date('Tue Aug 12 2021 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-          />
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
-              <>
-                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
-                  <a className={bLink()} href="#">
-                    Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
-                    темы темы
-                  </a>{' '}
-                  <span className={b('item-heading-misc')}>
-                    (<Icon align="middle" name={viewCountSvg.id} /> 2334 /{' '}
-                    <Icon align="middle" name={commentCountSvg.id} /> 1)
-                  </span>
-                </h4>
-                <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 17 2020 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Отрывок текста текста...
-                </a>
-                <UserStamp
-                  profileURL="#"
-                  user="NewUser"
-                  date={new Date('Tue Aug 17 2021 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-          />
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
-              <>
-                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
-                  <a className={bLink()} href="#">
-                    Название темы
-                  </a>{' '}
-                  <span className={b('item-heading-misc')}>
-                    (<Icon align="middle" name={viewCountSvg.id} /> 2334 /{' '}
-                    <Icon align="middle" name={commentCountSvg.id} /> 1)
-                  </span>
-                </h4>
-                <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 17 2020 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Отрывок текста...
-                </a>
-                <UserStamp
-                  profileURL="#"
-                  user="NewUser"
-                  date={new Date('Tue Aug 12 2021 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-          />
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
-              <>
-                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
-                  <a className={bLink()} href="#">
-                    Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
-                    темы темы
-                  </a>{' '}
-                  <span className={b('item-heading-misc')}>
-                    (<Icon align="middle" name={viewCountSvg.id} /> 2334 /{' '}
-                    <Icon align="middle" name={commentCountSvg.id} /> 1)
-                  </span>
-                </h4>
-                <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 17 2020 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Отрывок текста текста...
-                </a>
-                <UserStamp
-                  profileURL="#"
-                  user="NewUser"
-                  date={new Date('Tue Aug 17 2021 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-          />
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
-              <>
-                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
-                  <a className={bLink()} href="#">
-                    Название темы
-                  </a>{' '}
-                  <span className={b('item-heading-misc')}>
-                    (<Icon align="middle" name={viewCountSvg.id} /> 2334 /{' '}
-                    <Icon align="middle" name={commentCountSvg.id} /> 1)
-                  </span>
-                </h4>
-                <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 17 2020 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Отрывок текста...
-                </a>
-                <UserStamp
-                  profileURL="#"
-                  user="NewUser"
-                  date={new Date('Tue Aug 12 2021 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-          />
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
-              <>
-                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
-                  <a className={bLink()} href="#">
-                    Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
-                    темы темы
-                  </a>{' '}
-                  <span className={b('item-heading-misc')}>
-                    (<Icon align="middle" name={viewCountSvg.id} /> 2334 /{' '}
-                    <Icon align="middle" name={commentCountSvg.id} /> 1)
-                  </span>
-                </h4>
-                <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 17 2020 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Отрывок текста текста...
-                </a>
-                <UserStamp
-                  profileURL="#"
-                  user="NewUser"
-                  date={new Date('Tue Aug 17 2021 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-          />
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
-              <>
-                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
-                  <a className={bLink()} href="#">
-                    Название темы
-                  </a>{' '}
-                  <span className={b('item-heading-misc')}>
-                    (<Icon align="middle" name={viewCountSvg.id} /> 2334 /{' '}
-                    <Icon align="middle" name={commentCountSvg.id} /> 1)
-                  </span>
-                </h4>
-                <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 17 2020 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Отрывок текста...
-                </a>
-                <UserStamp
-                  profileURL="#"
-                  user="NewUser"
-                  date={new Date('Tue Aug 12 2021 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-          />
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
-              <>
-                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
-                  <a className={bLink()} href="#">
-                    Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
-                    темы темы
-                  </a>{' '}
-                  <span className={b('item-heading-misc')}>
-                    (<Icon align="middle" name={viewCountSvg.id} /> 2334 /{' '}
-                    <Icon align="middle" name={commentCountSvg.id} /> 1)
-                  </span>
-                </h4>
-                <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 17 2020 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Отрывок текста текста...
-                </a>
-                <UserStamp
-                  profileURL="#"
-                  user="NewUser"
-                  date={new Date('Tue Aug 17 2021 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-          />
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
-              <>
-                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
-                  <a className={bLink()} href="#">
-                    Название темы
-                  </a>{' '}
-                  <span className={b('item-heading-misc')}>
-                    (<Icon align="middle" name={viewCountSvg.id} /> 2334 /{' '}
-                    <Icon align="middle" name={commentCountSvg.id} /> 1)
-                  </span>
-                </h4>
-                <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 17 2020 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Отрывок текста...
-                </a>
-                <UserStamp
-                  profileURL="#"
-                  user="NewUser"
-                  date={new Date('Tue Aug 12 2021 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-          />
-          <ForumItemPreview
-            className={b('section')}
-            descSlot={
-              <>
-                <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
-                  <a className={bLink()} href="#">
-                    Название темы темы темы темы темы темы темы темы темы темы темы темы темы темы
-                    темы темы
-                  </a>{' '}
-                  <span className={b('item-heading-misc')}>
-                    (<Icon align="middle" name={viewCountSvg.id} /> 2334 /{' '}
-                    <Icon align="middle" name={commentCountSvg.id} /> 1)
-                  </span>
-                </h4>
-                <UserStamp
-                  profileURL="#"
-                  user="User"
-                  date={new Date('Tue Aug 17 2020 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-            statSlot={
-              <>
-                <a className={bLink({ action: true })} href="#">
-                  Отрывок текста текста...
-                </a>
-                <UserStamp
-                  profileURL="#"
-                  user="NewUser"
-                  date={new Date('Tue Aug 17 2021 01:40:57 GMT+0400')}
-                />
-              </>
-            }
-          />
+          {sectionData.threads.map((thread) => {
+            const lastComment = thread.comments[0];
+            const lastPost = lastComment || thread;
+            const threadPath = generatePath(paths.FORUM_THREAD, {
+              sectionId: sectionData.id,
+              threadId: thread.id,
+            });
+            const threadAuthorPath =
+              userData.id === thread.userId
+                ? generatePath(paths.PROFILE)
+                : generatePath(paths.PROFILE, {
+                    userId: thread.userId,
+                  });
+            const lastPostPath = lastComment
+              ? generatePath(paths.FORUM_COMMENT, {
+                  sectionId: sectionData.id,
+                  threadId: thread.id,
+                  commentId: lastComment.id,
+                })
+              : generatePath(paths.FORUM_THREAD, {
+                  sectionId: sectionData.id,
+                  threadId: thread.id,
+                });
+            const lastPostAuthorPath =
+              userData.id === lastPost.userId
+                ? generatePath(paths.PROFILE)
+                : generatePath(paths.PROFILE, {
+                    userId: lastPost.userId,
+                  });
+
+            return (
+              <ForumItemPreview
+                key={thread.id}
+                className={b('section')}
+                descSlot={
+                  <>
+                    <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
+                      <a className={bLink()} href={threadPath}>
+                        {thread.title}
+                      </a>{' '}
+                      <span className={b('item-heading-misc')}>
+                        {/* todo: добавить количество просмотров и комментариев */}
+                      </span>
+                    </h4>
+                    <UserStamp
+                      profileURL={threadAuthorPath}
+                      user={thread.user.name}
+                      date={new Date(thread.createdAt)}
+                    />
+                  </>
+                }
+                statSlot={
+                  <>
+                    <a className={bLink({ action: true })} href={lastPostPath}>
+                      {truncateString(lastPost.content, 70)}
+                    </a>{' '}
+                    <UserStamp
+                      profileURL={lastPostAuthorPath}
+                      user={lastPost.user.name}
+                      date={new Date(lastPost.createdAt)}
+                    />
+                  </>
+                }
+              />
+            );
+          })}
         </div>
-        <div className={b('toolbar')}>
-          <div className={b('toolbar-slot', { pagination: true })}>
-            <Pagination total={10} current={1} baseURL="/threads" className={b('pagination')} />
-          </div>
-        </div>
+        {/* todo: добавить пагинацию */}
       </>
     );
   }
 
-  const submitNewMessage = useCallback((values, actions) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      actions.setSubmitting(false);
-    }, 400);
-  }, []);
+  const submitNewComment = useCallback(
+    (values, actions) => {
+      if (!threadData) {
+        return;
+      }
 
-  if (threadId) {
-    const mockComment = {
-      user: { id: 1, displayName: 'Ник', avatar: 'url' },
-      date: 'Tue Aug 17 2020 01:40:57 GMT+0400',
-      content:
-        '\n' +
-        '            Текст комментария комментария комментария комментария комментария комментария\n' +
-        '            комментария комментария комментария комментария комментария комментария комментария\n' +
-        '            комментария комментария комментария',
+      (async () => {
+        actions.setFieldValue('replyMessage', '', false);
+
+        await dispatch(
+          createComment({
+            userId: userData.id as number,
+            threadId: threadData.id,
+            content: values.replyMessage,
+          })
+        ).unwrap();
+
+        actions.setSubmitting(false);
+      })();
+    },
+    [dispatch, userData.id, threadData]
+  );
+
+  if (isThreadPage && threadData && sectionData) {
+    const replyInitialValues = {
+      replyMessage: '',
     };
+    const parentSectionPath = generatePath(paths.FORUM_SECTION, {
+      sectionId: sectionData.id,
+    });
 
     forumBody = (
       <>
         <h4 className={b('heading').mix('heading_4', 'heading')}>
-          <Button
-            className={b('heading-action', { shifted: true })}
-            display="inline"
-            title={txt.backToSectionButtonTitle}
-            sizing="md"
-            theme="subtle"
-            icon={<Icon scale={1.4} name={backSvg.id} />}
+          <Link
+            to={parentSectionPath}
+            component={getRoutedButtonLink({
+              title: txt.backToSectionButtonTitle,
+              sizing: 'md',
+              icon: <Icon scale={1.4} name={backSvg.id} />,
+              theme: 'subtle',
+              className: b('heading-action', { shifted: true }),
+            })}
           />{' '}
-          Название темы
+          <span className={b('heading-txt')}>{threadData.title}</span>
         </h4>
-        <div className={b('toolbar')}>
-          <div className={b('toolbar-slot', { pagination: true })}>
-            <Pagination total={10} current={1} baseURL="/threads" className={b('pagination')} />
-          </div>
-        </div>
+        {/* todo: добавить пагинацию */}
         <div className={b('page')}>
-          <ForumComment className={b('comment')} data={mockComment} />
-          <ForumComment className={b('comment')} data={mockComment} />
-          <ForumComment className={b('comment')} data={mockComment} />
+          <ForumComment className={b('comment', { original: true })} data={threadData} />
+          {threadData.comments.map((comment) => (
+            <ForumComment key={comment.id} className={b('comment')} data={comment} />
+          ))}
         </div>
-        <div className={b('toolbar')}>
-          <div className={b('toolbar-slot', { pagination: true })}>
-            <Pagination total={10} current={1} baseURL="/threads" className={b('pagination')} />
-          </div>
-        </div>
+        {/* todo: добавить пагинацию */}
         <Formik
           initialValues={replyInitialValues}
           validationSchema={replySchema}
-          onSubmit={submitNewMessage}
+          onSubmit={submitNewComment}
         >
           {({ isSubmitting }) => (
             <Form noValidate className={b('reply')}>
@@ -622,26 +324,61 @@ function Forum(): JSX.Element {
     );
   }
 
-  const submitNewThread = useCallback((values, actions) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      actions.setSubmitting(false);
-    }, 400);
-  }, []);
+  const submitNewThread = useCallback(
+    (values, actions) => {
+      if (!sectionData) {
+        return;
+      }
 
-  if (threadId === 'create') {
+      (async () => {
+        actions.setFieldValue('threadHeader', '', false);
+        actions.setFieldValue('threadMessage', '', false);
+
+        const newThread = await dispatch(
+          createThread({
+            userId: userData.id as number,
+            sectionId: sectionData.id,
+            title: values.threadHeader,
+            content: values.threadMessage,
+          })
+        ).unwrap();
+
+        actions.setSubmitting(false);
+        history.push(
+          generatePath(paths.FORUM_THREAD, {
+            sectionId: newThread.sectionId,
+            threadId: newThread.id,
+          })
+        );
+      })();
+    },
+    [history, dispatch, userData.id, sectionData]
+  );
+
+  if (isThreadCreatePage && sectionData) {
+    const createThreadInitialValues = {
+      threadHeader: '',
+      threadMessage: '',
+    };
+
+    const parentSectionPath = generatePath(paths.FORUM_SECTION, {
+      sectionId: sectionData.id,
+    });
+
     forumBody = (
       <>
         <h4 className={b('heading').mix('heading_4', 'heading')}>
-          <Button
-            className={b('heading-action', { shifted: true })}
-            display="inline"
-            title={txt.backToSectionButtonTitle}
-            sizing="md"
-            theme="subtle"
-            icon={<Icon scale={1.4} name={backSvg.id} />}
+          <Link
+            to={parentSectionPath}
+            component={getRoutedButtonLink({
+              title: txt.backToSectionButtonTitle,
+              sizing: 'md',
+              icon: <Icon scale={1.4} name={backSvg.id} />,
+              theme: 'subtle',
+              className: b('heading-action', { shifted: true }),
+            })}
           />{' '}
-          Название секции
+          <span className={b('heading-txt')}>{sectionData.title}</span>
         </h4>
 
         <h5 className="gap-y-gen heading_5 heading">{txt.newThreadHeader}</h5>
@@ -656,7 +393,7 @@ function Forum(): JSX.Element {
                 required
                 className="gap-y-lg"
                 theme="solid"
-                name="topic"
+                name="threadHeader"
                 hint={txt.newThreadNameInputPlaceholder}
                 isFloating={false}
               />
@@ -664,7 +401,7 @@ function Forum(): JSX.Element {
                 required
                 className="gap-y-lg"
                 theme="solid"
-                name="message"
+                name="threadMessage"
                 hint={txt.newThreadMessageAreaPlaceholder}
                 rows={10}
               />
@@ -682,70 +419,20 @@ function Forum(): JSX.Element {
     <div className={b()}>
       <header className={b('header')}>
         <h1 className={b('main-heading').mix('heading_1', 'heading')}>
-          <a className={bLink({ 'text-like': true })} href="#">
+          <a className={bLink({ 'text-like': true })} href={paths.FORUM}>
             Game
           </a>
         </h1>
       </header>
-      <main className={b('body')}>{forumBody}</main>
+      <main className={b('body').is({ loading: isLoading, loaded: isLoaded })}>
+        <Spinner className={b('spinner')} size="lg" />
+        <div className={b('content')}>{forumBody}</div>
+      </main>
       <footer className={b('footer')}>
         <div className={b('footer-stat', { registered: true })}>
-          {txt.stats.registered} 2 {txt.stats.registeredUserLabel}
+          {txt.stats.registered} {statsData?.registeredCount}
         </div>
-        <div className={b('footer-stat', { online: true })}>
-          {txt.stats.online}{' '}
-          <a className={bLink()} href="#">
-            User
-          </a>
-          ,{' '}
-          <a className={bLink()} href="#">
-            User
-          </a>
-          ,{' '}
-          <a className={bLink()} href="#">
-            User
-          </a>
-          ,{' '}
-          <a className={bLink()} href="#">
-            User
-          </a>
-          ,{' '}
-          <a className={bLink()} href="#">
-            User
-          </a>
-          ,{' '}
-          <a className={bLink()} href="#">
-            User
-          </a>
-          ,{' '}
-          <a className={bLink()} href="#">
-            User
-          </a>
-          ,{' '}
-          <a className={bLink()} href="#">
-            User
-          </a>
-          ,{' '}
-          <a className={bLink()} href="#">
-            User
-          </a>
-          ,{' '}
-          <a className={bLink()} href="#">
-            User
-          </a>
-          ,{' '}
-          <a className={bLink()} href="#">
-            User
-          </a>
-          ,{' '}
-          <a className={bLink()} href="#">
-            User
-          </a>
-          ,{' '}
-          <a className={bLink()} href="#">
-            User
-          </a>
-        </div>
+        {/* todo: добавить список юзеров онлайн */}
       </footer>
     </div>
   );

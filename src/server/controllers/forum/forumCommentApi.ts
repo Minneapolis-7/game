@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 
 import { ForumCommentCreationAttributes } from '@/server/sequelize/models/Forum/ForumComment';
 import { forumCommentService } from '@/server/services/forum';
-import { ForumCommentUpdatePayload } from '@/server/services/forum/ForumCommentService';
+import { ForumCommentUpdatePayload } from '@/server/services/forum/forumCommentService';
 import { HttpStatuses } from '@/shared/const/const';
 
 export type CreateCommentRequest = Request<unknown, unknown, ForumCommentCreationAttributes>;
@@ -22,9 +22,10 @@ const forumCommentApi = {
     const { body } = request;
 
     try {
-      const record = await forumCommentService.create(body);
+      const commentRecord = await forumCommentService.create(body);
+      const commentWithUser = await forumCommentService.find(commentRecord.id);
 
-      response.json(record);
+      response.json(commentWithUser);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
         error: e,
