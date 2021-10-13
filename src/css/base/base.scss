@@ -124,3 +124,16 @@ video[controls]:not([tabindex^='-']):focus-visible,
 [class*='gap-y-']:last-child {
   margin-bottom: 0 !important;
 }
+
+:root {
+  --brand-color: #{$yellow};
+  --section-pad-x-generic: #{$gap-x-generic};
+
+  @media (min-width: $narrow-screen-bp) {
+    --section-pad-x-generic: #{$gap-x-generic-lg};
+  }
+}
+
+.new-theme {
+  --brand-color: #{$dark-red};
+}

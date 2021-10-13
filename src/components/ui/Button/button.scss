@@ -116,7 +116,7 @@ $button-spinner-size: 1.125em;
   background-color: transparent !important;
 }
 .button_theme_link {
-  color: $brand-color;
+  color: var(--brand-color);
 }
 .button_theme_link-danger {
   color: $danger-color;

@@ -5,25 +5,35 @@ import { HttpStatuses } from '@/shared/const/const';
 
 export default class ThemeAPI {
   // по userId получить тему из UserTheme
-  static find = async (request: Request) => {
-    const { body } = request;
+  static find = async (request: Request, response: Response) => {
+    const { id } = request.params;
 
-    await themeService.find(body);
+    try {
+      const record = await themeService.find(id);
+
+      response.json(record);
+    } catch (e) {
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
+    }
   };
 
   // получить все темы из SiteTheme
-  static findAll = async () => {
-    await themeService.findAll();
+  static findAll = async (response: Response) => {
+    try {
+      const records = await themeService.findAll();
+
+      response.json(records);
+    } catch (e) {
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
+    }
   };
 
   // сохранить выбор темы для user
   static save = async (request: Request, response: Response) => {
     const { body } = request;
 
-    console.log('----themeAPI save', body);
-
     try {
-      const record = await themeService.update('7', 5);
+      const record = await themeService.update(body.userId, body.themeId);
 
       response.json(record);
     } catch (e) {

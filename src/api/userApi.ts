@@ -11,6 +11,7 @@ import {
   UpdateProfileRequest,
   UserLocalProfile,
   UserProfile,
+  UserTheme,
 } from './types';
 
 /**
@@ -67,10 +68,14 @@ export default {
     return data;
   },
 
-  async getUserTheme(): Promise<string> {
-    const { data } = await apiCustom.get('/theme');
+  async getUserTheme(userId: number): Promise<number> {
+    const { data } = await apiCustom.get(`/theme/${userId}`);
 
     return data;
+  },
+
+  async saveUserTheme(userTheme: UserTheme): Promise<void> {
+    await apiCustom.post('/theme/save', userTheme);
   },
 
   async updateProfile(user: UpdateProfileRequest): Promise<UserLocalProfile> {

@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useRef } from 'react';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 import { block } from 'bem-cn';
 
 import { Button, Icon } from '@/components/ui';
@@ -8,6 +8,8 @@ import { SizeLabels } from '@/shared/const/const';
 import text from '@/shared/const/text';
 import useFocusTrapping from '@/shared/utils/useFocusTrapping';
 import useKeydown from '@/shared/utils/useKeydown';
+import { saveCurrentTheme, saveTheme } from '@/store/reducers';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import menuSvg from 'bootstrap-icons/icons/list.svg';
 import closeSvg from 'bootstrap-icons/icons/x-lg.svg';
@@ -25,8 +27,13 @@ type SidebarProps = {
 
 function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
   const pageContext = useContext(PageContext);
+  const { id: userId, themeId } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
   const sidebarRef = useRef<HTMLDivElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
+
+  console.log('---themeId', themeId);
+  const [themeName, setThemeName] = useState(themeId === 0 ? 'Красная тема' : 'Желтая тема');
   const openSidebar = useCallback(
     (e) => {
       openerRef.current = e.target;
@@ -43,8 +50,29 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
   }, [pageContext]);
 
   const changeTheme = useCallback(() => {
-    document.getElementsByTagName('body')[0].classList.add('new-theme');
-  }, []);
+    const body = document.getElementsByTagName('body')[0];
+    let newThemeId;
+
+    if (themeId === 0) {
+      setThemeName('Желтая тема');
+      newThemeId = 1;
+      body.classList.add('new-theme');
+    } else {
+      setThemeName('Красная тема');
+      newThemeId = 0;
+      body.classList.remove('new-theme');
+    }
+
+    dispatch(saveCurrentTheme(newThemeId));
+
+    if (userId) {
+      try {
+        dispatch(saveTheme({ userId, themeId: newThemeId }));
+      } catch (e) {
+        throw new Error(e);
+      }
+    }
+  }, [themeId]);
 
   useKeydown('Escape', closeSidebar);
   useFocusTrapping(SIDEBAR_SHOW_EVENT, SIDEBAR_HIDE_EVENT);
@@ -73,7 +101,7 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
         <div className={b('body').mix('scrollbar')}>
           <Nav />
         </div>
-        <Button onClick={changeTheme}>New theme</Button>
+        <Button onClick={changeTheme}>{themeName}</Button>
       </div>
       <div className={b('backdrop')} onMouseDown={closeSidebar}></div>
     </div>

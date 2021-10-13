@@ -19,6 +19,11 @@ export type UpdatePasswordRequest = {
   newPassword: string;
 };
 
+export type UserTheme = {
+  userId: number;
+  themeId: number;
+};
+
 export type OAuthClientIdRequest = {
   redirectUri: string;
 };

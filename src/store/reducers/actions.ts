@@ -1,4 +1,7 @@
 export {
+  getTheme,
+  saveTheme,
+  saveCurrentTheme,
   signin,
   signup,
   logout,

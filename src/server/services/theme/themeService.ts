@@ -2,13 +2,13 @@ import { SiteTheme, UserTheme } from '@/server/sequelize/models';
 
 import BaseService from '../BaseService';
 
-type FindRequest = {
-  userId: number;
-};
+// type FindRequest = {
+//   userId: number;
+// };
 
 class ThemeService extends BaseService {
   // найти тему из табл. UserTheme, где ownerId == userId
-  find = ({ userId }: FindRequest) => {
+  find = (userId: string) => {
     return UserTheme.findOne({
       where: {
         ownerId: userId,
@@ -22,10 +22,10 @@ class ThemeService extends BaseService {
   };
 
   // сохранить выбор темы для user
-  update = (userId: string, value: number) => {
+  update = (userId: string, themeId: number) => {
     console.log('---UserTheme.upsert');
 
-    return UserTheme.upsert({ ownerId: userId, themeId: value, device: null });
+    return UserTheme.upsert({ ownerId: userId, themeId, device: null });
   };
 }
 
