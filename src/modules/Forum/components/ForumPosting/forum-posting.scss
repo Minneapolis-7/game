@@ -1,7 +1,7 @@
 @use 'src/css/abstracts/variables' as *;
 @use 'src/css/abstracts/mixins' as *;
 
-.forum-comment {
+.forum-posting {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
@@ -11,8 +11,8 @@
   }
 }
 
-.forum-comment__user,
-.forum-comment__content {
+.forum-posting__user,
+.forum-posting__content {
   width: 100%;
 
   @media (min-width: $forum-bp) {
@@ -20,7 +20,7 @@
   }
 }
 
-.forum-comment__user {
+.forum-posting__user {
   flex-grow: 0;
   flex-shrink: 0;
   width: 8rem;
@@ -28,7 +28,7 @@
   text-align: center;
 }
 
-.forum-comment__user-name {
+.forum-posting__user-name {
   @include break-word;
   @include line-clamp(3);
 
@@ -37,15 +37,15 @@
   line-height: 1.3;
 }
 
-.forum-comment__content {
+.forum-posting__content {
   @include break-word;
 
   white-space: pre-line;
 }
 
-.forum-comment__toolbar_top {
+.forum-posting__toolbar_top {
   margin-top: -0.4rem;
 }
-.forum-comment__toolbar_bottom {
+.forum-posting__toolbar_bottom {
   margin-top: 1rem;
 }

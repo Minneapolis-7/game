@@ -1,7 +1,9 @@
 import { ForumCategoryAttributes } from '@/server/sequelize/models/Forum/ForumCategory';
 import { ForumCommentAttributes } from '@/server/sequelize/models/Forum/ForumComment';
+import { ForumCommentEmojiAttributes } from '@/server/sequelize/models/Forum/ForumCommentEmoji';
 import { ForumSectionAttributes } from '@/server/sequelize/models/Forum/ForumSection';
 import { ForumThreadAttributes } from '@/server/sequelize/models/Forum/ForumThread';
+import { ForumThreadEmojiAttributes } from '@/server/sequelize/models/Forum/ForumThreadEmoji';
 import { UserAttributes } from '@/server/sequelize/models/User';
 
 export type UserData = {
@@ -25,13 +27,19 @@ export type ForumStatsData = {
   registeredCount: number;
   onlineUsers?: UserAttributes[];
 };
+export type ForumCommentEmojiData = ForumCommentEmojiAttributes & {
+  users: UserAttributes[];
+};
+export type ForumThreadEmojiData = ForumThreadEmojiAttributes & {
+  users: UserAttributes[];
+};
 export type ForumCommentData = ForumCommentAttributes & {
-  commentEmojis: ForumCommentData[];
+  commentEmojis: ForumCommentEmojiData[];
   user: UserAttributes;
 };
 export type ForumThreadData = ForumThreadAttributes & {
   comments: ForumCommentData[];
-  threadEmojis: ForumCommentData[];
+  threadEmojis: ForumThreadEmojiData[];
   user: UserAttributes;
 };
 export type ForumSectionData = ForumSectionAttributes & {

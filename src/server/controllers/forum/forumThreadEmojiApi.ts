@@ -29,10 +29,12 @@ const forumThreadEmojiApi = {
     const { body } = request;
 
     try {
-      const record = await forumThreadEmojiService.create({
+      const threadEmojiUser = await forumThreadEmojiService.create({
         ...body,
         threadId: Number(id),
       });
+
+      const record = await forumThreadEmojiService.find(threadEmojiUser.get('threadEmojiId'));
 
       response.json(record);
     } catch (e) {
@@ -47,12 +49,13 @@ const forumThreadEmojiApi = {
     const { user } = request.query;
 
     try {
-      await forumThreadEmojiService.delete({
+      const deletedThreadEmoji = await forumThreadEmojiService.delete({
         threadId: Number(threadId),
         emojiId: Number(emojiId),
         userId: Number(user),
       });
-      response.sendStatus(HttpStatuses.OK);
+
+      response.json(deletedThreadEmoji);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
         error: e,

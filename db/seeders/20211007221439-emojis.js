@@ -2,12 +2,14 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('emojis', [
       {
-        code: '1F44D', // 👍
+        utf_code: '1F44D', // 👍
+        html_entity_code: '128077',
         created_at: Sequelize.literal('CURRENT_TIMESTAMP'),
         updated_at: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
       {
-        code: '1F44E', // 👎
+        utf_code: '1F44E', // 👎
+        html_entity_code: '128078',
         created_at: Sequelize.literal('CURRENT_TIMESTAMP'),
         updated_at: Sequelize.literal('CURRENT_TIMESTAMP'),
       },

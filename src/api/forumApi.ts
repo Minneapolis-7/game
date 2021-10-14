@@ -1,3 +1,4 @@
+import { EmojiAttributes } from '@/server/sequelize/models/Emoji';
 import { ForumCommentCreationAttributes } from '@/server/sequelize/models/Forum/ForumComment';
 import { ForumThreadCreationAttributes } from '@/server/sequelize/models/Forum/ForumThread';
 import { ForumCommentEmojiUserIdentifier } from '@/server/services/forum/forumCommentEmojiService';
@@ -8,9 +9,11 @@ import {
   EmojiUserIdentifier,
   ForumCategoryData,
   ForumCommentData,
+  ForumCommentEmojiData,
   ForumSectionData,
   ForumStatsData,
   ForumThreadData,
+  ForumThreadEmojiData,
 } from '@/shared/types/types';
 
 import { apiCustom } from './api';
@@ -19,6 +22,12 @@ export default {
   // нужно/возможно ли типизовать возврат api? на входе в `response.json` данные типизируются, приходит `any`
   async getStats(): Promise<ForumStatsData> {
     const { data } = await apiCustom.get('/forum/stats');
+
+    return data;
+  },
+
+  async getAvailableEmojis(): Promise<EmojiAttributes[]> {
+    const { data } = await apiCustom.get('/forum/emojis');
 
     return data;
   },
@@ -55,14 +64,20 @@ export default {
     await apiCustom.delete(`/forum/threads/${id}`);
   },
 
-  async addThreadEmoji(id: number, emoji: EmojiUserIdentifier): Promise<void> {
-    await apiCustom.post(`/forum/threads/${id}/emojis`, emoji);
+  async addThreadEmoji(id: number, emoji: EmojiUserIdentifier): Promise<ForumThreadEmojiData> {
+    const { data } = await apiCustom.post(`/forum/threads/${id}/emojis`, emoji);
+
+    return data;
   },
 
-  async deleteThreadEmoji(emoji: ForumThreadEmojiUserIdentifier): Promise<void> {
+  async deleteThreadEmoji(emoji: ForumThreadEmojiUserIdentifier): Promise<ForumThreadEmojiData> {
     const { threadId, emojiId, userId } = emoji;
 
-    await apiCustom.delete(`/forum/threads/${threadId}/emojis/${emojiId}?user=${userId}`);
+    const { data } = await apiCustom.delete(
+      `/forum/threads/${threadId}/emojis/${emojiId}?user=${userId}`
+    );
+
+    return data;
   },
 
   async createComment(commentData: ForumCommentCreationAttributes): Promise<ForumCommentData> {
@@ -79,13 +94,22 @@ export default {
     await apiCustom.delete(`/forum/comments/${id}`);
   },
 
-  async addCommentEmoji(commentId: number, emoji: EmojiUserIdentifier): Promise<void> {
-    await apiCustom.post(`/forum/comments/${commentId}/emojis`, emoji);
+  async addCommentEmoji(
+    commentId: number,
+    emoji: EmojiUserIdentifier
+  ): Promise<ForumCommentEmojiData> {
+    const { data } = await apiCustom.post(`/forum/comments/${commentId}/emojis`, emoji);
+
+    return data;
   },
 
-  async deleteCommentEmoji(emoji: ForumCommentEmojiUserIdentifier): Promise<void> {
+  async deleteCommentEmoji(emoji: ForumCommentEmojiUserIdentifier): Promise<ForumCommentEmojiData> {
     const { commentId, emojiId, userId } = emoji;
 
-    await apiCustom.delete(`/forum/comments/${commentId}/emojis/${emojiId}?user=${userId}`);
+    const { data } = await apiCustom.delete(
+      `/forum/comments/${commentId}/emojis/${emojiId}?user=${userId}`
+    );
+
+    return data;
   },
 };

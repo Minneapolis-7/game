@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, Draft } from '@reduxjs/toolkit';
 
 import api from '@/api/forumApi';
 import { ForumCommentCreationAttributes } from '@/server/sequelize/models/Forum/ForumComment';
@@ -12,12 +12,14 @@ import type {
   PendingAction,
   RejectedAction,
 } from '@/shared/types/redux';
+import { ForumCommentEmojiData, ForumThreadEmojiData } from '@/shared/types/types';
 
 export const initialState: ForumState = {
   categories: [],
   section: null,
   thread: null,
   stats: null,
+  availableEmojis: [],
   isLoading: false,
   isLoaded: false,
 };
@@ -29,6 +31,17 @@ export const getStats = createAsyncThunk('forum/getStats', async (_, { rejectWit
     return rejectWithValue(err.response.data);
   }
 });
+
+export const getAvailableEmojis = createAsyncThunk(
+  'forum/getAvailableEmojis',
+  async (_, { rejectWithValue }) => {
+    try {
+      return await api.getAvailableEmojis();
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 export const getCategories = createAsyncThunk(
   'forum/getCategories',
@@ -61,6 +74,7 @@ export const getThread = createAsyncThunk(
   async (id: number, { dispatch, rejectWithValue }) => {
     try {
       dispatch(getStats());
+      dispatch(getAvailableEmojis());
 
       return await api.getThread(id);
     } catch (err) {
@@ -140,7 +154,30 @@ export const deleteCommentEmoji = createAsyncThunk(
 );
 
 function getLoadableActionsRegexp(stage: string) {
-  return new RegExp(`(getStats|getCategories|getSection|getThread|createThread)/${stage}$`);
+  return new RegExp(
+    `(getStats|getAvailableEmojis|getCategories|getSection|getThread|createThread)/${stage}$`
+  );
+}
+
+function deleteEmoji(
+  emojis: Draft<ForumCommentEmojiData | ForumThreadEmojiData>[],
+  payload: ForumThreadEmojiData | ForumCommentEmojiData
+) {
+  const deletedEmojiIndex = emojis.findIndex((emoji) => emoji.emojiId === payload.emojiId);
+
+  if (deletedEmojiIndex === -1) {
+    return;
+  }
+
+  const emojiUsers = emojis[deletedEmojiIndex].users;
+
+  if (emojiUsers.length === 1) {
+    emojis.splice(deletedEmojiIndex, 1);
+  } else {
+    const i = emojis[deletedEmojiIndex].users.findIndex((user) => user.id === payload.users[0].id);
+
+    emojiUsers.splice(i, 1);
+  }
 }
 
 const forumSlice = createSlice({
@@ -151,6 +188,9 @@ const forumSlice = createSlice({
     builder
       .addCase(getStats.fulfilled, (state, action) => {
         state.stats = action.payload;
+      })
+      .addCase(getAvailableEmojis.fulfilled, (state, action) => {
+        state.availableEmojis = action.payload;
       })
       .addCase(getCategories.fulfilled, (state, action) => {
         state.categories = action.payload;
@@ -166,6 +206,65 @@ const forumSlice = createSlice({
       })
       .addCase(createComment.fulfilled, (state, action) => {
         state.thread?.comments.push(action.payload);
+      })
+      .addCase(addThreadEmoji.fulfilled, (state, { payload }) => {
+        const addedThreadEmoji = state.thread?.threadEmojis?.find(
+          (threadEmoji) => threadEmoji.emojiId === payload.emojiId
+        );
+
+        if (addedThreadEmoji) {
+          addedThreadEmoji.users.push(payload.users[0]);
+        } else {
+          state.thread?.threadEmojis.push(payload);
+        }
+      })
+      .addCase(addCommentEmoji.fulfilled, (state, { payload }) => {
+        // такие сложные манипуляции — это норма, или следствие плохой организации структуры данных, приходящих с сервера?
+        const affectedComment = state.thread?.comments.find(
+          (comment) => comment.id === payload.commentId
+        );
+
+        if (!affectedComment) {
+          return;
+        }
+
+        const addedCommentEmoji = affectedComment.commentEmojis?.find(
+          (commentEmoji) => commentEmoji.emojiId === payload.emojiId
+        );
+
+        if (addedCommentEmoji) {
+          addedCommentEmoji.users.push(payload.users[0]);
+        } else if (affectedComment.commentEmojis) {
+          affectedComment.commentEmojis.push(payload);
+        } else {
+          affectedComment.commentEmojis = [payload];
+        }
+      })
+      .addCase(deleteThreadEmoji.fulfilled, (state, { payload }) => {
+        if (!state.thread) {
+          return;
+        }
+
+        const { threadEmojis } = state.thread;
+
+        deleteEmoji(threadEmojis, payload);
+      })
+      .addCase(deleteCommentEmoji.fulfilled, (state, { payload }) => {
+        if (!state.thread) {
+          return;
+        }
+
+        const affectedComment = state.thread.comments.find(
+          (comment) => comment.id === payload.commentId
+        );
+
+        if (!affectedComment) {
+          return;
+        }
+
+        const { commentEmojis } = affectedComment;
+
+        deleteEmoji(commentEmojis, payload);
       })
       .addMatcher(
         (action): action is PendingAction => action.type.match(getLoadableActionsRegexp('pending')),

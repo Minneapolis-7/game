@@ -1,4 +1,4 @@
-import { ForumCommentEmoji, ForumCommentEmojiUser } from '@/server/sequelize/models';
+import { Emoji, ForumCommentEmoji, ForumCommentEmojiUser, User } from '@/server/sequelize/models';
 import { EmojiUserIdentifier } from '@/shared/types/types';
 
 import BaseService from '../BaseService';
@@ -8,31 +8,61 @@ export type ForumCommentEmojiUserIdentifier = EmojiUserIdentifier & {
 };
 
 class ForumCommentEmojiService extends BaseService {
-  async create({ emojiId, userId, commentId }: ForumCommentEmojiUserIdentifier): Promise<void> {
-    const { id: commentEmojiId } = await ForumCommentEmoji.create({ commentId, emojiId });
+  async create({
+    emojiId,
+    userId,
+    commentId,
+  }: ForumCommentEmojiUserIdentifier): Promise<ForumCommentEmojiUser> {
+    const commentEmoji = await ForumCommentEmoji.create({ commentId, emojiId });
 
-    await ForumCommentEmojiUser.create({ userId, commentEmojiId });
+    return ForumCommentEmojiUser.create({ userId, commentEmojiId: commentEmoji.get('id') });
   }
 
-  async delete({ emojiId, userId, commentId }: ForumCommentEmojiUserIdentifier): Promise<void> {
+  async find(commentEmojiId: number): Promise<ForumCommentEmoji | null> {
+    return ForumCommentEmoji.findOne({
+      where: { id: commentEmojiId },
+      include: [
+        {
+          model: User,
+          through: { attributes: [] },
+        },
+        Emoji,
+      ],
+    });
+  }
+
+  async delete({
+    emojiId,
+    userId,
+    commentId,
+  }: ForumCommentEmojiUserIdentifier): Promise<ForumCommentEmoji | false> {
     const query = {
       where: {
         commentId,
         emojiId,
       },
+      include: [
+        {
+          model: User,
+          through: { attributes: [] },
+        },
+        Emoji,
+      ],
     };
     const commentEmoji = await ForumCommentEmoji.findOne(query);
 
     if (!commentEmoji) {
-      return;
+      return false;
     }
 
-    const commentEmojiId = commentEmoji.id;
+    const commentEmojiId = commentEmoji.get('id');
 
     await ForumCommentEmoji.destroy(query);
     await ForumCommentEmojiUser.destroy({
       where: { userId, commentEmojiId },
     });
+
+    return commentEmoji;
   }
 }
 

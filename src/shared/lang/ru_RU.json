@@ -100,6 +100,7 @@
       "online": "Сейчас онлайн:"
     },
     "createNewThreadButtonTitle": "Создать новую тему",
+    "emptySectionMessage": "Создайте тему",
     "backToForumButtonTitle": "Назад в форум",
     "backToSectionButtonTitle": "Назад в секцию",
     "newMessageAreaPlaceholder": "Введите сообщение",
@@ -107,8 +108,6 @@
     "commentReplyButton": "Ответить",
     "commentEditButtonTitle": "Редактировать",
     "commentDeleteButtonTitle": "Удалить",
-    "postThumbsUpTitle": "+1",
-    "postThumbsDownTitle": "-1",
     "newThreadHeader": "Создайте тему",
     "newThreadNameInputPlaceholder": "Название темы",
     "newThreadMessageAreaPlaceholder": "Введите сообщение",

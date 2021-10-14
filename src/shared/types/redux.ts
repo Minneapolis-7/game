@@ -2,6 +2,7 @@ import { AsyncThunk } from '@reduxjs/toolkit';
 import { RouterState } from 'connected-react-router';
 
 import { Leader } from '@/api/types';
+import { EmojiAttributes } from '@/server/sequelize/models/Emoji';
 import {
   ForumCategoryData,
   ForumSectionData,
@@ -19,6 +20,7 @@ export type ForumState = {
   section: Nullable<ForumSectionData>;
   thread: Nullable<ForumThreadData>;
   stats: Nullable<ForumStatsData>;
+  availableEmojis: EmojiAttributes[];
   isLoading: boolean;
   isLoaded: boolean;
 };

@@ -88,10 +88,20 @@ export default class User extends Model<UserAttributes, UserCreationAttributes> 
   @HasMany(() => ForumThread)
   threads?: ForumThread[];
 
-  @BelongsToMany(() => ForumCommentEmoji, () => ForumCommentEmojiUser)
+  @BelongsToMany(() => ForumCommentEmoji, {
+    through: {
+      model: () => ForumCommentEmojiUser,
+      unique: false,
+    },
+  })
   commentEmojis!: ForumCommentEmoji[];
 
-  @BelongsToMany(() => ForumThreadEmoji, () => ForumThreadEmojiUser)
+  @BelongsToMany(() => ForumThreadEmoji, {
+    through: {
+      model: () => ForumThreadEmojiUser,
+      unique: false,
+    },
+  })
   threadEmojis!: ForumThreadEmoji[];
 
   @HasMany(() => ForumCommentEmojiUser)

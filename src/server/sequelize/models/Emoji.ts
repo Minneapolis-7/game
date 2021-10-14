@@ -19,7 +19,8 @@ import { IntrinsicModelAttributes } from '@/server/shared/types';
 /* eslint-enable */
 
 export type EmojiAttributes = {
-  code: string;
+  utfCode: string;
+  htmlEntityCode: string;
 } & IntrinsicModelAttributes;
 
 @Table({
@@ -30,7 +31,11 @@ export type EmojiAttributes = {
 export default class Emoji extends Model<EmojiAttributes> {
   @AllowNull(false)
   @Column(DataType.TEXT)
-  code!: string;
+  utfCode!: string;
+
+  @AllowNull(false)
+  @Column(DataType.TEXT)
+  htmlEntityCode!: string;
 
   @BelongsToMany(() => ForumComment, () => ForumCommentEmoji)
   comments!: ForumComment[];
