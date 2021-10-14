@@ -44,7 +44,8 @@ class ForumCommentEmojiService extends BaseService {
       include: [
         {
           model: User,
-          through: { attributes: [] },
+          where: { id: userId },
+          required: true,
         },
         Emoji,
       ],
@@ -57,9 +58,8 @@ class ForumCommentEmojiService extends BaseService {
 
     const commentEmojiId = commentEmoji.get('id');
 
-    await ForumCommentEmoji.destroy(query);
-    await ForumCommentEmojiUser.destroy({
-      where: { userId, commentEmojiId },
+    await ForumCommentEmoji.destroy({
+      where: { id: commentEmojiId },
     });
 
     return commentEmoji;

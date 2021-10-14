@@ -61,7 +61,12 @@ export default class ForumComment extends Model<
   @BelongsTo(() => ForumThread)
   thread?: ForumThread;
 
-  @BelongsToMany(() => Emoji, () => ForumCommentEmoji)
+  @BelongsToMany(() => Emoji, {
+    through: {
+      model: () => ForumCommentEmoji,
+      unique: false,
+    },
+  })
   emojis!: Emoji[];
 
   @HasMany(() => ForumCommentEmoji, {

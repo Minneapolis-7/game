@@ -44,7 +44,8 @@ class ForumThreadEmojiService extends BaseService {
       include: [
         {
           model: User,
-          through: { attributes: [] },
+          where: { id: userId },
+          required: true,
         },
         Emoji,
       ],
@@ -57,9 +58,8 @@ class ForumThreadEmojiService extends BaseService {
 
     const threadEmojiId = threadEmoji.get('id');
 
-    await ForumThreadEmoji.destroy(query);
-    await ForumThreadEmojiUser.destroy({
-      where: { userId, threadEmojiId },
+    await ForumThreadEmoji.destroy({
+      where: { id: threadEmojiId },
     });
 
     return threadEmoji;

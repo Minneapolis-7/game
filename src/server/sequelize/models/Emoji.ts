@@ -37,13 +37,23 @@ export default class Emoji extends Model<EmojiAttributes> {
   @Column(DataType.TEXT)
   htmlEntityCode!: string;
 
-  @BelongsToMany(() => ForumComment, () => ForumCommentEmoji)
+  @BelongsToMany(() => ForumComment, {
+    through: {
+      model: () => ForumCommentEmoji,
+      unique: false,
+    },
+  })
   comments!: ForumComment[];
 
   @HasMany(() => ForumCommentEmoji)
   commentEmojis?: ForumCommentEmoji[];
 
-  @BelongsToMany(() => ForumThread, () => ForumThreadEmoji)
+  @BelongsToMany(() => ForumThread, {
+    through: {
+      model: () => ForumThreadEmoji,
+      unique: false,
+    },
+  })
   threads!: ForumThread[];
 
   @HasMany(() => ForumThreadEmoji)

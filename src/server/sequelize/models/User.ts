@@ -91,7 +91,7 @@ export default class User extends Model<UserAttributes, UserCreationAttributes> 
   @BelongsToMany(() => ForumCommentEmoji, () => ForumCommentEmojiUser)
   commentEmojis!: ForumCommentEmoji[];
 
-  @BelongsToMany(() => ForumThreadEmoji, () => ForumCommentEmojiUser)
+  @BelongsToMany(() => ForumThreadEmoji, () => ForumThreadEmojiUser)
   threadEmojis!: ForumThreadEmoji[];
 
   @HasMany(() => ForumCommentEmojiUser)
