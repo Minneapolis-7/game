@@ -6,6 +6,7 @@ import PageContext from '@/layout/Page/PageContext';
 import Nav from '@/modules/Nav';
 import { SizeLabels } from '@/shared/const/const';
 import text from '@/shared/const/text';
+import themes from '@/shared/const/themes';
 import useFocusTrapping from '@/shared/utils/useFocusTrapping';
 import useKeydown from '@/shared/utils/useKeydown';
 import { saveCurrentTheme, saveTheme } from '@/store/reducers';
@@ -32,7 +33,8 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
 
-  const [themeName, setThemeName] = useState(themeId === 0 ? 'Красная тема' : 'Желтая тема');
+  const [themeName, setThemeName] = useState(themes.getNextThemeName(themeId));
+
   const openSidebar = useCallback(
     (e) => {
       openerRef.current = e.target;
@@ -49,19 +51,12 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
   }, [pageContext]);
 
   const changeTheme = useCallback(() => {
-    const body = document.getElementsByTagName('body')[0];
-    let newThemeId;
+    const { body } = document;
+    const newThemeId = themes.getNextThemeId(themeId);
 
-    if (themeId === 0) {
-      setThemeName(txt.yellowTheme);
-      newThemeId = 1;
-      body.classList.add('new-theme');
-    } else {
-      setThemeName(txt.redTheme);
-      newThemeId = 0;
-      body.classList.remove('new-theme');
-    }
-
+    setThemeName(themes.getNextThemeName(newThemeId));
+    body.classList.remove(themes.getThemeClass(themeId));
+    body.classList.add(themes.getThemeClass(newThemeId));
     dispatch(saveCurrentTheme(newThemeId));
 
     if (userId) {
