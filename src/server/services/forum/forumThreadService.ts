@@ -1,5 +1,3 @@
-// import { Op } from 'sequelize';
-
 import {
   Emoji,
   ForumComment,
@@ -48,7 +46,6 @@ class ForumThreadService extends BaseService {
     return ForumThread.findOne({
       where: {
         id: threadId,
-        // '$ForumCommentEmoji.id$': { [Op.eq]: Sequelize.col('ForumComment.id') },
       },
       include: [
         User,
@@ -78,8 +75,20 @@ class ForumThreadService extends BaseService {
               include: [
                 {
                   model: ForumCommentEmoji,
+                  /*
+                   * todo:
+                   * Записи в ForumCommentEmoji не уникальны, и для каждого найденного коммента (ForumComment)
+                   * надо отфильтровать только те из них, где ForumCommentEmoji.commentId равен ForumComment.id
+                   * (сейчас в каждом комменте включаеются все ForumCommentEmoji со всех комментов,
+                   * а надо включать только от своего коммента)
+                   *
+                   * Проблема в том, что обычная фильтрация по аттрибутам родителя (через `where` и ссылку на колонку)
+                   * здесь не работает, возможно из-за того, что в запросе `ForumComment` включает сначала `Emoji`,
+                   * а `Emoji`  включает `ForumCommentEmoji`, т.е. `ForumComment` в этом запросе — не прямой родитель
+                   *
+                   * Текущее решение — удаление дубликатов юзеров из возврата (внутри `comments.emojis[N].users[N]`)
+                   * */
                   // where: { commentId: Sequelize.col('ForumComment.id') },
-                  // where: { commentId: { [Op.col]: 'ForumComment.id' } },
                   include: [
                     {
                       model: User,

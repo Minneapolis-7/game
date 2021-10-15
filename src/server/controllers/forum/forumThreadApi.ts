@@ -8,6 +8,7 @@ import { forumThreadService } from '@/server/services/forum';
 import { ForumThreadUpdatePayload } from '@/server/services/forum/forumThreadService';
 import { HttpStatuses } from '@/shared/const/const';
 import { ForumEmojiData, ForumThreadData } from '@/shared/types/types';
+import uniqueBy from '@/shared/utils/uniqueBy';
 
 export type CreateThreadRequest = Request<unknown, unknown, ForumThreadCreationAttributes>;
 export type UpdateThreadRequest = Request<
@@ -130,7 +131,10 @@ const forumThreadApi = {
 
           const { commentId } = commentEmojis[0];
 
-          modifiedEmoji.users = commentEmojis.flatMap((item) => item.users);
+          modifiedEmoji.users = uniqueBy(
+            'id',
+            commentEmojis.flatMap((item) => item.users)
+          );
           modifiedEmoji.commentId = commentId;
 
           delete modifiedEmoji.commentEmojis;
