@@ -86,7 +86,7 @@ class ForumThreadService extends BaseService {
                    * здесь не работает, возможно из-за того, что в запросе `ForumComment` включает сначала `Emoji`,
                    * а `Emoji`  включает `ForumCommentEmoji`, т.е. `ForumComment` в этом запросе — не прямой родитель
                    *
-                   * Текущее решение — удаление дубликатов юзеров из возврата (внутри `comments.emojis[N].users[N]`)
+                   * Текущее решение — пост-процессинг возврата через JS
                    * */
                   // where: { commentId: Sequelize.col('ForumComment.id') },
                   include: [

@@ -129,13 +129,13 @@ const forumThreadApi = {
             return;
           }
 
-          const { commentId } = commentEmojis[0];
-
           modifiedEmoji.users = uniqueBy(
             'id',
-            commentEmojis.flatMap((item) => item.users)
+            commentEmojis
+              .filter(({ commentId }) => commentId === comment.id)
+              .flatMap((item) => item.users)
           );
-          modifiedEmoji.commentId = commentId;
+          modifiedEmoji.commentId = comment.id;
 
           delete modifiedEmoji.commentEmojis;
         });
