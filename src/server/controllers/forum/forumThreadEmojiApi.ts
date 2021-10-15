@@ -1,8 +1,10 @@
 import type { Request, Response } from 'express';
 
+import { Emoji } from '@/server/sequelize/models';
+import { UserAttributes } from '@/server/sequelize/models/User';
 import { forumThreadEmojiService } from '@/server/services/forum';
 import { HttpStatuses } from '@/shared/const/const';
-import { EmojiUserIdentifier } from '@/shared/types/types';
+import { EmojiUserIdentifier, ForumEmojiData, ForumThreadEmojiData } from '@/shared/types/types';
 
 export type ThreadCreateEmojiRequest = Request<
   {
@@ -27,16 +29,31 @@ const forumThreadEmojiApi = {
   async create(request: ThreadCreateEmojiRequest, response: Response): Promise<void> {
     const { id } = request.params;
     const { body } = request;
+    const threadId = Number(id);
 
     try {
       const threadEmojiUser = await forumThreadEmojiService.create({
         ...body,
-        threadId: Number(id),
+        threadId,
       });
 
       const record = await forumThreadEmojiService.find(threadEmojiUser.get('threadEmojiId'));
 
-      response.json(record);
+      if (!record) {
+        response.json(record);
+
+        return;
+      }
+
+      const plainRecord = record.get({ plain: true }) as ForumThreadEmojiData;
+
+      const addedEmoji: ForumEmojiData = {
+        ...(plainRecord.emoji as Required<Emoji>),
+        users: plainRecord.users as UserAttributes[],
+        threadId,
+      };
+
+      response.json(addedEmoji);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
         error: e,
@@ -49,13 +66,15 @@ const forumThreadEmojiApi = {
     const { user } = request.query;
 
     try {
-      const deletedThreadEmoji = await forumThreadEmojiService.delete({
+      const identifier = {
         threadId: Number(threadId),
         emojiId: Number(emojiId),
         userId: Number(user),
-      });
+      };
 
-      response.json(deletedThreadEmoji);
+      await forumThreadEmojiService.delete(identifier);
+
+      response.json(identifier);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
         error: e,

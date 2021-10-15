@@ -1,8 +1,10 @@
 import type { Request, Response } from 'express';
 
+import { Emoji } from '@/server/sequelize/models';
+import { UserAttributes } from '@/server/sequelize/models/User';
 import { forumCommentEmojiService } from '@/server/services/forum';
 import { HttpStatuses } from '@/shared/const/const';
-import { EmojiUserIdentifier } from '@/shared/types/types';
+import { EmojiUserIdentifier, ForumCommentEmojiData, ForumEmojiData } from '@/shared/types/types';
 
 export type CommentCreateEmojiRequest = Request<
   {
@@ -27,16 +29,31 @@ const forumCommentEmojiApi = {
   async create(request: CommentCreateEmojiRequest, response: Response): Promise<void> {
     const { id } = request.params;
     const { body } = request;
+    const commentId = Number(id);
 
     try {
       const commentEmojiUser = await forumCommentEmojiService.create({
         ...body,
-        commentId: Number(id),
+        commentId,
       });
 
       const record = await forumCommentEmojiService.find(commentEmojiUser.get('commentEmojiId'));
 
-      response.json(record);
+      if (!record) {
+        response.json(record);
+
+        return;
+      }
+
+      const plainRecord = record.get({ plain: true }) as ForumCommentEmojiData;
+
+      const addedEmoji: ForumEmojiData = {
+        ...(plainRecord.emoji as Required<Emoji>),
+        users: plainRecord.users as UserAttributes[],
+        commentId,
+      };
+
+      response.json(addedEmoji);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
         error: e,
@@ -49,13 +66,15 @@ const forumCommentEmojiApi = {
     const { user } = request.query;
 
     try {
-      const deletedCommentEmoji = await forumCommentEmojiService.delete({
+      const identifier = {
         commentId: Number(commentId),
         emojiId: Number(emojiId),
         userId: Number(user),
-      });
+      };
 
-      response.json(deletedCommentEmoji);
+      await forumCommentEmojiService.delete(identifier);
+
+      response.json(identifier);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
         error: e,

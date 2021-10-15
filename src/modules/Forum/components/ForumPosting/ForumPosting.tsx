@@ -49,24 +49,6 @@ function ForumPosting({ data, className = '' }: ForumPostingProps): JSX.Element 
   const availableEmojis = useAppSelector((state) => state.forum.availableEmojis);
   const isOwnPosting = authorizedUser.id === user.id;
   const isComment = checkIfComment(data);
-  const { threadEmojis } = data as ForumThreadData;
-  const { commentEmojis } = data as ForumCommentData;
-
-  /*
-   * Как это нормально типизировать? При нынешней записи `postEmojis` имеет тип первого операнда (но не "тип 1 | тип 2").
-   * Хотя и тип `ForumCommentData | ForumThreadData` вызывает ошибки, и с ними нельзя работать как с единым объектом,
-   * хотя на первый взгляд проблем быть не должно — тип либо 1, либо второй, получаемые свойства есть в обоих типах,
-   * но не тут то было, даже с тайп гардом:
-   *
-   * `const postEmojis = isComment ? data.commentEmojis : data.threadEmojis;`
-   *
-   * Надо получить "правильный" тип у объекта в зависимости от типа у `data` (ForumCommentData | ForumThreadData).
-   * По случаю, у первого типа все нужные свойства совпадают со вторым и проблем "не возникнет", но тип не тот.
-   * Это похоже на рантайм-проверку, непонятно как это вообще статически сделать
-   *
-   * "Conditional types" вроде здесь не подходят. Тайп гарды и сужения типов не помогают.
-   * */
-  const postEmojis = threadEmojis || commentEmojis;
   let userPath = generatePath(paths.PROFILE);
   const dateDistanceText = useMemo(
     () =>
@@ -120,7 +102,7 @@ function ForumPosting({ data, className = '' }: ForumPostingProps): JSX.Element 
       } catch (err) {
         const toast = {
           type: 'warning',
-          description: translateErrorMessage(err.reason),
+          description: translateErrorMessage(err.message),
         };
 
         e.target.toggleAttribute('data-voted');
@@ -185,28 +167,31 @@ function ForumPosting({ data, className = '' }: ForumPostingProps): JSX.Element 
           {/* todo: добавить реплаи (древовидные) */}
           {availableEmojis.length && (
             <div className={b('emojis').mix(bEmojer())}>
-              {availableEmojis.map((emoji) => {
-                const postEmoji =
-                  postEmojis && postEmojis.find((emojiItem) => emojiItem.emojiId === emoji.id);
-                const voteCount = postEmoji?.users.length;
+              {availableEmojis.map((availableEmoji) => {
+                const emoji = data.emojis.find(
+                  (appliedEmoji) => appliedEmoji.id === availableEmoji.id
+                );
+                const voteCount = emoji?.users.length;
+
                 const isVoted = Boolean(
-                  postEmoji?.users.find((emojiUser) => emojiUser.id === authorizedUser.id)
+                  emoji?.users.find((emojiUser) => emojiUser.id === authorizedUser.id)
                 );
 
                 return (
                   <Button
-                    key={emoji.id}
-                    data-id={emoji.id}
-                    data-code={emoji.utfCode}
+                    key={availableEmoji.id}
+                    data-id={availableEmoji.id}
+                    data-code={availableEmoji.utfCode}
                     data-voted={isVoted || null}
+                    data-populated={voteCount || null}
                     className={bEmojer('emoji')}
                     display="inline"
                     sizing="sm"
                     theme="subtle"
                     onClick={toggleVote}
-                    waiting={emojiToggleState[getPostEmojiId(emoji.id)]}
+                    waiting={emojiToggleState[getPostEmojiId(availableEmoji.id)]}
                   >
-                    {voteCount || ''} {htmlDecode(`&#${emoji.htmlEntityCode};`)}
+                    {voteCount || ''} {htmlDecode(`&#${availableEmoji.htmlEntityCode};`)}
                   </Button>
                 );
               })}

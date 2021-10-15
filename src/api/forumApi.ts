@@ -9,11 +9,10 @@ import {
   EmojiUserIdentifier,
   ForumCategoryData,
   ForumCommentData,
-  ForumCommentEmojiData,
+  ForumEmojiData,
   ForumSectionData,
   ForumStatsData,
   ForumThreadData,
-  ForumThreadEmojiData,
 } from '@/shared/types/types';
 
 import { apiCustom } from './api';
@@ -64,13 +63,15 @@ export default {
     await apiCustom.delete(`/forum/threads/${id}`);
   },
 
-  async addThreadEmoji(id: number, emoji: EmojiUserIdentifier): Promise<ForumThreadEmojiData> {
+  async addThreadEmoji(id: number, emoji: EmojiUserIdentifier): Promise<ForumEmojiData> {
     const { data } = await apiCustom.post(`/forum/threads/${id}/emojis`, emoji);
 
     return data;
   },
 
-  async deleteThreadEmoji(emoji: ForumThreadEmojiUserIdentifier): Promise<ForumThreadEmojiData> {
+  async deleteThreadEmoji(
+    emoji: ForumThreadEmojiUserIdentifier
+  ): Promise<ForumThreadEmojiUserIdentifier> {
     const { threadId, emojiId, userId } = emoji;
 
     const { data } = await apiCustom.delete(
@@ -94,16 +95,15 @@ export default {
     await apiCustom.delete(`/forum/comments/${id}`);
   },
 
-  async addCommentEmoji(
-    commentId: number,
-    emoji: EmojiUserIdentifier
-  ): Promise<ForumCommentEmojiData> {
+  async addCommentEmoji(commentId: number, emoji: EmojiUserIdentifier): Promise<ForumEmojiData> {
     const { data } = await apiCustom.post(`/forum/comments/${commentId}/emojis`, emoji);
 
     return data;
   },
 
-  async deleteCommentEmoji(emoji: ForumCommentEmojiUserIdentifier): Promise<ForumCommentEmojiData> {
+  async deleteCommentEmoji(
+    emoji: ForumCommentEmojiUserIdentifier
+  ): Promise<ForumCommentEmojiUserIdentifier> {
     const { commentId, emojiId, userId } = emoji;
 
     const { data } = await apiCustom.delete(

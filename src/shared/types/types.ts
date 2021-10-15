@@ -1,3 +1,4 @@
+import { EmojiAttributes } from '@/server/sequelize/models/Emoji';
 import { ForumCategoryAttributes } from '@/server/sequelize/models/Forum/ForumCategory';
 import { ForumCommentAttributes } from '@/server/sequelize/models/Forum/ForumComment';
 import { ForumCommentEmojiAttributes } from '@/server/sequelize/models/Forum/ForumCommentEmoji';
@@ -27,21 +28,28 @@ export type ForumStatsData = {
   registeredCount: number;
   onlineUsers?: UserAttributes[];
 };
+export type ForumEmojiData = EmojiAttributes & {
+  users: UserAttributes[];
+  commentId?: number;
+  threadId?: number;
+};
 export type ForumCommentEmojiData = ForumCommentEmojiAttributes & {
+  emoji: EmojiAttributes;
   users: UserAttributes[];
 };
 export type ForumThreadEmojiData = ForumThreadEmojiAttributes & {
+  emoji: EmojiAttributes;
   users: UserAttributes[];
 };
-export type ForumCommentData = ForumCommentAttributes & {
-  commentEmojis: ForumCommentEmojiData[];
+export type PostRelatedData = {
+  emojis: ForumEmojiData[];
   user: UserAttributes;
 };
-export type ForumThreadData = ForumThreadAttributes & {
-  comments: ForumCommentData[];
-  threadEmojis: ForumThreadEmojiData[];
-  user: UserAttributes;
-};
+export type ForumCommentData = ForumCommentAttributes & PostRelatedData;
+export type ForumThreadData = ForumThreadAttributes &
+  PostRelatedData & {
+    comments: ForumCommentData[];
+  };
 export type ForumSectionData = ForumSectionAttributes & {
   threads: (ForumThreadAttributes & {
     comments: (ForumCommentAttributes & {

@@ -1,4 +1,4 @@
-import { Emoji, ForumComment, ForumCommentEmoji, User } from '@/server/sequelize/models';
+import { ForumComment, User } from '@/server/sequelize/models';
 import { ForumCommentCreationAttributes } from '@/server/sequelize/models/Forum/ForumComment';
 
 import BaseService from '../BaseService';
@@ -36,22 +36,6 @@ class ForumCommentService extends BaseService {
     return ForumComment.findOne({
       where: { id: commentId },
       include: User,
-    });
-  }
-
-  async findByUser(userId: number): Promise<ForumComment[]> {
-    return ForumComment.findAll({
-      where: { userId },
-      include: {
-        model: ForumCommentEmoji,
-        include: [
-          {
-            model: User,
-            through: { attributes: [] },
-          },
-          Emoji,
-        ],
-      },
     });
   }
 }

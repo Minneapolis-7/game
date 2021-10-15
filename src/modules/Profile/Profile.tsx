@@ -107,7 +107,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
     } catch (err) {
       const toast = {
         type: 'warning',
-        description: translateErrorMessage(err.reason),
+        description: translateErrorMessage(err.message),
       };
 
       appContext?.addToastMessage(toast as ToastItem);

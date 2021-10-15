@@ -31,11 +31,7 @@ class ForumThreadEmojiService extends BaseService {
     });
   }
 
-  async delete({
-    emojiId,
-    userId,
-    threadId,
-  }: ForumThreadEmojiUserIdentifier): Promise<ForumThreadEmoji | false> {
+  async delete({ emojiId, userId, threadId }: ForumThreadEmojiUserIdentifier): Promise<void> {
     const query = {
       where: {
         threadId,
@@ -53,16 +49,12 @@ class ForumThreadEmojiService extends BaseService {
     const threadEmoji = await ForumThreadEmoji.findOne(query);
 
     if (!threadEmoji) {
-      return false;
+      return;
     }
 
-    const threadEmojiId = threadEmoji.get('id');
-
     await ForumThreadEmoji.destroy({
-      where: { id: threadEmojiId },
+      where: { id: threadEmoji.get('id') },
     });
-
-    return threadEmoji;
   }
 }
 

@@ -48,13 +48,18 @@ class ForumThreadService extends BaseService {
       include: [
         User,
         {
-          model: ForumThreadEmoji,
+          model: Emoji,
+          through: { attributes: [] },
           include: [
             {
-              model: User,
-              through: { attributes: [] },
+              model: ForumThreadEmoji,
+              include: [
+                {
+                  model: User,
+                  through: { attributes: [] },
+                },
+              ],
             },
-            Emoji,
           ],
         },
         {
@@ -62,35 +67,24 @@ class ForumThreadService extends BaseService {
           include: [
             User,
             {
-              model: ForumCommentEmoji,
+              model: Emoji,
+              through: { attributes: [] },
               include: [
                 {
-                  model: User,
-                  through: { attributes: [] },
+                  model: ForumCommentEmoji,
+                  include: [
+                    {
+                      model: User,
+                      through: { attributes: [] },
+                    },
+                  ],
                 },
-                Emoji,
               ],
             },
           ],
         },
       ],
       order: [[{ model: ForumComment, as: 'comments' }, 'createdAt', 'ASC']],
-    });
-  }
-
-  async findByUser(userId: number): Promise<ForumThread[]> {
-    return ForumThread.findAll({
-      where: { userId },
-      include: {
-        model: ForumThreadEmoji,
-        include: [
-          {
-            model: User,
-            through: { attributes: [] },
-          },
-          Emoji,
-        ],
-      },
     });
   }
 }

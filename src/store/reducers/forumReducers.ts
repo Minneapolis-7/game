@@ -12,7 +12,7 @@ import type {
   PendingAction,
   RejectedAction,
 } from '@/shared/types/redux';
-import { ForumCommentEmojiData, ForumThreadEmojiData } from '@/shared/types/types';
+import { ForumEmojiData } from '@/shared/types/types';
 
 export const initialState: ForumState = {
   categories: [],
@@ -159,24 +159,41 @@ function getLoadableActionsRegexp(stage: string) {
   );
 }
 
-function deleteEmoji(
-  emojis: Draft<ForumCommentEmojiData | ForumThreadEmojiData>[],
-  payload: ForumThreadEmojiData | ForumCommentEmojiData
+function addEmojiToState(emojisState: Draft<ForumEmojiData>[], payloadEmoji: ForumEmojiData) {
+  const existingEmoji = emojisState.find((emoji) => emoji.id === payloadEmoji.id);
+
+  if (existingEmoji) {
+    if (!existingEmoji.users) {
+      existingEmoji.users = [];
+    }
+
+    existingEmoji.users.push(payloadEmoji.users[0]);
+  } else {
+    emojisState.push(payloadEmoji);
+  }
+}
+
+// такие манипуляции со стэйтом — это норма?
+function deleteEmojiFromState(
+  emojisState: Draft<ForumEmojiData>[],
+  payload: ForumThreadEmojiUserIdentifier | ForumCommentEmojiUserIdentifier
 ) {
-  const deletedEmojiIndex = emojis.findIndex((emoji) => emoji.emojiId === payload.emojiId);
+  const deletedEmojiIndex = emojisState.findIndex((emoji) => emoji.id === payload.emojiId);
 
   if (deletedEmojiIndex === -1) {
     return;
   }
 
-  const emojiUsers = emojis[deletedEmojiIndex].users;
+  const deletedEmojiUsers = emojisState[deletedEmojiIndex].users;
 
-  if (emojiUsers.length === 1) {
-    emojis.splice(deletedEmojiIndex, 1);
-  } else {
-    const i = emojis[deletedEmojiIndex].users.findIndex((user) => user.id === payload.users[0].id);
+  if (deletedEmojiUsers.length === 1) {
+    emojisState.splice(deletedEmojiIndex, 1);
+  }
 
-    emojiUsers.splice(i, 1);
+  if (deletedEmojiUsers.length > 1) {
+    const i = deletedEmojiUsers.findIndex((user) => user.id === payload.userId);
+
+    deletedEmojiUsers.splice(i, 1);
   }
 }
 
@@ -208,63 +225,32 @@ const forumSlice = createSlice({
         state.thread?.comments.push(action.payload);
       })
       .addCase(addThreadEmoji.fulfilled, (state, { payload }) => {
-        const addedThreadEmoji = state.thread?.threadEmojis?.find(
-          (threadEmoji) => threadEmoji.emojiId === payload.emojiId
-        );
-
-        if (addedThreadEmoji) {
-          addedThreadEmoji.users.push(payload.users[0]);
-        } else {
-          state.thread?.threadEmojis.push(payload);
+        if (state.thread) {
+          addEmojiToState(state.thread.emojis, payload);
         }
       })
       .addCase(addCommentEmoji.fulfilled, (state, { payload }) => {
-        // такие сложные манипуляции — это норма, или следствие плохой организации структуры данных, приходящих с сервера?
         const affectedComment = state.thread?.comments.find(
           (comment) => comment.id === payload.commentId
         );
 
-        if (!affectedComment) {
-          return;
-        }
-
-        const addedCommentEmoji = affectedComment.commentEmojis?.find(
-          (commentEmoji) => commentEmoji.emojiId === payload.emojiId
-        );
-
-        if (addedCommentEmoji) {
-          addedCommentEmoji.users.push(payload.users[0]);
-        } else if (affectedComment.commentEmojis) {
-          affectedComment.commentEmojis.push(payload);
-        } else {
-          affectedComment.commentEmojis = [payload];
+        if (affectedComment) {
+          addEmojiToState(affectedComment.emojis, payload);
         }
       })
       .addCase(deleteThreadEmoji.fulfilled, (state, { payload }) => {
-        if (!state.thread) {
-          return;
+        if (state.thread) {
+          deleteEmojiFromState(state.thread.emojis, payload);
         }
-
-        const { threadEmojis } = state.thread;
-
-        deleteEmoji(threadEmojis, payload);
       })
       .addCase(deleteCommentEmoji.fulfilled, (state, { payload }) => {
-        if (!state.thread) {
-          return;
-        }
-
-        const affectedComment = state.thread.comments.find(
+        const affectedComment = state.thread?.comments.find(
           (comment) => comment.id === payload.commentId
         );
 
-        if (!affectedComment) {
-          return;
+        if (affectedComment) {
+          deleteEmojiFromState(affectedComment.emojis, payload);
         }
-
-        const { commentEmojis } = affectedComment;
-
-        deleteEmoji(commentEmojis, payload);
       })
       .addMatcher(
         (action): action is PendingAction => action.type.match(getLoadableActionsRegexp('pending')),
