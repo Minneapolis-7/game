@@ -75,7 +75,7 @@ export default {
   },
 
   async saveUserTheme(userTheme: UserTheme): Promise<void> {
-    await apiCustom.post('/theme/save', userTheme);
+    await apiCustom.post('/theme', userTheme);
   },
 
   async updateProfile(user: UpdateProfileRequest): Promise<UserLocalProfile> {

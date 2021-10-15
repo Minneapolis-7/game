@@ -33,9 +33,9 @@ export default class ThemeAPI {
     const { body } = request;
 
     try {
-      const record = await themeService.update(body.userId, body.themeId);
+      await themeService.update(body.userId, body.themeId);
 
-      response.json(record);
+      response.sendStatus(200);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
         error: e,

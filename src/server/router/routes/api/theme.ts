@@ -6,6 +6,6 @@ const userThemeRouter = Router();
 
 userThemeRouter.get('/all', ThemeAPI.findAll);
 userThemeRouter.get('/:id', ThemeAPI.find);
-userThemeRouter.post('/save', ThemeAPI.save);
+userThemeRouter.post('/', ThemeAPI.save);
 
 export default userThemeRouter;
