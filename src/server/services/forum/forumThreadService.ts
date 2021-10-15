@@ -1,3 +1,5 @@
+// import { Op } from 'sequelize';
+
 import {
   Emoji,
   ForumComment,
@@ -44,7 +46,10 @@ class ForumThreadService extends BaseService {
 
   async find(threadId: number): Promise<ForumThread | null> {
     return ForumThread.findOne({
-      where: { id: threadId },
+      where: {
+        id: threadId,
+        // '$ForumCommentEmoji.id$': { [Op.eq]: Sequelize.col('ForumComment.id') },
+      },
       include: [
         User,
         {
@@ -53,6 +58,7 @@ class ForumThreadService extends BaseService {
           include: [
             {
               model: ForumThreadEmoji,
+              where: { threadId },
               include: [
                 {
                   model: User,
@@ -72,6 +78,8 @@ class ForumThreadService extends BaseService {
               include: [
                 {
                   model: ForumCommentEmoji,
+                  // where: { commentId: Sequelize.col('ForumComment.id') },
+                  // where: { commentId: { [Op.col]: 'ForumComment.id' } },
                   include: [
                     {
                       model: User,

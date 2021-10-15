@@ -97,6 +97,7 @@ function ForumCreateThread(): JSX.Element | null {
               className="gap-y-lg"
               theme="solid"
               name="threadHeader"
+              autoFocus
               hint={txt.newThreadNameInputPlaceholder}
               isFloating={false}
             />

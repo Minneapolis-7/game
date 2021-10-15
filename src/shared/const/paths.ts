@@ -8,7 +8,7 @@ const paths = {
   FORUM_SECTION: '/forum/:sectionId',
   FORUM_THREAD: '/forum/:sectionId/thread/:threadId',
   FORUM_THREAD_CREATE: '/forum/:sectionId/thread/:threadId',
-  FORUM_COMMENT: '/forum/:sectionId/thread/:threadId#:commentId',
+  FORUM_COMMENT: '/forum/:sectionId/thread/:threadId#post-:commentId',
   LEADERBOARD: '/leaderboard',
   SERVER_ERROR: '/server-error',
   NOT_FOUND: '/not-found',

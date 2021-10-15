@@ -209,11 +209,20 @@ const forumSlice = createSlice({
       .addCase(getAvailableEmojis.fulfilled, (state, action) => {
         state.availableEmojis = action.payload;
       })
+      .addCase(getCategories.pending, (state) => {
+        state.categories = [];
+      })
       .addCase(getCategories.fulfilled, (state, action) => {
         state.categories = action.payload;
       })
+      .addCase(getSection.pending, (state) => {
+        state.section = null;
+      })
       .addCase(getSection.fulfilled, (state, action) => {
         state.section = action.payload;
+      })
+      .addCase(getThread.pending, (state) => {
+        state.thread = null;
       })
       .addCase(getThread.fulfilled, (state, action) => {
         state.thread = action.payload;
