@@ -53,9 +53,9 @@ const forumCommentApi = {
 
     try {
       const commentRecord = await forumCommentService.create(body);
-      const augumentedUser = await findById(commentRecord.id);
+      const augumentedComment = await findById(commentRecord.id);
 
-      response.json(augumentedUser);
+      response.json(augumentedComment);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
         error: e,
