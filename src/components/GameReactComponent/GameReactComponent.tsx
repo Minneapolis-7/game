@@ -36,7 +36,7 @@ function GameReactComponent({ fullscreen, onStateUpdate }: GameProps): JSX.Eleme
     if (!game.isLoaded) {
       game.init();
     } else {
-      game.reset();
+      game.proceed();
     }
 
     // eslint-disable-next-line consistent-return

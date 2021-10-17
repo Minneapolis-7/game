@@ -23,6 +23,7 @@ export const GAME_SESSION_KEY = {
   IS_LEVEL_COMPLETED: 'isLevelCompleted',
   PLAYER_HEALTH: 'playerHealth',
   TIME: 'time',
+  LEVEL: 'level',
 } as const;
 
 export const DEBUG_DRAW_COLOR = {
