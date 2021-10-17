@@ -7,7 +7,7 @@ import text from '@/shared/const/text';
 
 const b = block('user-stamp');
 const bLink = block('link');
-const { userStamp: txt } = text;
+const { userStamp: txt, timeDistanceLabel } = text;
 
 type UserStampProps = {
   user: string;
@@ -20,7 +20,7 @@ function UserStamp({ user, date, profileURL }: UserStampProps): JSX.Element {
     () =>
       `${formatDistance(date, Date.now(), {
         locale: ruLocale,
-      })} назад`,
+      })} ${timeDistanceLabel}`,
     [date]
   );
 

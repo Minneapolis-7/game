@@ -16,7 +16,7 @@ export default forwardRef<HTMLAnchorElement, ButtonLinkProps>(function ButtonLin
   const {
     className = '',
     theme = 'default',
-    sizing = 'default',
+    size = 'default',
     display,
     href = '#',
     icon,
@@ -27,7 +27,7 @@ export default forwardRef<HTMLAnchorElement, ButtonLinkProps>(function ButtonLin
   return (
     <a
       ref={ref}
-      className={b({ theme, sizing }).mix(className.split(' '))}
+      className={b({ theme, size }).mix(className.split(' '))}
       data-display={display}
       href={href}
       draggable="false"

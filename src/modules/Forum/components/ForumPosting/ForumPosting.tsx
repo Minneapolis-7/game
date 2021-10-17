@@ -7,6 +7,7 @@ import ruLocale from 'date-fns/locale/ru';
 import AppContext from '@/AppContext';
 import { Avatar, Button, Icon } from '@/components/ui';
 import { ToastItem } from '@/components/ui/Toaster/Toast/types';
+import { SizeLabels } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import { ForumCommentData, ForumThreadData } from '@/shared/types/types';
@@ -28,13 +29,12 @@ import deleteSvg from 'bootstrap-icons/icons/x-lg.svg';
 const b = block('forum-posting');
 const bEmojer = block('emojer');
 const bLink = block('link');
-const { forum: txt } = text;
+const { forum: txt, timeDistanceLabel } = text;
 
 type PostingData = ForumCommentData | ForumThreadData;
 type ForumPostingProps = PropsWithChildren<{
   className?: string;
   data: PostingData;
-  isOriginal?: boolean; // разграничивает обычные комментарии, и первичное сообщение треда
 }>;
 
 function checkIfComment(data: PostingData): data is ForumCommentData {
@@ -54,11 +54,12 @@ function ForumPosting({ data, className = '' }: ForumPostingProps): JSX.Element 
     () =>
       `${formatDistance(new Date(createdAt), Date.now(), {
         locale: ruLocale,
-      })} назад`,
+      })} ${timeDistanceLabel}`,
     [createdAt]
   );
   const postAnchor = `#post-${isComment ? data.id : 'original'}`;
-  const [emojiToggleState, setEmojiToggleState] = useState({} as Record<string, boolean>);
+  const [emojiProcessingState, setEmojiProcessingState] = useState({} as Record<string, boolean>);
+  const [emojiToggledState, setEmojiToggledState] = useState({} as Record<string, boolean>);
   const getPostEmojiId = useCallback(
     (emojiId: number): string => `${isComment ? 'comment' : 'thread'}-${emojiId}-${data.id}`,
     [isComment, data.id]
@@ -71,9 +72,13 @@ function ForumPosting({ data, className = '' }: ForumPostingProps): JSX.Element 
         userId: authorizedUser.id!,
       };
 
-      e.target.toggleAttribute('data-voted');
-      setEmojiToggleState({
-        ...emojiToggleState,
+      setEmojiToggledState({
+        ...emojiToggledState,
+        [getPostEmojiId(id)]: !voted,
+      });
+
+      setEmojiProcessingState({
+        ...emojiProcessingState,
         [getPostEmojiId(id)]: true,
       });
 
@@ -105,16 +110,28 @@ function ForumPosting({ data, className = '' }: ForumPostingProps): JSX.Element 
           description: translateErrorMessage(err.message),
         };
 
-        e.target.toggleAttribute('data-voted');
+        setEmojiToggledState({
+          ...emojiToggledState,
+          [getPostEmojiId(id)]: !voted,
+        });
+
         appContext?.addToastMessage(toast as ToastItem);
       } finally {
-        setEmojiToggleState({
-          ...emojiToggleState,
+        setEmojiProcessingState({
+          ...emojiProcessingState,
           [getPostEmojiId(id)]: false,
         });
       }
     },
-    [appContext, authorizedUser.id, data.id, dispatch, isComment, emojiToggleState, getPostEmojiId]
+    [
+      appContext,
+      authorizedUser.id,
+      data.id,
+      dispatch,
+      isComment,
+      emojiProcessingState,
+      getPostEmojiId,
+    ]
   );
 
   if (!isOwnPosting) {
@@ -148,14 +165,14 @@ function ForumPosting({ data, className = '' }: ForumPostingProps): JSX.Element 
               <Button
                 display="inline"
                 title={txt.commentEditButtonTitle}
-                sizing="sm"
+                size={SizeLabels.SM}
                 theme="subtle"
                 icon={<Icon name={editSvg.id} />}
               />
               <Button
                 display="inline"
                 title={txt.commentDeleteButtonTitle}
-                sizing="sm"
+                size={SizeLabels.SM}
                 theme="subtle"
                 icon={<Icon name={deleteSvg.id} />}
               />
@@ -182,14 +199,16 @@ function ForumPosting({ data, className = '' }: ForumPostingProps): JSX.Element 
                     key={availableEmoji.id}
                     data-id={availableEmoji.id}
                     data-code={availableEmoji.utfCode}
-                    data-voted={isVoted || null}
+                    data-voted={
+                      isVoted || emojiToggledState[getPostEmojiId(availableEmoji.id)] || null
+                    }
                     data-populated={voteCount || null}
                     className={bEmojer('emoji')}
                     display="inline"
-                    sizing="sm"
+                    size={SizeLabels.SM}
                     theme="subtle"
                     onClick={toggleVote}
-                    waiting={emojiToggleState[getPostEmojiId(availableEmoji.id)]}
+                    waiting={emojiProcessingState[getPostEmojiId(availableEmoji.id)]}
                   >
                     {voteCount || ''} {htmlDecode(`&#${availableEmoji.htmlEntityCode};`)}
                   </Button>

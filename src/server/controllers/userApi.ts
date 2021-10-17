@@ -32,8 +32,8 @@ const userApi = {
   },
 
   async update(request: UpdateUserRequest, response: Response): Promise<void> {
-    const { yandexUserId } = request.params;
     const { body } = request;
+    const { yandexUserId } = request.params;
 
     try {
       const record = await userService.update(Number(yandexUserId), body);

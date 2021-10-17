@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
+import { SizeLabels } from '@/shared/const/const';
+
 import Spinner from './Spinner';
 
 describe('Spinner', () => {
@@ -11,9 +13,9 @@ describe('Spinner', () => {
   });
 
   it('applies proper class names', () => {
-    render(<Spinner className="test" size="xl" />);
+    render(<Spinner className="test" size={SizeLabels.XL} />);
 
-    expect(screen.getByRole('progressbar')).toHaveClass('spinner_size_xl test');
+    expect(screen.getByRole('progressbar')).toHaveClass(`spinner_size_${SizeLabels.XL} test`);
   });
 
   it('applies color', () => {

@@ -4,6 +4,7 @@ import { block } from 'bem-cn';
 import { Button, Icon } from '@/components/ui';
 import PageContext from '@/layout/Page/PageContext';
 import Nav from '@/modules/Nav';
+import { SizeLabels } from '@/shared/const/const';
 import text from '@/shared/const/text';
 import useFocusTrapping from '@/shared/utils/useFocusTrapping';
 import useKeydown from '@/shared/utils/useKeydown';
@@ -49,7 +50,7 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
       <Button
         className={b('opener')}
         theme="morphed"
-        sizing="lg"
+        size={SizeLabels.LG}
         icon={<Icon name={menuSvg.id} scale={1.5} />}
         onClick={openSidebar}
       />

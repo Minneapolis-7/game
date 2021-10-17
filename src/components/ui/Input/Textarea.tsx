@@ -1,6 +1,8 @@
 import React, { forwardRef, TextareaHTMLAttributes } from 'react';
 import { block } from 'bem-cn';
 
+import { FieldBaseProps } from '@/components/ui/types/FieldBaseProps';
+
 import { InputBaseProps } from './types';
 
 export type TextareaProps = {
@@ -20,7 +22,7 @@ export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
     className = '',
     fieldClassName = '',
     theme,
-    sizing,
+    size,
     display,
     hint,
     isFixed,
@@ -30,7 +32,7 @@ export default forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
 
   return (
     <div
-      className={b({ theme, sizing })
+      className={b({ theme, size })
         .has({ error: Boolean(error) })
         .mix(className.split(' '))}
       data-display={display}

@@ -163,17 +163,12 @@ function addEmojiToState(emojisState: Draft<ForumEmojiData>[], payloadEmoji: For
   const existingEmoji = emojisState.find((emoji) => emoji.id === payloadEmoji.id);
 
   if (existingEmoji) {
-    if (!existingEmoji.users) {
-      existingEmoji.users = [];
-    }
-
     existingEmoji.users.push(payloadEmoji.users[0]);
   } else {
     emojisState.push(payloadEmoji);
   }
 }
 
-// такие манипуляции со стэйтом — это норма?
 function deleteEmojiFromState(
   emojisState: Draft<ForumEmojiData>[],
   payload: ForumThreadEmojiUserIdentifier | ForumCommentEmojiUserIdentifier

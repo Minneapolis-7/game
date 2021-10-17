@@ -9,6 +9,7 @@ import {
   ForumSectionView,
   ForumThreadView,
 } from '@/modules/Forum/modules';
+import { SizeLabels } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import { getCategories, getSection, getThread } from '@/store/reducers/actions';
@@ -79,7 +80,7 @@ function Forum(): JSX.Element {
         </h1>
       </header>
       <main className={b('body').is({ loading: isLoading, loaded: isLoaded })}>
-        {isLoading ? <Spinner className={b('spinner')} size="lg" /> : forumBody}
+        {isLoading ? <Spinner className={b('spinner')} size={SizeLabels.LG} /> : forumBody}
       </main>
       <footer className={b('footer')}>
         <div className={b('footer-stat', { registered: true })}>

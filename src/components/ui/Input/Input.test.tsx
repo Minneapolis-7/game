@@ -1,6 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
+import { SizeLabels } from '@/shared/const/const';
+
 import Input from './Input';
 
 describe('Input', () => {
@@ -30,10 +32,12 @@ describe('Input', () => {
   });
 
   it('applies proper class names', () => {
-    const { container } = render(<Input className="test" theme="test" sizing="xl" />);
+    const { container } = render(<Input className="test" theme="test" size={SizeLabels.XL} />);
 
     // eslint-disable-next-line testing-library/no-node-access
-    expect(container.firstChild).toHaveClass('input input_theme_test input_sizing_xl test');
+    expect(container.firstChild).toHaveClass(
+      `input input_theme_test input_size_${SizeLabels.XL} test`
+    );
   });
 
   it('applies proper field class names', () => {

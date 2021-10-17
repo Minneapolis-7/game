@@ -103,7 +103,6 @@ const forumThreadApi = {
 
       const plainRecord = record.get({ plain: true }) as ForumThreadData;
 
-      // такие манипуляции с данными — это нормально?
       plainRecord.emojis.forEach((emoji) => {
         const modifiedEmoji = emoji as ForumEmojiData & SurrogateThreadEmojiMixin;
         const { threadEmojis } = modifiedEmoji;

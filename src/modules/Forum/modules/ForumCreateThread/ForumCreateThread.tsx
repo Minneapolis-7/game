@@ -7,6 +7,7 @@ import { Form, Formik } from 'formik';
 import { Input, Textarea } from '@/components/formik-ui';
 import { Button, Icon } from '@/components/ui';
 import { createThreadSchema } from '@/modules/Forum/schema';
+import { SizeLabels } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
@@ -75,7 +76,7 @@ function ForumCreateThread(): JSX.Element | null {
           to={parentSectionPath}
           component={getRoutedButtonLink({
             title: txt.backToSectionButtonTitle,
-            sizing: 'md',
+            size: SizeLabels.MD,
             icon: <Icon scale={1.4} name={backSvg.id} />,
             theme: 'subtle',
             className: b('heading-action', { shifted: true }),

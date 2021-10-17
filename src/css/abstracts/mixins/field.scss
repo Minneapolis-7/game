@@ -19,16 +19,16 @@ $field-bg-color: transparent;
   line-height: $field-line-height;
 }
 
-@mixin field-base_sizing_sm {
+@mixin field-base_size_sm {
   font-size: $font-size-sm;
 }
-@mixin field-base_sizing_md {
+@mixin field-base_size_md {
   font-size: $font-size-md;
 }
-@mixin field-base_sizing_lg {
+@mixin field-base_size_lg {
   font-size: $font-size-lg;
 }
-@mixin field-base_sizing_xl {
+@mixin field-base_size_xl {
   font-size: $font-size-xl;
 }
 

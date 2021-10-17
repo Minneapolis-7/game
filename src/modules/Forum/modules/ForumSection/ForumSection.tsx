@@ -5,6 +5,7 @@ import { block } from 'bem-cn';
 
 import { Icon } from '@/components/ui';
 import { ForumItemPreview, UserStamp } from '@/modules/Forum/components';
+import { SizeLabels } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
@@ -39,7 +40,7 @@ function ForumSection(): JSX.Element | null {
           to={paths.FORUM}
           component={getRoutedButtonLink({
             title: txt.backToForumButtonTitle,
-            sizing: 'md',
+            size: SizeLabels.MD,
             icon: <Icon scale={1.4} name={backSvg.id} />,
             theme: 'subtle',
             className: b('heading-action', { shifted: true }),
@@ -50,7 +51,7 @@ function ForumSection(): JSX.Element | null {
           to={createThreadPath}
           component={getRoutedButtonLink({
             title: txt.createNewThreadButtonTitle,
-            sizing: 'sm',
+            size: SizeLabels.SM,
             children: <Icon name={addNewThreadSvg.id} />,
             theme: 'circle',
             className: b('heading-action'),

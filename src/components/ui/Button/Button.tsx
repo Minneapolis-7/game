@@ -19,7 +19,7 @@ export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   const {
     className = '',
     theme = 'default',
-    sizing = 'default',
+    size = 'default',
     display,
     type = 'button',
     icon,
@@ -31,7 +31,7 @@ export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   return (
     <button
       ref={ref}
-      className={b({ theme, sizing }).state({ waiting }).mix(className.split(' '))}
+      className={b({ theme, size }).state({ waiting }).mix(className.split(' '))}
       data-display={display}
       type={type}
       draggable="false"

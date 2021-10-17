@@ -12,3 +12,11 @@ export const HttpStatuses = {
   SERVER_ERROR: 500,
   OK: 200,
 };
+
+export const SizeLabels = {
+  XS: 'xs',
+  SM: 'sm',
+  MD: 'md',
+  LG: 'lg',
+  XL: 'xl',
+} as const;

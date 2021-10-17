@@ -154,6 +154,7 @@
   "userStamp": {
     "fromLabel": "от"
   },
+  "timeDistanceLabel": "назад",
   "validation": {
     "errors": {
       "required": "Заполните поле",

@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 
 import { Icon } from '@/components/ui';
+import { SizeLabels } from '@/shared/const/const';
 
 import Button from './ButtonLink';
 
@@ -40,13 +41,13 @@ describe('ButtonLink', () => {
 
   it('applies proper class names', () => {
     render(
-      <Button className="test-button" theme="test" sizing="xl">
+      <Button className="test-button" theme="test" size={SizeLabels.XL}>
         Text
       </Button>
     );
 
     expect(screen.getByRole('link', { name: /text/i })).toHaveClass(
-      'button button_theme_test button_sizing_xl test-button'
+      `button button_theme_test button_size_${SizeLabels.XL} test-button`
     );
   });
 });

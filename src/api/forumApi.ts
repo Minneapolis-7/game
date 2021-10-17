@@ -17,54 +17,65 @@ import {
 
 import { apiCustom } from './api';
 
+export const FORUM_API_BASE = '/forum';
+export const FORUM_STATS_ENDPOINT = '/stats';
+export const FORUM_EMOJIS_ENDPOINT = '/emojis';
+export const FORUM_POST_EMOJIS_ENDPOINT = '/emojis';
+export const FORUM_CATEGORIES_ENDPOINT = '/categories';
+export const FORUM_SECTIONS_ENDPOINT = '/sections';
+export const FORUM_THREADS_ENDPOINT = '/threads';
+export const FORUM_COMMENTS_ENDPOINT = '/comments';
+
 export default {
-  // нужно/возможно ли типизовать возврат api? на входе в `response.json` данные типизируются, приходит `any`
   async getStats(): Promise<ForumStatsData> {
-    const { data } = await apiCustom.get('/forum/stats');
+    const { data } = await apiCustom.get(`${FORUM_API_BASE}${FORUM_STATS_ENDPOINT}`);
 
     return data;
   },
 
   async getAvailableEmojis(): Promise<EmojiAttributes[]> {
-    const { data } = await apiCustom.get('/forum/emojis');
+    const { data } = await apiCustom.get(`${FORUM_API_BASE}${FORUM_EMOJIS_ENDPOINT}`);
 
     return data;
   },
 
   async getCategories(): Promise<ForumCategoryData[]> {
-    const { data } = await apiCustom.get('/forum/categories');
+    const { data } = await apiCustom.get(`${FORUM_API_BASE}${FORUM_CATEGORIES_ENDPOINT}`);
 
     return data;
   },
 
   async getSection(id: number): Promise<ForumSectionData> {
-    const { data } = await apiCustom.get(`/forum/sections/${id}`);
+    const { data } = await apiCustom.get(`${FORUM_API_BASE}${FORUM_SECTIONS_ENDPOINT}/${id}`);
 
     return data;
   },
 
   async getThread(id: number): Promise<ForumThreadData> {
-    const { data } = await apiCustom.get(`/forum/threads/${id}`);
+    const { data } = await apiCustom.get(`${FORUM_API_BASE}${FORUM_THREADS_ENDPOINT}/${id}`);
 
     return data;
   },
 
   async createThread(threadData: ForumThreadCreationAttributes): Promise<ForumThreadData> {
-    const { data } = await apiCustom.post('/forum/threads', threadData);
+    const { data } = await apiCustom.post(`${FORUM_API_BASE}${FORUM_THREADS_ENDPOINT}`, threadData);
 
     return data;
   },
 
   async editThread(id: number, data: ForumThreadUpdatePayload): Promise<void> {
-    await apiCustom.put(`/forum/threads/${id}`, data);
+    await apiCustom.put(`${FORUM_API_BASE}${FORUM_THREADS_ENDPOINT}/${id}`, data);
   },
 
   async deleteThread(id: number): Promise<void> {
-    await apiCustom.delete(`/forum/threads/${id}`);
+    await apiCustom.delete(`${FORUM_API_BASE}${FORUM_THREADS_ENDPOINT}/${id}`);
   },
 
   async addThreadEmoji(id: number, emoji: EmojiUserIdentifier): Promise<ForumEmojiData> {
-    const { data } = await apiCustom.post(`/forum/threads/${id}/emojis`, emoji);
+    const { data } = await apiCustom.post(
+      `${FORUM_API_BASE}${FORUM_THREADS_ENDPOINT}/${id}${FORUM_POST_EMOJIS_ENDPOINT}`,
+      emoji
+    );
 
     return data;
   },
@@ -75,28 +86,34 @@ export default {
     const { threadId, emojiId, userId } = emoji;
 
     const { data } = await apiCustom.delete(
-      `/forum/threads/${threadId}/emojis/${emojiId}?user=${userId}`
+      `${FORUM_API_BASE}${FORUM_THREADS_ENDPOINT}/${threadId}${FORUM_POST_EMOJIS_ENDPOINT}/${emojiId}?user=${userId}`
     );
 
     return data;
   },
 
   async createComment(commentData: ForumCommentCreationAttributes): Promise<ForumCommentData> {
-    const { data } = await apiCustom.post('/forum/comments', commentData);
+    const { data } = await apiCustom.post(
+      `${FORUM_API_BASE}${FORUM_COMMENTS_ENDPOINT}`,
+      commentData
+    );
 
     return data;
   },
 
   async editComment(id: number, data: ForumCommentUpdatePayload): Promise<void> {
-    await apiCustom.put(`/forum/comments/${id}`, data);
+    await apiCustom.put(`${FORUM_API_BASE}${FORUM_COMMENTS_ENDPOINT}/${id}`, data);
   },
 
   async deleteComment(id: number): Promise<void> {
-    await apiCustom.delete(`/forum/comments/${id}`);
+    await apiCustom.delete(`${FORUM_API_BASE}${FORUM_COMMENTS_ENDPOINT}/${id}`);
   },
 
   async addCommentEmoji(commentId: number, emoji: EmojiUserIdentifier): Promise<ForumEmojiData> {
-    const { data } = await apiCustom.post(`/forum/comments/${commentId}/emojis`, emoji);
+    const { data } = await apiCustom.post(
+      `${FORUM_API_BASE}${FORUM_COMMENTS_ENDPOINT}/${commentId}${FORUM_POST_EMOJIS_ENDPOINT}`,
+      emoji
+    );
 
     return data;
   },
@@ -107,7 +124,7 @@ export default {
     const { commentId, emojiId, userId } = emoji;
 
     const { data } = await apiCustom.delete(
-      `/forum/comments/${commentId}/emojis/${emojiId}?user=${userId}`
+      `${FORUM_API_BASE}${FORUM_COMMENTS_ENDPOINT}/${commentId}${FORUM_POST_EMOJIS_ENDPOINT}/${emojiId}?user=${userId}`
     );
 
     return data;
