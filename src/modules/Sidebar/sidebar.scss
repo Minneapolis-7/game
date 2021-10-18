@@ -17,7 +17,7 @@ body .sidebar__container {
   max-width: 100%;
   padding: $page-gap-y 0 0;
   background: var(--brand-color);
-  color: $dark-color;
+  color: var(--dark-color);
   outline: none;
   visibility: hidden;
   transition: visibility $sidebar-animation-duration, transform $sidebar-animation-duration;
@@ -54,7 +54,7 @@ body .sidebar__opener {
   left: 0;
   z-index: $z-index-navigation;
   min-height: 0;
-  box-shadow: 0 0 0.4em $main-bg;
+  box-shadow: 0 0 0.4em var(--main-bg);
 }
 .sidebar__closer {
   margin-left: auto;
@@ -75,5 +75,5 @@ body .sidebar__opener {
 }
 
 .sidebar__theme-toggler[data-toggled] {
-  filter: invert(1);
+  box-shadow: inset 1px 1px 5px currentColor;
 }

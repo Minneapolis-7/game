@@ -1,0 +1,36 @@
+.theme-halloween {
+  /* stylelint-disable custom-property-empty-line-before */
+  // https://www.schemecolor.com/halloween-birthday-color-scheme.php
+  --black-hs: 240, 4%;
+  --black-l: 10%;
+
+  --orange-hs: 19, 83%;
+  --orange-l: 53%;
+  --orange-raw: var(--orange-hs), var(--orange-l);
+  --orange: hsl(var(--orange-raw));
+  --orange-lighter: hsl(var(--orange-hs), calc(var(--orange-l) + var(--color-l-step)));
+  --orange-darker: hsl(var(--orange-hs), calc(var(--orange-l) - var(--color-l-step)));
+
+  --violet-hs: 259, 58%;
+  --violet-l: 46%;
+  --violet-raw: var(--violet-hs), var(--violet-l);
+  --violet: hsl(var(--violet-raw));
+  --violet-lighter: hsl(var(--violet-hs), calc(var(--violet-l) + var(--color-l-step)));
+  --violet-darker: hsl(var(--violet-hs), calc(var(--violet-l) - var(--color-l-step)));
+
+  --brand-color: var(--orange);
+  --brand-color-raw: var(--orange-raw);
+  --brand-color-darker: var(--orange-darker);
+
+  --primary-color: var(--violet);
+  --primary-color-raw: var(--violet-raw);
+
+  --dark-color: var(--black);
+  --dark-color-raw: var(--black-raw);
+  --dark-color-lighter: var(--black-lighter);
+
+  --main-bg: var(--dark-color);
+  --main-bg-raw: var(--dark-color-raw);
+  --main-bg-lighter: var(--dark-color-lighter);
+  /* stylelint-enable */
+}

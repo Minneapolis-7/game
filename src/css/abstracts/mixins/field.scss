@@ -9,7 +9,7 @@ $field-line-height: 1.3;
 // prettier-ignore
 $field-border-width: 0 0 1PX;
 $field-height: get-field-height($field-line-height, $field-gap-y, $field-border-width);
-$field-placeholder-color: $muted-color;
+$field-placeholder-color: var(--muted-color);
 $field-bg-color: transparent;
 @mixin field-base {
   height: $field-height;
@@ -36,7 +36,7 @@ $field-bg-color: transparent;
   border-style: solid;
   border-color: var(--brand-color);
   background-color: $field-bg-color;
-  color: $text-color;
+  color: var(--text-color);
 }
 
 /* stylelint-disable-next-line block-no-empty */
@@ -45,7 +45,6 @@ $field-bg-color: transparent;
 
 // Темы
 $field-gap-x_theme_solid: 1em;
-$field-bg-color_theme_solid: $blue-dark;
 @mixin field-base_theme_solid {
   --field-height: #{$field-height};
 
@@ -54,7 +53,7 @@ $field-bg-color_theme_solid: $blue-dark;
 }
 @mixin field-skin_theme_solid {
   border-color: transparent;
-  background-color: $field-bg-color_theme_solid;
+  background-color: var(--primary-color);
 }
 
 @mixin field-base_theme_transparent {

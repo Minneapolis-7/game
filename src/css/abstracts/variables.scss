@@ -10,30 +10,6 @@ $font-size-md: 1rem;
 $font-size-lg: 1.2em;
 $font-size-xl: 1.5em;
 
-// Цвета (нельзя использовать ключевые слова типа "white")
-// https://coolors.co/eec643-141414-eef0f2-0d21a1-011638
-$black: #141414ff;
-$yellow: #eec643ff;
-$blue: #0d21a1ff;
-$blue-dark: #011638ff;
-$grey: #8e8e8f;
-$grey-light: #eef0f2ff;
-$white: #f8f9fb;
-$red: #ff2f2f;
-
-$brand-color: $yellow;
-$brand-color-light: lighten(desaturate(adjust-hue($brand-color, -5), 2.68), 36.67);
-$text-color: $white;
-$muted-color: $grey;
-$ui-color: $grey;
-$error-color: $red;
-$danger-color: $red;
-
-$dark-color: $black;
-$light-color: $white;
-
-$main-bg: $dark-color;
-
 // Длительность css-переходов
 $transition-duration: 0.15s;
 

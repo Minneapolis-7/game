@@ -31,7 +31,7 @@ $forum-body-gap-y: 1rem;
 
 .forum__heading,
 .forum__footer {
-  background-color: $blue-dark;
+  background-color: var(--primary-color);
   text-align: center;
 
   @media (min-width: $forum-bp) {
@@ -42,7 +42,7 @@ $forum-body-gap-y: 1rem;
 .forum__header {
   margin-top: -#{$page-gap-y};
   // prettier-ignore
-  border-bottom: 1PX solid $ui-color;
+  border-bottom: 1PX solid var(--ui-color);
   text-align: center;
 }
 

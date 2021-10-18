@@ -34,7 +34,7 @@
   z-index: 900;
   width: 100%;
   height: 100%;
-  background-color: $dark-color;
+  background-color: var(--dark-color);
   opacity: 0.5;
 }
 
@@ -48,27 +48,11 @@
   list-style-type: none;
 }
 
-.leaderboard__players-list li:nth-child(1) {
-  color: $brand-color;
-}
-.leaderboard__players-list li:nth-child(2) {
-  color: lighten(desaturate($brand-color, 0.86), 6.47);
-}
-.leaderboard__players-list li:nth-child(3) {
-  color: lighten(desaturate($brand-color, 5.47), 13.53);
-}
-.leaderboard__players-list li:nth-child(4) {
-  color: lighten(desaturate($brand-color, 9.95), 20.98);
-}
-.leaderboard__players-list li:nth-child(5) {
-  color: lighten(desaturate($brand-color, 26.89), 26.67);
-}
-
 .leaderboard__bottom-line {
   // prettier-ignore
   height: 1PX;
   border: 0;
-  background-color: $ui-color;
+  background-color: var(--ui-color);
 }
 
 .leaderboard__nickname {

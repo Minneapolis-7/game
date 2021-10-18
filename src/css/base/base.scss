@@ -5,7 +5,7 @@
 
 html {
   box-sizing: border-box;
-  color: $text-color;
+  color: var(--text-color);
 }
 
 // позволить переопределить `box-sizing` точечно для компонента вместе с содержимым
@@ -24,7 +24,7 @@ body,
 
 body {
   overflow-y: scroll;
-  background: $main-bg;
+  background: var(--main-bg);
 }
 
 .root {
@@ -124,16 +124,98 @@ video[controls]:not([tabindex^='-']):focus-visible,
 [class*='gap-y-']:last-child {
   margin-bottom: 0 !important;
 }
-
 :root {
-  --brand-color: #{$yellow};
+  /* stylelint-disable custom-property-empty-line-before */
+  //цвета
+  --color-l-step: 10%;
+
+  // https://coolors.co/eec643-141414-eef0f2-0d21a1-011638
+  --black-hs: 0, 0%;
+  --black-l: 8%;
+  --black-raw: var(--black-hs), var(--black-l);
+  --black: hsl(var(--black-raw));
+  --black-lighter: hsl(var(--black-hs), calc(var(--black-l) + var(--color-l-step)));
+
+  --yellow-hs: 46, 83%;
+  --yellow-l: 60%;
+  --yellow-raw: var(--yellow-hs), var(--yellow-l);
+  --yellow: hsl(var(--yellow-raw));
+  --yellow-lighter: hsl(var(--yellow-hs), calc(var(--yellow-l) + var(--color-l-step)));
+  --yellow-darker: hsl(var(--yellow-hs), calc(var(--yellow-l) - var(--color-l-step)));
+
+  --blue-hs: 232, 85%;
+  --blue-l: 34%;
+  --blue-raw: var(--blue-hs), var(--blue-l);
+  --blue: hsl(var(--blue-raw));
+  --blue-lighter: hsl(var(--blue-hs), calc(var(--blue-l) + var(--color-l-step)));
+  --blue-darker: hsl(var(--blue-hs), calc(var(--blue-l) - var(--color-l-step)));
+
+  --navy-hs: 217, 96%;
+  --navy-l: 11%;
+  --navy-raw: var(--navy-hs), var(--navy-l);
+  --navy: hsl(var(--navy-raw));
+  --navy-lighter: hsl(var(--navy-hs), calc(var(--navy-l) + var(--color-l-step)));
+  --navy-darker: hsl(var(--navy-hs), calc(var(--navy-l) - var(--color-l-step)));
+
+  --grey-hs: 240, 0%;
+  --grey-l: 56%;
+  --grey-raw: var(--grey-hs), var(--grey-l);
+  --grey: hsl(var(--grey-raw));
+  --grey-lighter: hsl(var(--grey-hs), calc(var(--grey-l) + var(--color-l-step)));
+  --grey-darker: hsl(var(--grey-hs), calc(var(--grey-l) - var(--color-l-step)));
+
+  --white-hs: 220, 27%;
+  --white-l: 98%;
+  --white-raw: var(--white-hs), var(--white-l);
+  --white: hsl(var(--white-raw));
+  --white-lighter: hsl(var(--white-hs), calc(var(--white-l) + var(--color-l-step)));
+  --white-darker: hsl(var(--white-hs), calc(var(--white-l) - var(--color-l-step)));
+
+  --red-hs: 0, 100%;
+  --red-l: 50%;
+  --red-raw: var(--red-hs), var(--red-l);
+  --red: hsl(var(--red-raw));
+  --red-lighter: hsl(var(--red-hs), calc(var(--red-l) + var(--color-l-step)));
+  --red-darker: hsl(var(--red-hs), calc(var(--red-l) - var(--color-l-step)));
+
+  --brand-color: var(--yellow);
+  --brand-color-raw: var(--yellow-raw);
+  --brand-color-darker: var(--yellow-darker);
+
+  --primary-color: var(--navy);
+  --primary-color-raw: var(--navy-raw);
+
+  --text-color: var(--white);
+  --text-color-raw: var(--white-raw);
+
+  --muted-color: var(--grey);
+  --muted-color-raw: var(--grey-raw);
+  --muted-color-darker: var(--grey-darker);
+
+  --ui-color: var(--muted-color);
+  --ui-color-raw: var(--muted-color-raw);
+
+  --error-color: var(--red);
+  --error-color-raw: var(--red-raw);
+
+  --danger-color: var(--red);
+  --danger-color-raw: var(--red-raw);
+
+  --dark-color: var(--black);
+  --dark-color-raw: var(--black-raw);
+  --dark-color-lighter: var(--black-lighter);
+
+  --light-color: var(--white);
+
+  --main-bg: var(--dark-color);
+  --main-bg-raw: var(--dark-color-raw);
+  --main-bg-lighter: var(--dark-color-lighter);
+
+  // отступы
   --section-pad-x-generic: #{$gap-x-generic};
 
   @media (min-width: $narrow-screen-bp) {
     --section-pad-x-generic: #{$gap-x-generic-lg};
   }
-}
-
-.theme-halloween {
-  --brand-color: rebeccapurple;
+  /* stylelint-enable */
 }

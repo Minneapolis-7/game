@@ -8,6 +8,6 @@
 .block-link:hover,
 .block-link:focus,
 .block-link:active {
-  color: $text-color;
+  color: var(--text-color);
   text-decoration: none;
 }
