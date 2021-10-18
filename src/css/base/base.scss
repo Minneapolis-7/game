@@ -5,7 +5,6 @@
 
 html {
   box-sizing: border-box;
-  color: var(--text-color);
 }
 
 // позволить переопределить `box-sizing` точечно для компонента вместе с содержимым
@@ -25,6 +24,7 @@ body,
 body {
   overflow-y: scroll;
   background: var(--main-bg);
+  color: var(--text-color);
 }
 
 .root {

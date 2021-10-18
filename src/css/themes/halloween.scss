@@ -18,6 +18,13 @@
   --violet-lighter: hsl(var(--violet-hs), calc(var(--violet-l) + var(--color-l-step)));
   --violet-darker: hsl(var(--violet-hs), calc(var(--violet-l) - var(--color-l-step)));
 
+  --green-hs: 77, 56%;
+  --green-l: 67%;
+  --green-raw: var(--green-hs), var(--green-l);
+  --green: hsl(var(--green-raw));
+  --green-lighter: hsl(var(--green-hs), calc(var(--green-l) + var(--color-l-step)));
+  --green-darker: hsl(var(--green-hs), calc(var(--green-l) - var(--color-l-step)));
+
   --brand-color: var(--orange);
   --brand-color-raw: var(--orange-raw);
   --brand-color-darker: var(--orange-darker);
@@ -25,9 +32,14 @@
   --primary-color: var(--violet);
   --primary-color-raw: var(--violet-raw);
 
+  --text-color: var(--green);
+  --text-color-raw: var(--green-raw);
+
   --dark-color: var(--black);
   --dark-color-raw: var(--black-raw);
   --dark-color-lighter: var(--black-lighter);
+
+  --light-color: var(--green);
 
   --main-bg: var(--dark-color);
   --main-bg-raw: var(--dark-color-raw);
