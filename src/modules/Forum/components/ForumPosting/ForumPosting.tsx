@@ -181,7 +181,6 @@ function ForumPosting({ data, className = '' }: ForumPostingProps): JSX.Element 
         </div>
         {content}
         <div className={b('toolbar', { bottom: true })}>
-          {/* todo: добавить реплаи (древовидные) */}
           {availableEmojis.length && (
             <div className={b('emojis').mix(bEmojer())}>
               {availableEmojis.map((availableEmoji) => {
