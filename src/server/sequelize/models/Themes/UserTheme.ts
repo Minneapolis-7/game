@@ -6,13 +6,10 @@ import User from '../User';
 
 export type UserThemeCreationAttributes = {
   themeId: number;
-  device: string | null;
-  ownerId: string;
+  userId: number;
 };
 
 @Table({
-  timestamps: false,
-  paranoid: true,
   tableName: 'user_themes',
   modelName: 'UserTheme',
 })
@@ -22,14 +19,8 @@ export default class UserTheme extends Model<UserTheme, UserThemeCreationAttribu
   @Column(DataType.INTEGER)
   themeId!: number;
 
-  @Column(DataType.STRING)
-  device!: string | null;
-
   @ForeignKey(() => User)
   @AllowNull(false)
-  @Column({
-    type: DataType.INTEGER,
-    field: 'owner_id',
-  })
-  ownerId!: string;
+  @Column(DataType.INTEGER)
+  userId!: number;
 }

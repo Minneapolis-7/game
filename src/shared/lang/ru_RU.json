@@ -7,10 +7,6 @@
     "leaderboard": "Лидеры",
     "forum": "Форум"
   },
-  "themes": {
-    "redTheme": "Красная тема",
-    "yellowTheme": "Желтая тема"
-  },
   "sidebar": {
     "header": "Выберите раздел",
     "closeButtonTitle": "Закрыть"

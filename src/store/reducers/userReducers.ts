@@ -11,12 +11,13 @@ import {
   UserTheme,
 } from '@/api/types';
 import api from '@/api/userApi';
+import { DEFAULT_THEME_NAME } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
 import type { RootState } from '@/shared/types/redux';
 
 export type UserState = UserLocalProfile & {
   isLoggingOut: boolean;
-  themeId: number;
+  selectedTheme: string;
 };
 
 export const initialState: UserState = {
@@ -30,7 +31,7 @@ export const initialState: UserState = {
   phone: '',
   avatar: null,
   isLoggingOut: false,
-  themeId: 0,
+  selectedTheme: DEFAULT_THEME_NAME,
 };
 
 export const getUser = createAsyncThunk('user/getUser', async (_, { rejectWithValue }) => {
@@ -63,28 +64,6 @@ export const signup = createAsyncThunk(
       await dispatch(getUser());
 
       return dispatch(replace('/'));
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  }
-);
-
-export const getTheme = createAsyncThunk(
-  'user/getTheme',
-  async (userId: number, { rejectWithValue }) => {
-    try {
-      return await api.getUserTheme(userId);
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  }
-);
-
-export const saveTheme = createAsyncThunk(
-  'user/saveTheme',
-  async (userTheme: UserTheme, { rejectWithValue }) => {
-    try {
-      return await api.saveUserTheme(userTheme);
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -137,12 +116,34 @@ export const updatePassword = createAsyncThunk(
   }
 );
 
+export const getSelectedTheme = createAsyncThunk(
+  'user/getSelectedTheme',
+  async (userId: number, { rejectWithValue }) => {
+    try {
+      return await api.getUserTheme(userId);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const saveThemeSelection = createAsyncThunk(
+  'user/saveThemeSelection',
+  async (userTheme: UserTheme, { rejectWithValue }) => {
+    try {
+      return await api.setUserTheme(userTheme);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    saveCurrentTheme(state, action: PayloadAction<number>) {
-      state.themeId = action.payload;
+    applyTheme(state, action: PayloadAction<string>) {
+      state.selectedTheme = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -165,8 +166,10 @@ export const userSlice = createSlice({
       .addCase(getUser.fulfilled, (state, action) => {
         Object.assign(state, action.payload);
       })
-      .addCase(getTheme.fulfilled, (state, action) => {
-        state.themeId = action.payload;
+      .addCase(getSelectedTheme.fulfilled, (state, action) => {
+        const { name } = action.payload;
+
+        state.selectedTheme = name;
       });
   },
 });
@@ -175,6 +178,6 @@ export const userState = (state: RootState): UserState => ({
   ...state.user,
 });
 
-export const { saveCurrentTheme } = userSlice.actions;
+export const { applyTheme } = userSlice.actions;
 
 export default userSlice.reducer;

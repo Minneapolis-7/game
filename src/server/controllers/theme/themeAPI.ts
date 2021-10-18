@@ -3,37 +3,45 @@ import { Request, Response } from 'express';
 import themeService from '@/server/services/theme/themeService';
 import { HttpStatuses } from '@/shared/const/const';
 
-export default class ThemeAPI {
-  // по userId получить тему из UserTheme
-  static find = async (request: Request, response: Response) => {
-    const { id } = request.params;
+const themeAPI = {
+  async getUserTheme(request: Request, response: Response) {
+    const { userId } = request.params;
 
     try {
-      const record = await themeService.find(id);
+      const userTheme = await themeService.getUserTheme(Number(userId));
 
-      response.json(record);
+      if (!userTheme) {
+        response.json({
+          result: 'No theme applied for the user',
+        });
+
+        return;
+      }
+
+      const themeId = userTheme.getDataValue('themeId');
+      const theme = await themeService.findThemeById(themeId);
+
+      response.json(theme);
     } catch (e) {
       response.sendStatus(HttpStatuses.SERVER_ERROR);
     }
-  };
+  },
 
-  // получить все темы из SiteTheme
-  static findAll = async (response: Response) => {
-    try {
-      const records = await themeService.findAll();
-
-      response.json(records);
-    } catch (e) {
-      response.sendStatus(HttpStatuses.SERVER_ERROR);
-    }
-  };
-
-  // сохранить выбор темы для user
-  static save = async (request: Request, response: Response) => {
-    const { body } = request;
+  async setUserTheme(request: Request, response: Response) {
+    const { userId, themeName } = request.body;
 
     try {
-      await themeService.update(body.userId, body.themeId);
+      const theme = await themeService.findThemeByName(themeName);
+
+      if (!theme) {
+        response.json({
+          result: 'No such theme',
+        });
+
+        return;
+      }
+
+      await themeService.setUserTheme(userId, theme.getDataValue('id'));
 
       response.sendStatus(200);
     } catch (e) {
@@ -41,5 +49,17 @@ export default class ThemeAPI {
         error: e,
       });
     }
-  };
-}
+  },
+
+  async findAllThemes(response: Response) {
+    try {
+      const records = await themeService.findAllThemes();
+
+      response.json(records);
+    } catch (e) {
+      response.sendStatus(HttpStatuses.SERVER_ERROR);
+    }
+  },
+};
+
+export default themeAPI;

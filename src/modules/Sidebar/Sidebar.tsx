@@ -1,19 +1,22 @@
-import React, { useCallback, useContext, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef } from 'react';
 import { block } from 'bem-cn';
 
 import { Button, Icon } from '@/components/ui';
 import PageContext from '@/layout/Page/PageContext';
 import Nav from '@/modules/Nav';
 import { SizeLabels } from '@/shared/const/const';
+import { DEFAULT_THEME_NAME } from '@/shared/const/const';
 import text from '@/shared/const/text';
-import themes from '@/shared/const/themes';
+import getThemeClassname from '@/shared/utils/getThemeClassname';
+import usePrevious from '@/shared/utils/hooks/usePrevious';
 import useFocusTrapping from '@/shared/utils/useFocusTrapping';
 import useKeydown from '@/shared/utils/useKeydown';
-import { saveCurrentTheme, saveTheme } from '@/store/reducers';
+import { applyTheme, saveThemeSelection } from '@/store/reducers';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import menuSvg from 'bootstrap-icons/icons/list.svg';
 import closeSvg from 'bootstrap-icons/icons/x-lg.svg';
+import halloweenSvg from 'static/assets/img/icons/halloween.svg';
 
 const SIDEBAR_SHOW_EVENT = 'sidebarshow';
 const SIDEBAR_HIDE_EVENT = 'sidebarhide';
@@ -28,12 +31,10 @@ type SidebarProps = {
 
 function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
   const pageContext = useContext(PageContext);
-  const { id: userId, themeId } = useAppSelector((state) => state.user);
+  const { id: userId, selectedTheme } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const sidebarRef = useRef<HTMLDivElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
-
-  const [themeName, setThemeName] = useState(themes.getNextThemeName(themeId));
 
   const openSidebar = useCallback(
     (e) => {
@@ -50,23 +51,38 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
     sidebarRef.current?.dispatchEvent(new CustomEvent(SIDEBAR_HIDE_EVENT, { bubbles: true }));
   }, [pageContext]);
 
-  const changeTheme = useCallback(() => {
-    const { body } = document;
-    const newThemeId = themes.getNextThemeId(themeId);
+  const TOGGLABLE_THEME_NAME = 'halloween';
+  const isThemeToggled = selectedTheme === TOGGLABLE_THEME_NAME;
+  const previousTheme = usePrevious(selectedTheme);
 
-    setThemeName(themes.getNextThemeName(newThemeId));
-    body.classList.remove(themes.getThemeClass(themeId));
-    body.classList.add(themes.getThemeClass(newThemeId));
-    dispatch(saveCurrentTheme(newThemeId));
+  const toggleTheme = useCallback(
+    (e) => {
+      const { themeName } = e.currentTarget.dataset;
+      const appliedThemeName = !isThemeToggled ? themeName : DEFAULT_THEME_NAME;
 
-    if (userId) {
-      try {
-        dispatch(saveTheme({ userId, themeId: newThemeId }));
-      } catch (e) {
-        throw new Error(e);
+      dispatch(applyTheme(appliedThemeName));
+
+      if (userId) {
+        try {
+          dispatch(saveThemeSelection({ userId, themeName: appliedThemeName }));
+        } catch (err) {
+          throw new Error(err);
+        }
       }
+    },
+    [isThemeToggled, dispatch, userId]
+  );
+
+  useEffect(() => {
+    if (previousTheme) {
+      document.body.classList.replace(
+        getThemeClassname(previousTheme),
+        getThemeClassname(selectedTheme)
+      );
+    } else {
+      document.body.classList.add(getThemeClassname(selectedTheme));
     }
-  }, [themeId]);
+  }, [previousTheme, selectedTheme]);
 
   useKeydown('Escape', closeSidebar);
   useFocusTrapping(SIDEBAR_SHOW_EVENT, SIDEBAR_HIDE_EVENT);
@@ -95,7 +111,18 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
         <div className={b('body').mix('scrollbar')}>
           <Nav />
         </div>
-        <Button onClick={changeTheme}>{themeName}</Button>
+        <div className={b('footer')}>
+          <Button
+            className={b('theme-toggler')}
+            theme="circle"
+            sizing="xl"
+            display="inline"
+            data-theme-name={TOGGLABLE_THEME_NAME}
+            data-toggled={isThemeToggled || null}
+            icon={<Icon name={halloweenSvg.id} scale={2} />}
+            onClick={toggleTheme}
+          />
+        </div>
       </div>
       <div className={b('backdrop')} onMouseDown={closeSidebar}></div>
     </div>

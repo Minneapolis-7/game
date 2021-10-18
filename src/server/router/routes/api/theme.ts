@@ -1,11 +1,11 @@
 import { Router } from 'express';
 
-import ThemeAPI from '@/server/controllers/theme/themeAPI';
+import themeAPI from '@/server/controllers/theme/themeAPI';
 
 const userThemeRouter = Router();
 
-userThemeRouter.get('/all', ThemeAPI.findAll);
-userThemeRouter.get('/:id', ThemeAPI.find);
-userThemeRouter.post('/', ThemeAPI.save);
+userThemeRouter.get('/', themeAPI.findAllThemes);
+userThemeRouter.get('/:userId', themeAPI.getUserTheme);
+userThemeRouter.post('/', themeAPI.setUserTheme);
 
 export default userThemeRouter;

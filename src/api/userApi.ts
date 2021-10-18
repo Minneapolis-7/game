@@ -1,5 +1,6 @@
 import type { Optional } from 'utility-types';
 
+import { SiteThemeAttributes } from '@/server/sequelize/models/Themes/SiteTheme';
 import { UserCreationAttributes } from '@/server/sequelize/models/User';
 import { UserUpdatePayload } from '@/server/services/userService';
 
@@ -68,13 +69,13 @@ export default {
     return data;
   },
 
-  async getUserTheme(userId: number): Promise<number> {
+  async getUserTheme(userId: number): Promise<SiteThemeAttributes> {
     const { data } = await apiCustom.get(`/theme/${userId}`);
 
     return data;
   },
 
-  async saveUserTheme(userTheme: UserTheme): Promise<void> {
+  async setUserTheme(userTheme: UserTheme): Promise<void> {
     await apiCustom.post('/theme', userTheme);
   },
 

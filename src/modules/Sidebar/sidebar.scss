@@ -15,7 +15,7 @@ body .sidebar__container {
   flex-direction: column;
   width: 400px;
   max-width: 100%;
-  padding: $page-gap-y 0;
+  padding: $page-gap-y 0 0;
   background: var(--brand-color);
   color: $dark-color;
   outline: none;
@@ -43,6 +43,10 @@ body .sidebar__container {
   -webkit-overflow-scrolling: touch;
 }
 
+.sidebar__footer {
+  flex-shrink: 1;
+}
+
 .sidebar__opener,
 body .sidebar__opener {
   position: fixed;
@@ -68,4 +72,8 @@ body .sidebar__opener {
 .sidebar__container.is-opened ~ .sidebar__backdrop {
   opacity: 1;
   pointer-events: auto;
+}
+
+.sidebar__theme-toggler[data-toggled] {
+  filter: invert(1);
 }

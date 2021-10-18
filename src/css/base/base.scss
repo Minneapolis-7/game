@@ -134,6 +134,6 @@ video[controls]:not([tabindex^='-']):focus-visible,
   }
 }
 
-.red-theme {
-  --brand-color: #{$dark-red};
+.theme-halloween {
+  --brand-color: rebeccapurple;
 }

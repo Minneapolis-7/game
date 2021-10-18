@@ -21,7 +21,7 @@ export type UpdatePasswordRequest = {
 
 export type UserTheme = {
   userId: number;
-  themeId: number;
+  themeName: string;
 };
 
 export type OAuthClientIdRequest = {

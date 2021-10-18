@@ -1,7 +1,6 @@
 export {
-  getTheme,
-  saveTheme,
-  saveCurrentTheme,
+  saveThemeSelection,
+  applyTheme,
   signin,
   signup,
   logout,
