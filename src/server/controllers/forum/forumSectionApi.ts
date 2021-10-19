@@ -4,48 +4,19 @@ import { ForumSectionCreationAttributes } from '@/server/sequelize/models/Forum/
 import { forumSectionService } from '@/server/services/forum';
 import { HttpStatuses } from '@/shared/const/const';
 
-export type CreateSectionRequest = {
-  body: ForumSectionCreationAttributes;
-} & Request;
-
-export type CreateSectionsRequest = {
-  body: ForumSectionCreationAttributes[];
-} & Request;
-
-export type SectionRequest = {
-  params: {
-    id: number;
-  };
-} & Request;
+export type CreateSectionRequest = Request<unknown, unknown, ForumSectionCreationAttributes>;
+export type SectionRequest = Request<{
+  id: string;
+}>;
 
 const forumSectionApi = {
   async create(request: CreateSectionRequest, response: Response): Promise<void> {
     const { body } = request;
 
     try {
-      if (Array.isArray(body)) {
-        await forumSectionApi.createBulk(request, response);
-
-        return;
-      }
-
       const record = await forumSectionService.create(body);
 
       response.json(record);
-    } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
-    }
-  },
-
-  async createBulk(request: CreateSectionsRequest, response: Response): Promise<void> {
-    const { body } = request;
-
-    try {
-      const records = await forumSectionService.createBulk(body);
-
-      response.json(records);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
         error: e,
@@ -57,7 +28,7 @@ const forumSectionApi = {
     const { id } = request.params;
 
     try {
-      await forumSectionService.delete(id);
+      await forumSectionService.delete(Number(id));
       response.sendStatus(HttpStatuses.OK);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
@@ -70,7 +41,7 @@ const forumSectionApi = {
     const { id } = request.params;
 
     try {
-      const record = await forumSectionService.find(id);
+      const record = await forumSectionService.find(Number(id));
 
       response.json(record);
     } catch (e) {

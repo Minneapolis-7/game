@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from 'react';
 
 import oauthApi from '@/api/oauthApi';
 import { OAUTH_REDIRECT_URI } from '@/shared/const/const';
-import { userRequest } from '@/store/reducers/userReducers';
+import { getUser } from '@/store/reducers/actions';
 import { useAppDispatch } from '@/store/store';
 
 export default function useOAuth() {
@@ -21,7 +21,7 @@ export default function useOAuth() {
             redirectUri: OAUTH_REDIRECT_URI,
           });
 
-          await dispatch(userRequest()).unwrap();
+          await dispatch(getUser()).unwrap();
         } catch (e) {
           throw new Error(e);
         } finally {

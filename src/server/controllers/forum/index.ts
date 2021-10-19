@@ -4,3 +4,5 @@ export { default as forumThreadApi } from './forumThreadApi';
 export { default as forumThreadEmojiApi } from './forumThreadEmojiApi';
 export { default as forumCommentApi } from './forumCommentApi';
 export { default as forumCommentEmojiApi } from './forumCommentEmojiApi';
+export { default as forumStatsApi } from './forumStatsApi';
+export { default as emojiApi } from './emojiApi';

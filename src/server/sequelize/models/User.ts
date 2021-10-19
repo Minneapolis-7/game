@@ -27,9 +27,13 @@ import type { UserData } from '@/shared/types/types';
 export type UserAttributes = Omit<UserData, 'id' | 'password'> & {
   yandexUserId: number;
   isOnline: boolean;
+  name: string;
 } & IntrinsicModelAttributes;
 
-export type UserCreationAttributes = Optional<UserAttributes, 'isOnline'>;
+export type UserCreationAttributes = Optional<
+  UserAttributes,
+  'isOnline' | 'avatar' | 'displayName' | keyof IntrinsicModelAttributes
+>;
 
 @Table({
   underscored: true,
@@ -52,6 +56,14 @@ export default class User extends Model<UserAttributes, UserCreationAttributes> 
 
   @Column(DataType.TEXT)
   displayName?: string;
+
+  @Column(DataType.VIRTUAL(DataType.STRING))
+  get name(): string {
+    return (
+      this.getDataValue('displayName') ||
+      `${this.getDataValue('firstName')} ${this.getDataValue('secondName')}`
+    );
+  }
 
   @Column(DataType.TEXT)
   avatar?: string;

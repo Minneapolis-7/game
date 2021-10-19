@@ -4,17 +4,17 @@ import { Helmet } from 'react-helmet';
 import Page from '@/layout/Page';
 import Forum from '@/modules/Forum';
 
-function ForumThreadCreatePage({ title }: GenericPageProps): JSX.Element {
+function ForumPage({ title }: GenericPageProps): JSX.Element {
   return (
     <>
       <Helmet>
         <title>{title}</title>
       </Helmet>
       <Page delegated>
-        <Forum extendedSection="12" />
+        <Forum />
       </Page>
     </>
   );
 }
 
-export default ForumThreadCreatePage;
+export default ForumPage;

@@ -1,0 +1,52 @@
+@use 'src/css/abstracts/variables' as *;
+
+$emojer-border-radius: 2rem;
+$emojer-bg: $main-bg;
+.emojer {
+  display: inline-flex;
+  border: 1px solid $muted-color;
+  border-radius: $emojer-border-radius;
+}
+
+.emojer__emoji {
+  position: relative;
+  z-index: 0;
+  filter: grayscale(1);
+}
+.emojer__emoji::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.emojer__emoji:hover,
+.emojer__emoji:focus-visible,
+.emojer__emoji[data-populated] {
+  filter: grayscale(0);
+}
+.emojer__emoji:hover,
+.emojer__emoji:focus-visible {
+  z-index: 1;
+}
+
+.emojer__emoji:first-child,
+.emojer__emoji:first-child::before {
+  border-top-left-radius: $emojer-border-radius;
+  border-bottom-left-radius: $emojer-border-radius;
+}
+.emojer__emoji:last-child,
+.emojer__emoji:last-child::before {
+  border-top-right-radius: $emojer-border-radius;
+  border-bottom-right-radius: $emojer-border-radius;
+}
+
+.emojer > .emojer__emoji[data-voted] {
+  background-color: lighten($emojer-bg, 10);
+}
+.emojer > .emojer__emoji[data-voted]::before {
+  box-shadow: inset 0 0 0.5em 0.1em $dark-color;
+}

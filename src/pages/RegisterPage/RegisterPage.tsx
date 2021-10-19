@@ -9,12 +9,13 @@ import { Input } from '@/components/formik-ui';
 import { Button, Spinner } from '@/components/ui';
 import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import Page from '@/layout/Page';
+import { SizeLabels } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import translateErrorMessage from '@/shared/utils';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 import useBeingLoggedIn from '@/shared/utils/hooks/useBeingLoggedIn';
-import { signup } from '@/store/reducers';
+import { signup } from '@/store/reducers/actions';
 import { useAppDispatch } from '@/store/store';
 
 import { registerSchema } from './schema';
@@ -51,7 +52,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
   const isChecking = useBeingLoggedIn();
 
   if (isChecking) {
-    return <Spinner size="xl" />;
+    return <Spinner size={SizeLabels.XL} />;
   }
 
   return (

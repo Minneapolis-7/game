@@ -1,4 +1,4 @@
-import { Optional } from 'sequelize';
+import Sequelize, { Optional } from 'sequelize';
 import {
   AllowNull,
   BelongsTo,
@@ -28,13 +28,14 @@ export type ForumThreadAttributes = {
   content: string;
   isModified: boolean;
   visitedCounter: number;
+  lastPosted: Date;
   sectionId: number;
   userId: number;
 } & IntrinsicModelAttributes;
 
 export type ForumThreadCreationAttributes = Optional<
   ForumThreadAttributes,
-  'isModified' | 'visitedCounter' | keyof IntrinsicModelAttributes
+  'isModified' | 'visitedCounter' | 'lastPosted' | keyof IntrinsicModelAttributes
 >;
 
 @Table({
@@ -60,6 +61,11 @@ export default class ForumThread extends Model<
   isModified!: boolean;
 
   @AllowNull(false)
+  @Default(Sequelize.fn('NOW'))
+  @Column(DataType.DATE)
+  lastPosted!: Date;
+
+  @AllowNull(false)
   @Default(0)
   @Column(DataType.INTEGER)
   visitedCounter!: number;
@@ -78,7 +84,12 @@ export default class ForumThread extends Model<
   @BelongsTo(() => ForumSection)
   section!: ForumSection;
 
-  @BelongsToMany(() => Emoji, () => ForumThreadEmoji)
+  @BelongsToMany(() => Emoji, {
+    through: {
+      model: () => ForumThreadEmoji,
+      unique: false,
+    },
+  })
   emojis!: Emoji[];
 
   @HasMany(() => ForumComment, {

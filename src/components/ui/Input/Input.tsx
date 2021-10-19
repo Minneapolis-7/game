@@ -1,9 +1,13 @@
 import React, { forwardRef, InputHTMLAttributes } from 'react';
 import { block } from 'bem-cn';
 
+import { FieldBaseProps } from '@/components/ui/types/FieldBaseProps';
+
 import { InputBaseProps } from './types';
 
-export type InputProps = InputBaseProps & FieldBaseProps & InputHTMLAttributes<HTMLInputElement>;
+export type InputProps = { htmlSize?: number } & InputBaseProps &
+  FieldBaseProps &
+  Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>;
 
 const b = block('input');
 
@@ -15,7 +19,8 @@ export default forwardRef<HTMLInputElement, InputProps>(function Input(
     className = '',
     fieldClassName = '',
     theme,
-    sizing,
+    size,
+    htmlSize,
     display,
     type = 'text',
     hint,
@@ -28,7 +33,7 @@ export default forwardRef<HTMLInputElement, InputProps>(function Input(
 
   return (
     <div
-      className={b({ theme, sizing })
+      className={b({ theme, size })
         .has({ error: Boolean(error) })
         .mix(className.split(' '))}
       data-display={display}
@@ -37,6 +42,7 @@ export default forwardRef<HTMLInputElement, InputProps>(function Input(
         ref={ref}
         className={b('field', { mode }).mix(fieldClassName.split(' '))}
         type={type}
+        size={htmlSize}
         {...rest}
         placeholder={hint}
       />

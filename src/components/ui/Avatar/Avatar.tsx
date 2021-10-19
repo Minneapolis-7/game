@@ -2,7 +2,7 @@ import React, { CSSProperties, PropsWithChildren } from 'react';
 import { block } from 'bem-cn';
 
 type AvatarProps = PropsWithChildren<{
-  src?: string;
+  src?: string | null;
   className?: string;
   theme?: string;
   populatable?: boolean;

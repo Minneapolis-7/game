@@ -1,37 +1,66 @@
 import { Router } from 'express';
 
 import {
+  FORUM_CATEGORIES_ENDPOINT,
+  FORUM_COMMENTS_ENDPOINT,
+  FORUM_EMOJIS_ENDPOINT,
+  FORUM_POST_EMOJIS_ENDPOINT,
+  FORUM_SECTIONS_ENDPOINT,
+  FORUM_STATS_ENDPOINT,
+  FORUM_THREADS_ENDPOINT,
+} from '@/api/forumApi';
+import {
+  emojiApi,
   forumCategoryApi,
   forumCommentApi,
   forumCommentEmojiApi,
   forumSectionApi,
+  forumStatsApi,
   forumThreadApi,
   forumThreadEmojiApi,
 } from '@/server/controllers/forum';
 
 const forumRouter = Router();
 
-forumRouter.get('/categories', forumCategoryApi.findAll);
-forumRouter.post('/categories', forumCategoryApi.create);
-forumRouter.delete('/categories/:id', forumCategoryApi.delete);
+forumRouter.get(FORUM_STATS_ENDPOINT, forumStatsApi.request);
 
-forumRouter.get('/sections/:id', forumSectionApi.find);
-forumRouter.post('/sections', forumSectionApi.create);
-forumRouter.delete('/sections/:id', forumSectionApi.delete);
+forumRouter.get(FORUM_EMOJIS_ENDPOINT, emojiApi.findAll);
 
-forumRouter.get('/threads/:id', forumThreadApi.find);
-forumRouter.post('/threads', forumThreadApi.create);
-forumRouter.delete('/threads/:id', forumThreadApi.delete);
-forumRouter.put('/threads/:id', forumThreadApi.update);
+forumRouter.get(FORUM_CATEGORIES_ENDPOINT, forumCategoryApi.findAll);
+forumRouter.post(FORUM_CATEGORIES_ENDPOINT, forumCategoryApi.create);
+forumRouter.delete(`${FORUM_CATEGORIES_ENDPOINT}/:id`, forumCategoryApi.delete);
 
-forumRouter.post('/comments', forumCommentApi.create);
-forumRouter.delete('/comments/:id', forumCommentApi.delete);
-forumRouter.put('/comments/:id', forumCommentApi.update);
+forumRouter.get(`${FORUM_SECTIONS_ENDPOINT}/:id`, forumSectionApi.find);
+forumRouter.post(FORUM_SECTIONS_ENDPOINT, forumSectionApi.create);
+forumRouter.delete(`${FORUM_SECTIONS_ENDPOINT}/:id`, forumSectionApi.delete);
 
-forumRouter.post('/threads/:id/emojis', forumThreadEmojiApi.create);
-forumRouter.delete('/threads/:id/emojis', forumThreadEmojiApi.delete);
+forumRouter.get(`${FORUM_THREADS_ENDPOINT}/:id`, forumThreadApi.find);
+forumRouter.post(FORUM_THREADS_ENDPOINT, forumThreadApi.create);
+forumRouter.delete(`${FORUM_THREADS_ENDPOINT}/:id`, forumThreadApi.delete);
+forumRouter.put(`${FORUM_THREADS_ENDPOINT}/:id`, forumThreadApi.update);
 
-forumRouter.post('/comments/:id/emojis', forumCommentEmojiApi.create);
-forumRouter.delete('/comments/:id/emojis', forumCommentEmojiApi.delete);
+forumRouter.post(FORUM_COMMENTS_ENDPOINT, forumCommentApi.create);
+forumRouter.delete(`${FORUM_COMMENTS_ENDPOINT}/:id`, forumCommentApi.delete);
+forumRouter.put(`${FORUM_COMMENTS_ENDPOINT}/:id`, forumCommentApi.update);
+
+forumRouter.put(`${FORUM_THREADS_ENDPOINT}/:id/views`, forumThreadApi.incrementVisited);
+
+forumRouter.post(
+  `${FORUM_THREADS_ENDPOINT}/:id${FORUM_POST_EMOJIS_ENDPOINT}`,
+  forumThreadEmojiApi.create
+);
+forumRouter.delete(
+  `${FORUM_THREADS_ENDPOINT}/:threadId${FORUM_POST_EMOJIS_ENDPOINT}/:emojiId`,
+  forumThreadEmojiApi.delete
+);
+
+forumRouter.post(
+  `${FORUM_COMMENTS_ENDPOINT}/:id${FORUM_POST_EMOJIS_ENDPOINT}`,
+  forumCommentEmojiApi.create
+);
+forumRouter.delete(
+  `${FORUM_COMMENTS_ENDPOINT}/:commentId${FORUM_POST_EMOJIS_ENDPOINT}/:emojiId`,
+  forumCommentEmojiApi.delete
+);
 
 export default forumRouter;

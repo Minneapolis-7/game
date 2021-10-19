@@ -29,7 +29,7 @@ class ForumThreadService extends BaseService {
     );
   }
 
-  async updateVisited(threadId: number): Promise<void> {
+  async incrementVisited(threadId: number): Promise<void> {
     await ForumThread.increment(
       {
         visitedCounter: 1,
@@ -44,50 +44,64 @@ class ForumThreadService extends BaseService {
 
   async find(threadId: number): Promise<ForumThread | null> {
     return ForumThread.findOne({
-      where: { id: threadId },
+      where: {
+        id: threadId,
+      },
       include: [
+        User,
         {
-          model: ForumThreadEmoji,
+          model: Emoji,
+          through: { attributes: [] },
           include: [
             {
-              model: User,
-              through: { attributes: [] },
-            },
-            Emoji,
-          ],
-        },
-        {
-          model: ForumComment,
-          include: [
-            {
-              model: ForumCommentEmoji,
+              model: ForumThreadEmoji,
+              where: { threadId },
               include: [
                 {
                   model: User,
                   through: { attributes: [] },
                 },
-                Emoji,
+              ],
+            },
+          ],
+        },
+        {
+          model: ForumComment,
+          include: [
+            User,
+            {
+              model: Emoji,
+              through: { attributes: [] },
+              include: [
+                {
+                  model: ForumCommentEmoji,
+                  /*
+                   * todo:
+                   * Записи в ForumCommentEmoji не уникальны, и для каждого найденного коммента (ForumComment)
+                   * надо отфильтровать только те из них, где ForumCommentEmoji.commentId равен ForumComment.id
+                   * (сейчас в каждом комменте включаеются все ForumCommentEmoji со всех комментов,
+                   * а надо включать только от своего коммента)
+                   *
+                   * Проблема в том, что обычная фильтрация по аттрибутам родителя (через `where` и ссылку на колонку)
+                   * здесь не работает, возможно из-за того, что в запросе `ForumComment` включает сначала `Emoji`,
+                   * а `Emoji`  включает `ForumCommentEmoji`, т.е. `ForumComment` в этом запросе — не прямой родитель
+                   *
+                   * Текущее решение — пост-процессинг возврата через JS
+                   * */
+                  // where: { commentId: Sequelize.col('ForumComment.id') },
+                  include: [
+                    {
+                      model: User,
+                      through: { attributes: [] },
+                    },
+                  ],
+                },
               ],
             },
           ],
         },
       ],
-    });
-  }
-
-  async findByUser(userId: number): Promise<ForumThread[]> {
-    return ForumThread.findAll({
-      where: { userId },
-      include: {
-        model: ForumThreadEmoji,
-        include: [
-          {
-            model: User,
-            through: { attributes: [] },
-          },
-          Emoji,
-        ],
-      },
+      order: [[{ model: ForumComment, as: 'comments' }, 'createdAt', 'ASC']],
     });
   }
 }

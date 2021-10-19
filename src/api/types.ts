@@ -1,6 +1,9 @@
 import { UserData } from '@/shared/types/types';
 
 export type UserProfile = Omit<UserData, 'password'>;
+export type UserLocalProfile = UserProfile & {
+  yandexUserId: number | null;
+};
 
 export type SignInRequest = {
   login: string;

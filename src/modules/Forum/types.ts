@@ -1,6 +1,6 @@
 export type CreateThreadData = {
-  topic: string;
-  message: string;
+  threadHeader: string;
+  threadMessage: string;
 };
 
 export type ReplyData = {

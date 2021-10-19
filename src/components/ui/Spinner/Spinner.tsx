@@ -1,6 +1,8 @@
 import React, { HTMLAttributes } from 'react';
 import { block } from 'bem-cn';
 
+import { SizeLabel } from '@/shared/types/SizeLabel';
+
 type SpinnerProps = {
   className?: string;
   size?: SizeLabel;

@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 
 import Input from '@/components/ui/Input/Input';
+import { SizeLabels } from '@/shared/const/const';
 
 import Textarea from './Textarea';
 
@@ -26,10 +27,12 @@ describe('Textarea', () => {
   });
 
   it('applies proper class names', () => {
-    const { container } = render(<Textarea className="test" theme="test" sizing="xl" />);
+    const { container } = render(<Textarea className="test" theme="test" size={SizeLabels.XL} />);
 
     // eslint-disable-next-line testing-library/no-node-access
-    expect(container.firstChild).toHaveClass('input input_theme_test input_sizing_xl test');
+    expect(container.firstChild).toHaveClass(
+      `input input_theme_test input_size_${SizeLabels.XL} test`
+    );
   });
 
   it('applies proper field class names', () => {

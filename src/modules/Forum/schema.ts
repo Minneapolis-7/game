@@ -9,8 +9,8 @@ const { errors } = text.validation;
 export const createThreadSchema: SchemaOf<CreateThreadData> = yup
   .object()
   .shape({
-    topic: yup.string().required(errors.required),
-    message: yup.string().required(errors.required),
+    threadHeader: yup.string().required(errors.required),
+    threadMessage: yup.string().required(errors.required),
   })
   .defined();
 

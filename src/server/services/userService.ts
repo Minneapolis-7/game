@@ -7,11 +7,35 @@ export type UserUpdatePayload = Partial<Omit<UserCreationAttributes, 'yandexUser
 
 class UserService extends BaseService {
   async create(record: UserCreationAttributes): Promise<User> {
-    return User.create(record);
+    const [user] = await User.findOrCreate({
+      where: {
+        yandexUserId: record.yandexUserId,
+      },
+      defaults: record,
+    });
+
+    return user;
   }
 
-  async update(userId: number, record: UserUpdatePayload): Promise<void> {
-    await User.update(record, { where: { id: userId } });
+  async update(yandexUserId: number, record: UserUpdatePayload): Promise<User> {
+    const [_, users] = await User.update(record, {
+      where: { yandexUserId },
+      returning: true,
+    });
+
+    return users[0];
+  }
+
+  async request(yandexUserId: number): Promise<User | null> {
+    return User.findOne({ where: { yandexUserId } });
+  }
+
+  async requestByLocalId(id: number): Promise<User | null> {
+    return User.findOne({ where: { id } });
+  }
+
+  async requestTotal(): Promise<number> {
+    return User.count();
   }
 }
 

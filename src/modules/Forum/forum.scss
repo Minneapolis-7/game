@@ -46,8 +46,44 @@ $forum-body-gap-y: 1rem;
   text-align: center;
 }
 
+.forum__body {
+  position: relative;
+}
+
+.forum__spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+}
+
 .forum__footer {
   margin-bottom: -#{$page-gap-y};
+  opacity: 0;
+  visibility: hidden;
+}
+
+.is-loaded ~ .forum__footer {
+  animation: showFooter 0.2s;
+  animation-delay: 0.2s;
+  animation-fill-mode: forwards;
+}
+
+/**
+ Футер прибит к низу, т.к. если контента нет, он должен быть показан там.
+ Загруженный контент рендерится с задержкой, и футер на долю секунду виден внизу экрана,
+ прежде чем быть передвинутым контентом внизу. Это вызывает неприятное мельтешение,
+ чтобы это исправить футер появляется с задержкой 0.2s
+ */
+@keyframes showFooter {
+  from {
+    opacity: 0;
+    visibility: hidden;
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
 .forum__main-heading,
@@ -69,9 +105,16 @@ $forum-body-gap-y: 1rem;
   font-size: 1.3em;
 }
 
+$forum-section-gap: 3rem;
+
 .forum__section,
-.forum__comment {
-  margin-bottom: 3rem;
+.forum__posting {
+  margin-bottom: $forum-section-gap;
+}
+
+.forum__posting_original {
+  padding-bottom: $forum-section-gap;
+  border-bottom: 1px solid $muted-color;
 }
 
 .forum__item-heading-misc {
@@ -81,11 +124,13 @@ $forum-body-gap-y: 1rem;
 
 .forum__heading-action {
   vertical-align: middle;
-  //margin-top: -1em;
-  //margin-bottom: -1em;
-  margin-right: 1em;
+}
+.forum__heading-action:last-child {
+  margin-left: 1em;
 }
 .forum__heading-action_shifted {
+  position: relative;
+  top: -0.1em;
   vertical-align: top;
   margin: -0.4em 0;
 }
@@ -115,4 +160,8 @@ $forum-body-gap-y: 1rem;
 .forum__create-thread {
   max-width: 1200px;
   margin-bottom: 2rem;
+}
+
+.forum__empty-message {
+  color: $muted-color;
 }

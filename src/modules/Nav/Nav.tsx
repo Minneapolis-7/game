@@ -1,4 +1,5 @@
 import React from 'react';
+import { generatePath } from 'react-router';
 import { Link, useLocation } from 'react-router-dom';
 import { block } from 'bem-cn';
 
@@ -14,16 +15,8 @@ const navItems = [
     path: '/',
   },
   {
-    label: txt.login,
-    path: paths.LOGIN,
-  },
-  {
-    label: txt.register,
-    path: paths.REGISTER,
-  },
-  {
     label: txt.profile,
-    path: paths.PROFILE,
+    path: generatePath(paths.PROFILE),
   },
   {
     label: txt.leaderboard,
@@ -32,18 +25,6 @@ const navItems = [
   {
     label: txt.forum,
     path: paths.FORUM,
-  },
-  {
-    label: txt.forumSection,
-    path: paths.FORUM_SECTION,
-  },
-  {
-    label: txt.forumThread,
-    path: paths.FORUM_THREAD,
-  },
-  {
-    label: txt.forumThreadCreate,
-    path: paths.FORUM_THREAD_CREATE,
   },
 ];
 

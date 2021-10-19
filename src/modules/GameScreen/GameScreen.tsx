@@ -4,6 +4,7 @@ import { block } from 'bem-cn';
 import { GameReactComponent } from '@/components';
 import { Button, Icon } from '@/components/ui';
 import { GameState } from '@/game/types';
+import { SizeLabels } from '@/shared/const/const';
 import text from '@/shared/const/text';
 
 import introImage from 'assets/img/game/intro.png';
@@ -94,7 +95,7 @@ function GameScreen(): JSX.Element {
       <Button
         className={b('fullscreen-button')}
         theme="morphed"
-        sizing="lg"
+        size={SizeLabels.LG}
         icon={<Icon name={fullscreen ? fullscreenExitSvg.id : fullscreenSvg.id} scale={1.15} />}
         onClick={handleToggleFullscreen}
       />
@@ -107,7 +108,7 @@ function GameScreen(): JSX.Element {
         <div className={b({ [GAME_SCREEN.START]: true, fullscreen })} ref={gameScreenRef}>
           {fullscreenButtonElement}
           <img className="liquid-img" src={introImage} alt="Персонаж игры в прыжке за ключом" />
-          <Button onClick={handleGameStart} sizing="lg">
+          <Button onClick={handleGameStart} size={SizeLabels.LG}>
             {txt.playButton}
           </Button>
         </div>
@@ -123,7 +124,7 @@ function GameScreen(): JSX.Element {
           {fullscreenButtonElement}
           <img className="liquid-img" src={winImage} alt="Персонаж игры выходит в открытые двери" />
           <h2 className="heading_2 heading">{txt.winText}</h2>
-          <Button onClick={handleGameStart} sizing="lg">
+          <Button onClick={handleGameStart} size={SizeLabels.LG}>
             {txt.playMoreButton}
           </Button>
         </div>
@@ -133,7 +134,7 @@ function GameScreen(): JSX.Element {
           {fullscreenButtonElement}
           <img className="liquid-img" src={lossImage} alt="Персонаж игры лежит после проигрыша" />
           <h2 className="heading_2 heading">{txt.lossText}</h2>
-          <Button onClick={handleGameStart} sizing="lg">
+          <Button onClick={handleGameStart} size={SizeLabels.LG}>
             {txt.retryButton}
           </Button>
         </div>

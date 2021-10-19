@@ -156,20 +156,20 @@ $input-hint-font-size: $field-font-size;
 
 /* stylelint-disable no-descending-specificity */
 // Размеры (все размерности шрифтозависимы, потому можно просто поменять `font-size`)
-.input_sizing_sm > .input__field,
-.input_sizing_sm > .input__hint {
-  @include field-base_sizing_sm;
+.input_size_sm > .input__field,
+.input_size_sm > .input__hint {
+  @include field-base_size_sm;
 }
-.input_sizing_md > .input__field,
-.input_sizing_md > .input__hint {
-  @include field-base_sizing_md;
+.input_size_md > .input__field,
+.input_size_md > .input__hint {
+  @include field-base_size_md;
 }
-.input_sizing_lg > .input__field,
-.input_sizing_lg > .input__hint {
-  @include field-base_sizing_lg;
+.input_size_lg > .input__field,
+.input_size_lg > .input__hint {
+  @include field-base_size_lg;
 }
-.input_sizing_xl > .input__field,
-.input_sizing_xl > .input__hint {
-  @include field-base_sizing_xl;
+.input_size_xl > .input__field,
+.input_size_xl > .input__hint {
+  @include field-base_size_xl;
 }
 /* stylelint-enable no-descending-specificity */

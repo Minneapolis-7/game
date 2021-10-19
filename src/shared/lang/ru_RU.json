@@ -5,10 +5,7 @@
     "register": "Регистрация",
     "profile": "Профиль",
     "leaderboard": "Лидеры",
-    "forum": "Форум",
-    "forumSection": "Форум секция",
-    "forumThread": "Форум тема",
-    "forumThreadCreate": "Форум создать тему"
+    "forum": "Форум"
   },
   "sidebar": {
     "header": "Выберите раздел",
@@ -60,6 +57,7 @@
   "forum": {
     "title": "Форум",
     "createNewThreadTitle": "Создать новую тему",
+    "emptyCategoryMsg": "Пусто",
     "categories": {
       "game": {
         "header": "Об игре",
@@ -98,20 +96,21 @@
       }
     },
     "stats": {
-      "registered": "Зарегистрировано:",
-      "registeredUserLabel": "пользователей",
+      "registered": "Зарегистрировано пользователей:",
       "online": "Сейчас онлайн:"
     },
     "createNewThreadButtonTitle": "Создать новую тему",
+    "emptySectionMessage": "Создайте тему",
+    "backToForumButtonTitle": "Назад в форум",
     "backToSectionButtonTitle": "Назад в секцию",
-    "newMessageAreaPlaceholder": "Введите сообщение (можно использовать markdown)",
+    "newMessageAreaPlaceholder": "Введите сообщение",
     "newMessageButton": "Отправить",
     "commentReplyButton": "Ответить",
     "commentEditButtonTitle": "Редактировать",
     "commentDeleteButtonTitle": "Удалить",
     "newThreadHeader": "Создайте тему",
     "newThreadNameInputPlaceholder": "Название темы",
-    "newThreadMessageAreaPlaceholder": "Введите сообщение (можно использовать markdown)",
+    "newThreadMessageAreaPlaceholder": "Введите сообщение",
     "newThreadButton": "Создать"
   },
   "leaderboard": {
@@ -155,6 +154,7 @@
   "userStamp": {
     "fromLabel": "от"
   },
+  "timeDistanceLabel": "назад",
   "validation": {
     "errors": {
       "required": "Заполните поле",

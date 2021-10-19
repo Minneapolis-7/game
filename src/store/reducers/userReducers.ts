@@ -7,18 +7,19 @@ import {
   SignUpRequest,
   UpdatePasswordRequest,
   UpdateProfileRequest,
-  UserProfile,
+  UserLocalProfile,
 } from '@/api/types';
 import api from '@/api/userApi';
 import paths from '@/shared/const/paths';
 import type { RootState } from '@/shared/types/redux';
 
-export type UserState = UserProfile & {
+export type UserState = UserLocalProfile & {
   isLoggingOut: boolean;
 };
 
 export const initialState: UserState = {
   id: null,
+  yandexUserId: null,
   firstName: '',
   secondName: '',
   displayName: null,
@@ -29,7 +30,7 @@ export const initialState: UserState = {
   isLoggingOut: false,
 };
 
-export const userRequest = createAsyncThunk('user/userRequest', async (_, { rejectWithValue }) => {
+export const getUser = createAsyncThunk('user/getUser', async (_, { rejectWithValue }) => {
   try {
     return await api.getUser();
   } catch (err) {
@@ -42,7 +43,7 @@ export const signin = createAsyncThunk(
   async (user: SignInRequest, { dispatch, rejectWithValue }) => {
     try {
       await api.signin(user);
-      await dispatch(userRequest());
+      await dispatch(getUser());
 
       return dispatch(replace('/'));
     } catch (err) {
@@ -56,7 +57,7 @@ export const signup = createAsyncThunk(
   async (user: SignUpRequest, { dispatch, rejectWithValue }) => {
     try {
       await api.signup(user);
-      await dispatch(userRequest());
+      await dispatch(getUser());
 
       return dispatch(replace('/'));
     } catch (err) {
@@ -132,7 +133,7 @@ export const userSlice = createSlice({
       .addCase(updateAvatar.fulfilled, (state, action) => {
         state.avatar = action.payload.avatar;
       })
-      .addCase(userRequest.fulfilled, (state, action) => {
+      .addCase(getUser.fulfilled, (state, action) => {
         Object.assign(state, action.payload);
       });
   },

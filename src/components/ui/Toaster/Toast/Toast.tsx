@@ -2,6 +2,7 @@ import React, { HTMLAttributes, useEffect, useState } from 'react';
 import { block } from 'bem-cn';
 
 import { Button, Icon } from '@/components/ui';
+import { SizeLabels } from '@/shared/const/const';
 
 import { ToastItem } from './types';
 
@@ -60,7 +61,7 @@ function Toast(props: ToastProps): JSX.Element {
     >
       <Button
         className={b('close')}
-        sizing="xs"
+        size={SizeLabels.XS}
         icon={<Icon name={closeSvg.id} scale={1.5} />}
         onClick={() => deleteToast(toast.id)}
       />

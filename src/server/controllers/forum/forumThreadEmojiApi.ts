@@ -1,30 +1,59 @@
 import type { Request, Response } from 'express';
 
+import { Emoji } from '@/server/sequelize/models';
+import { UserAttributes } from '@/server/sequelize/models/User';
 import { forumThreadEmojiService } from '@/server/services/forum';
-import { ForumThreadEmojiUserIdentifier } from '@/server/services/forum/forumThreadEmojiService';
 import { HttpStatuses } from '@/shared/const/const';
+import { EmojiUserIdentifier, ForumEmojiData, ForumThreadEmojiData } from '@/shared/types/types';
 
-export type CreateThreadEmojiRequest = {
-  body: Omit<ForumThreadEmojiUserIdentifier, 'threadId'>;
-  params: {
-    id: number;
-  };
-} & Request;
-
-export type DeleteThreadRequest = CreateThreadEmojiRequest & Request;
+export type ThreadCreateEmojiRequest = Request<
+  {
+    id: string;
+  },
+  unknown,
+  EmojiUserIdentifier
+>;
+export type ThreadDeleteEmojiRequest = Request<
+  {
+    threadId: string;
+    emojiId: string;
+  },
+  unknown,
+  unknown,
+  {
+    user: string;
+  }
+>;
 
 const forumThreadEmojiApi = {
-  async create(request: CreateThreadEmojiRequest, response: Response): Promise<void> {
-    const { id: threadId } = request.params;
+  async create(request: ThreadCreateEmojiRequest, response: Response): Promise<void> {
+    const { id } = request.params;
     const { body } = request;
+    const threadId = Number(id);
 
     try {
-      const record = await forumThreadEmojiService.create({
-        threadId,
+      const threadEmojiUser = await forumThreadEmojiService.create({
         ...body,
+        threadId,
       });
 
-      response.json(record);
+      const record = await forumThreadEmojiService.find(threadEmojiUser.get('threadEmojiId'));
+
+      if (!record) {
+        response.json(record);
+
+        return;
+      }
+
+      const plainRecord = record.get({ plain: true }) as ForumThreadEmojiData;
+
+      const addedEmoji: ForumEmojiData = {
+        ...(plainRecord.emoji as Required<Emoji>),
+        users: plainRecord.users as UserAttributes[],
+        threadId,
+      };
+
+      response.json(addedEmoji);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
         error: e,
@@ -32,16 +61,20 @@ const forumThreadEmojiApi = {
     }
   },
 
-  async delete(request: DeleteThreadRequest, response: Response): Promise<void> {
-    const { id: threadId } = request.params;
-    const { body } = request;
+  async delete(request: ThreadDeleteEmojiRequest, response: Response): Promise<void> {
+    const { threadId, emojiId } = request.params;
+    const { user } = request.query;
 
     try {
-      await forumThreadEmojiService.delete({
-        threadId,
-        ...body,
-      });
-      response.sendStatus(HttpStatuses.OK);
+      const identifier = {
+        threadId: Number(threadId),
+        emojiId: Number(emojiId),
+        userId: Number(user),
+      };
+
+      await forumThreadEmojiService.delete(identifier);
+
+      response.json(identifier);
     } catch (e) {
       response.status(HttpStatuses.SERVER_ERROR).json({
         error: e,

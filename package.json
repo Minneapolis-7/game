@@ -4,7 +4,7 @@
   "description": "Учебный проект команды Minneapolis-7 на Yandex Praktikum",
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=development npm-run-all --print-label --parallel start:*",
+    "start": "NODE_ENV=development npm run clean && npm-run-all --print-label --parallel start:*",
     "start:webpack": "nodemon --watch webpack --exec \"webpack watch --env mode=development --config ./webpack/webpack.config.js\"",
     "start:server": "nodemon -r dotenv/config start-server.js --watch ./dist/server.js",
     "clean": "rimraf ./dist",
@@ -19,6 +19,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "db:seed": "npx sequelize-cli db:seed:all",
+    "db:unseed": "npx sequelize-cli db:seed:undo:all",
     "prepare": "husky install"
   },
   "repository": {
@@ -63,6 +65,7 @@
     "sequelize": "6.6.5",
     "sequelize-typescript": "2.1.0",
     "svg-sprite-loader": "6.0.9",
+    "utility-types": "3.10.0",
     "uuid": "8.3.2",
     "yup": "0.32.9"
   },
