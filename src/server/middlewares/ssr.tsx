@@ -12,6 +12,7 @@ import ProtectedRoute from '@/modules/ProtectedRoute';
 import paths from '@/shared/const/paths';
 import routes from '@/shared/const/routes';
 import getInitialState from '@/store/getInitialState';
+import { getSelectedTheme } from '@/store/reducers';
 import initStore from '@/store/store';
 
 // eslint-disable-next-line
@@ -53,43 +54,50 @@ export default async function ssr(req: Request, res: Response) {
   let html = '';
   const { store } = initStore(getInitialState(location), location);
 
-  try {
-    html = renderToString(
-      <Provider store={store}>
-        <StaticRouter location={req.url} context={ctx}>
-          <Switch>
-            {routes.map((route) => {
-              const Component = route.component;
+  function renderApp() {
+    try {
+      html = renderToString(
+        <Provider store={store}>
+          <StaticRouter location={req.url} context={ctx}>
+            <Switch>
+              {routes.map((route) => {
+                const Component = route.component;
 
-              let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
+                let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
 
-              if (route.protected) {
-                RouteComponent = ProtectedRoute;
-              }
+                if (route.protected) {
+                  RouteComponent = ProtectedRoute;
+                }
 
-              return (
-                <RouteComponent key={route.path} path={route.path} exact={route.exact}>
-                  <Component title={route.title || ''} />
-                </RouteComponent>
-              );
-            })}
-          </Switch>
-        </StaticRouter>
-        <Toaster toastList={[]} position="bottom-right" />
-      </Provider>
-    );
-  } catch (e) {
-    ctx.url = paths.SERVER_ERROR;
+                return (
+                  <RouteComponent key={route.path} path={route.path} exact={route.exact}>
+                    <Component title={route.title || ''} />
+                  </RouteComponent>
+                );
+              })}
+            </Switch>
+          </StaticRouter>
+          <Toaster toastList={[]} position="bottom-right" />
+        </Provider>
+      );
+    } catch (e) {
+      ctx.url = paths.SERVER_ERROR;
+    }
+
+    if (ctx.url) {
+      res.redirect(ctx.url);
+
+      return;
+    }
+
+    const reduxState = store.getState();
+    const helmetData = Helmet.renderStatic();
+
+    res.status(ctx.statusCode || 200).send(getPageHTML(html, reduxState, helmetData));
   }
 
-  if (ctx.url) {
-    res.redirect(ctx.url);
+  // делаю необходимые запросы
+  store.dispatch(getSelectedTheme);
 
-    return;
-  }
-
-  const reduxState = store.getState();
-  const helmetData = Helmet.renderStatic();
-
-  res.status(ctx.statusCode || 200).send(getPageHTML(html, reduxState, helmetData));
+  // вызываю renderApp
 }

@@ -1,4 +1,5 @@
 export {
+  getSelectedTheme,
   saveThemeSelection,
   applyTheme,
   signin,
