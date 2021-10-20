@@ -14,6 +14,7 @@ import paths from '@/shared/const/paths';
 import routes from '@/shared/const/routes';
 import getThemeClassname from '@/shared/utils/getThemeClassname';
 import getInitialState from '@/store/getInitialState';
+import { applyTheme } from '@/store/reducers';
 import initStore from '@/store/store';
 
 // eslint-disable-next-line
@@ -103,17 +104,19 @@ export default async function ssr(req: Request, res: Response) {
   // получение id
   const userId = 5;
 
-  // делаю необходимые запросы
-  api
-    .getUserTheme(userId)
-    .then((themeAttributes) => {
-      const { name } = themeAttributes;
+  try {
+    // делаю необходимые запросы
+    const { name } = await api.getUserTheme(userId);
 
-      themeName = getThemeClassname('halloween');
-      // вызываю renderApp
-      renderApp();
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+    // сохраняю тему в сторе
+    await store.dispatch(applyTheme(name));
+
+    // задаю тему для body
+    themeName = getThemeClassname(name);
+
+    // вызываю renderApp
+    renderApp();
+  } catch (e) {
+    console.log(e);
+  }
 }
