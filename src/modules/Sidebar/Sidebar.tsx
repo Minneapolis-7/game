@@ -51,8 +51,7 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
     sidebarRef.current?.dispatchEvent(new CustomEvent(SIDEBAR_HIDE_EVENT, { bubbles: true }));
   }, [pageContext]);
 
-  const TOGGLABLE_THEME_NAME = 'halloween';
-  const isThemeToggled = selectedTheme === TOGGLABLE_THEME_NAME;
+  const isThemeToggled = selectedTheme !== DEFAULT_THEME_NAME;
   const previousTheme = usePrevious(selectedTheme);
 
   const toggleTheme = useCallback(
@@ -117,7 +116,7 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
             theme="circle"
             sizing="xl"
             display="inline"
-            data-theme-name={TOGGLABLE_THEME_NAME}
+            data-theme-name="halloween"
             data-toggled={isThemeToggled || null}
             icon={<Icon name={halloweenSvg.id} scale={2} />}
             onClick={toggleTheme}
