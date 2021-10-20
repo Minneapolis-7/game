@@ -7,12 +7,13 @@ import { Route, StaticRouter, Switch } from 'react-router-dom';
 import { Request, Response } from 'express';
 import htmlescape from 'htmlescape';
 
+import api from '@/api/userApi';
 import { Toaster } from '@/components/ui';
 import ProtectedRoute from '@/modules/ProtectedRoute';
 import paths from '@/shared/const/paths';
 import routes from '@/shared/const/routes';
+import getThemeClassname from '@/shared/utils/getThemeClassname';
 import getInitialState from '@/store/getInitialState';
-import { getSelectedTheme } from '@/store/reducers';
 import initStore from '@/store/store';
 
 // eslint-disable-next-line
@@ -22,6 +23,7 @@ import sprite from 'svg-sprite-loader/runtime/sprite.build';
 
 const manifest = typeof manifestJson === 'string' ? JSON.parse(manifestJson) : manifestJson;
 const spriteContent = sprite.stringify();
+let themeName = getThemeClassname('default');
 
 function getPageHTML(appHTML: string, reduxState = {}, helmetData: HelmetData): string {
   return `<!DOCTYPE html>
@@ -38,7 +40,7 @@ function getPageHTML(appHTML: string, reduxState = {}, helmetData: HelmetData): 
       ${manifest['vendors.js'] ? `<script src="/${manifest['vendors.js']}" defer></script>` : ''}
       <script src="/${manifest['main.js']}" defer></script>
     </head>
-    <body>
+    <body class="${themeName}">
       ${spriteContent}
       <div class="root" id="root">${appHTML}</div>
       <script>
@@ -96,8 +98,22 @@ export default async function ssr(req: Request, res: Response) {
     res.status(ctx.statusCode || 200).send(getPageHTML(html, reduxState, helmetData));
   }
 
-  // делаю необходимые запросы
-  store.dispatch(getSelectedTheme);
+  // проверка авторизации
 
-  // вызываю renderApp
+  // получение id
+  const userId = 5;
+
+  // делаю необходимые запросы
+  api
+    .getUserTheme(userId)
+    .then((themeAttributes) => {
+      const { name } = themeAttributes;
+
+      themeName = getThemeClassname('halloween');
+      // вызываю renderApp
+      renderApp();
+    })
+    .catch((e) => {
+      console.log(e);
+    });
 }
