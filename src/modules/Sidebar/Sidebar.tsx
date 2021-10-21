@@ -8,7 +8,7 @@ import { SizeLabels } from '@/shared/const/const';
 import { DEFAULT_THEME_NAME } from '@/shared/const/const';
 import text from '@/shared/const/text';
 import getThemeClassname from '@/shared/utils/getThemeClassname';
-import usePrevious from '@/shared/utils/hooks/usePrevious';
+import usePreviousValue from '@/shared/utils/hooks/usePreviousValue';
 import useFocusTrapping from '@/shared/utils/useFocusTrapping';
 import useKeydown from '@/shared/utils/useKeydown';
 import { applyTheme, saveThemeSelection } from '@/store/reducers';
@@ -20,6 +20,11 @@ import halloweenSvg from 'static/assets/img/icons/halloween.svg';
 
 const SIDEBAR_SHOW_EVENT = 'sidebarshow';
 const SIDEBAR_HIDE_EVENT = 'sidebarhide';
+
+const togglableTheme = {
+  NAME: 'halloween',
+  ICON_ID: halloweenSvg.id,
+} as const;
 
 const b = block('sidebar');
 const { sidebar: txt } = text;
@@ -51,26 +56,22 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
     sidebarRef.current?.dispatchEvent(new CustomEvent(SIDEBAR_HIDE_EVENT, { bubbles: true }));
   }, [pageContext]);
 
-  const isThemeToggled = selectedTheme !== DEFAULT_THEME_NAME;
-  const previousTheme = usePrevious(selectedTheme);
+  const isThemeToggled = selectedTheme === togglableTheme.NAME;
+  const previousTheme = usePreviousValue(selectedTheme);
 
-  const toggleTheme = useCallback(
-    (e) => {
-      const { themeName } = e.currentTarget.dataset;
-      const appliedThemeName = !isThemeToggled ? themeName : DEFAULT_THEME_NAME;
+  const toggleTheme = useCallback(() => {
+    const appliedThemeName = !isThemeToggled ? togglableTheme.NAME : DEFAULT_THEME_NAME;
 
-      dispatch(applyTheme(appliedThemeName));
+    dispatch(applyTheme(appliedThemeName));
 
-      if (userId) {
-        try {
-          dispatch(saveThemeSelection({ userId, themeName: appliedThemeName }));
-        } catch (err) {
-          throw new Error(err);
-        }
+    if (userId) {
+      try {
+        dispatch(saveThemeSelection({ userId, themeName: appliedThemeName }));
+      } catch (err) {
+        throw new Error(err);
       }
-    },
-    [isThemeToggled, dispatch, userId]
-  );
+    }
+  }, [isThemeToggled, dispatch, userId]);
 
   useEffect(() => {
     if (previousTheme) {
@@ -116,9 +117,8 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
             theme="circle"
             sizing="xl"
             display="inline"
-            data-theme-name="halloween"
             data-toggled={isThemeToggled || null}
-            icon={<Icon name={halloweenSvg.id} scale={2} />}
+            icon={<Icon name={togglableTheme.ICON_ID} scale={2} />}
             onClick={toggleTheme}
           />
         </div>
