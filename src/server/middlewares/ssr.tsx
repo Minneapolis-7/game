@@ -7,9 +7,9 @@ import { Route, StaticRouter, Switch } from 'react-router-dom';
 import { Request, Response } from 'express';
 import htmlescape from 'htmlescape';
 
+import api from '@/api/userApi';
 import { Toaster } from '@/components/ui';
 import ProtectedRoute from '@/modules/ProtectedRoute';
-import themeService from '@/server/services/theme/themeService';
 import paths from '@/shared/const/paths';
 import routes from '@/shared/const/routes';
 import getThemeClassname from '@/shared/utils/getThemeClassname';
@@ -105,20 +105,11 @@ export default async function ssr(req: Request, res: Response) {
   const userId = 5;
 
   try {
-    const userTheme = await themeService.getUserTheme(userId);
+    const { name: themeName } = await api.getUserTheme(userId);
 
-    if (userTheme) {
-      const themeId = userTheme.getDataValue('themeId');
-      const siteTheme = await themeService.findThemeById(themeId);
+    store.dispatch(applyTheme(themeName));
 
-      if (siteTheme) {
-        const themeName = siteTheme.getDataValue('name');
-
-        store.dispatch(applyTheme(themeName));
-
-        themeClassname = getThemeClassname(themeName);
-      }
-    }
+    themeClassname = getThemeClassname(themeName);
   } catch (e) {
     console.log(e);
   } finally {

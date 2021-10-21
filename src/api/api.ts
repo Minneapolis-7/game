@@ -18,7 +18,7 @@ const apiYandex = applyCaseMiddleware(
 );
 
 const apiCustom = axios.create({
-  baseURL: API_CUSTOM,
+  baseURL: `http://localhost:5000${API_CUSTOM}`,
   headers: {
     'Content-Type': 'application/json',
   },
