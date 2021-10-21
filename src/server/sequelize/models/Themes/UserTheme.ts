@@ -10,6 +10,7 @@ export type UserThemeCreationAttributes = {
 };
 
 @Table({
+  underscored: true,
   tableName: 'user_themes',
   modelName: 'UserTheme',
 })

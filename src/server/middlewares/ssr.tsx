@@ -7,9 +7,9 @@ import { Route, StaticRouter, Switch } from 'react-router-dom';
 import { Request, Response } from 'express';
 import htmlescape from 'htmlescape';
 
-import api from '@/api/userApi';
 import { Toaster } from '@/components/ui';
 import ProtectedRoute from '@/modules/ProtectedRoute';
+import themeService from '@/server/services/theme/themeService';
 import paths from '@/shared/const/paths';
 import routes from '@/shared/const/routes';
 import getThemeClassname from '@/shared/utils/getThemeClassname';
@@ -24,7 +24,7 @@ import sprite from 'svg-sprite-loader/runtime/sprite.build';
 
 const manifest = typeof manifestJson === 'string' ? JSON.parse(manifestJson) : manifestJson;
 const spriteContent = sprite.stringify();
-let themeName = getThemeClassname('default');
+let themeClassname = getThemeClassname('default');
 
 function getPageHTML(appHTML: string, reduxState = {}, helmetData: HelmetData): string {
   return `<!DOCTYPE html>
@@ -41,7 +41,7 @@ function getPageHTML(appHTML: string, reduxState = {}, helmetData: HelmetData): 
       ${manifest['vendors.js'] ? `<script src="/${manifest['vendors.js']}" defer></script>` : ''}
       <script src="/${manifest['main.js']}" defer></script>
     </head>
-    <body class="${themeName}">
+    <body class="${themeClassname}">
       ${spriteContent}
       <div class="root" id="root">${appHTML}</div>
       <script>
@@ -105,18 +105,23 @@ export default async function ssr(req: Request, res: Response) {
   const userId = 5;
 
   try {
-    // делаю необходимые запросы
-    const { name } = await api.getUserTheme(userId);
+    const userTheme = await themeService.getUserTheme(userId);
 
-    // сохраняю тему в сторе
-    await store.dispatch(applyTheme(name));
+    if (userTheme) {
+      const themeId = userTheme.getDataValue('themeId');
+      const siteTheme = await themeService.findThemeById(themeId);
 
-    // задаю тему для body
-    themeName = getThemeClassname(name);
+      if (siteTheme) {
+        const themeName = siteTheme.getDataValue('name');
 
-    // вызываю renderApp
-    renderApp();
+        store.dispatch(applyTheme(themeName));
+
+        themeClassname = getThemeClassname(themeName);
+      }
+    }
   } catch (e) {
     console.log(e);
+  } finally {
+    renderApp();
   }
 }
