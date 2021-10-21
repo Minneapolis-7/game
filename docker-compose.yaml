@@ -9,6 +9,16 @@ services:
       - '${APP_PORT_HOST}:${APP_PORT}'
     restart: always
 
+  nginx:
+    image: nginx:stable
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./etc/nginx:/etc/nginx/conf.d
+      - /etc/letsencrypt:/etc/letsencrypt
+    restart: always
+
   postgres:
     image: postgres:13
     env_file: ./.env
