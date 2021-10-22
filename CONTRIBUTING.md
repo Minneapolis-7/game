@@ -178,38 +178,3 @@ heroku container:push web
 ```bash
 heroku container:release web
 ```
-
-## Переменные окружения
-
-Переменные окружения обрабатываются через `.env`-файл и утилиту [dotenv](https://github.com/motdotla/dotenv#faq). Ниже приведён пример `.env`-файла, который создаётся и заполняется локально. Имена переменных должны совпадать с примером, значения меняются по обстоятельствам и своему усмотрению. Переменные портов содержат номера портов внутри контейнера, переменные оканчиваеющиеся на `_HOST` определяют порты на вашей машине. Например, `APP_PORT` — порт express-сервера веб-приложения внутри контейнера, `APP_PORT_HOST` — порт, по которому приложение доступно на вашей машине.
-
-```bash
-NODE_ENV=development
-
-APP_PORT=5000
-APP_PORT_HOST=8888
-POSTGRES_PORT=5432
-POSTGRES_PORT_HOST=5432
-PGADMIN_PORT=80
-PGADMIN_PORT_HOST=88
-
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=test
-POSTGRES_DB=game-db
-POSTGRES_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:${POSTGRES_PORT}/${POSTGRES_DB}
-
-PGADMIN_DEFAULT_EMAIL=admin@admin.com
-PGADMIN_DEFAULT_PASSWORD=test
-```
-
-## БД
-
-В качестве базы данных используется Postgres, для разработки/администрирования — [pgAdmin](https://www.pgadmin.org/). pgAdmin запускается в контейнере параллельно с базой, для его использования надо локально зайти на указанный для pgAdmin порт (`localhost:${PGADMIN_PORT_HOST}`) и добавить новую базу с указанными в `.env` параметрами (юзер/пароль/порт, адрес сервера - `postgres`)
-
-Для разработки:
-
-- создайте БД (описано выше)
-- запустите окружение: `docker-compose up`
-- остановите контейнер с приложением (game), в докере останется работать только БД и pgAdmin
-- запустите проект: `npm run start`
-- после запуска сделайте сид данных в базу: `npm run db:seed`

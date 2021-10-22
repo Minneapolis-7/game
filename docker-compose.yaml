@@ -1,12 +1,15 @@
 version: '3.9'
 services:
   app:
+    env_file: ./.env
     depends_on:
       - postgres
     build:
       context: .
     ports:
-      - '${APP_PORT_HOST}:${APP_PORT}'
+      - '${APP_PORT}:${APP_PORT}'
+    volumes:
+      - ./DB_SEEDED:/DB_SEEDED
     restart: always
 
   nginx:
@@ -23,21 +26,21 @@ services:
     image: postgres:13
     env_file: ./.env
     ports:
-      - '${POSTGRES_PORT_HOST}:${POSTGRES_PORT}'
+      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
     volumes:
       - ./postgresdata:/var/lib/postgresql/data
     restart: always
 
   pgadmin:
     image: dpage/pgadmin4:5.7
-    restart: always
     env_file: ./.env
     ports:
-      - '${PGADMIN_PORT_HOST}:${PGADMIN_PORT}'
+      - '${PGADMIN_LISTEN_PORT}:${PGADMIN_LISTEN_PORT}'
     volumes:
       - pgadmin-data:/var/lib/pgadmin
     depends_on:
       - postgres
+    restart: always
 
 volumes:
   pgadmin-data:
