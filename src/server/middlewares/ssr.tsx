@@ -14,7 +14,7 @@ import paths from '@/shared/const/paths';
 import routes from '@/shared/const/routes';
 import getThemeClassname from '@/shared/utils/getThemeClassname';
 import getInitialState from '@/store/getInitialState';
-import { applyTheme } from '@/store/reducers';
+import { applyTheme } from '@/store/reducers/actions';
 import initStore from '@/store/store';
 
 // eslint-disable-next-line
@@ -105,11 +105,11 @@ export default async function ssr(req: Request, res: Response) {
   const userId = 5;
 
   try {
-    const { name: themeName } = await api.getUserTheme(userId);
+    // const { name: themeName } = await api.getUserTheme(userId);
 
-    store.dispatch(applyTheme(themeName));
+    // store.dispatch(applyTheme(themeName));
 
-    themeClassname = getThemeClassname(themeName);
+    themeClassname = getThemeClassname('themeName');
   } catch (e) {
     console.log(e);
   } finally {

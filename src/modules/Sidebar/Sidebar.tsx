@@ -4,14 +4,13 @@ import { block } from 'bem-cn';
 import { Button, Icon } from '@/components/ui';
 import PageContext from '@/layout/Page/PageContext';
 import Nav from '@/modules/Nav';
-import { SizeLabels } from '@/shared/const/const';
-import { DEFAULT_THEME_NAME } from '@/shared/const/const';
+import { DEFAULT_THEME_NAME, SizeLabels } from '@/shared/const/const';
 import text from '@/shared/const/text';
 import getThemeClassname from '@/shared/utils/getThemeClassname';
 import usePreviousValue from '@/shared/utils/hooks/usePreviousValue';
 import useFocusTrapping from '@/shared/utils/useFocusTrapping';
 import useKeydown from '@/shared/utils/useKeydown';
-import { applyTheme, saveThemeSelection } from '@/store/reducers';
+import { applyTheme, saveThemeSelection } from '@/store/reducers/actions';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import menuSvg from 'bootstrap-icons/icons/list.svg';

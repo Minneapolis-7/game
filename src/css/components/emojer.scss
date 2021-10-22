@@ -1,7 +1,7 @@
 @use 'src/css/abstracts/variables' as *;
 
 $emojer-border-radius: 2rem;
-$emojer-bg: $main-bg;
+$emojer-bg: var(--main-bg);
 .emojer {
   display: inline-flex;
   border: 1px solid $muted-color;

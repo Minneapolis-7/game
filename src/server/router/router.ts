@@ -4,6 +4,6 @@ import { apiRouter } from './routes';
 
 const router = Router();
 
-router.use('/api/v1', apiRouter);
+router.use('API_CUSTOM', apiRouter);
 
 export default router;
