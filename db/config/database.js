@@ -18,11 +18,6 @@ module.exports = {
   development: {
     ...baseDbOptions,
     host: 'localhost',
-    dialectOptions: {
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    },
   },
   production: {
     ...baseDbOptions,

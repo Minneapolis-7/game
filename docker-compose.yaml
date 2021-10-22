@@ -9,7 +9,7 @@ services:
     ports:
       - '${APP_PORT}:${APP_PORT}'
     volumes:
-      - ./DB_SEEDED:/DB_SEEDED
+      - ./db:/db
     restart: always
 
   nginx:
