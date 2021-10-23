@@ -5,8 +5,16 @@ RUN npm install -f && npm run build
 
 FROM node:14-alpine
 COPY --from=build /app/dist /dist
+
 COPY --from=build /app/node_modules /node_modules
+COPY --from=build /app/package.json /package.json
+
 COPY --from=build /app/start-server.js /start-server.js
-COPY --from=build /app/.env /.env
-# todo: `npm i dotenv` после того, как `node_modules` будут удалены: https://github.com/Minneapolis-7/game/issues/111
-CMD POSTGRES_DB_HOST=postgres node -r dotenv/config start-server.js
+
+COPY --from=build /app/db /db
+COPY --from=build /app/.sequelizerc /.sequelizerc
+COPY --from=build /app/src/shared/lang /src/shared/lang
+
+COPY --from=build /app/etc /etc
+
+CMD POSTGRES_DB_HOST=postgres npm run serve:prod

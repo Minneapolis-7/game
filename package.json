@@ -7,6 +7,7 @@
     "start": "NODE_ENV=development npm run clean && npm-run-all --print-label --parallel start:*",
     "start:webpack": "nodemon --watch webpack --exec \"webpack watch --env mode=development --config ./webpack/webpack.config.js\"",
     "start:server": "nodemon -r dotenv/config start-server.js --watch ./dist/server.js",
+    "serve:prod": "NODE_ENV=production node start-server.js",
     "clean": "rimraf ./dist",
     "build": "NODE_ENV=production npm run clean && webpack --env mode=production --config ./webpack/webpack.config.js",
     "build:analyze": "npm run build -- --env presets=analyze",
@@ -19,6 +20,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "db:create": "npx sequelize-cli db:create",
     "db:seed": "npx sequelize-cli db:seed:all",
     "db:unseed": "npx sequelize-cli db:seed:undo:all",
     "prepare": "husky install"

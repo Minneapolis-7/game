@@ -30,3 +30,4 @@ dist/
 
 postgresdata
 pgadmin-data
+db/is_seeded
