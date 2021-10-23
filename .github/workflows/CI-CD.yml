@@ -51,6 +51,6 @@ jobs:
           key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
           script: |
             cd game
-            docker-compose pull
+            docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml pull
             docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d --remove-orphans
             docker image prune
