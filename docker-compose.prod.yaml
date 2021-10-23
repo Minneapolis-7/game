@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   app:
-    image: andreyvolokitin/minneapolis-game-7
+    image: andreyvolokitin/minneapolis-game-7:latest
     env_file: ./.env
     depends_on:
       - postgres
