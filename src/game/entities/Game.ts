@@ -45,6 +45,7 @@ export default class Game {
     isLevelCompleted: false,
     playerHealth: 3,
     time: 0,
+    level: 1,
   } as GameState;
 
   constructor() {
@@ -72,6 +73,7 @@ export default class Game {
 
     this.loop = this.loop.bind(this);
     this.setGameState = this.setGameState.bind(this);
+    this.nextLevel = this.nextLevel.bind(this);
   }
 
   public registerSprites(sprites: SpriteRegisterOptions[]): void {
@@ -137,8 +139,9 @@ export default class Game {
     return this.gameObjectOptions;
   }
 
-  private prepareLevel() {
-    const currentRegisterLevel = this.registeredLevels[0];
+  private prepareLevel(levelNumber: number) {
+    const levelIndex = levelNumber - 1;
+    const currentRegisterLevel = this.registeredLevels[levelIndex];
 
     this.sound?.play(currentRegisterLevel.music);
 
@@ -197,6 +200,21 @@ export default class Game {
     }
   }
 
+  nextLevel(levelNumber?: number): void {
+    const nextLevelNumber = levelNumber || this.gameState.level + 1;
+    const hasNextLevel = nextLevelNumber <= this.registeredLevels.length;
+
+    if (!hasNextLevel) {
+      this.setGameState(GAME_SESSION_KEY.IS_LEVEL_COMPLETED, true);
+
+      return;
+    }
+
+    this.stop();
+    this.setGameState(GAME_SESSION_KEY.LEVEL, nextLevelNumber);
+    this.proceed();
+  }
+
   get gameEntities(): GameEntities {
     return {
       gameObjects: this.gameObjectOptions,
@@ -208,6 +226,7 @@ export default class Game {
       isLoaded: this.isLoaded,
       gameState: this.gameState,
       setGameState: this.setGameState,
+      nextLevel: this.nextLevel,
     };
   }
 
@@ -236,7 +255,7 @@ export default class Game {
 
   start(): void {
     this.resetGameObjects();
-    this.prepareLevel();
+    this.prepareLevel(this.gameState.level);
     this.preparePlayer();
     this.player.init(this.gameEntities);
     this.control.init();
@@ -244,16 +263,16 @@ export default class Game {
     this.loop();
   }
 
-  reset(): void {
+  proceed(): void {
     this.player.restoreDefault();
     this.world.destroy();
-    this._resetGameState();
     this.start();
   }
 
   stop(): void {
     this.control.destroy();
-    this.sound.stop(this.registeredLevels[0].music);
+    this.sound.stop(this.registeredLevels[this.gameState.level - 1].music);
+    this._resetGameState();
 
     window.cancelAnimationFrame(this.requestAnimationId);
   }

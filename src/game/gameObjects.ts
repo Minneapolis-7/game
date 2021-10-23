@@ -15,6 +15,12 @@ export const GAME_OBJECT_ID = {
   SPIKES: 7,
   PORTAL_A: 8,
   PORTAL_B: 9,
+  BAD_BRICK: 10,
+  CONCRETE: 11,
+  METAL: 12,
+  METAL_FENCE: 13,
+  WOOD_FENCE: 14,
+  METAL_BLOCK: 15,
 } as const;
 
 export const gameObjects: GameObjectRegisterOptions[] = [
@@ -59,7 +65,7 @@ export const gameObjects: GameObjectRegisterOptions[] = [
     onOver: ({ target, player, sound }): void => {
       player.setVelocityY(-10);
       sound.play(SOUND_ID.TRAMPOLINE);
-      makeAnimation((frame) => target.setSpriteFrame(frame), [0, 1, 2, 1, 0], 1000 / 30);
+      makeAnimation((frame) => target.setSpriteFrame(frame), [0, 1, 2, 1, 0]);
     },
   },
   {
@@ -95,7 +101,7 @@ export const gameObjects: GameObjectRegisterOptions[] = [
     width: 32,
     height: 32,
     onOver: (params): void => {
-      const { target, sound, gameState, setGameState } = params;
+      const { target, sound, gameState, setGameState, nextLevel } = params;
 
       if (gameState.isKeyAcquired) {
         setGameState(GAME_SESSION_KEY.IS_DOOR_UNLOCKED, true);
@@ -104,8 +110,8 @@ export const gameObjects: GameObjectRegisterOptions[] = [
         sound.play(SOUND_ID.DOOR);
 
         setTimeout(() => {
-          setGameState(GAME_SESSION_KEY.IS_LEVEL_COMPLETED, true);
-        }, 2000);
+          nextLevel();
+        }, 1000);
       }
     },
   },
@@ -157,5 +163,63 @@ export const gameObjects: GameObjectRegisterOptions[] = [
     spriteHeight: 64,
     width: 32,
     height: 32,
+  },
+  {
+    id: GAME_OBJECT_ID.BAD_BRICK,
+    spriteId: SPRITE_ID.BAD_BRICK,
+    spriteWidth: 64,
+    spriteHeight: 64,
+    width: 32,
+    height: 32,
+    hasCollision: true,
+    onAbove: ({ target, sound }): void => {
+      sound.play(SOUND_ID.BAD_BRICK);
+      makeAnimation((frame) => target.setSpriteFrame(frame), [0, 1, 2, 3], 1000 / 10);
+      target.setCollision(false);
+      target.deactivate();
+    },
+  },
+  {
+    id: GAME_OBJECT_ID.CONCRETE,
+    spriteId: SPRITE_ID.CONCRETE,
+    spriteWidth: 64,
+    spriteHeight: 64,
+    width: 32,
+    height: 32,
+    hasCollision: true,
+  },
+  {
+    id: GAME_OBJECT_ID.METAL,
+    spriteId: SPRITE_ID.METAL,
+    spriteWidth: 64,
+    spriteHeight: 64,
+    width: 32,
+    height: 32,
+    hasCollision: true,
+  },
+  {
+    id: GAME_OBJECT_ID.METAL_FENCE,
+    spriteId: SPRITE_ID.METAL_FENCE,
+    spriteWidth: 64,
+    spriteHeight: 64,
+    width: 32,
+    height: 32,
+  },
+  {
+    id: GAME_OBJECT_ID.WOOD_FENCE,
+    spriteId: SPRITE_ID.WOOD_FENCE,
+    spriteWidth: 64,
+    spriteHeight: 64,
+    width: 32,
+    height: 32,
+  },
+  {
+    id: GAME_OBJECT_ID.METAL_BLOCK,
+    spriteId: SPRITE_ID.METAL_BLOCK,
+    spriteWidth: 64,
+    spriteHeight: 64,
+    width: 32,
+    height: 32,
+    hasCollision: true,
   },
 ];

@@ -84,6 +84,7 @@ export type GameState = {
   isLevelCompleted: boolean;
   playerHealth: number;
   time: number;
+  level: number;
 };
 
 export type GameEntities = {
@@ -95,6 +96,7 @@ export type GameEntities = {
   sound: SoundController;
   gameState: GameState;
   setGameState: <T extends keyof GameState, K extends GameState[T]>(key: T, value: K) => void;
+  nextLevel: (levelNumber?: number) => void;
   isLoaded: boolean;
 };
 

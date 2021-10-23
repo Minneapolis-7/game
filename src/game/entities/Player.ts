@@ -175,7 +175,7 @@ export default class Player {
 
     // Прыжок
     if (space) {
-      if (!this.isJumping) {
+      if (!this.isJumping && this.vy === 0) {
         this.isJumping = true;
         this.vy = -this.speed * this.jumpPower;
       }
