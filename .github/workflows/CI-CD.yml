@@ -52,5 +52,5 @@ jobs:
           script: |
             cd game
             docker-compose pull
-            docker-compose up -d --remove-orphans
+            docker-compose -f docker-compose.yaml -f docker-compose.prod.yaml up -d --remove-orphans
             docker image prune
