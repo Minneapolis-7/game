@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  app:
+    image: andreyvolokitin/minneapolis-game-7
+    env_file: ./.env
+    depends_on:
+      - postgres
+    ports:
+      - '${APP_PORT}:${APP_PORT}'
+    volumes:
+      - ./db:/db
+      - nginx-config:/etc/nginx
+    restart: always
+
+  nginx:
+    image: nginx:stable
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - nginx-config:/etc/nginx/conf.d
+      - /etc/letsencrypt:/etc/letsencrypt
+    restart: always
+
+volumes:
+  nginx-config:
