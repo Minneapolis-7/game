@@ -38,7 +38,7 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
           source: 'docker-compose.yaml,docker-compose.prod.yaml'
-          target: 'game'
+          target: '~/game'
 
       - name: Deploy to Yandex Cloud via SSH action
         uses: appleboy/ssh-action@v0.1.4
@@ -47,7 +47,7 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
           script: |
-            cd game
+            cd ~/game
             docker-compose pull
             docker-compose up -d --remove-orphans
             docker image prune
