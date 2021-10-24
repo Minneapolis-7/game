@@ -114,7 +114,7 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
           <Button
             className={b('theme-toggler')}
             theme="circle"
-            sizing="xl"
+            size="xl"
             display="inline"
             data-toggled={isThemeToggled || null}
             icon={<Icon name={togglableTheme.ICON_ID} scale={2} />}

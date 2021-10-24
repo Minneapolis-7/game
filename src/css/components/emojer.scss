@@ -1,10 +1,9 @@
 @use 'src/css/abstracts/variables' as *;
 
 $emojer-border-radius: 2rem;
-$emojer-bg: var(--main-bg);
 .emojer {
   display: inline-flex;
-  border: 1px solid $muted-color;
+  border: 1px solid var(--muted-color);
   border-radius: $emojer-border-radius;
 }
 
@@ -45,8 +44,8 @@ $emojer-bg: var(--main-bg);
 }
 
 .emojer > .emojer__emoji[data-voted] {
-  background-color: lighten($emojer-bg, 10);
+  background-color: var(--main-bg-lighter);
 }
 .emojer > .emojer__emoji[data-voted]::before {
-  box-shadow: inset 0 0 0.5em 0.1em $dark-color;
+  box-shadow: inset 0 0 0.5em 0.1em var(--dark-color);
 }
