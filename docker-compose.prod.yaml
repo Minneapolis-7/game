@@ -9,7 +9,6 @@ services:
       - '${APP_PORT}:${APP_PORT}'
     volumes:
       - db-seed-status:/db
-      - nginx-config:/etc/nginx
     restart: always
 
   nginx:
@@ -18,10 +17,9 @@ services:
       - '80:80'
       - '443:443'
     volumes:
-      - nginx-config:/etc/nginx/conf.d
+      - ./etc/nginx:/etc/nginx/conf.d
       - /etc/letsencrypt:/etc/letsencrypt
     restart: always
 
 volumes:
-  nginx-config:
   db-seed-status:

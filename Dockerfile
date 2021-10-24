@@ -15,6 +15,4 @@ COPY --from=build /app/db /db
 COPY --from=build /app/.sequelizerc /.sequelizerc
 COPY --from=build /app/src/shared/lang /src/shared/lang
 
-COPY --from=build /app/etc /etc
-
 CMD POSTGRES_DB_HOST=postgres npm run serve:prod
