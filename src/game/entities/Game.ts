@@ -6,7 +6,12 @@ import SoundSample from '@/game/entities/SoundSample';
 import Sprite from '@/game/entities/Sprite';
 import View from '@/game/entities/View';
 import World from '@/game/entities/World';
-import { GAME_SESSION_KEY, SPRITE_HEIGHT, SPRITE_WIDTH } from '@/game/shared/constants';
+import {
+  GAME_CONFIG,
+  GAME_SESSION_KEY,
+  SPRITE_HEIGHT,
+  SPRITE_WIDTH,
+} from '@/game/shared/constants';
 import text from '@/shared/const/text';
 
 import { SPRITE_ID } from '../sprites';
@@ -207,12 +212,9 @@ export default class Game {
     const hasNextLevel = nextLevelNumber <= this.registeredLevels.length;
 
     const totalTime = this.gameState.totalTime + this.gameState.time;
-
-    const maxTimeBonus = 60000;
-    const levelBonus = 100000;
-    const timeBonus = maxTimeBonus > 0 ? maxTimeBonus - this.gameState.time : 0;
-
-    const points = this.gameState.points + levelBonus + timeBonus;
+    const timeBonus = GAME_CONFIG.MAX_TIME_BONUS_POINTS - this.gameState.time;
+    const timeBonusPoints = timeBonus > 0 ? timeBonus : 0;
+    const points = this.gameState.points + GAME_CONFIG.LEVEL_POINTS + timeBonusPoints;
 
     if (!hasNextLevel) {
       this.setGameState(GAME_SESSION_KEY.TOTAL_TIME, totalTime);

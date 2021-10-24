@@ -53,4 +53,8 @@ export const GAME_CONFIG = {
   SPRITE_ANIMATION_FRAME_DURATION: 1000 / 60,
   // Векторная скорость выше которой спрайт персонажа поворачивается в сторону вектора
   PLAYER_MOVEMENT_SPITE_SENSITIVITY: 0.2,
+  // Количество очков за пройденный уровень
+  LEVEL_POINTS: 100000,
+  // Максимальное кол-во бонусных очков за оставшееся время (минус 1 поинт за 1 мс)
+  MAX_TIME_BONUS_POINTS: 60000,
 } as const;
