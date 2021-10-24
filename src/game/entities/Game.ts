@@ -45,7 +45,9 @@ export default class Game {
     isLevelCompleted: false,
     playerHealth: 3,
     time: 0,
+    totalTime: 0,
     level: 1,
+    score: '',
   } as GameState;
 
   constructor() {
@@ -189,7 +191,13 @@ export default class Game {
   }
 
   private _resetGameState(): void {
-    this.gameState = { ...this._defaultGameState };
+    const totalTime = this.gameState.totalTime + this.gameState.time;
+
+    this.gameState = {
+      ...this._defaultGameState,
+      totalTime,
+      score: `${this.gameState.level}-${totalTime}`,
+    };
   }
 
   setGameState<T extends keyof GameState, K extends GameState[T]>(key: T, value: K): void {

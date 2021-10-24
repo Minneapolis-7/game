@@ -84,7 +84,9 @@ export type GameState = {
   isLevelCompleted: boolean;
   playerHealth: number;
   time: number;
+  totalTime: number;
   level: number;
+  score: string;
 };
 
 export type GameEntities = {
