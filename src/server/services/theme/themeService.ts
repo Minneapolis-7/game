@@ -2,23 +2,37 @@ import { SiteTheme, UserTheme } from '@/server/sequelize/models';
 
 import BaseService from '../BaseService';
 
-type FindRequest = {
-  userId: number;
-};
-
 class ThemeService extends BaseService {
-  // найти тему из табл. UserTheme, где ownerId == userId
-  find = ({ userId }: FindRequest) => {
+  getUserTheme = (userId: number) => {
     return UserTheme.findOne({
       where: {
-        ownerId: userId,
+        userId,
       },
     });
   };
 
-  // получить все темы из SiteTheme
-  findAll = () => {
+  setUserTheme = (userId: number, themeId: number) => {
+    return UserTheme.upsert({ userId, themeId });
+  };
+
+  findAllThemes = () => {
     return SiteTheme.findAll();
+  };
+
+  findThemeByName = (themeName: string) => {
+    return SiteTheme.findOne({
+      where: {
+        name: themeName,
+      },
+    });
+  };
+
+  findThemeById = (themeId: number) => {
+    return SiteTheme.findOne({
+      where: {
+        id: themeId,
+      },
+    });
   };
 }
 

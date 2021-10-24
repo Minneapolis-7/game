@@ -6,7 +6,7 @@ $scrollbar-size: 10PX;
 // prettier-ignore
 $scrollbar-gap: 2PX;
 $scrollbar-track-color: transparent;
-$scrollbar-thumb-color: $muted-color;
+$scrollbar-thumb-color: var(--muted-color);
 
 .scrollbar {
   overflow-y: auto;

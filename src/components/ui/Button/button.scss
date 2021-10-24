@@ -3,7 +3,7 @@
 @use 'src/css/abstracts/mixins' as *;
 
 $button-height: $field-height;
-$button-text-color: $dark-color;
+$button-text-color: var(--dark-color);
 
 .button {
   @include button-reset;
@@ -11,7 +11,7 @@ $button-text-color: $dark-color;
   height: $button-height;
   padding: 0 1.15em;
   border: none;
-  background-color: $brand-color;
+  background-color: var(--brand-color);
   color: $button-text-color;
   line-height: 1;
   text-align: center;
@@ -27,7 +27,7 @@ $button-text-color: $dark-color;
 
 .button:not(:disabled):hover,
 .button:not(:disabled):focus-visible {
-  background-color: darken(desaturate($brand-color, 2.66), 5.49);
+  background-color: var(--brand-color-darker);
 }
 /* stylelint-disable no-descending-specificity */
 .button:disabled {
@@ -116,10 +116,10 @@ $button-spinner-size: 1.125em;
   background-color: transparent !important;
 }
 .button_theme_link {
-  color: $brand-color;
+  color: var(--brand-color);
 }
 .button_theme_link-danger {
-  color: $danger-color;
+  color: var(--danger-color);
 }
 /* stylelint-disable no-descending-specificity */
 
@@ -159,29 +159,29 @@ $button-spinner-size: 1.125em;
 }
 
 .button_theme_muted {
-  background-color: $muted-color;
+  background-color: var(--muted-color);
 }
 .button_theme_muted:not(:disabled):hover,
 .button_theme_muted:not(:disabled):focus-visible {
-  background-color: darken(desaturate($muted-color, 2.66), 5.49);
+  background-color: var(--muted-color-darker);
 }
 
 .button_theme_subtle {
   background-color: transparent;
-  color: $text-color;
+  color: var(--text-color);
 }
 .button_theme_subtle:not(:disabled):hover,
 .button_theme_subtle:not(:disabled):focus-visible {
-  background-color: transparentize($text-color, 0.85);
+  background-color: hsla(var(--text-color-raw), 0.15);
 }
 
 .button_theme_morphed {
-  background-color: $main-bg;
-  color: $text-color;
+  background-color: var(--main-bg);
+  color: var(--text-color);
 }
 .button_theme_morphed:not(:disabled):hover,
 .button_theme_morphed:not(:disabled):focus-visible {
-  background-color: lighten($main-bg, 10);
+  background-color: var(--main-bg-lighter);
 }
 
 // Размеры (все размерности шрифтозависимы, потому можно просто поменять `font-size`)
