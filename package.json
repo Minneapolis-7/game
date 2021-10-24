@@ -139,7 +139,6 @@
     "rimraf": "3.0.2",
     "sass": "1.37.5",
     "sass-loader": "12.1.0",
-    "sequelize-cli": "6.2.0",
     "style-loader": "3.2.1",
     "stylelint": "13.13.1",
     "stylelint-config-hudochenkov": "5.0.0",

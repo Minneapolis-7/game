@@ -102,14 +102,14 @@ export default async function ssr(req: Request, res: Response) {
   // проверка авторизации
 
   // получение id
-  const userId = 5;
+  const userId = 1;
 
   try {
-    // const { name: themeName } = await api.getUserTheme(userId);
+    const { name: themeName } = await api.getUserTheme(userId);
 
-    // store.dispatch(applyTheme(themeName));
+    store.dispatch(applyTheme(themeName));
 
-    themeClassname = getThemeClassname('themeName');
+    themeClassname = getThemeClassname(themeName);
   } catch (e) {
     console.log(e);
   } finally {
