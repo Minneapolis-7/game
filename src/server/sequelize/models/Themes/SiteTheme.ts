@@ -9,6 +9,7 @@ export type SiteThemeAttributes = {
 } & IntrinsicModelAttributes;
 
 @Table({
+  underscored: true,
   tableName: 'site_themes',
   modelName: 'SiteTheme',
 })
