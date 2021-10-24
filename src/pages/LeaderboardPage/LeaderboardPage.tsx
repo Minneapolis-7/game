@@ -6,8 +6,9 @@ import { Spinner } from '@/components/ui';
 import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import Page from '@/layout/Page';
 import Leaderboard from '@/modules/Leaderboard';
+import { RATING_FIELD_NAME, TEAM_NAME } from '@/shared/const/const';
 import translateErrorMessage from '@/shared/utils';
-import { getAllLeaderboard } from '@/store/reducers/actions';
+import { getTeamLeaderboard } from '@/store/reducers/actions';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 
 function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
@@ -22,12 +23,12 @@ function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
 
       try {
         const value = {
-          ratingFieldName: 'points',
+          ratingFieldName: RATING_FIELD_NAME,
           cursor: 0,
           limit: 10,
         };
 
-        await dispatch(getAllLeaderboard(value)).unwrap();
+        await dispatch(getTeamLeaderboard({ teamName: TEAM_NAME, value })).unwrap();
         setLoading(false);
       } catch (err) {
         setLoading(false);

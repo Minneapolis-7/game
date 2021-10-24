@@ -13,7 +13,7 @@ const apiYandex = applyCaseMiddleware(
   }),
   {
     ignoreHeaders: true,
-    preservedKeys: ['ratingFieldName', 'oldPassword', 'newPassword'],
+    preservedKeys: ['ratingFieldName', 'oldPassword', 'newPassword', 'teamName'],
   }
 );
 

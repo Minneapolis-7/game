@@ -47,7 +47,7 @@ export default class Game {
     time: 0,
     totalTime: 0,
     level: 1,
-    score: '',
+    points: 0,
   } as GameState;
 
   constructor() {
@@ -207,11 +207,16 @@ export default class Game {
     const hasNextLevel = nextLevelNumber <= this.registeredLevels.length;
 
     const totalTime = this.gameState.totalTime + this.gameState.time;
-    const score = `${this.gameState.level - 1}-${totalTime}`;
+
+    const maxTimeBonus = 60000;
+    const levelBonus = 100000;
+    const timeBonus = maxTimeBonus > 0 ? maxTimeBonus - this.gameState.time : 0;
+
+    const points = this.gameState.points + levelBonus + timeBonus;
 
     if (!hasNextLevel) {
       this.setGameState(GAME_SESSION_KEY.TOTAL_TIME, totalTime);
-      this.setGameState(GAME_SESSION_KEY.SCORE, score);
+      this.setGameState(GAME_SESSION_KEY.POINTS, points);
       this.setGameState(GAME_SESSION_KEY.IS_GAME_COMPLETED, true);
 
       return;
@@ -219,7 +224,7 @@ export default class Game {
 
     this.stop();
     this.setGameState(GAME_SESSION_KEY.TOTAL_TIME, totalTime);
-    this.setGameState(GAME_SESSION_KEY.SCORE, score);
+    this.setGameState(GAME_SESSION_KEY.POINTS, points);
     this.setGameState(GAME_SESSION_KEY.LEVEL, nextLevelNumber);
     this.proceed();
   }

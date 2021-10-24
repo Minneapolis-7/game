@@ -86,7 +86,7 @@ export type GameState = {
   time: number;
   totalTime: number;
   level: number;
-  score: string;
+  points: number;
 };
 
 export type GameEntities = {

@@ -6,6 +6,10 @@ export const YANDEX_OAUTH = 'https://oauth.yandex.ru/authorize';
 
 export const OAUTH_REDIRECT_URI = 'https://minneapolis-game.herokuapp.com/';
 
+export const TEAM_NAME = 'minneapolis';
+
+export const RATING_FIELD_NAME = 'points';
+
 export const RETINA_SUFFIX = '@2x';
 
 export const HttpStatuses = {

@@ -13,7 +13,7 @@ export default {
   },
 
   async getTeamLeaderboard(teamName: string, value: LeaderboardRequest): Promise<Leader[]> {
-    const { data } = await apiYandex.post(`/leaderboard/:${teamName}`, value);
+    const { data } = await apiYandex.post(`/leaderboard/${teamName}`, value);
 
     return data;
   },

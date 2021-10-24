@@ -25,7 +25,7 @@ export const GAME_SESSION_KEY = {
   TIME: 'time',
   LEVEL: 'level',
   TOTAL_TIME: 'totalTime',
-  SCORE: 'score',
+  POINTS: 'points',
 } as const;
 
 export const DEBUG_DRAW_COLOR = {

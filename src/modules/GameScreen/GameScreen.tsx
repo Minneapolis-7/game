@@ -31,6 +31,7 @@ function GameScreen(): JSX.Element {
   const [fullscreenSupport, setFullscreenSupport] = useState(false);
   const [levelNumber, setLevelNumber] = useState(1);
   const [totalTime, setTotalTime] = useState(0);
+  const [points, setPoints] = useState(0);
 
   const gameScreenRef = useRef<HTMLDivElement>(null);
 
@@ -45,6 +46,7 @@ function GameScreen(): JSX.Element {
 
     setLevelNumber(gameState.level);
     setTotalTime(gameState.totalTime);
+    setPoints(gameState.points);
 
     if (gameState.isGameCompleted) {
       setGameScreen(GAME_SCREEN.WIN);
@@ -111,11 +113,11 @@ function GameScreen(): JSX.Element {
     return (
       <p>
         Вы прошли все {levelNumber} уровня за{' '}
-        {new Date(totalTime).toLocaleTimeString([], { minute: '2-digit', second: '2-digit' })}.
-        Поздравляем!
+        {new Date(totalTime).toLocaleTimeString([], { minute: '2-digit', second: '2-digit' })}. Это{' '}
+        {points} очков. Поздравляем!
       </p>
     );
-  }, [levelNumber, totalTime]);
+  }, [levelNumber, totalTime, points]);
 
   const lossScoreElement = useMemo(() => {
     if (levelNumber - 1 === 0) {
@@ -125,11 +127,11 @@ function GameScreen(): JSX.Element {
     return (
       <p>
         Вы прошли {levelNumber - 1} уровня за{' '}
-        {new Date(totalTime).toLocaleTimeString([], { minute: '2-digit', second: '2-digit' })}.
-        Попробуйте пройти все уровни
+        {new Date(totalTime).toLocaleTimeString([], { minute: '2-digit', second: '2-digit' })}. Это{' '}
+        {points} очков. Попробуйте пройти все уровни
       </p>
     );
-  }, [levelNumber, totalTime]);
+  }, [levelNumber, totalTime, points]);
 
   const gameScreenElement = useMemo(() => {
     return {
