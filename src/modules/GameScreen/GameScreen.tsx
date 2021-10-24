@@ -29,6 +29,8 @@ function GameScreen(): JSX.Element {
   const [gameScreen, setGameScreen] = useState(GAME_SCREEN.START);
   const [fullscreen, setFullscreen] = useState(false);
   const [fullscreenSupport, setFullscreenSupport] = useState(false);
+  const [levelNumber, setLevelNumber] = useState(1);
+  const [totalTime, setTotalTime] = useState(0);
 
   const gameScreenRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +43,10 @@ function GameScreen(): JSX.Element {
       return;
     }
 
-    if (gameState.isLevelCompleted) {
+    setLevelNumber(gameState.level);
+    setTotalTime(gameState.totalTime);
+
+    if (gameState.isGameCompleted) {
       setGameScreen(GAME_SCREEN.WIN);
     }
 
@@ -102,6 +107,30 @@ function GameScreen(): JSX.Element {
     );
   }, [fullscreenSupport, fullscreen, handleToggleFullscreen]);
 
+  const winScoreElement = useMemo(() => {
+    return (
+      <p>
+        Вы прошли все {levelNumber} уровня за{' '}
+        {new Date(totalTime).toLocaleTimeString([], { minute: '2-digit', second: '2-digit' })}.
+        Поздравляем!
+      </p>
+    );
+  }, [levelNumber, totalTime]);
+
+  const lossScoreElement = useMemo(() => {
+    if (levelNumber - 1 === 0) {
+      return <p>Для попадания в таблицу лидеров необходимо пройти хотя бы один уровень</p>;
+    }
+
+    return (
+      <p>
+        Вы прошли {levelNumber - 1} уровня за{' '}
+        {new Date(totalTime).toLocaleTimeString([], { minute: '2-digit', second: '2-digit' })}.
+        Попробуйте пройти все уровни
+      </p>
+    );
+  }, [levelNumber, totalTime]);
+
   const gameScreenElement = useMemo(() => {
     return {
       [GAME_SCREEN.START]: (
@@ -124,6 +153,7 @@ function GameScreen(): JSX.Element {
           {fullscreenButtonElement}
           <img className="liquid-img" src={winImage} alt="Персонаж игры выходит в открытые двери" />
           <h2 className="heading_2 heading">{txt.winText}</h2>
+          {winScoreElement}
           <Button onClick={handleGameStart} size={SizeLabels.LG}>
             {txt.playMoreButton}
           </Button>
@@ -134,13 +164,14 @@ function GameScreen(): JSX.Element {
           {fullscreenButtonElement}
           <img className="liquid-img" src={lossImage} alt="Персонаж игры лежит после проигрыша" />
           <h2 className="heading_2 heading">{txt.lossText}</h2>
+          {lossScoreElement}
           <Button onClick={handleGameStart} size={SizeLabels.LG}>
             {txt.retryButton}
           </Button>
         </div>
       ),
     };
-  }, [handleGameStart, fullscreenButtonElement, fullscreen]);
+  }, [handleGameStart, fullscreenButtonElement, fullscreen, lossScoreElement, winScoreElement]);
 
   return gameScreenElement[gameScreen];
 }

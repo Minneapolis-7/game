@@ -20,10 +20,12 @@ export const HIT_BOX_KEY = {
 export const GAME_SESSION_KEY = {
   IS_KEY_ACQUIRED: 'isKeyAcquired',
   IS_DOOR_UNLOCKED: 'isDoorUnlocked',
-  IS_LEVEL_COMPLETED: 'isLevelCompleted',
+  IS_GAME_COMPLETED: 'isGameCompleted',
   PLAYER_HEALTH: 'playerHealth',
   TIME: 'time',
   LEVEL: 'level',
+  TOTAL_TIME: 'totalTime',
+  SCORE: 'score',
 } as const;
 
 export const DEBUG_DRAW_COLOR = {

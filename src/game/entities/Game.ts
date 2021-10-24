@@ -42,7 +42,7 @@ export default class Game {
   private _defaultGameState = {
     isKeyAcquired: false,
     isDoorUnlocked: false,
-    isLevelCompleted: false,
+    isGameCompleted: false,
     playerHealth: 3,
     time: 0,
     totalTime: 0,
@@ -191,13 +191,7 @@ export default class Game {
   }
 
   private _resetGameState(): void {
-    const totalTime = this.gameState.totalTime + this.gameState.time;
-
-    this.gameState = {
-      ...this._defaultGameState,
-      totalTime,
-      score: `${this.gameState.level}-${totalTime}`,
-    };
+    this.gameState = { ...this._defaultGameState };
   }
 
   setGameState<T extends keyof GameState, K extends GameState[T]>(key: T, value: K): void {
@@ -212,13 +206,20 @@ export default class Game {
     const nextLevelNumber = levelNumber || this.gameState.level + 1;
     const hasNextLevel = nextLevelNumber <= this.registeredLevels.length;
 
+    const totalTime = this.gameState.totalTime + this.gameState.time;
+    const score = `${this.gameState.level - 1}-${totalTime}`;
+
     if (!hasNextLevel) {
-      this.setGameState(GAME_SESSION_KEY.IS_LEVEL_COMPLETED, true);
+      this.setGameState(GAME_SESSION_KEY.TOTAL_TIME, totalTime);
+      this.setGameState(GAME_SESSION_KEY.SCORE, score);
+      this.setGameState(GAME_SESSION_KEY.IS_GAME_COMPLETED, true);
 
       return;
     }
 
     this.stop();
+    this.setGameState(GAME_SESSION_KEY.TOTAL_TIME, totalTime);
+    this.setGameState(GAME_SESSION_KEY.SCORE, score);
     this.setGameState(GAME_SESSION_KEY.LEVEL, nextLevelNumber);
     this.proceed();
   }
