@@ -82,13 +82,25 @@ function ProfileTableRow(props: ProfileTableRowProps): JSX.Element {
 }
 
 type ProfileProps = {
-  user: Record<string, any>; // todo: указать тип
   action?: 'edit' | 'edit-password';
 };
 
-function Profile({ user, action }: ProfileProps): JSX.Element {
+function Profile({ action }: ProfileProps): JSX.Element {
   const appContext = useContext(AppContext);
   const dispatch = useAppDispatch();
+  const { firstName, secondName, displayName, login, email, phone, avatar } = useAppSelector(
+    (state) => state.user
+  );
+
+  const user = {
+    firstName,
+    secondName,
+    displayName,
+    login,
+    email,
+    phone,
+    avatar,
+  };
 
   const handleAvatarChange = useCallback(async (e) => {
     const formData = new FormData();
@@ -100,7 +112,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
 
       const toast = {
         type: 'success',
-        description: text.updateAvatarSuccess,
+        description: txt.updateAvatarSuccess,
       };
 
       appContext?.addToastMessage(toast as ToastItem);
@@ -143,7 +155,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
 
         const toast = {
           type: 'success',
-          description: text.updateProfileSuccess,
+          description: txt.updateProfileSuccess,
         };
 
         appContext?.addToastMessage(toast as ToastItem);
@@ -154,7 +166,7 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
 
         const toast = {
           type: 'success',
-          description: text.updatePasswordSuccess,
+          description: txt.updatePasswordSuccess,
         };
 
         appContext?.addToastMessage(toast as ToastItem);
@@ -203,6 +215,13 @@ function Profile({ user, action }: ProfileProps): JSX.Element {
                         value={user.email}
                         id="email"
                         inputType="email"
+                        action={action}
+                      />
+                      <ProfileTableRow
+                        label={txt.phoneLabel}
+                        value={user.phone}
+                        id="phone"
+                        inputType="tel"
                         action={action}
                       />
                       <ProfileTableRow

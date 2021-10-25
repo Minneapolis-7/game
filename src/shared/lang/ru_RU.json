@@ -38,6 +38,7 @@
     "editTitle": "Редактирование профиля",
     "editPasswordTitle": "Смена пароля",
     "emailLabel": "Почта",
+    "phoneLabel": "Телефон",
     "loginLabel": "Логин",
     "firstNameLabel": "Имя",
     "secondNameLabel": "Фамилия",
@@ -174,6 +175,7 @@
     "Cookie is not valid": "Вы не авторизованы. Войдите или зарегистрируйтесь",
     "phone is not valid": "Неверный формат телефона",
     "No chat": "Не выбран чат",
-    "Login or password is incorrect": "Неправильные логин или пароль"
+    "Login or password is incorrect": "Неправильные логин или пароль",
+    "Error": "Ошибка"
   }
 }
