@@ -30,7 +30,7 @@ function Avatar(props: AvatarProps): JSX.Element {
   const w = size || width;
   const picStyle: {
     '--at2x'?: string;
-  } & CSSProperties = src ? { backgroundImage: `url(${src})` } : {};
+  } & CSSProperties = src ? { backgroundImage: `url("${src}")` } : {};
 
   if (src && retinaSuffix) {
     picStyle['--at2x'] = `url("${src.replace(/.([^.]*)$/, `${retinaSuffix}.$1`)}")`;
