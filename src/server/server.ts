@@ -1,4 +1,5 @@
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
 import express from 'express';
 import path from 'path';
 
@@ -15,6 +16,8 @@ app
   .use(compression())
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
+  .use(express.urlencoded({ extended: true }))
+  .use(cookieParser())
   .use(express.static(distStatic))
   .use(router);
 

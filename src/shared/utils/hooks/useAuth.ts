@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 
 import AppContext from '@/AppContext';
 import { ToastItem } from '@/components/ui/Toaster/Toast/types';
-import translateErrorMessage from '@/shared/utils';
+import translateError from '@/shared/utils';
 import { getUser } from '@/store/reducers/actions';
 import { useAppDispatch } from '@/store/store';
 
@@ -22,7 +22,7 @@ export default (notify = false): HookState => {
       setIsChecking(true);
 
       try {
-        await dispatch(getUser()).unwrap();
+        await dispatch(getUser('')).unwrap();
 
         setLoggedIn(true);
         setIsChecking(false);
@@ -33,7 +33,7 @@ export default (notify = false): HookState => {
         if (notify) {
           appContext?.addToastMessage({
             type: 'warning',
-            description: translateErrorMessage(e.reason),
+            description: translateError(e),
           } as ToastItem);
         }
       }

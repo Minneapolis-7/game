@@ -1,11 +1,11 @@
 import { Router } from 'express';
 
 import themeAPI from '@/server/controllers/theme/themeAPI';
+import { protect } from '@/server/middlewares';
 
 const userThemeRouter = Router();
 
 userThemeRouter.get('/', themeAPI.findAllThemes);
-userThemeRouter.get('/:userId', themeAPI.getUserTheme);
-userThemeRouter.post('/', themeAPI.setUserTheme);
+userThemeRouter.get('/:userId', [protect], themeAPI.getUserTheme);
 
 export default userThemeRouter;

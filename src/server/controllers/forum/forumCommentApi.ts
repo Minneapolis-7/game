@@ -57,9 +57,7 @@ const forumCommentApi = {
 
       response.json(augmentedComment);
     } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
+      response.status(HttpStatuses.SERVER_ERROR).json(e);
     }
   },
 
@@ -71,9 +69,7 @@ const forumCommentApi = {
       await forumCommentService.update(Number(id), body);
       response.sendStatus(HttpStatuses.OK);
     } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
+      response.status(HttpStatuses.SERVER_ERROR).json(e);
     }
   },
 
@@ -84,9 +80,7 @@ const forumCommentApi = {
       await forumCommentService.delete(Number(id));
       response.sendStatus(HttpStatuses.OK);
     } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
+      response.status(HttpStatuses.SERVER_ERROR).json(e);
     }
   },
 };

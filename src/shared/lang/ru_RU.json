@@ -166,7 +166,15 @@
       "minMaxLabel": "символов"
     }
   },
-  "serverResponses": {
+  "errorDescriptions": {
+    "generic": "Что-то пошло не так, попробуйте повторить"
+  },
+  "statusCodeDescriptions": {
+    "404": "Не найдено",
+    "401": "Вы не авторизованы. Войдите или зарегистрируйтесь",
+    "500": "Ошибка, попробуйте позже"
+  },
+  "yandexApiErrorReasons": {
     "User already in system": "Пользователь уже в системе",
     "Not found": "Не найдено",
     "login is empty, but required": "Логин не введён, обязательное поле",

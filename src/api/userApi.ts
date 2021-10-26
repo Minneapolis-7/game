@@ -44,8 +44,8 @@ export default {
     await apiYandex.post('/auth/logout');
   },
 
-  async getUser(): Promise<UserLocalProfile> {
-    const yandexUser: Optional<UserProfile, 'id'> = await this.getYandexUser();
+  async getUser(authCookie?: string): Promise<UserLocalProfile> {
+    const yandexUser: Optional<UserProfile, 'id'> = await this.getYandexUser(authCookie);
     const yandexUserId = yandexUser.id;
     let { data } = await apiCustom.get(`/user/${yandexUserId}`);
 
@@ -63,8 +63,16 @@ export default {
     return data;
   },
 
-  async getYandexUser(): Promise<UserProfile> {
-    const { data } = await apiYandex.get('/auth/user');
+  async getYandexUser(authCookie?: string): Promise<UserProfile> {
+    const config = authCookie
+      ? {
+          headers: {
+            Cookie: authCookie,
+          },
+        }
+      : {};
+
+    const { data } = await apiYandex.get('/auth/user', config);
 
     return data;
   },

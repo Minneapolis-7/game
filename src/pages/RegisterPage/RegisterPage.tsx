@@ -12,7 +12,7 @@ import Page from '@/layout/Page';
 import { SizeLabels } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
-import translateErrorMessage from '@/shared/utils';
+import translateError from '@/shared/utils';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 import useBeingLoggedIn from '@/shared/utils/hooks/useBeingLoggedIn';
 import { signup } from '@/store/reducers/actions';
@@ -42,7 +42,7 @@ function RegisterPage({ title }: GenericPageProps): JSX.Element {
     } catch (err) {
       const toast = {
         type: 'warning',
-        description: translateErrorMessage(err.reason),
+        description: translateError(err),
       };
 
       appContext?.addToastMessage(toast as ToastItem);

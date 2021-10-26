@@ -34,20 +34,23 @@ export const initialState: UserState = {
   selectedTheme: DEFAULT_THEME_NAME,
 };
 
-export const getUser = createAsyncThunk('user/getUser', async (_, { rejectWithValue }) => {
-  try {
-    return await api.getUser();
-  } catch (err) {
-    return rejectWithValue(err.response.data);
+export const getUser = createAsyncThunk(
+  'user/getUser',
+  async (authCookie: string | undefined, { rejectWithValue }) => {
+    try {
+      return await api.getUser(authCookie);
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
   }
-});
+);
 
 export const signin = createAsyncThunk(
   'user/signin',
   async (user: SignInRequest, { dispatch, rejectWithValue }) => {
     try {
       await api.signin(user);
-      await dispatch(getUser());
+      await dispatch(getUser(''));
 
       return dispatch(replace('/'));
     } catch (err) {
@@ -61,7 +64,7 @@ export const signup = createAsyncThunk(
   async (user: SignUpRequest, { dispatch, rejectWithValue }) => {
     try {
       await api.signup(user);
-      await dispatch(getUser());
+      await dispatch(getUser(''));
 
       return dispatch(replace('/'));
     } catch (err) {

@@ -10,6 +10,7 @@ export const RETINA_SUFFIX = '@2x';
 
 export const HttpStatuses = {
   SERVER_ERROR: 500,
+  CLIENT_ERROR_UNAUTHORIZED: 401,
   OK: 200,
 };
 

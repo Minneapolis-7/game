@@ -1,1 +1,1 @@
-export { default } from './translateErrorMessage';
+export { default } from './translateError';

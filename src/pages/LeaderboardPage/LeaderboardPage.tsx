@@ -6,7 +6,7 @@ import { Spinner } from '@/components/ui';
 import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import Page from '@/layout/Page';
 import Leaderboard from '@/modules/Leaderboard';
-import translateErrorMessage from '@/shared/utils';
+import translateError from '@/shared/utils';
 import { getAllLeaderboard } from '@/store/reducers/actions';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 
@@ -33,7 +33,7 @@ function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
         setLoading(false);
         const toast = {
           type: 'warning',
-          description: translateErrorMessage(err.reason),
+          description: translateError(err),
         };
 
         appContext?.addToastMessage(toast as ToastItem);

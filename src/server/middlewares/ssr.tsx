@@ -14,7 +14,7 @@ import paths from '@/shared/const/paths';
 import routes from '@/shared/const/routes';
 import getThemeClassname from '@/shared/utils/getThemeClassname';
 import getInitialState from '@/store/getInitialState';
-import { applyTheme } from '@/store/reducers/actions';
+import { applyTheme, getUser } from '@/store/reducers/actions';
 import initStore from '@/store/store';
 
 // eslint-disable-next-line
@@ -99,17 +99,15 @@ export default async function ssr(req: Request, res: Response) {
     res.status(ctx.statusCode || 200).send(getPageHTML(html, reduxState, helmetData));
   }
 
-  // проверка авторизации
-
-  // получение id
-  const userId = 1;
-
   try {
-    const { name: themeName } = await api.getUserTheme(userId);
+    const user = await store.dispatch(getUser(req.cookies.authCookie)).unwrap();
 
-    store.dispatch(applyTheme(themeName));
+    if (user) {
+      const { name: themeName } = await api.getUserTheme(user.id as number);
 
-    themeClassname = getThemeClassname(themeName);
+      store.dispatch(applyTheme(themeName));
+      themeClassname = getThemeClassname(themeName);
+    }
   } catch (e) {
     console.log(e);
   } finally {
