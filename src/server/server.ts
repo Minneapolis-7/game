@@ -14,11 +14,11 @@ const distStatic = path.resolve(__dirname, settings.paths.dist.static);
 
 app
   .use(cookieParser())
-  .use(checkAuth)
   .use(compression())
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   .use(express.static(distStatic))
+  .use(checkAuth)
   .use(router);
 
 app.get('*', ssr);
