@@ -1,5 +1,6 @@
 import type { Optional } from 'utility-types';
 
+import { SiteThemeAttributes } from '@/server/sequelize/models/Themes/SiteTheme';
 import { UserCreationAttributes } from '@/server/sequelize/models/User';
 import { UserUpdatePayload } from '@/server/services/userService';
 
@@ -11,6 +12,7 @@ import {
   UpdateProfileRequest,
   UserLocalProfile,
   UserProfile,
+  UserTheme,
 } from './types';
 
 /**
@@ -65,6 +67,16 @@ export default {
     const { data } = await apiYandex.get('/auth/user');
 
     return data;
+  },
+
+  async getUserTheme(userId: number): Promise<SiteThemeAttributes> {
+    const { data } = await apiCustom.get(`/theme/${userId}`);
+
+    return data;
+  },
+
+  async setUserTheme(userTheme: UserTheme): Promise<void> {
+    await apiCustom.post('/theme', userTheme);
   },
 
   async updateProfile(user: UpdateProfileRequest): Promise<UserLocalProfile> {

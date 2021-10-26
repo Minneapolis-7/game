@@ -2,7 +2,7 @@
 
 .link:link,
 .link:visited {
-  color: $brand-color;
+  color: var(--brand-color);
 }
 // фокус-стили стилизуются отдельно
 .link:hover {
@@ -11,7 +11,7 @@
 
 .link_text-like:link,
 .link_text-like:visited {
-  color: $text-color;
+  color: var(--text-color);
   text-decoration: none;
 }
 .link_text-like:hover {

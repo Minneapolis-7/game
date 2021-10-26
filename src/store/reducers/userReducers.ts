@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { replace } from 'connected-react-router';
 
 import {
@@ -8,13 +8,16 @@ import {
   UpdatePasswordRequest,
   UpdateProfileRequest,
   UserLocalProfile,
+  UserTheme,
 } from '@/api/types';
 import api from '@/api/userApi';
+import { DEFAULT_THEME_NAME } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
 import type { RootState } from '@/shared/types/redux';
 
 export type UserState = UserLocalProfile & {
   isLoggingOut: boolean;
+  selectedTheme: string;
 };
 
 export const initialState: UserState = {
@@ -28,6 +31,7 @@ export const initialState: UserState = {
   phone: '',
   avatar: null,
   isLoggingOut: false,
+  selectedTheme: DEFAULT_THEME_NAME,
 };
 
 export const getUser = createAsyncThunk('user/getUser', async (_, { rejectWithValue }) => {
@@ -112,10 +116,36 @@ export const updatePassword = createAsyncThunk(
   }
 );
 
+export const getSelectedTheme = createAsyncThunk(
+  'user/getSelectedTheme',
+  async (userId: number, { rejectWithValue }) => {
+    try {
+      return await api.getUserTheme(userId);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const saveThemeSelection = createAsyncThunk(
+  'user/saveThemeSelection',
+  async (userTheme: UserTheme, { rejectWithValue }) => {
+    try {
+      return await api.setUserTheme(userTheme);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    applyTheme(state, action: PayloadAction<string>) {
+      state.selectedTheme = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(logout.pending, (state) => {
@@ -135,6 +165,11 @@ export const userSlice = createSlice({
       })
       .addCase(getUser.fulfilled, (state, action) => {
         Object.assign(state, action.payload);
+      })
+      .addCase(getSelectedTheme.fulfilled, (state, action) => {
+        const { name } = action.payload;
+
+        state.selectedTheme = name;
       });
   },
 });
@@ -142,5 +177,7 @@ export const userSlice = createSlice({
 export const userState = (state: RootState): UserState => ({
   ...state.user,
 });
+
+export const { applyTheme } = userSlice.actions;
 
 export default userSlice.reducer;

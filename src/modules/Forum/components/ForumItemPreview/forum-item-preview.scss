@@ -29,5 +29,5 @@
   }
 }
 .forum-item-preview.has-no-threads > .forum-item-preview__slot_stat {
-  color: $muted-color;
+  color: var(--muted-color);
 }

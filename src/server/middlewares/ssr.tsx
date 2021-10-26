@@ -7,11 +7,14 @@ import { Route, StaticRouter, Switch } from 'react-router-dom';
 import { Request, Response } from 'express';
 import htmlescape from 'htmlescape';
 
+import api from '@/api/userApi';
 import { Toaster } from '@/components/ui';
 import ProtectedRoute from '@/modules/ProtectedRoute';
 import paths from '@/shared/const/paths';
 import routes from '@/shared/const/routes';
+import getThemeClassname from '@/shared/utils/getThemeClassname';
 import getInitialState from '@/store/getInitialState';
+import { applyTheme } from '@/store/reducers/actions';
 import initStore from '@/store/store';
 
 // eslint-disable-next-line
@@ -21,6 +24,7 @@ import sprite from 'svg-sprite-loader/runtime/sprite.build';
 
 const manifest = typeof manifestJson === 'string' ? JSON.parse(manifestJson) : manifestJson;
 const spriteContent = sprite.stringify();
+let themeClassname = getThemeClassname('default');
 
 function getPageHTML(
   appHTML: string,
@@ -42,7 +46,7 @@ function getPageHTML(
       ${manifest['vendors.js'] ? `<script src="/${manifest['vendors.js']}" defer></script>` : ''}
       <script src="/${manifest['main.js']}" defer></script>
     </head>
-    <body>
+    <body class="${themeClassname}">
       ${spriteContent}
       <div class="root" id="root">${appHTML}</div>
       <script nonce="${nonce}">
@@ -59,43 +63,62 @@ export default async function ssr(req: Request, res: Response) {
   let html = '';
   const { store } = initStore(getInitialState(location), location);
 
+  function renderApp() {
+    try {
+      html = renderToString(
+        <Provider store={store}>
+          <StaticRouter location={req.url} context={ctx}>
+            <Switch>
+              {routes.map((route) => {
+                const Component = route.component;
+
+                let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
+
+                if (route.protected) {
+                  RouteComponent = ProtectedRoute;
+                }
+
+                return (
+                  <RouteComponent key={route.path} path={route.path} exact={route.exact}>
+                    <Component title={route.title || ''} />
+                  </RouteComponent>
+                );
+              })}
+            </Switch>
+          </StaticRouter>
+          <Toaster toastList={[]} position="bottom-right" />
+        </Provider>
+      );
+    } catch (e) {
+      ctx.url = paths.SERVER_ERROR;
+    }
+
+    if (ctx.url) {
+      res.redirect(ctx.url);
+
+      return;
+    }
+
+    const reduxState = store.getState();
+    const helmetData = Helmet.renderStatic();
+
+    res.status(ctx.statusCode || 200).send(getPageHTML(html, reduxState, helmetData, nonce));
+  }
+
+  // проверка авторизации
+
+  // получение id
+  const userId = 1;
+
   try {
-    html = renderToString(
-      <Provider store={store}>
-        <StaticRouter location={req.url} context={ctx}>
-          <Switch>
-            {routes.map((route) => {
-              const Component = route.component;
+    const { name: themeName } = await api.getUserTheme(userId);
 
-              let RouteComponent: typeof Route | typeof ProtectedRoute = Route;
+    store.dispatch(applyTheme(themeName));
 
-              if (route.protected) {
-                RouteComponent = ProtectedRoute;
-              }
-
-              return (
-                <RouteComponent key={route.path} path={route.path} exact={route.exact}>
-                  <Component title={route.title || ''} />
-                </RouteComponent>
-              );
-            })}
-          </Switch>
-        </StaticRouter>
-        <Toaster toastList={[]} position="bottom-right" />
-      </Provider>
-    );
+    themeClassname = getThemeClassname(themeName);
   } catch (e) {
-    ctx.url = paths.SERVER_ERROR;
+    console.log(e);
+  } finally {
+    renderApp();
   }
-
-  if (ctx.url) {
-    res.redirect(ctx.url);
-
-    return;
-  }
-
-  const reduxState = store.getState();
-  const helmetData = Helmet.renderStatic();
-
-  res.status(ctx.statusCode || 200).send(getPageHTML(html, reduxState, helmetData, nonce));
 }

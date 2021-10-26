@@ -5,7 +5,7 @@
   max-width: 100%;
   margin: 3rem auto;
   padding: 2rem;
-  border: 10px solid transparentize($error-color, 0.8);
+  border: 10px solid hsla(var(--error-color-raw), 0.2);
   font-size: $font-size-lg;
   text-align: center;
 }
