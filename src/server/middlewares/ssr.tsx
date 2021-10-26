@@ -56,6 +56,9 @@ export default async function ssr(req: Request, res: Response) {
   const ctx: StaticRouterContext = {};
   let html = '';
   const { store } = initStore(getInitialState(location), location);
+  const { user } = res.locals;
+  const isAuthPage = location === paths.LOGIN || location === paths.REGISTER;
+  const isProtectedPage = routes.find((route) => route.path === location)?.protected;
 
   function renderApp() {
     try {
@@ -87,6 +90,14 @@ export default async function ssr(req: Request, res: Response) {
       ctx.url = paths.SERVER_ERROR;
     }
 
+    if (user && isAuthPage) {
+      ctx.url = '/';
+    }
+
+    if (!user && isProtectedPage) {
+      ctx.url = paths.LOGIN;
+    }
+
     if (ctx.url) {
       res.redirect(ctx.url);
 
@@ -100,8 +111,6 @@ export default async function ssr(req: Request, res: Response) {
   }
 
   try {
-    const { user } = res.locals;
-
     if (user) {
       const { name: themeName } = await api.getUserTheme(user.id as number);
 
