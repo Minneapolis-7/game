@@ -1,11 +1,9 @@
 import React from 'react';
 import { block } from 'bem-cn';
 
-import { Pagination } from '@/components/ui';
-import paths from '@/shared/const/paths';
+import { Spinner } from '@/components/ui';
+import { SizeLabels } from '@/shared/const/const';
 import text from '@/shared/const/text';
-
-const LEADERBOARD_PAGE_SIZE = 8;
 
 const b = block('leaderboard');
 const { leaderboard: txt } = text;
@@ -17,6 +15,7 @@ type leaderUser = {
 };
 
 type LeaderboardProps = {
+  loading: boolean;
   leaderList: leaderUser[];
 };
 
@@ -25,7 +24,7 @@ type RowProps = {
   value: number;
 };
 
-function Leaderboard({ leaderList }: LeaderboardProps): JSX.Element {
+function Leaderboard({ leaderList, loading }: LeaderboardProps): JSX.Element {
   function Row({ label, value }: RowProps): JSX.Element {
     return (
       <li>
@@ -53,15 +52,13 @@ function Leaderboard({ leaderList }: LeaderboardProps): JSX.Element {
         ) : (
           <div className={b('empty')}>{txt.empty}</div>
         )}
+        {loading && (
+          <>
+            <div className="leaderboard__shadow" />
+            <Spinner size={SizeLabels.XL} className="leaderboard__spinner" />
+          </>
+        )}
       </div>
-      {leaderList.length >= LEADERBOARD_PAGE_SIZE && (
-        <Pagination
-          total={10}
-          current={1}
-          baseURL={`${paths.LEADERBOARD}/page`}
-          className={b('pagination')}
-        />
-      )}
     </div>
   );
 }

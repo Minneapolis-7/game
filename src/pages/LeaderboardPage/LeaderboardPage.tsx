@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 
 import AppContext from '@/AppContext';
-import { Spinner } from '@/components/ui';
 import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import Page from '@/layout/Page';
 import Leaderboard from '@/modules/Leaderboard';
@@ -47,13 +46,7 @@ function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
         <title>{title}</title>
       </Helmet>
       <Page>
-        <Leaderboard leaderList={leaderList} />
-        {loading && (
-          <>
-            <div className="leaderboard__shadow" />
-            <Spinner className="leaderboard__spinner" />
-          </>
-        )}
+        <Leaderboard loading={loading} leaderList={leaderList} />
       </Page>
     </>
   );
