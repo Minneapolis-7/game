@@ -3,6 +3,7 @@ import type { Optional } from 'utility-types';
 import { SiteThemeAttributes } from '@/server/sequelize/models/Themes/SiteTheme';
 import { UserCreationAttributes } from '@/server/sequelize/models/User';
 import { UserUpdatePayload } from '@/server/services/userService';
+import { DEFAULT_USER_NICKNAME } from '@/shared/const/const';
 
 import { apiCustom, apiYandex } from './api';
 import {
@@ -39,7 +40,7 @@ export default {
 
     await this.updateProfile({
       ...userCopy,
-      displayName: `player-${data.id}`,
+      displayName: `${DEFAULT_USER_NICKNAME}-${data.id}`,
     });
 
     return data.id;
