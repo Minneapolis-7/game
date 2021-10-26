@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { replace } from 'connected-react-router';
+import { push, replace } from 'connected-react-router';
 
 import {
   SignInRequest,
@@ -89,7 +89,7 @@ export const updateProfile = createAsyncThunk(
     try {
       await api.updateProfile(user);
 
-      return dispatch(replace(paths.PROFILE));
+      return dispatch(push(paths.PROFILE));
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -113,7 +113,7 @@ export const updatePassword = createAsyncThunk(
     try {
       await api.updatePassword(password);
 
-      return dispatch(replace(paths.PROFILE));
+      return dispatch(push(paths.PROFILE));
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
