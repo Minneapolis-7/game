@@ -21,7 +21,7 @@ export default function useOAuth() {
             redirectUri: OAUTH_REDIRECT_URI,
           });
 
-          await dispatch(getUser('')).unwrap();
+          await dispatch(getUser()).unwrap();
         } catch (e) {
           throw new Error(e);
         } finally {

@@ -14,7 +14,7 @@ import paths from '@/shared/const/paths';
 import routes from '@/shared/const/routes';
 import getThemeClassname from '@/shared/utils/getThemeClassname';
 import getInitialState from '@/store/getInitialState';
-import { applyTheme, getUser } from '@/store/reducers/actions';
+import { applyTheme, setUser } from '@/store/reducers/actions';
 import initStore from '@/store/store';
 
 // eslint-disable-next-line
@@ -100,12 +100,13 @@ export default async function ssr(req: Request, res: Response) {
   }
 
   try {
-    const user = await store.dispatch(getUser(req.cookies.authCookie)).unwrap();
+    const { user } = res.locals;
 
     if (user) {
       const { name: themeName } = await api.getUserTheme(user.id as number);
 
       store.dispatch(applyTheme(themeName));
+      store.dispatch(setUser(user));
       themeClassname = getThemeClassname(themeName);
     }
   } catch (e) {

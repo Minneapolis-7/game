@@ -22,7 +22,7 @@ export default (notify = false): HookState => {
       setIsChecking(true);
 
       try {
-        await dispatch(getUser('')).unwrap();
+        await dispatch(getUser()).unwrap();
 
         setLoggedIn(true);
         setIsChecking(false);

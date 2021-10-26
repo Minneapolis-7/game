@@ -64,15 +64,21 @@ export default {
   },
 
   async getYandexUser(authCookie?: string): Promise<UserProfile> {
+    const cookie = `authCookie=${authCookie}; Secure; HttpOnly`;
+
+    console.log('my cookie', cookie);
+
     const config = authCookie
       ? {
           headers: {
-            Cookie: authCookie,
+            Cookie: cookie,
           },
         }
       : {};
 
     const { data } = await apiYandex.get('/auth/user', config);
+
+    console.log('my user:', data);
 
     return data;
   },
