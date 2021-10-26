@@ -85,9 +85,11 @@ export const logout = createAsyncThunk(
 
 export const updateProfile = createAsyncThunk(
   'user/updateProfile',
-  async (user: UpdateProfileRequest, { rejectWithValue }) => {
+  async (user: UpdateProfileRequest, { dispatch, rejectWithValue }) => {
     try {
-      return await api.updateProfile(user);
+      await api.updateProfile(user);
+
+      return dispatch(replace(paths.PROFILE));
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -107,9 +109,11 @@ export const updateAvatar = createAsyncThunk(
 
 export const updatePassword = createAsyncThunk(
   'user/logout',
-  async (password: UpdatePasswordRequest, { rejectWithValue }) => {
+  async (password: UpdatePasswordRequest, { dispatch, rejectWithValue }) => {
     try {
-      return await api.updatePassword(password);
+      await api.updatePassword(password);
+
+      return dispatch(replace(paths.PROFILE));
     } catch (err) {
       return rejectWithValue(err.response.data);
     }

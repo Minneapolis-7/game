@@ -88,19 +88,7 @@ type ProfileProps = {
 function Profile({ action }: ProfileProps): JSX.Element {
   const appContext = useContext(AppContext);
   const dispatch = useAppDispatch();
-  const { firstName, secondName, displayName, login, email, phone, avatar } = useAppSelector(
-    (state) => state.user
-  );
-
-  const user = {
-    firstName,
-    secondName,
-    displayName,
-    login,
-    email,
-    phone,
-    avatar,
-  };
+  const user = useAppSelector((state) => state.user);
 
   const handleAvatarChange = useCallback(async (e) => {
     const formData = new FormData();
@@ -186,7 +174,12 @@ function Profile({ action }: ProfileProps): JSX.Element {
   return (
     <div className={b()}>
       <header className={b('head')}>
-        <Avatar className={b('pic')} size="10rem" src={getResourceURL(user.avatar)} populatable>
+        <Avatar
+          className={b('pic')}
+          size="10rem"
+          src={user.avatar && getResourceURL(user.avatar)}
+          populatable
+        >
           <Filepick
             className={b('pic-setter')}
             title={txt.editAvatarTitle}
@@ -244,7 +237,7 @@ function Profile({ action }: ProfileProps): JSX.Element {
                       />
                       <ProfileTableRow
                         label={txt.nickNameLabel}
-                        value={user.displayName}
+                        value={user.displayName || ''}
                         id="displayName"
                         action={action}
                       />
@@ -254,7 +247,6 @@ function Profile({ action }: ProfileProps): JSX.Element {
                     <>
                       <ProfileTableRow
                         label={txt.oldPasswordLabel}
-                        value={user.password}
                         id="oldPassword"
                         inputType="password"
                         autoComplete="current-password"
