@@ -4,14 +4,6 @@ import { Helmet } from 'react-helmet';
 import Page from '@/layout/Page';
 import Profile from '@/modules/Profile';
 
-const mockUserData = {
-  firstName: 'Имя',
-  secondName: 'Фамилия',
-  displayName: 'Nickname',
-  login: 'mylogin',
-  email: 'my@email.com',
-};
-
 function ProfileEditPasswordPage({ title }: GenericPageProps): JSX.Element {
   return (
     <>
@@ -19,7 +11,7 @@ function ProfileEditPasswordPage({ title }: GenericPageProps): JSX.Element {
         <title>{title}</title>
       </Helmet>
       <Page>
-        <Profile user={mockUserData} action="edit-password" />
+        <Profile action="edit-password" />
       </Page>
     </>
   );
