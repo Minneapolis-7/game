@@ -25,7 +25,7 @@
 
 Убедитесь, что у вас установлены Docker и docker-compose. Для успешного запуска должна существовать база данных, для этого надо сначала поднять окружение (Postgres и [pgAdmin](https://www.pgadmin.org/)):
 
-- `docker-compose up -d`
+- `docker-compose up postgres -d && docker-compose up pgadmin -d`
 
 После этого нужно запустить проект:
 
