@@ -16,7 +16,10 @@ export const ProfileFieldsSchema: SchemaOf<ProfileFields> = yup
     login: yup.string().min(3, `${errors.min} 3 ${errors.minMaxLabel}`).required(errors.required),
     firstName: yup.string().required(errors.required),
     secondName: yup.string().required(errors.required),
-    displayName: yup.string().max(20, `${errors.max} 20 ${errors.minMaxLabel}`).nullable(true),
+    displayName: yup
+      .string()
+      .max(20, `${errors.max} 20 ${errors.minMaxLabel}`)
+      .required(errors.required),
   })
   .defined();
 

@@ -37,6 +37,11 @@ export default {
       ...userCopy,
     } as UserCreationAttributes);
 
+    await this.updateProfile({
+      ...userCopy,
+      displayName: `player-${data.id}`,
+    });
+
     return data.id;
   },
 

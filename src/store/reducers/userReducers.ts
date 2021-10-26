@@ -17,6 +17,7 @@ import type { RootState } from '@/shared/types/redux';
 
 export type UserState = UserLocalProfile & {
   isLoggingOut: boolean;
+  isChangingAvatar: boolean;
   selectedTheme: string;
 };
 
@@ -31,6 +32,7 @@ export const initialState: UserState = {
   phone: '',
   avatar: null,
   isLoggingOut: false,
+  isChangingAvatar: false,
   selectedTheme: DEFAULT_THEME_NAME,
 };
 
@@ -164,8 +166,15 @@ export const userSlice = createSlice({
       .addCase(updateProfile.fulfilled, (state, action) => {
         Object.assign(state, action.payload);
       })
+      .addCase(updateAvatar.pending, (state) => {
+        state.isChangingAvatar = true;
+      })
+      .addCase(updateAvatar.rejected, (state) => {
+        state.isChangingAvatar = false;
+      })
       .addCase(updateAvatar.fulfilled, (state, action) => {
         state.avatar = action.payload.avatar;
+        state.isChangingAvatar = false;
       })
       .addCase(getUser.fulfilled, (state, action) => {
         Object.assign(state, action.payload);

@@ -5,8 +5,9 @@ import { Form, Formik } from 'formik';
 
 import AppContext from '@/AppContext';
 import { Input } from '@/components/formik-ui';
-import { Avatar, Button, Filepick } from '@/components/ui';
+import { Avatar, Button, Filepick, Spinner } from '@/components/ui';
 import { ToastItem } from '@/components/ui/Toaster/Toast/types';
+import { SizeLabels } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import translateErrorMessage from '@/shared/utils';
@@ -89,6 +90,17 @@ function Profile({ action }: ProfileProps): JSX.Element {
   const appContext = useContext(AppContext);
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
+  const {
+    firstName,
+    secondName,
+    displayName,
+    login,
+    email,
+    phone,
+    avatar,
+    isLoggingOut,
+    isChangingAvatar,
+  } = user;
 
   const handleAvatarChange = useCallback(async (e) => {
     const formData = new FormData();
@@ -97,6 +109,8 @@ function Profile({ action }: ProfileProps): JSX.Element {
 
     try {
       await dispatch(updateAvatar(formData)).unwrap();
+
+      e.target.value = '';
 
       const toast = {
         type: 'success',
@@ -121,7 +135,6 @@ function Profile({ action }: ProfileProps): JSX.Element {
       throw new Error(e);
     }
   }, []);
-  const isLoggingOut = useAppSelector((state) => state.user.isLoggingOut);
 
   let initialValues = {};
   let validationSchema = {};
@@ -177,9 +190,15 @@ function Profile({ action }: ProfileProps): JSX.Element {
         <Avatar
           className={b('pic')}
           size="10rem"
-          src={user.avatar && getResourceURL(user.avatar)}
+          src={avatar && getResourceURL(avatar)}
           populatable
         >
+          {isChangingAvatar && (
+            <>
+              <div className={b('pic-dimmer')}></div>
+              <Spinner className={b('pic-spinner')} size={SizeLabels.LG} />
+            </>
+          )}
           <Filepick
             className={b('pic-setter')}
             title={txt.editAvatarTitle}
@@ -191,7 +210,7 @@ function Profile({ action }: ProfileProps): JSX.Element {
         </Avatar>
       </header>
       <div className={b('content')}>
-        <h4 className={b('name').mix('heading_4', 'heading')}>{user.firstName}</h4>
+        <h4 className={b('name').mix('heading_4', 'heading')}>{firstName}</h4>
         <Formik
           initialValues={initialValues}
           validationSchema={validationSchema}
@@ -205,39 +224,39 @@ function Profile({ action }: ProfileProps): JSX.Element {
                     <>
                       <ProfileTableRow
                         label={txt.emailLabel}
-                        value={user.email}
+                        value={email}
                         id="email"
                         inputType="email"
                         action={action}
                       />
                       <ProfileTableRow
                         label={txt.phoneLabel}
-                        value={user.phone}
+                        value={phone}
                         id="phone"
                         inputType="tel"
                         action={action}
                       />
                       <ProfileTableRow
                         label={txt.loginLabel}
-                        value={user.login}
+                        value={login}
                         id="login"
                         action={action}
                       />
                       <ProfileTableRow
                         label={txt.firstNameLabel}
-                        value={user.firstName}
+                        value={firstName}
                         id="firstName"
                         action={action}
                       />
                       <ProfileTableRow
                         label={txt.secondNameLabel}
-                        value={user.secondName}
+                        value={secondName}
                         id="secondName"
                         action={action}
                       />
                       <ProfileTableRow
                         label={txt.nickNameLabel}
-                        value={user.displayName || ''}
+                        value={displayName || ''}
                         id="displayName"
                         action={action}
                       />
