@@ -23,7 +23,7 @@ function LeaderRow({ nickname, points, position }: LeaderRowProps): JSX.Element 
   return (
     <li data-position={position + 1} className={b('record')}>
       <div className={b('nickname')}>{nickname}</div>
-      <div className={b('points')}>{points || '\u200B'}</div>
+      <div className={b('points')}>{points}</div>
     </li>
   );
 }
