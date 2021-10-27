@@ -37,14 +37,14 @@ export const leaderboardSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getTeamLeaderboard.pending, (state, action) => {
+    builder.addCase(getTeamLeaderboard.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(getTeamLeaderboard.fulfilled, (state, action) => {
       state.leaderList = action.payload;
       state.isLoading = false;
     });
-    builder.addCase(getTeamLeaderboard.rejected, (state, action) => {
+    builder.addCase(getTeamLeaderboard.rejected, (state) => {
       state.isLoading = false;
     });
   },
