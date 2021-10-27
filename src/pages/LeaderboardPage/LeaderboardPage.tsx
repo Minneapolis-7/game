@@ -29,6 +29,7 @@ function LeaderboardPage({ title }: GenericPageProps): JSX.Element {
         };
 
         await dispatch(getTeamLeaderboard({ teamName: TEAM_NAME, value })).unwrap();
+
         setLoading(false);
       } catch (err) {
         setLoading(false);

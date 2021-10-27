@@ -6,6 +6,7 @@ import { Button, Icon } from '@/components/ui';
 import { GameState } from '@/game/types';
 import { SizeLabels } from '@/shared/const/const';
 import text from '@/shared/const/text';
+import getLocaleTimeString from '@/shared/utils/getLocaleTimeString';
 
 import introImage from 'assets/img/game/intro.png';
 import lossImage from 'assets/img/game/loss.png';
@@ -112,23 +113,39 @@ function GameScreen(): JSX.Element {
   const winScoreElement = useMemo(() => {
     return (
       <p>
-        Вы прошли все {levelNumber} уровня за{' '}
-        {new Date(totalTime).toLocaleTimeString([], { minute: '2-digit', second: '2-digit' })}. Это{' '}
-        {points} очков. Поздравляем!
+        {text.game.pointsOnWin
+          .replace('%levelNumber%', levelNumber)
+          .replace(
+            '%time%',
+            getLocaleTimeString(totalTime, {
+              minute: '2-digit',
+              second: '2-digit',
+              ms: 'numeric',
+            })
+          )
+          .replace('%points%', points)}
       </p>
     );
   }, [levelNumber, totalTime, points]);
 
   const lossScoreElement = useMemo(() => {
     if (levelNumber - 1 === 0) {
-      return <p>Для попадания в таблицу лидеров необходимо пройти хотя бы один уровень</p>;
+      return <p>{text.game.pointsOnFirstLevel}</p>;
     }
 
     return (
       <p>
-        Вы прошли {levelNumber - 1} уровня за{' '}
-        {new Date(totalTime).toLocaleTimeString([], { minute: '2-digit', second: '2-digit' })}. Это{' '}
-        {points} очков. Попробуйте пройти все уровни
+        {text.game.pointsOnLoss
+          .replace('%levelNumber%', levelNumber)
+          .replace(
+            '%time%',
+            getLocaleTimeString(totalTime, {
+              minute: '2-digit',
+              second: '2-digit',
+              ms: 'numeric',
+            })
+          )
+          .replace('%points%', points)}
       </p>
     );
   }, [levelNumber, totalTime, points]);
