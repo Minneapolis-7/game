@@ -1,19 +1,19 @@
 import { apiYandex } from './api';
-import { Leader, LeaderboardRequest, NewLeaderData } from './types';
+import { LeaderboardRequest, LeaderData, NewLeaderData } from './types';
 
 export default {
   async addToLeaderboard(value: NewLeaderData): Promise<void> {
     await apiYandex.post('/leaderboard', value);
   },
 
-  async getAllLeaderboard(value: LeaderboardRequest): Promise<Leader[]> {
+  async getAllLeaderboard(value: LeaderboardRequest): Promise<LeaderData[]> {
     const { data } = await apiYandex.post('/leaderboard/all', value);
 
     return data;
   },
 
-  async getTeamLeaderboard(teamName: string, value: LeaderboardRequest): Promise<Leader[]> {
-    const { data } = await apiYandex.post(`/leaderboard/:${teamName}`, value);
+  async getTeamLeaderboard(teamName: string, value: LeaderboardRequest): Promise<LeaderData[]> {
+    const { data } = await apiYandex.post(`/leaderboard/${teamName}`, value);
 
     return data;
   },

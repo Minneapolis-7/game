@@ -39,9 +39,14 @@ export type Leader = {
   points: number;
 };
 
+export type LeaderData = {
+  data: Leader;
+};
+
 export type NewLeaderData = {
   data: Leader;
   ratingFieldName: string;
+  teamName: string;
 };
 
 export type LeaderboardRequest = {

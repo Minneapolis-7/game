@@ -7,10 +7,9 @@
   margin: $gap-y-lg auto;
 }
 
-.leaderboard__head {
-  margin-top: 2.5 * $gap-y-lg;
-  margin-bottom: 2 * $gap-y-lg;
+.leaderboard__heading {
   color: var(--brand-color);
+  font-weight: normal;
   text-align: center;
 }
 
@@ -26,7 +25,7 @@
   z-index: 1;
 }
 
-.leaderboard__shadow {
+.leaderboard__dimmer {
   position: absolute;
   top: 0;
   right: 0;
@@ -37,21 +36,28 @@
   opacity: 0.7;
 }
 
-.leaderboard__wrapper-row {
+.leaderboard__record {
+  position: relative;
   display: flex;
   justify-content: space-between;
-}
-
-.leaderboard__players-list {
-  padding: 0;
-  list-style-type: none;
-}
-
-.leaderboard__bottom-line {
+  padding: 1em;
   // prettier-ignore
-  height: 1PX;
-  border: 0;
-  background-color: var(--ui-color);
+  border-bottom: 1PX solid var(--light-color);
+}
+.leaderboard__record::before {
+  content: attr(data-position);
+  position: absolute;
+  top: 50%;
+  left: 0.2em;
+  font-size: 4.5em;
+  line-height: 1;
+  opacity: 0.1;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.leaderboard__record:first-child {
+  background-color: hsla(var(--primary-color-raw), 0.9);
 }
 
 .leaderboard__nickname {

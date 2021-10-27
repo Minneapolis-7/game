@@ -1,62 +1,91 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { block } from 'bem-cn';
 
+import AppContext from '@/AppContext';
 import { Spinner } from '@/components/ui';
+import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import { SizeLabels } from '@/shared/const/const';
 import text from '@/shared/const/text';
+import translateErrorMessage from '@/shared/utils';
+import { getTeamLeaderboard } from '@/store/reducers/leaderboardReducers';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 
 const b = block('leaderboard');
 const { leaderboard: txt } = text;
 
-type leaderUser = {
-  id: number;
+type LeaderRowProps = {
   nickname: string;
   points: number;
+  position: number;
 };
 
-type LeaderboardProps = {
-  loading: boolean;
-  leaderList: leaderUser[];
-};
+function LeaderRow({ nickname, points, position }: LeaderRowProps): JSX.Element {
+  return (
+    <li data-position={position + 1} className={b('record')}>
+      <div className={b('nickname')}>{nickname}</div>
+      <div className={b('points')}>{points || '\u200B'}</div>
+    </li>
+  );
+}
 
-type RowProps = {
-  label: string;
-  value: number;
-};
+function Leaderboard(): JSX.Element {
+  const leaderList = useAppSelector((state) => state.leaderboard.leaderList);
+  const isLoading = useAppSelector((state) => state.leaderboard.isLoading);
+  const appContext = useContext(AppContext);
+  const dispatch = useAppDispatch();
 
-function Leaderboard({ leaderList, loading }: LeaderboardProps): JSX.Element {
-  function Row({ label, value }: RowProps): JSX.Element {
-    return (
-      <li>
-        <div className={b('wrapper-row')}>
-          <div className={b('nickname')}>{label}</div>
-          <div className={b('points')}>{value || '\u200B'}</div>
-        </div>
-        <hr className={b('bottom-line')}></hr>
-      </li>
+  useEffect(() => {
+    (async () => {
+      try {
+        const requestData = {
+          teamName: 'minneapolis',
+          value: {
+            ratingFieldName: 'points',
+            cursor: 0,
+            // todo: сделать пагинацию
+            limit: 100,
+          },
+        };
+
+        await dispatch(getTeamLeaderboard(requestData)).unwrap();
+      } catch (err) {
+        const toast = {
+          type: 'warning',
+          description: translateErrorMessage(err.reason),
+        };
+
+        appContext?.addToastMessage(toast as ToastItem);
+      }
+    })();
+  }, [appContext, dispatch]);
+
+  let finalResult = null;
+
+  if (leaderList) {
+    finalResult = leaderList.length ? (
+      <ul className={b('list').mix('nolist')}>
+        {leaderList.map(({ data: user }, i) => {
+          return (
+            <LeaderRow key={user.id} nickname={user.nickname} points={user.points} position={i} />
+          );
+        })}
+      </ul>
+    ) : (
+      <div className={b('empty')}>{txt.empty}</div>
     );
   }
 
   return (
     <div className={b()}>
-      <header className={b('head')}>
-        <h3>{txt.header}</h3>
-      </header>
+      <h3 className={b('heading').mix('heading_3', 'heading')}>{txt.header}</h3>
       <div className={b('content')}>
-        {leaderList.length ? (
-          <ul className={b('players-list')}>
-            {leaderList.map((user) => {
-              return <Row key={user.id} label={user.nickname} value={user.points} />;
-            })}
-          </ul>
-        ) : (
-          <div className={b('empty')}>{txt.empty}</div>
-        )}
-        {loading && (
+        {isLoading ? (
           <>
-            <div className="leaderboard__shadow" />
-            <Spinner size={SizeLabels.XL} className="leaderboard__spinner" />
+            <div className={b('dimmer')} />
+            <Spinner size={SizeLabels.LG} className={b('spinner')} />
           </>
+        ) : (
+          finalResult
         )}
       </div>
     </div>
