@@ -8,6 +8,10 @@ export const APP_DOMAIN = 'https://minneapolis-game-7.ya-praktikum.tech';
 
 export const OAUTH_REDIRECT_URI = APP_DOMAIN;
 
+export const TEAM_NAME = 'minneapolis';
+
+export const RATING_FIELD_NAME = 'points';
+
 export const RETINA_SUFFIX = '@2x';
 
 export const HttpStatuses = {

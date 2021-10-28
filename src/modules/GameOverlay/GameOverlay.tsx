@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import { block } from 'bem-cn';
 
+import getLocaleTimeString from '@/shared/utils/getLocaleTimeString';
+
 import healthImage from 'assets/img/game/overlay-health.png';
 import keyImage from 'assets/img/game/overlay-key.png';
 import lostHealthImage from 'assets/img/game/overlay-lost-health.png';
@@ -44,9 +46,7 @@ function GameOverlay(props: GameOverlayProps): JSX.Element {
         </div>
       )}
       <div className={b('bar-block')}>
-        <span className={b('time')}>
-          {new Date(time).toLocaleTimeString([], { minute: '2-digit', second: '2-digit' })}
-        </span>
+        <span className={b('time')}>{getLocaleTimeString(time)}</span>
       </div>
     </div>
   );

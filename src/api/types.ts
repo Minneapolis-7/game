@@ -42,6 +42,7 @@ export type Leader = {
 export type NewLeaderData = {
   data: Leader;
   ratingFieldName: string;
+  teamName: string;
 };
 
 export type LeaderboardRequest = {

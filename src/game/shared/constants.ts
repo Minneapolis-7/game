@@ -20,10 +20,12 @@ export const HIT_BOX_KEY = {
 export const GAME_SESSION_KEY = {
   IS_KEY_ACQUIRED: 'isKeyAcquired',
   IS_DOOR_UNLOCKED: 'isDoorUnlocked',
-  IS_LEVEL_COMPLETED: 'isLevelCompleted',
+  IS_GAME_COMPLETED: 'isGameCompleted',
   PLAYER_HEALTH: 'playerHealth',
   TIME: 'time',
   LEVEL: 'level',
+  TOTAL_TIME: 'totalTime',
+  POINTS: 'points',
 } as const;
 
 export const DEBUG_DRAW_COLOR = {
@@ -51,4 +53,8 @@ export const GAME_CONFIG = {
   SPRITE_ANIMATION_FRAME_DURATION: 1000 / 60,
   // Векторная скорость выше которой спрайт персонажа поворачивается в сторону вектора
   PLAYER_MOVEMENT_SPITE_SENSITIVITY: 0.2,
+  // Количество очков за пройденный уровень
+  LEVEL_POINTS: 100000,
+  // Максимальное кол-во бонусных очков за оставшееся время (минус 1 поинт за 1 мс)
+  MAX_TIME_BONUS_POINTS: 60000,
 } as const;
