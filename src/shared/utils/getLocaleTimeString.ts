@@ -12,7 +12,7 @@ export default (
   if (format.ms) {
     const milliseconds = date.getMilliseconds();
 
-    return `${formattedDate}:${milliseconds}`;
+    return `${formattedDate}.${milliseconds}`;
   }
 
   return formattedDate;
