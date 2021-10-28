@@ -58,7 +58,6 @@ export default async function ssr(req: Request, res: Response) {
   const { store } = initStore(getInitialState(location), location);
   const { yandexUser } = req.app.locals;
   const isAuthPage = location === paths.LOGIN || location === paths.REGISTER;
-  const isProtectedPage = routes.find((route) => route.path === location)?.protected;
 
   function renderApp() {
     try {
@@ -92,10 +91,6 @@ export default async function ssr(req: Request, res: Response) {
 
     if (yandexUser && isAuthPage) {
       ctx.url = '/';
-    }
-
-    if (!yandexUser && isProtectedPage) {
-      ctx.url = paths.LOGIN;
     }
 
     if (ctx.url) {
