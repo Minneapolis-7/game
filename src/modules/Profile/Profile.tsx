@@ -10,7 +10,7 @@ import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import { SizeLabels } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
-import translateErrorMessage from '@/shared/utils';
+import translateError from '@/shared/utils';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
 import { logout, updateAvatar, updatePassword, updateProfile } from '@/store/reducers/actions';
@@ -121,7 +121,7 @@ function Profile({ action }: ProfileProps): JSX.Element {
     } catch (err) {
       const toast = {
         type: 'warning',
-        description: translateErrorMessage(err.message),
+        description: translateError(err),
       };
 
       appContext?.addToastMessage(toast as ToastItem);
@@ -177,7 +177,7 @@ function Profile({ action }: ProfileProps): JSX.Element {
     } catch (err) {
       const toast = {
         type: 'warning',
-        description: translateErrorMessage(err.reason),
+        description: translateError(err),
       };
 
       appContext?.addToastMessage(toast as ToastItem);

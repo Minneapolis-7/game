@@ -11,7 +11,7 @@ import { SizeLabels } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
 import { ForumCommentData, ForumThreadData } from '@/shared/types/types';
-import translateErrorMessage from '@/shared/utils';
+import translateError from '@/shared/utils';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import htmlDecode from '@/shared/utils/htmlDecode';
 import {
@@ -107,7 +107,7 @@ function ForumPosting({ data, className = '' }: ForumPostingProps): JSX.Element 
       } catch (err) {
         const toast = {
           type: 'warning',
-          description: translateErrorMessage(err.message),
+          description: translateError(err),
         };
 
         setEmojiToggledState({

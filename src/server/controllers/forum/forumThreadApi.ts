@@ -42,9 +42,7 @@ const forumThreadApi = {
 
       response.json(record);
     } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
+      response.status(HttpStatuses.SERVER_ERROR).json(e);
     }
   },
 
@@ -56,9 +54,7 @@ const forumThreadApi = {
       await forumThreadService.update(Number(id), body);
       response.sendStatus(HttpStatuses.OK);
     } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
+      response.status(HttpStatuses.SERVER_ERROR).json(e);
     }
   },
 
@@ -70,9 +66,7 @@ const forumThreadApi = {
       await forumThreadService.incrementVisited(Number(id));
       response.sendStatus(HttpStatuses.OK);
     } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
+      response.status(HttpStatuses.SERVER_ERROR).json(e);
     }
   },
 
@@ -83,9 +77,7 @@ const forumThreadApi = {
       await forumThreadService.delete(Number(id));
       response.sendStatus(HttpStatuses.OK);
     } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
+      response.status(HttpStatuses.SERVER_ERROR).json(e);
     }
   },
 
@@ -142,9 +134,7 @@ const forumThreadApi = {
 
       response.json(plainRecord);
     } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
+      response.status(HttpStatuses.SERVER_ERROR).json(e);
     }
   },
 };

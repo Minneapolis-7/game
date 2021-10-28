@@ -55,9 +55,7 @@ const forumCommentEmojiApi = {
 
       response.json(addedEmoji);
     } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
+      response.status(HttpStatuses.SERVER_ERROR).json(e);
     }
   },
 
@@ -76,9 +74,7 @@ const forumCommentEmojiApi = {
 
       response.json(identifier);
     } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
+      response.status(HttpStatuses.SERVER_ERROR).json(e);
     }
   },
 };
