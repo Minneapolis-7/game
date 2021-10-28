@@ -1,7 +1,9 @@
 import type { Optional } from 'utility-types';
 
+import { SiteThemeAttributes } from '@/server/sequelize/models/Themes/SiteTheme';
 import { UserCreationAttributes } from '@/server/sequelize/models/User';
 import { UserUpdatePayload } from '@/server/services/userService';
+import { DEFAULT_USER_NICKNAME } from '@/shared/const/const';
 
 import { apiCustom, apiYandex } from './api';
 import {
@@ -11,6 +13,7 @@ import {
   UpdateProfileRequest,
   UserLocalProfile,
   UserProfile,
+  UserTheme,
 } from './types';
 
 /**
@@ -34,6 +37,11 @@ export default {
       yandexUserId,
       ...userCopy,
     } as UserCreationAttributes);
+
+    await this.updateProfile({
+      ...userCopy,
+      displayName: `${DEFAULT_USER_NICKNAME}-${data.id}`,
+    });
 
     return data.id;
   },
@@ -65,6 +73,16 @@ export default {
     const { data } = await apiYandex.get('/auth/user');
 
     return data;
+  },
+
+  async getUserTheme(userId: number): Promise<SiteThemeAttributes> {
+    const { data } = await apiCustom.get(`/theme/${userId}`);
+
+    return data;
+  },
+
+  async setUserTheme(userTheme: UserTheme): Promise<void> {
+    await apiCustom.post('/theme', userTheme);
   },
 
   async updateProfile(user: UpdateProfileRequest): Promise<UserLocalProfile> {

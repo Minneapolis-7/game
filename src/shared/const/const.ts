@@ -24,3 +24,7 @@ export const SizeLabels = {
   LG: 'lg',
   XL: 'xl',
 } as const;
+
+export const DEFAULT_THEME_NAME = 'default';
+
+export const DEFAULT_USER_NICKNAME = 'player';

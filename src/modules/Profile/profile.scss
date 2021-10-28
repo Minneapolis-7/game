@@ -17,6 +17,20 @@ $profile-bp: 37.5 * $font-size-primary; // 600px при шрифте 16px
   position: relative;
   margin-bottom: $gap-y-generic;
 }
+.profile__pic-dimmer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  background-color: var(--dark-color);
+  opacity: 0.7;
+}
+.profile__pic-spinner {
+  top: 50%;
+  left: 50%;
+}
 
 .profile__pic-setter {
   position: absolute;
@@ -34,7 +48,7 @@ $profile-bp: 37.5 * $font-size-primary; // 600px при шрифте 16px
 }
 .profile__table-row {
   // prettier-ignore
-  border-bottom: 1PX solid $ui-color;
+  border-bottom: 1PX solid var(--ui-color);
 
   @media (min-width: $profile-bp) {
     display: flex;
@@ -57,7 +71,7 @@ th.profile__table-cell {
   }
 }
 td.profile__table-cell {
-  color: $muted-color;
+  color: var(--muted-color);
 }
 
 .profile__table-cell:last-child {
