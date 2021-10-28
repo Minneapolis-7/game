@@ -29,7 +29,7 @@ const { game: txt } = text;
 function GameScreen(): JSX.Element {
   const [gameScreen, setGameScreen] = useState(GAME_SCREEN.START);
   const [fullscreen, setFullscreen] = useState(false);
-  const [levelNumber, setLevelNumber] = useState(1);
+  const [currentLevel, setCurrentLevel] = useState(1);
   const [totalTime, setTotalTime] = useState(0);
   const [points, setPoints] = useState(0);
 
@@ -44,7 +44,7 @@ function GameScreen(): JSX.Element {
       return;
     }
 
-    setLevelNumber(gameState.level);
+    setCurrentLevel(gameState.level);
     setTotalTime(gameState.totalTime);
     setPoints(gameState.points);
 
@@ -101,11 +101,13 @@ function GameScreen(): JSX.Element {
     );
   }, [fullscreen, handleToggleFullscreen]);
 
+  const completedLevels = currentLevel - 1;
+
   const winScoreElement = useMemo(() => {
     return (
       <p>
         {text.game.pointsOnWin
-          .replace('%levelNumber%', levelNumber)
+          .replace('%totalLevels%', currentLevel)
           .replace(
             '%time%',
             getLocaleTimeString(totalTime, {
@@ -117,17 +119,17 @@ function GameScreen(): JSX.Element {
           .replace('%points%', points)}
       </p>
     );
-  }, [levelNumber, totalTime, points]);
+  }, [currentLevel, totalTime, points]);
 
   const lossScoreElement = useMemo(() => {
-    if (levelNumber - 1 === 0) {
+    if (completedLevels === 0) {
       return <p>{text.game.pointsOnFirstLevel}</p>;
     }
 
     return (
       <p>
         {text.game.pointsOnLoss
-          .replace('%levelNumber%', levelNumber)
+          .replace('%completedLevels%', completedLevels)
           .replace(
             '%time%',
             getLocaleTimeString(totalTime, {
@@ -139,7 +141,7 @@ function GameScreen(): JSX.Element {
           .replace('%points%', points)}
       </p>
     );
-  }, [levelNumber, totalTime, points]);
+  }, [completedLevels, totalTime, points]);
 
   const gameScreenElement = useMemo(() => {
     return {

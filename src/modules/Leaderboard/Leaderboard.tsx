@@ -4,7 +4,7 @@ import { block } from 'bem-cn';
 import AppContext from '@/AppContext';
 import { Spinner } from '@/components/ui';
 import { ToastItem } from '@/components/ui/Toaster/Toast/types';
-import { SizeLabels } from '@/shared/const/const';
+import { RATING_FIELD_NAME, SizeLabels, TEAM_NAME } from '@/shared/const/const';
 import text from '@/shared/const/text';
 import translateErrorMessage from '@/shared/utils';
 import { getTeamLeaderboard } from '@/store/reducers/leaderboardReducers';
@@ -38,9 +38,9 @@ function Leaderboard(): JSX.Element {
     (async () => {
       try {
         const requestData = {
-          teamName: 'minneapolis',
+          teamName: TEAM_NAME,
           value: {
-            ratingFieldName: 'points',
+            ratingFieldName: RATING_FIELD_NAME,
             cursor: 0,
             // todo: сделать пагинацию
             limit: 100,
