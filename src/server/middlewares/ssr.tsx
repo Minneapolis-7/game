@@ -112,6 +112,7 @@ export default async function ssr(req: Request, res: Response) {
 
       store.dispatch(applyTheme(themeName));
       store.dispatch(setUser(localUser));
+
       themeClassname = getThemeClassname(themeName);
     }
   } catch (e) {
