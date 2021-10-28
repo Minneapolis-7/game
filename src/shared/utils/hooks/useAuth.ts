@@ -2,9 +2,9 @@ import { useContext, useEffect, useState } from 'react';
 
 import AppContext from '@/AppContext';
 import { ToastItem } from '@/components/ui/Toaster/Toast/types';
-import translateErrorMessage from '@/shared/utils';
+import translateError from '@/shared/utils';
 import { getUser } from '@/store/reducers/actions';
-import { useAppDispatch } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 
 type HookState = {
   isChecking: boolean;
@@ -12,35 +12,44 @@ type HookState = {
 };
 
 export default (notify = false): HookState => {
-  const [isChecking, setIsChecking] = useState(true);
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const user = useAppSelector((state) => state.user);
+  const [isChecking, setIsChecking] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(!!user.id);
   const dispatch = useAppDispatch();
   const appContext = useContext(AppContext);
 
+  if (!isLoggedIn && user.id) {
+    setLoggedIn(true);
+  }
+
   useEffect(() => {
     const checkAuth = async () => {
+      if (isLoggedIn) {
+        return;
+      }
+
       setIsChecking(true);
 
       try {
         await dispatch(getUser()).unwrap();
 
         setLoggedIn(true);
-        setIsChecking(false);
       } catch (e) {
         setLoggedIn(false);
-        setIsChecking(false);
 
         if (notify) {
           appContext?.addToastMessage({
             type: 'warning',
-            description: translateErrorMessage(e.reason),
+            description: translateError(e),
           } as ToastItem);
         }
+      } finally {
+        setIsChecking(false);
       }
     };
 
     checkAuth();
-  }, []);
+  }, [appContext, isLoggedIn, dispatch, user.id, notify]);
 
   return { isChecking, isLoggedIn };
 };

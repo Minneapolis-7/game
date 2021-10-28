@@ -6,6 +6,7 @@ import { Button, Icon } from '@/components/ui';
 import { GameState } from '@/game/types';
 import { SizeLabels } from '@/shared/const/const';
 import text from '@/shared/const/text';
+import getLocaleTimeString from '@/shared/utils/getLocaleTimeString';
 
 import introImage from 'assets/img/game/intro.png';
 import lossImage from 'assets/img/game/loss.png';
@@ -28,7 +29,9 @@ const { game: txt } = text;
 function GameScreen(): JSX.Element {
   const [gameScreen, setGameScreen] = useState(GAME_SCREEN.START);
   const [fullscreen, setFullscreen] = useState(false);
-  const [fullscreenSupport, setFullscreenSupport] = useState(false);
+  const [levelNumber, setLevelNumber] = useState(1);
+  const [totalTime, setTotalTime] = useState(0);
+  const [points, setPoints] = useState(0);
 
   const gameScreenRef = useRef<HTMLDivElement>(null);
 
@@ -41,7 +44,11 @@ function GameScreen(): JSX.Element {
       return;
     }
 
-    if (gameState.isLevelCompleted) {
+    setLevelNumber(gameState.level);
+    setTotalTime(gameState.totalTime);
+    setPoints(gameState.points);
+
+    if (gameState.isGameCompleted) {
       setGameScreen(GAME_SCREEN.WIN);
     }
 
@@ -51,10 +58,6 @@ function GameScreen(): JSX.Element {
   };
 
   useEffect(() => {
-    if (document.fullscreenElement === null && document.exitFullscreen) {
-      setFullscreenSupport(true);
-    }
-
     const listenFullscreen = () => {
       if (!document.fullscreenElement) {
         setFullscreen(false);
@@ -69,7 +72,7 @@ function GameScreen(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (!fullscreenSupport || !gameScreenRef.current) {
+    if (!gameScreenRef.current) {
       return;
     }
 
@@ -80,17 +83,13 @@ function GameScreen(): JSX.Element {
     if (!fullscreen && document.fullscreenElement) {
       document.exitFullscreen();
     }
-  }, [fullscreenSupport, fullscreen]);
+  }, [fullscreen]);
 
   const handleToggleFullscreen = useCallback(() => {
     setFullscreen((prevValue) => !prevValue);
   }, [setFullscreen]);
 
   const fullscreenButtonElement = useMemo(() => {
-    if (!fullscreenSupport) {
-      return null;
-    }
-
     return (
       <Button
         className={b('fullscreen-button')}
@@ -100,7 +99,47 @@ function GameScreen(): JSX.Element {
         onClick={handleToggleFullscreen}
       />
     );
-  }, [fullscreenSupport, fullscreen, handleToggleFullscreen]);
+  }, [fullscreen, handleToggleFullscreen]);
+
+  const winScoreElement = useMemo(() => {
+    return (
+      <p>
+        {text.game.pointsOnWin
+          .replace('%levelNumber%', levelNumber)
+          .replace(
+            '%time%',
+            getLocaleTimeString(totalTime, {
+              minute: '2-digit',
+              second: '2-digit',
+              ms: 'numeric',
+            })
+          )
+          .replace('%points%', points)}
+      </p>
+    );
+  }, [levelNumber, totalTime, points]);
+
+  const lossScoreElement = useMemo(() => {
+    if (levelNumber - 1 === 0) {
+      return <p>{text.game.pointsOnFirstLevel}</p>;
+    }
+
+    return (
+      <p>
+        {text.game.pointsOnLoss
+          .replace('%levelNumber%', levelNumber)
+          .replace(
+            '%time%',
+            getLocaleTimeString(totalTime, {
+              minute: '2-digit',
+              second: '2-digit',
+              ms: 'numeric',
+            })
+          )
+          .replace('%points%', points)}
+      </p>
+    );
+  }, [levelNumber, totalTime, points]);
 
   const gameScreenElement = useMemo(() => {
     return {
@@ -124,6 +163,7 @@ function GameScreen(): JSX.Element {
           {fullscreenButtonElement}
           <img className="liquid-img" src={winImage} alt="Персонаж игры выходит в открытые двери" />
           <h2 className="heading_2 heading">{txt.winText}</h2>
+          {winScoreElement}
           <Button onClick={handleGameStart} size={SizeLabels.LG}>
             {txt.playMoreButton}
           </Button>
@@ -134,13 +174,14 @@ function GameScreen(): JSX.Element {
           {fullscreenButtonElement}
           <img className="liquid-img" src={lossImage} alt="Персонаж игры лежит после проигрыша" />
           <h2 className="heading_2 heading">{txt.lossText}</h2>
+          {lossScoreElement}
           <Button onClick={handleGameStart} size={SizeLabels.LG}>
             {txt.retryButton}
           </Button>
         </div>
       ),
     };
-  }, [handleGameStart, fullscreenButtonElement, fullscreen]);
+  }, [handleGameStart, fullscreenButtonElement, fullscreen, lossScoreElement, winScoreElement]);
 
   return gameScreenElement[gameScreen];
 }

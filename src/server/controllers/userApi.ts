@@ -25,9 +25,7 @@ const userApi = {
 
       response.json(record);
     } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
+      response.status(HttpStatuses.SERVER_ERROR).json(e);
     }
   },
 
@@ -40,9 +38,7 @@ const userApi = {
 
       response.json(record);
     } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
+      response.status(HttpStatuses.SERVER_ERROR).json(e);
     }
   },
 
@@ -54,9 +50,7 @@ const userApi = {
 
       response.json(record);
     } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
+      response.status(HttpStatuses.SERVER_ERROR).json(e);
     }
   },
 };

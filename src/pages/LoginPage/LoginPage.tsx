@@ -7,15 +7,14 @@ import { Form, Formik } from 'formik';
 import oauthApi from '@/api/oauthApi';
 import AppContext from '@/AppContext';
 import { Input } from '@/components/formik-ui';
-import { Button, Spinner } from '@/components/ui';
+import { Button } from '@/components/ui';
 import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import Page from '@/layout/Page';
-import { OAUTH_REDIRECT_URI, SizeLabels, YANDEX_OAUTH } from '@/shared/const/const';
+import { OAUTH_REDIRECT_URI, YANDEX_OAUTH } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
 import text from '@/shared/const/text';
-import translateErrorMessage from '@/shared/utils';
+import translateError from '@/shared/utils';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
-import useBeingLoggedIn from '@/shared/utils/hooks/useBeingLoggedIn';
 import useProgress from '@/shared/utils/hooks/useProgress';
 import { signin } from '@/store/reducers/actions';
 import { useAppDispatch } from '@/store/store';
@@ -39,7 +38,7 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
     } catch (err) {
       const toast = {
         type: 'warning',
-        description: translateErrorMessage(err.reason),
+        description: translateError(err),
       };
 
       appContext?.addToastMessage(toast as ToastItem);
@@ -62,11 +61,6 @@ function LoginPage({ title }: GenericPageProps): JSX.Element {
     [],
     true
   );
-  const isChecking = useBeingLoggedIn();
-
-  if (isChecking) {
-    return <Spinner size={SizeLabels.XL} />;
-  }
 
   return (
     <>

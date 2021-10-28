@@ -1,7 +1,11 @@
 import axios from 'axios';
 import applyCaseMiddleware from 'axios-case-converter';
 
-import { API_CUSTOM, API_YANDEX } from '@/shared/const/const';
+import { API_CUSTOM, API_YANDEX, APP_DOMAIN } from '@/shared/const/const';
+
+const { NODE_ENV } = process.env;
+
+const isProduction = NODE_ENV === 'production';
 
 const apiYandex = applyCaseMiddleware(
   axios.create({
@@ -13,12 +17,12 @@ const apiYandex = applyCaseMiddleware(
   }),
   {
     ignoreHeaders: true,
-    preservedKeys: ['ratingFieldName', 'oldPassword', 'newPassword'],
+    preservedKeys: ['ratingFieldName', 'oldPassword', 'newPassword', 'teamName'],
   }
 );
 
 const apiCustom = axios.create({
-  baseURL: `http://localhost:5000${API_CUSTOM}`,
+  baseURL: `${isProduction ? APP_DOMAIN : ''}${API_CUSTOM}`,
   headers: {
     'Content-Type': 'application/json',
   },

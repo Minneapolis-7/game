@@ -6,7 +6,12 @@ import SoundSample from '@/game/entities/SoundSample';
 import Sprite from '@/game/entities/Sprite';
 import View from '@/game/entities/View';
 import World from '@/game/entities/World';
-import { GAME_SESSION_KEY, SPRITE_HEIGHT, SPRITE_WIDTH } from '@/game/shared/constants';
+import {
+  GAME_CONFIG,
+  GAME_SESSION_KEY,
+  SPRITE_HEIGHT,
+  SPRITE_WIDTH,
+} from '@/game/shared/constants';
 import text from '@/shared/const/text';
 
 import { SPRITE_ID } from '../sprites';
@@ -42,10 +47,12 @@ export default class Game {
   private _defaultGameState = {
     isKeyAcquired: false,
     isDoorUnlocked: false,
-    isLevelCompleted: false,
+    isGameCompleted: false,
     playerHealth: 3,
     time: 0,
+    totalTime: 0,
     level: 1,
+    points: 0,
   } as GameState;
 
   constructor() {
@@ -204,13 +211,22 @@ export default class Game {
     const nextLevelNumber = levelNumber || this.gameState.level + 1;
     const hasNextLevel = nextLevelNumber <= this.registeredLevels.length;
 
+    const totalTime = this.gameState.totalTime + this.gameState.time;
+    const timeBonus = GAME_CONFIG.MAX_TIME_BONUS_POINTS - this.gameState.time;
+    const timeBonusPoints = timeBonus > 0 ? timeBonus : 0;
+    const points = this.gameState.points + GAME_CONFIG.LEVEL_POINTS + timeBonusPoints;
+
     if (!hasNextLevel) {
-      this.setGameState(GAME_SESSION_KEY.IS_LEVEL_COMPLETED, true);
+      this.setGameState(GAME_SESSION_KEY.TOTAL_TIME, totalTime);
+      this.setGameState(GAME_SESSION_KEY.POINTS, points);
+      this.setGameState(GAME_SESSION_KEY.IS_GAME_COMPLETED, true);
 
       return;
     }
 
     this.stop();
+    this.setGameState(GAME_SESSION_KEY.TOTAL_TIME, totalTime);
+    this.setGameState(GAME_SESSION_KEY.POINTS, points);
     this.setGameState(GAME_SESSION_KEY.LEVEL, nextLevelNumber);
     this.proceed();
   }

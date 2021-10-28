@@ -81,10 +81,12 @@ export type LevelRegisterOptions = {
 export type GameState = {
   isKeyAcquired: boolean;
   isDoorUnlocked: boolean;
-  isLevelCompleted: boolean;
+  isGameCompleted: boolean;
   playerHealth: number;
   time: number;
+  totalTime: number;
   level: number;
+  points: number;
 };
 
 export type GameEntities = {

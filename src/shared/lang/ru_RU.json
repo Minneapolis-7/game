@@ -133,6 +133,9 @@
     "lossText": "Потрачено",
     "winText": "Победа!",
     "gamepadConfiguration": "Обнаружен геймпад! Нажмите ОК, затем кнопку на геймпаде, соответствующую действию:",
+    "pointsOnFirstLevel": "Для попадания в таблицу лидеров необходимо пройти хотя бы один уровень",
+    "pointsOnWin": "Вы прошли все %levelNumber% уровня за %time%. Это %points% очков. Поздравляем!",
+    "pointsOnLoss": "Вы прошли %levelNumber% уровня за %time%. Это %points% очков. Попробуйте пройти все уровни",
     "control": {
       "left": "Движение влево",
       "right": "Движение вправо",
@@ -167,7 +170,15 @@
       "minMaxLabel": "символов"
     }
   },
-  "serverResponses": {
+  "errorDescriptions": {
+    "generic": "Что-то пошло не так, попробуйте повторить"
+  },
+  "statusCodeDescriptions": {
+    "404": "Не найдено",
+    "401": "Вы не авторизованы. Войдите или зарегистрируйтесь",
+    "500": "Ошибка, попробуйте позже"
+  },
+  "yandexApiErrorReasons": {
     "User already in system": "Пользователь уже в системе",
     "Not found": "Не найдено",
     "login is empty, but required": "Логин не введён, обязательное поле",
