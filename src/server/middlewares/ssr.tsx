@@ -56,7 +56,7 @@ export default async function ssr(req: Request, res: Response) {
   const ctx: StaticRouterContext = {};
   let html = '';
   const { store } = initStore(getInitialState(location), location);
-  const { user } = res.locals;
+  const { yandexUser } = req.app.locals;
   const isAuthPage = location === paths.LOGIN || location === paths.REGISTER;
   const isProtectedPage = routes.find((route) => route.path === location)?.protected;
 
@@ -90,11 +90,11 @@ export default async function ssr(req: Request, res: Response) {
       ctx.url = paths.SERVER_ERROR;
     }
 
-    if (user && isAuthPage) {
+    if (yandexUser && isAuthPage) {
       ctx.url = '/';
     }
 
-    if (!user && isProtectedPage) {
+    if (!yandexUser && isProtectedPage) {
       ctx.url = paths.LOGIN;
     }
 
@@ -111,11 +111,12 @@ export default async function ssr(req: Request, res: Response) {
   }
 
   try {
-    if (user) {
-      const { name: themeName } = await api.getUserTheme(user.id as number);
+    if (yandexUser) {
+      const localUser = await api.setLocalUser(yandexUser);
+      const { name: themeName } = await api.getUserTheme(localUser.id as number);
 
       store.dispatch(applyTheme(themeName));
-      store.dispatch(setUser(user));
+      store.dispatch(setUser(localUser));
       themeClassname = getThemeClassname(themeName);
     }
   } catch (e) {

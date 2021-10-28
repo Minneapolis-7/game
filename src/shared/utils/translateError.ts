@@ -14,8 +14,6 @@ function isAxiosError(error: UnknownError): error is AxiosError {
 }
 
 export default function translateError(error: UnknownError): string {
-  console.log(error);
-
   if (!isAxiosError(error)) {
     const { reason } = error as ServerErrorResponse;
 

@@ -7,5 +7,6 @@ const userThemeRouter = Router();
 
 userThemeRouter.get('/', themeAPI.findAllThemes);
 userThemeRouter.get('/:userId', [protect], themeAPI.getUserTheme);
+userThemeRouter.post('/', [protect], themeAPI.setUserTheme);
 
 export default userThemeRouter;

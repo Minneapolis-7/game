@@ -15,6 +15,11 @@ import {
   UserTheme,
 } from './types';
 
+type AuthCookies = {
+  uuid: string;
+  authCookie: string;
+};
+
 /**
  * Все возвраты информации о юзере содержат данные о "локальном" юзере: `id` используется из локальной БД,
  * яндексовый `id` возвращается под свойством `yandexUserId`
@@ -44,8 +49,8 @@ export default {
     await apiYandex.post('/auth/logout');
   },
 
-  async getUser(authCookie?: string): Promise<UserLocalProfile> {
-    const yandexUser: Optional<UserProfile, 'id'> = await this.getYandexUser(authCookie);
+  async setLocalUser(user: UserProfile): Promise<UserLocalProfile> {
+    const yandexUser: Optional<UserProfile, 'id'> = user;
     const yandexUserId = yandexUser.id;
     let { data } = await apiCustom.get(`/user/${yandexUserId}`);
 
@@ -63,22 +68,28 @@ export default {
     return data;
   },
 
-  async getYandexUser(authCookie?: string): Promise<UserProfile> {
-    const cookie = `authCookie=${authCookie}; Secure; HttpOnly`;
+  async getUser(authCookies?: AuthCookies): Promise<UserLocalProfile> {
+    const yandexUser = await this.getYandexUser(authCookies);
 
-    console.log('my cookie', cookie);
+    return this.setLocalUser(yandexUser);
+  },
 
-    const config = authCookie
-      ? {
-          headers: {
-            Cookie: cookie,
-          },
-        }
-      : {};
+  async getYandexUser(authCookies?: AuthCookies): Promise<UserProfile> {
+    let config = {};
+
+    if (authCookies) {
+      const cookies = Object.entries(authCookies)
+        .map((entry) => `${entry[0]}=${entry[1]}`)
+        .join('; ');
+
+      config = {
+        headers: {
+          Cookie: cookies,
+        },
+      };
+    }
 
     const { data } = await apiYandex.get('/auth/user', config);
-
-    console.log('my user:', data);
 
     return data;
   },
