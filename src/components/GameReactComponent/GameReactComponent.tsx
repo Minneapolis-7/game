@@ -7,7 +7,7 @@ import { GameState } from '@/game/types';
 import GameOverlay from '@/modules/GameOverlay';
 import { RATING_FIELD_NAME, TEAM_NAME } from '@/shared/const/const';
 import { addToLeaderboard } from '@/store/reducers/leaderboardReducers';
-import { useAppDispatch } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import './game-react-component.scss';
 
@@ -24,18 +24,22 @@ function GameReactComponent({ fullscreen, onStateUpdate }: GameProps): JSX.Eleme
   const prevScoreRef = useRef(0);
   const dispatch = useAppDispatch();
 
+  const user = useAppSelector((state) => state.user);
+
   useEffect(() => {
     if (gameState) {
       onStateUpdate(gameState);
 
-      // TODO: По флагу LoggedIn сохранять результат только для залогиненных
+      if (!user.id) {
+        return;
+      }
+
       if (gameState.level - 1 > 0 && prevScoreRef.current !== gameState.points) {
         dispatch(
           addToLeaderboard({
             data: {
-              // TODO: Подставлять id и login (nickname) текущего пользователя
-              id: 1,
-              nickname: 'red-kolobok',
+              id: user.id,
+              nickname: user.login,
               points: gameState.points,
             },
             teamName: TEAM_NAME,
