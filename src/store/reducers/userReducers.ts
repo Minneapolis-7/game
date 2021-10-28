@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { replace } from 'connected-react-router';
+import { push, replace } from 'connected-react-router';
 
 import {
   SignInRequest,
@@ -17,6 +17,7 @@ import type { RootState } from '@/shared/types/redux';
 
 export type UserState = UserLocalProfile & {
   isLoggingOut: boolean;
+  isChangingAvatar: boolean;
   selectedTheme: string;
 };
 
@@ -31,6 +32,7 @@ export const initialState: UserState = {
   phone: '',
   avatar: null,
   isLoggingOut: false,
+  isChangingAvatar: false,
   selectedTheme: DEFAULT_THEME_NAME,
 };
 
@@ -85,9 +87,11 @@ export const logout = createAsyncThunk(
 
 export const updateProfile = createAsyncThunk(
   'user/updateProfile',
-  async (user: UpdateProfileRequest, { rejectWithValue }) => {
+  async (user: UpdateProfileRequest, { dispatch, rejectWithValue }) => {
     try {
-      return await api.updateProfile(user);
+      await api.updateProfile(user);
+
+      return dispatch(push(paths.PROFILE));
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -107,9 +111,11 @@ export const updateAvatar = createAsyncThunk(
 
 export const updatePassword = createAsyncThunk(
   'user/logout',
-  async (password: UpdatePasswordRequest, { rejectWithValue }) => {
+  async (password: UpdatePasswordRequest, { dispatch, rejectWithValue }) => {
     try {
-      return await api.updatePassword(password);
+      await api.updatePassword(password);
+
+      return dispatch(push(paths.PROFILE));
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -163,8 +169,15 @@ export const userSlice = createSlice({
       .addCase(updateProfile.fulfilled, (state, action) => {
         Object.assign(state, action.payload);
       })
+      .addCase(updateAvatar.pending, (state) => {
+        state.isChangingAvatar = true;
+      })
+      .addCase(updateAvatar.rejected, (state) => {
+        state.isChangingAvatar = false;
+      })
       .addCase(updateAvatar.fulfilled, (state, action) => {
         state.avatar = action.payload.avatar;
+        state.isChangingAvatar = false;
       })
       .addCase(getUser.fulfilled, (state, action) => {
         Object.assign(state, action.payload);

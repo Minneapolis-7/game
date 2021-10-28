@@ -26,7 +26,12 @@ const manifest = typeof manifestJson === 'string' ? JSON.parse(manifestJson) : m
 const spriteContent = sprite.stringify();
 let themeClassname = getThemeClassname('default');
 
-function getPageHTML(appHTML: string, reduxState = {}, helmetData: HelmetData): string {
+function getPageHTML(
+  appHTML: string,
+  reduxState = {},
+  helmetData: HelmetData,
+  nonce: string
+): string {
   return `<!DOCTYPE html>
   <html lang="ru">
     <head>
@@ -44,7 +49,7 @@ function getPageHTML(appHTML: string, reduxState = {}, helmetData: HelmetData): 
     <body class="${themeClassname}">
       ${spriteContent}
       <div class="root" id="root">${appHTML}</div>
-      <script>
+      <script nonce="${nonce}">
         window.__INITIAL_STATE__ = ${htmlescape(reduxState)}
       </script>
     </body>
@@ -53,6 +58,7 @@ function getPageHTML(appHTML: string, reduxState = {}, helmetData: HelmetData): 
 
 export default async function ssr(req: Request, res: Response) {
   const location = req.url;
+  const { nonce } = res.locals;
   const ctx: StaticRouterContext = {};
   let html = '';
   const { store } = initStore(getInitialState(location), location);
@@ -102,7 +108,7 @@ export default async function ssr(req: Request, res: Response) {
     const reduxState = store.getState();
     const helmetData = Helmet.renderStatic();
 
-    res.status(ctx.statusCode || 200).send(getPageHTML(html, reduxState, helmetData));
+    res.status(ctx.statusCode || 200).send(getPageHTML(html, reduxState, helmetData, nonce));
   }
 
   try {
