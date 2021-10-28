@@ -1,4 +1,12 @@
-import { AllowNull, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
+import {
+  AllowNull,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+  Unique,
+} from 'sequelize-typescript';
 
 import SiteTheme from './SiteTheme';
 
@@ -22,6 +30,7 @@ export default class UserTheme extends Model<UserTheme, UserThemeCreationAttribu
 
   @ForeignKey(() => User)
   @AllowNull(false)
+  @Unique
   @Column(DataType.INTEGER)
   userId!: number;
 }

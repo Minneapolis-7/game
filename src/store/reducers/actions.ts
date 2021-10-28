@@ -6,6 +6,7 @@ export {
   signup,
   logout,
   getUser,
+  setUser,
   updateProfile,
   updatePassword,
   updateAvatar,

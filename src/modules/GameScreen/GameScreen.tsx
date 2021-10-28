@@ -29,7 +29,6 @@ const { game: txt } = text;
 function GameScreen(): JSX.Element {
   const [gameScreen, setGameScreen] = useState(GAME_SCREEN.START);
   const [fullscreen, setFullscreen] = useState(false);
-  const [fullscreenSupport, setFullscreenSupport] = useState(false);
   const [levelNumber, setLevelNumber] = useState(1);
   const [totalTime, setTotalTime] = useState(0);
   const [points, setPoints] = useState(0);
@@ -59,10 +58,6 @@ function GameScreen(): JSX.Element {
   };
 
   useEffect(() => {
-    if (document.fullscreenElement === null && document.exitFullscreen) {
-      setFullscreenSupport(true);
-    }
-
     const listenFullscreen = () => {
       if (!document.fullscreenElement) {
         setFullscreen(false);
@@ -77,7 +72,7 @@ function GameScreen(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    if (!fullscreenSupport || !gameScreenRef.current) {
+    if (!gameScreenRef.current) {
       return;
     }
 
@@ -88,17 +83,13 @@ function GameScreen(): JSX.Element {
     if (!fullscreen && document.fullscreenElement) {
       document.exitFullscreen();
     }
-  }, [fullscreenSupport, fullscreen]);
+  }, [fullscreen]);
 
   const handleToggleFullscreen = useCallback(() => {
     setFullscreen((prevValue) => !prevValue);
   }, [setFullscreen]);
 
   const fullscreenButtonElement = useMemo(() => {
-    if (!fullscreenSupport) {
-      return null;
-    }
-
     return (
       <Button
         className={b('fullscreen-button')}
@@ -108,7 +99,7 @@ function GameScreen(): JSX.Element {
         onClick={handleToggleFullscreen}
       />
     );
-  }, [fullscreenSupport, fullscreen, handleToggleFullscreen]);
+  }, [fullscreen, handleToggleFullscreen]);
 
   const winScoreElement = useMemo(() => {
     return (

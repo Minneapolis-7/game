@@ -40,7 +40,7 @@ export const getUser = createAsyncThunk('user/getUser', async (_, { rejectWithVa
   try {
     return await api.getUser();
   } catch (err) {
-    return rejectWithValue(err.response.data);
+    return rejectWithValue(err.response?.data);
   }
 });
 
@@ -148,6 +148,9 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    setUser(state, action: PayloadAction<UserLocalProfile>) {
+      Object.assign(state, action.payload);
+    },
     applyTheme(state, action: PayloadAction<string>) {
       state.selectedTheme = action.payload;
     },
@@ -191,6 +194,6 @@ export const userState = (state: RootState): UserState => ({
   ...state.user,
 });
 
-export const { applyTheme } = userSlice.actions;
+export const { applyTheme, setUser } = userSlice.actions;
 
 export default userSlice.reducer;

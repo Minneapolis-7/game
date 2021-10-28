@@ -1,11 +1,12 @@
 import compression from 'compression';
+import cookieParser from 'cookie-parser';
 import express from 'express';
 import helmet from 'helmet';
 import path from 'path';
 
 import router from './router/router';
 import sequelize from './sequelize/sequelize';
-import { nonce, ssr } from './middlewares';
+import { checkAuth, nonce, ssr } from './middlewares';
 
 import settings from '../../webpack/settings';
 
@@ -14,6 +15,7 @@ const distStatic = path.resolve(__dirname, settings.paths.dist.static);
 const isProduction = process.env.NODE_ENV === 'production';
 
 app
+  .use(cookieParser())
   .use(compression())
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
@@ -35,6 +37,7 @@ app
       },
     })(req, res, next);
   })
+  .use(checkAuth)
   .use(router);
 
 app.get('*', ssr);

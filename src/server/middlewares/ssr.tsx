@@ -14,7 +14,7 @@ import paths from '@/shared/const/paths';
 import routes from '@/shared/const/routes';
 import getThemeClassname from '@/shared/utils/getThemeClassname';
 import getInitialState from '@/store/getInitialState';
-import { applyTheme } from '@/store/reducers/actions';
+import { applyTheme, setUser } from '@/store/reducers/actions';
 import initStore from '@/store/store';
 
 // eslint-disable-next-line
@@ -62,6 +62,8 @@ export default async function ssr(req: Request, res: Response) {
   const ctx: StaticRouterContext = {};
   let html = '';
   const { store } = initStore(getInitialState(location), location);
+  const { yandexUser } = req.app.locals;
+  const isAuthPage = location === paths.LOGIN || location === paths.REGISTER;
 
   function renderApp() {
     try {
@@ -93,6 +95,10 @@ export default async function ssr(req: Request, res: Response) {
       ctx.url = paths.SERVER_ERROR;
     }
 
+    if (yandexUser && isAuthPage) {
+      ctx.url = '/';
+    }
+
     if (ctx.url) {
       res.redirect(ctx.url);
 
@@ -105,17 +111,16 @@ export default async function ssr(req: Request, res: Response) {
     res.status(ctx.statusCode || 200).send(getPageHTML(html, reduxState, helmetData, nonce));
   }
 
-  // проверка авторизации
-
-  // получение id
-  const userId = 1;
-
   try {
-    const { name: themeName } = await api.getUserTheme(userId);
+    if (yandexUser) {
+      const localUser = await api.setLocalUser(yandexUser);
+      const { name: themeName } = await api.getUserTheme(localUser.id as number);
 
-    store.dispatch(applyTheme(themeName));
+      store.dispatch(applyTheme(themeName));
+      store.dispatch(setUser(localUser));
 
-    themeClassname = getThemeClassname(themeName);
+      themeClassname = getThemeClassname(themeName);
+    }
   } catch (e) {
     console.log(e);
   } finally {

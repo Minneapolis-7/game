@@ -16,9 +16,7 @@ const forumStatsApi = {
 
       response.json(data);
     } catch (e) {
-      response.status(HttpStatuses.SERVER_ERROR).json({
-        error: e,
-      });
+      response.status(HttpStatuses.SERVER_ERROR).json(e);
     }
   },
 };
