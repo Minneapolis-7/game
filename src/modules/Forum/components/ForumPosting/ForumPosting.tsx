@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, useCallback, useContext, useMemo, useState } from 'react';
 import { generatePath } from 'react-router';
+import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { formatDistance } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
@@ -144,9 +145,9 @@ function ForumPosting({ data, className = '' }: ForumPostingProps): JSX.Element 
     <article id={postAnchor} className={b({}).mix(className.split(' '))}>
       <div className={b('user')}>
         <div className={b('user-name')}>
-          <a className={bLink({ action: true })} href={userPath}>
+          <Link className={bLink({ action: true })} to={userPath}>
             {user.name}
-          </a>
+          </Link>
         </div>
         <Avatar
           src={user.avatar && getResourceURL(user.avatar)}
@@ -156,9 +157,9 @@ function ForumPosting({ data, className = '' }: ForumPostingProps): JSX.Element 
       </div>
       <div className={b('content')}>
         <div className={b('toolbar', { top: true })}>
-          <a className={bLink({ 'text-like': true })} href={postAnchor}>
+          <Link className={bLink({ 'text-like': true })} to={postAnchor}>
             <Icon align="middle" name={bookmarkSvg.id} /> {dateDistanceText}
-          </a>{' '}
+          </Link>{' '}
           {/* todo: сделать редактирование и удаление */}
           {isOwnPosting && (
             <>

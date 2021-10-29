@@ -100,9 +100,9 @@ function ForumSection(): JSX.Element | null {
               descSlot={
                 <>
                   <h4 className={b('item-heading').mix('heading_4 heading gap-y-xs')}>
-                    <a className={bLink()} href={threadPath}>
+                    <Link className={bLink()} to={threadPath}>
                       {thread.title}
-                    </a>{' '}
+                    </Link>{' '}
                     <span className={b('item-heading-misc')}>
                       {/* todo: добавить количество просмотров и комментариев */}
                     </span>
@@ -116,9 +116,9 @@ function ForumSection(): JSX.Element | null {
               }
               statSlot={
                 <>
-                  <a className={bLink({ action: true })} href={lastPostPath}>
+                  <Link className={bLink({ action: true })} to={lastPostPath}>
                     {truncateString(lastPost.content, 70)}
-                  </a>{' '}
+                  </Link>{' '}
                   <UserStamp
                     profileURL={lastPostAuthorPath}
                     user={lastPost.user.name}
