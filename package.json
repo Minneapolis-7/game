@@ -70,6 +70,11 @@
     "svg-sprite-loader": "6.0.9",
     "utility-types": "3.10.0",
     "uuid": "8.3.2",
+    "workbox-core": "6.2.4",
+    "workbox-precaching": "6.2.4",
+    "workbox-routing": "6.2.4",
+    "workbox-strategies": "6.2.4",
+    "workbox-window": "6.2.4",
     "yup": "0.32.9"
   },
   "devDependencies": {
@@ -124,6 +129,7 @@
     "eslint-plugin-simple-import-sort": "7.0.0",
     "eslint-plugin-testing-library": "4.12.0",
     "fork-ts-checker-webpack-plugin": "6.3.1",
+    "html-webpack-plugin": "5.5.0",
     "husky": "7.0.1",
     "jest": "27.1.0",
     "lint-staged": "11.1.2",
