@@ -1,5 +1,6 @@
 import React from 'react';
 import { generatePath } from 'react-router';
+import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 
 import { ForumItemPreview, UserStamp } from '@/modules/Forum/components';
@@ -53,9 +54,9 @@ function ForumMainView(): JSX.Element {
 
               sectionStats = (
                 <>
-                  <a className={bLink({ action: true })} href={lastActivePostingPath}>
+                  <Link className={bLink({ action: true })} to={lastActivePostingPath}>
                     {lastActiveThread.title}
-                  </a>{' '}
+                  </Link>{' '}
                   <UserStamp
                     profileURL={lastActiveUserPath}
                     user={lastActiveUser.name}
@@ -72,9 +73,9 @@ function ForumMainView(): JSX.Element {
                 descSlot={
                   <>
                     <h4 className={b('item-heading').mix('heading_4', 'heading')}>
-                      <a className={bLink()} href={sectionPath}>
+                      <Link className={bLink()} to={sectionPath}>
                         {section.title}
-                      </a>
+                      </Link>
                     </h4>
                     <p>{section.description}</p>
                   </>

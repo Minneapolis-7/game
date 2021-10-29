@@ -1,5 +1,6 @@
 import React, { useLayoutEffect } from 'react';
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 
 import { Spinner } from '@/components/ui';
@@ -74,9 +75,9 @@ function Forum(): JSX.Element {
     <div className={b()}>
       <header className={b('header')}>
         <h1 className={b('main-heading').mix('heading_1', 'heading')}>
-          <a className={bLink({ 'text-like': true })} href={paths.FORUM}>
+          <Link className={bLink({ 'text-like': true })} to={paths.FORUM}>
             Game
-          </a>
+          </Link>
         </h1>
       </header>
       <main className={b('body').is({ loading: isLoading, loaded: isLoaded })}>

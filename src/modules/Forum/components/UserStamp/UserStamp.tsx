@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
 import { formatDistance } from 'date-fns';
 import ruLocale from 'date-fns/locale/ru';
@@ -12,7 +13,7 @@ const { userStamp: txt, timeDistanceLabel } = text;
 type UserStampProps = {
   user: string;
   date: Date;
-  profileURL?: string;
+  profileURL: string;
 };
 
 function UserStamp({ user, date, profileURL }: UserStampProps): JSX.Element {
@@ -27,9 +28,9 @@ function UserStamp({ user, date, profileURL }: UserStampProps): JSX.Element {
   return (
     <span className={b()}>
       {txt.fromLabel}{' '}
-      <a className={bLink({ action: true })} href={profileURL}>
+      <Link className={bLink({ action: true })} to={profileURL}>
         {user}
-      </a>{' '}
+      </Link>{' '}
       {dateDistanceText}
     </span>
   );
