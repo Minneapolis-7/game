@@ -45,6 +45,17 @@ module.exports = (env) => ({
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash:8].css',
     }),
-    new GenerateSW(),
+    new GenerateSW({
+      runtimeCaching: [
+        {
+          urlPattern: /\.(png|jpg|jpeg|gif|mp3|css|js)$/,
+          handler: 'CacheFirst',
+        },
+        {
+          urlPattern: /([\w-]+)$/,
+          handler: 'NetworkFirst',
+        },
+      ],
+    }),
   ],
 });
