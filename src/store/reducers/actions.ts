@@ -12,7 +12,7 @@ export {
   updateAvatar,
 } from './userReducers';
 
-export { addToLeaderboard, getAllLeaderboard, getTeamLeaderboard } from './leaderboardReducers';
+export { addToLeaderboard, getTeamLeaderboard } from './leaderboardReducers';
 
 export {
   getCategories,

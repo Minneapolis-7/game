@@ -1,67 +1,81 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { block } from 'bem-cn';
 
-import { Pagination } from '@/components/ui';
-import paths from '@/shared/const/paths';
+import AppContext from '@/AppContext';
+import { Spinner } from '@/components/ui';
+import { ToastItem } from '@/components/ui/Toaster/Toast/types';
+import { RATING_FIELD_NAME, SizeLabels, TEAM_NAME } from '@/shared/const/const';
 import text from '@/shared/const/text';
-
-const LEADERBOARD_PAGE_SIZE = 8;
+import translateErrorMessage from '@/shared/utils';
+import { getTeamLeaderboard } from '@/store/reducers/leaderboardReducers';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 
 const b = block('leaderboard');
 const { leaderboard: txt } = text;
 
-type leaderUser = {
-  id: number;
-  nickname: string;
-  points: number;
-};
+function Leaderboard(): JSX.Element {
+  const leaderList = useAppSelector((state) => state.leaderboard.leaderList);
+  const isLoading = useAppSelector((state) => state.leaderboard.isLoading);
+  const appContext = useContext(AppContext);
+  const dispatch = useAppDispatch();
 
-type LeaderboardProps = {
-  leaderList: leaderUser[];
-};
+  useEffect(() => {
+    (async () => {
+      try {
+        const requestData = {
+          teamName: TEAM_NAME,
+          value: {
+            ratingFieldName: RATING_FIELD_NAME,
+            cursor: 0,
+            // todo: сделать пагинацию
+            limit: 100,
+          },
+        };
 
-type RowProps = {
-  label: string;
-  value: number;
-};
+        await dispatch(getTeamLeaderboard(requestData)).unwrap();
+      } catch (err) {
+        const toast = {
+          type: 'warning',
+          description: translateErrorMessage(err.reason),
+        };
 
-function Leaderboard({ leaderList }: LeaderboardProps): JSX.Element {
-  function Row({ label, value }: RowProps): JSX.Element {
-    return (
-      <li>
-        <div className={b('wrapper-row')}>
-          <div className={b('nickname')}>{label}</div>
-          <div className={b('points')}>{value || '\u200B'}</div>
-        </div>
-        <hr className={b('bottom-line')}></hr>
-      </li>
+        appContext?.addToastMessage(toast as ToastItem);
+      }
+    })();
+  }, [appContext, dispatch]);
+
+  let finalResult = null;
+
+  if (leaderList) {
+    finalResult = leaderList.length ? (
+      <ul className={b('list').mix('nolist')}>
+        {leaderList.map(({ data: user }, i) => {
+          return (
+            <li key={user.id} data-position={i + 1} className={b('record')}>
+              <div className={b('nickname')}>{user.nickname}</div>
+              <div className={b('points')}>{user.points}</div>
+            </li>
+          );
+        })}
+      </ul>
+    ) : (
+      <div className={b('empty')}>{txt.empty}</div>
     );
   }
 
   return (
     <div className={b()}>
-      <header className={b('head')}>
-        <h3>{txt.header}</h3>
-      </header>
+      <h3 className={b('heading').mix('heading_3', 'heading')}>{txt.header}</h3>
       <div className={b('content')}>
-        {leaderList.length ? (
-          <ul className={b('players-list')}>
-            {leaderList.map((user) => {
-              return <Row key={user.id} label={user.nickname} value={user.points} />;
-            })}
-          </ul>
+        {isLoading ? (
+          <>
+            <div className={b('dimmer')} />
+            <Spinner size={SizeLabels.LG} className={b('spinner')} />
+          </>
         ) : (
-          <div className={b('empty')}>{txt.empty}</div>
+          finalResult
         )}
       </div>
-      {leaderList.length >= LEADERBOARD_PAGE_SIZE && (
-        <Pagination
-          total={10}
-          current={1}
-          baseURL={`${paths.LEADERBOARD}/page`}
-          className={b('pagination')}
-        />
-      )}
     </div>
   );
 }
