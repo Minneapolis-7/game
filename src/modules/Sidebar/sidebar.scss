@@ -24,7 +24,7 @@ body .sidebar__container {
   transform: translateX(-100%);
   will-change: transform;
 }
-.sidebar__container.is-opened {
+.sidebar.is-opened > .sidebar__container {
   visibility: visible;
   transform: translateX(0);
 }
@@ -69,7 +69,7 @@ body .sidebar__opener {
   transition: opacity $sidebar-animation-duration;
   will-change: opacity;
 }
-.sidebar__container.is-opened ~ .sidebar__backdrop {
+.sidebar.is-opened > .sidebar__container ~ .sidebar__backdrop {
   opacity: 1;
   pointer-events: auto;
 }

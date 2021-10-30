@@ -87,7 +87,7 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
   useFocusTrapping(SIDEBAR_SHOW_EVENT, SIDEBAR_HIDE_EVENT);
 
   return (
-    <div className={b({}).mix(className.split(' '))}>
+    <div className={b({}).is({ opened: isOpened }).mix(className.split(' '))}>
       <Button
         className={b('opener')}
         theme="morphed"
@@ -95,7 +95,7 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
         icon={<Icon name={menuSvg.id} scale={1.5} />}
         onClick={openSidebar}
       />
-      <div ref={sidebarRef} className={b('container').is({ opened: isOpened })} tabIndex={-1}>
+      <div ref={sidebarRef} className={b('container')} tabIndex={-1}>
         <div className={b('head')}>
           <h4 className="heading_4 heading nomrg">{txt.header}</h4>
           <Button

@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router-dom';
 import { v1 as uuidv1 } from 'uuid';
+import { Workbox } from 'workbox-window';
 
 import ProtectedRoute from '@/modules/ProtectedRoute';
 import RootErrorBoundary from '@/modules/RootErrorBoundary';
@@ -18,20 +19,10 @@ import { ToastItem } from '@/components/ui/Toaster/Toast/types';
 import AppContext from './AppContext';
 import { Toaster } from '@/components/ui';
 
-function startServiceWorker() {
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', async () => {
-      try {
-        await navigator.serviceWorker.register('/service-worker.js');
-      } catch (error) {
-        throw new Error(error);
-      }
-    });
-  }
-}
+if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  const workbox = new Workbox('/service-worker.js');
 
-if (process.env.NODE_ENV === 'production') {
-  startServiceWorker();
+  workbox.register();
 }
 
 declare global {
