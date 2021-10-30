@@ -131,6 +131,7 @@ function ForumPosting({ data, className = '' }: ForumPostingProps): JSX.Element 
       dispatch,
       isComment,
       emojiProcessingState,
+      emojiToggledState,
       getPostEmojiId,
     ]
   );
