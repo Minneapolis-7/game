@@ -1,7 +1,7 @@
 import { AsyncThunk } from '@reduxjs/toolkit';
 import { RouterState } from 'connected-react-router';
 
-import { Leader } from '@/api/types';
+import { LeaderData } from '@/api/types';
 import { EmojiAttributes } from '@/server/sequelize/models/Emoji';
 import {
   ForumCategoryData,
@@ -12,7 +12,8 @@ import {
 import type { UserState } from '@/store/reducers/userReducers';
 
 export type LeaderboardState = {
-  leaderList: Leader[];
+  leaderList: LeaderData[] | null;
+  isLoading: boolean;
 };
 
 export type ForumState = {

@@ -8,3 +8,4 @@ export { default as ForumMainPage } from './ForumPage';
 export { default as LeaderboardPage } from './LeaderboardPage';
 export { default as Page500 } from './Page500';
 export { default as Page404 } from './Page404';
+export { default as OfflineNoticePage } from './OfflineNoticePage';

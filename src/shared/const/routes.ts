@@ -3,6 +3,7 @@ import {
   LeaderboardPage,
   LoginPage,
   MainPage,
+  OfflineNoticePage,
   Page404,
   Page500,
   ProfileEditPage,
@@ -105,6 +106,13 @@ const routes = [
     exact: true,
     protected: false,
     title: text.page500.title,
+  },
+  {
+    path: paths.OFFLINE_NOTICE,
+    component: OfflineNoticePage,
+    exact: true,
+    protected: false,
+    title: text.offlineNoticePage.title,
   },
   {
     path: '*',

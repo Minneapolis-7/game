@@ -1,4 +1,5 @@
 {
+  "offlineBadgeTitle": "Нет соединения",
   "nav": {
     "main": "Главная",
     "login": "Вход",
@@ -125,6 +126,11 @@
   "page500": {
     "title": "Ошибка сервера"
   },
+  "offlineNoticePage": {
+    "title": "Нет соединения",
+    "message": "Нет соединения с интернетом,",
+    "action": "поиграйте в игру"
+  },
   "game": {
     "title": "Играть",
     "playButton": "Играть",
@@ -134,8 +140,8 @@
     "winText": "Победа!",
     "gamepadConfiguration": "Обнаружен геймпад! Нажмите ОК, затем кнопку на геймпаде, соответствующую действию:",
     "pointsOnFirstLevel": "Для попадания в таблицу лидеров необходимо пройти хотя бы один уровень",
-    "pointsOnWin": "Вы прошли все %levelNumber% уровня за %time%. Это %points% очков. Поздравляем!",
-    "pointsOnLoss": "Вы прошли %levelNumber% уровня за %time%. Это %points% очков. Попробуйте пройти все уровни",
+    "pointsOnWin": "Вы прошли все %totalLevels% уровня за %time%. Это %points% очков. Поздравляем!",
+    "pointsOnLoss": "Вы прошли %completedLevels% уровня за %time%. Это %points% очков. Попробуйте пройти все уровни",
     "control": {
       "left": "Движение влево",
       "right": "Движение вправо",

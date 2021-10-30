@@ -2,11 +2,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import api from '@/api/leaderboardApi';
-import { LeaderboardRequest, NewLeaderData, TeamLeaderboardRequest } from '@/api/types';
+import { NewLeaderData, TeamLeaderboardRequest } from '@/api/types';
 import { LeaderboardState, RootState } from '@/shared/types/redux';
 
 export const initialState: LeaderboardState = {
-  leaderList: [],
+  leaderList: null,
+  isLoading: false,
 };
 
 export const addToLeaderboard = createAsyncThunk(
@@ -14,17 +15,6 @@ export const addToLeaderboard = createAsyncThunk(
   async (value: NewLeaderData, { rejectWithValue }) => {
     try {
       return await api.addToLeaderboard(value);
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  }
-);
-
-export const getAllLeaderboard = createAsyncThunk(
-  'leaderboard/getAllLeaderboard',
-  async (value: LeaderboardRequest, { rejectWithValue }) => {
-    try {
-      return await api.getAllLeaderboard(value);
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -47,13 +37,16 @@ export const leaderboardSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(getAllLeaderboard.fulfilled, (state, action) => {
-        state.leaderList = action.payload;
-      })
-      .addCase(getTeamLeaderboard.fulfilled, (state, action) => {
-        state.leaderList = action.payload;
-      });
+    builder.addCase(getTeamLeaderboard.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getTeamLeaderboard.fulfilled, (state, action) => {
+      state.leaderList = action.payload;
+      state.isLoading = false;
+    });
+    builder.addCase(getTeamLeaderboard.rejected, (state) => {
+      state.isLoading = false;
+    });
   },
 });
 

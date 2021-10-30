@@ -10,7 +10,12 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const { GenerateSW } = require('workbox-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { InjectManifest } = require('workbox-webpack-plugin');
+
+const settings = require('./settings');
+
+const path = require('path');
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (env) => ({
@@ -45,6 +50,14 @@ module.exports = (env) => ({
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash:8].css',
     }),
-    new GenerateSW(),
+    new HtmlWebpackPlugin({
+      template: path.resolve(__dirname, '..', settings.paths.static.base, 'offline.html'),
+      filename: 'offline.html',
+    }),
+    new InjectManifest({
+      swSrc: path.resolve(__dirname, '..', 'swTemplate.js'),
+      swDest: 'service-worker.js',
+      exclude: [/\.map$/],
+    }),
   ],
 });

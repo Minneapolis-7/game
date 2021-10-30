@@ -12,6 +12,7 @@ const paths = {
   LEADERBOARD: '/leaderboard',
   SERVER_ERROR: '/server-error',
   NOT_FOUND: '/not-found',
+  OFFLINE_NOTICE: '/offline',
 };
 
 export default paths;
