@@ -13,21 +13,6 @@ import { useAppDispatch, useAppSelector } from '@/store/store';
 const b = block('leaderboard');
 const { leaderboard: txt } = text;
 
-type LeaderRowProps = {
-  nickname: string;
-  points: number;
-  position: number;
-};
-
-function LeaderRow({ nickname, points, position }: LeaderRowProps): JSX.Element {
-  return (
-    <li data-position={position + 1} className={b('record')}>
-      <div className={b('nickname')}>{nickname}</div>
-      <div className={b('points')}>{points}</div>
-    </li>
-  );
-}
-
 function Leaderboard(): JSX.Element {
   const leaderList = useAppSelector((state) => state.leaderboard.leaderList);
   const isLoading = useAppSelector((state) => state.leaderboard.isLoading);
@@ -66,7 +51,10 @@ function Leaderboard(): JSX.Element {
       <ul className={b('list').mix('nolist')}>
         {leaderList.map(({ data: user }, i) => {
           return (
-            <LeaderRow key={user.id} nickname={user.nickname} points={user.points} position={i} />
+            <li key={user.id} data-position={i + 1} className={b('record')}>
+              <div className={b('nickname')}>{user.nickname}</div>
+              <div className={b('points')}>{user.points}</div>
+            </li>
           );
         })}
       </ul>
