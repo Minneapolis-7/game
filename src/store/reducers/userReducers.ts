@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { push, replace } from 'connected-react-router';
 
 import {
@@ -36,6 +36,30 @@ export const initialState: UserState = {
   selectedTheme: DEFAULT_THEME_NAME,
 };
 
+export const getSelectedTheme = createAsyncThunk(
+  'user/getSelectedTheme',
+  async (userId: number, { rejectWithValue }) => {
+    try {
+      return await api.getUserTheme(userId);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const saveThemeSelection = createAsyncThunk(
+  'user/saveThemeSelection',
+  async (userTheme: UserTheme, { rejectWithValue }) => {
+    try {
+      return await api.setUserTheme(userTheme);
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const applyTheme = createAction<string>('user/applyTheme');
+
 export const getUser = createAsyncThunk('user/getUser', async (_, { rejectWithValue }) => {
   try {
     return await api.getUser();
@@ -49,7 +73,11 @@ export const signin = createAsyncThunk(
   async (user: SignInRequest, { dispatch, rejectWithValue }) => {
     try {
       await api.signin(user);
-      await dispatch(getUser());
+
+      const userData = await dispatch(getUser()).unwrap();
+      const { name: themeName } = await dispatch(getSelectedTheme(userData.id as number)).unwrap();
+
+      dispatch(applyTheme(themeName));
 
       return dispatch(replace('/'));
     } catch (err) {
@@ -77,6 +105,8 @@ export const logout = createAsyncThunk(
   async (_unused, { dispatch, rejectWithValue }) => {
     try {
       await api.logout();
+
+      dispatch(applyTheme(DEFAULT_THEME_NAME));
 
       return dispatch(replace(paths.LOGIN));
     } catch (err) {
@@ -122,37 +152,12 @@ export const updatePassword = createAsyncThunk(
   }
 );
 
-export const getSelectedTheme = createAsyncThunk(
-  'user/getSelectedTheme',
-  async (userId: number, { rejectWithValue }) => {
-    try {
-      return await api.getUserTheme(userId);
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  }
-);
-
-export const saveThemeSelection = createAsyncThunk(
-  'user/saveThemeSelection',
-  async (userTheme: UserTheme, { rejectWithValue }) => {
-    try {
-      return await api.setUserTheme(userTheme);
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
-  }
-);
-
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<UserLocalProfile>) {
       Object.assign(state, action.payload);
-    },
-    applyTheme(state, action: PayloadAction<string>) {
-      state.selectedTheme = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -186,6 +191,9 @@ export const userSlice = createSlice({
         const { name } = action.payload;
 
         state.selectedTheme = name;
+      })
+      .addCase(applyTheme, (state, action) => {
+        state.selectedTheme = action.payload;
       });
   },
 });
@@ -194,6 +202,6 @@ export const userState = (state: RootState): UserState => ({
   ...state.user,
 });
 
-export const { applyTheme, setUser } = userSlice.actions;
+export const { setUser } = userSlice.actions;
 
 export default userSlice.reducer;

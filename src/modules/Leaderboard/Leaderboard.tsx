@@ -42,7 +42,7 @@ function Leaderboard(): JSX.Element {
         appContext?.addToastMessage(toast as ToastItem);
       }
     })();
-  }, [appContext, dispatch]);
+  }, []);
 
   let finalResult = null;
 

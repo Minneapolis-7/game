@@ -63,15 +63,15 @@ export default {
     delete yandexUser.id;
 
     const localUserData = {
-      id: data.id,
       yandexUserId,
       ...yandexUser,
-    };
+    } as UserLocalProfile;
 
     if (!data) {
       ({ data } = await apiCustom.post('/user', localUserData));
-      localUserData.id = data.id;
     }
+
+    localUserData.id = data.id;
 
     return localUserData;
   },
