@@ -24,7 +24,7 @@ import sprite from 'svg-sprite-loader/runtime/sprite.build';
 
 const manifest = typeof manifestJson === 'string' ? JSON.parse(manifestJson) : manifestJson;
 const spriteContent = sprite.stringify();
-let themeClassname = getThemeClassname('default');
+let themeClassname: string;
 
 function getPageHTML(
   appHTML: string,
@@ -110,6 +110,8 @@ export default async function ssr(req: Request, res: Response) {
 
     res.status(ctx.statusCode || 200).send(getPageHTML(html, reduxState, helmetData, nonce));
   }
+
+  themeClassname = getThemeClassname('default');
 
   try {
     if (yandexUser) {

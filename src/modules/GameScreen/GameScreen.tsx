@@ -148,7 +148,13 @@ function GameScreen(): JSX.Element {
       [GAME_SCREEN.START]: (
         <div className={b({ [GAME_SCREEN.START]: true, fullscreen })} ref={gameScreenRef}>
           {fullscreenButtonElement}
-          <img className="liquid-img" src={introImage} alt="Персонаж игры в прыжке за ключом" />
+          <img
+            className="liquid-img"
+            src={introImage}
+            width="410"
+            height="491"
+            alt="Персонаж игры в прыжке за ключом"
+          />
           <Button onClick={handleGameStart} size={SizeLabels.LG}>
             {txt.playButton}
           </Button>
@@ -163,7 +169,13 @@ function GameScreen(): JSX.Element {
       [GAME_SCREEN.WIN]: (
         <div className={b({ [GAME_SCREEN.WIN]: true, fullscreen })} ref={gameScreenRef}>
           {fullscreenButtonElement}
-          <img className="liquid-img" src={winImage} alt="Персонаж игры выходит в открытые двери" />
+          <img
+            className="liquid-img"
+            src={winImage}
+            width="413"
+            height="396"
+            alt="Персонаж игры выходит в открытые двери"
+          />
           <h2 className="heading_2 heading">{txt.winText}</h2>
           {winScoreElement}
           <Button onClick={handleGameStart} size={SizeLabels.LG}>
@@ -174,7 +186,13 @@ function GameScreen(): JSX.Element {
       [GAME_SCREEN.LOSS]: (
         <div className={b({ [GAME_SCREEN.LOSS]: true, fullscreen })} ref={gameScreenRef}>
           {fullscreenButtonElement}
-          <img className="liquid-img" src={lossImage} alt="Персонаж игры лежит после проигрыша" />
+          <img
+            className="liquid-img"
+            src={lossImage}
+            width="398"
+            height="268"
+            alt="Персонаж игры лежит после проигрыша"
+          />
           <h2 className="heading_2 heading">{txt.lossText}</h2>
           {lossScoreElement}
           <Button onClick={handleGameStart} size={SizeLabels.LG}>

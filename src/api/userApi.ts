@@ -57,21 +57,23 @@ export default {
 
   async setLocalUser(user: UserProfile): Promise<UserLocalProfile> {
     const yandexUser: Optional<UserProfile, 'id'> = user;
-    const yandexUserId = yandexUser.id;
+    const yandexUserId = yandexUser.id as number;
     let { data } = await apiCustom.get(`/user/${yandexUserId}`);
 
+    delete yandexUser.id;
+
+    const localUserData = {
+      yandexUserId,
+      ...yandexUser,
+    } as UserLocalProfile;
+
     if (!data) {
-      delete yandexUser.id;
-
-      const localUserData = {
-        yandexUserId,
-        ...yandexUser,
-      };
-
       ({ data } = await apiCustom.post('/user', localUserData));
     }
 
-    return data;
+    localUserData.id = data.id;
+
+    return localUserData;
   },
 
   async getUser(authCookies?: AuthCookies): Promise<UserLocalProfile> {
