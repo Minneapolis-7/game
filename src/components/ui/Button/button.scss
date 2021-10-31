@@ -1,0 +1,203 @@
+@use 'sass:math';
+@use 'src/css/abstracts/variables' as *;
+@use 'src/css/abstracts/mixins' as *;
+
+$button-height: $field-height;
+$button-text-color: var(--dark-color);
+
+.button {
+  @include button-reset;
+
+  height: $button-height;
+  padding: 0 1.15em;
+  border: none;
+  background-color: var(--brand-color);
+  color: $button-text-color;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.button::-moz-focus-inner {
+  border: 0;
+}
+.button:-moz-focusring {
+  outline-width: 0;
+}
+
+.button:not(:disabled):hover,
+.button:not(:disabled):focus-visible {
+  background-color: var(--brand-color-darker);
+}
+/* stylelint-disable no-descending-specificity */
+.button:disabled {
+  @include disabled;
+}
+/* stylelint-enable no-descending-specificity */
+
+.button[data-display='block'] {
+  display: block;
+  width: 100%;
+}
+.button[data-display='inline'],
+.button[data-display='inline'] .button__text {
+  vertical-align: baseline;
+}
+
+.button__icon > * {
+  position: relative;
+  top: 0.066666667em;
+  display: inline-block;
+}
+.button__icon > svg {
+  width: 1em;
+  height: 1em;
+}
+.button__icon > svg,
+.button__icon > svg path {
+  fill: currentColor;
+}
+
+/* stylelint-disable no-descending-specificity */
+.button__icon,
+.button__text {
+  position: relative;
+  z-index: $z-index-primary;
+  display: inline-block;
+  vertical-align: top;
+  min-height: 100%;
+  line-height: $button-height;
+}
+
+.button__icon + .button__text,
+.button__text + .button__icon {
+  margin-left: 0.334em;
+}
+/* stylelint-enable no-descending-specificity */
+
+// для вертикального выравнивания в строке `.button__text` всегда должен содержать текст, даже если текста нет
+// вставим "zero-width space"
+.button__text::after {
+  content: '\200b';
+}
+.button__icon + .button__text:empty,
+.button__text:empty + .button__icon {
+  margin-left: 0;
+}
+
+.button.is-waiting .button__icon,
+.button.is-waiting .button__text {
+  opacity: 0;
+}
+.button[data-display='block'].is-waiting .button__icon,
+.button[data-display='block'].is-waiting .button__text {
+  opacity: 1;
+}
+
+$button-spinner-size: 1.125em;
+
+.button > .button__spinner {
+  --size: #{$button-spinner-size};
+
+  top: 50%;
+  left: 50%;
+}
+.button[data-display='block'] > .button__spinner {
+  right: 0.5em;
+  left: auto;
+}
+
+// Темы
+
+.button_theme_link,
+.button_theme_link-danger {
+  padding-right: 0;
+  padding-left: 0;
+  background-color: transparent !important;
+}
+.button_theme_link {
+  color: var(--brand-color);
+}
+.button_theme_link-danger {
+  color: var(--danger-color);
+}
+/* stylelint-disable no-descending-specificity */
+
+.button_theme_link > .button__text,
+.button_theme_link-danger > .button__text {
+  text-decoration: underline;
+}
+.button_theme_link.is-waiting > .button__icon,
+.button_theme_link.is-waiting > .button__text,
+.button_theme_link-danger.is-waiting > .button__icon,
+.button_theme_link-danger.is-waiting > .button__text {
+  opacity: 1;
+}
+.button_theme_link > .button__spinner,
+.button_theme_link-danger > .button__spinner {
+  right: calc(-2 * #{$button-spinner-size}); // 2 — чтобы нивелировать translateX(-50%)
+  left: auto;
+}
+/* stylelint-enable no-descending-specificity */
+
+.button_theme_link:not(:disabled):hover,
+.button_theme_link:not(:disabled):focus-visible,
+.button_theme_link-danger:not(:disabled):hover,
+.button_theme_link-danger:not(:disabled):focus-visible {
+  background-color: transparent;
+}
+
+.button_theme_link:not(:disabled):hover > .button__text,
+.button_theme_link:not(:disabled):focus-visible > .button__text,
+.button_theme_link-danger:not(:disabled):hover > .button__text,
+.button_theme_link-danger:not(:disabled):focus-visible > .button__text {
+  text-decoration: none;
+}
+
+.button_theme_circle {
+  border-radius: 100%;
+}
+
+.button_theme_muted {
+  background-color: var(--muted-color);
+}
+.button_theme_muted:not(:disabled):hover,
+.button_theme_muted:not(:disabled):focus-visible {
+  background-color: var(--muted-color-darker);
+}
+
+.button_theme_subtle {
+  background-color: transparent;
+  color: var(--text-color);
+}
+.button_theme_subtle:not(:disabled):hover,
+.button_theme_subtle:not(:disabled):focus-visible {
+  background-color: hsla(var(--text-color-raw), 0.15);
+}
+
+.button_theme_morphed {
+  background-color: var(--main-bg);
+  color: var(--text-color);
+}
+.button_theme_morphed:not(:disabled):hover,
+.button_theme_morphed:not(:disabled):focus-visible {
+  background-color: var(--main-bg-lighter);
+}
+
+// Размеры (все размерности шрифтозависимы, потому можно просто поменять `font-size`)
+.button_size_xs {
+  font-size: $font-size-xs;
+}
+
+.button_size_sm {
+  font-size: $font-size-sm;
+}
+.button_size_md {
+  font-size: $font-size-md;
+}
+.button_size_lg {
+  font-size: $font-size-lg;
+}
+.button_size_xl {
+  font-size: $font-size-xl;
+}

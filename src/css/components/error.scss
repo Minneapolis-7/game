@@ -1,0 +1,5 @@
+@use 'src/css/abstracts/variables' as *;
+
+.error {
+  color: var(--error-color);
+}

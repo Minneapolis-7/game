@@ -1,0 +1,118 @@
+@use 'src/css/abstracts/variables' as *;
+@use 'src/css/abstracts/mixins' as *;
+
+$profile-bp: 37.5 * $font-size-primary; // 600px при шрифте 16px
+.profile {
+  max-width: 45rem;
+  margin: $gap-y-lg auto;
+}
+.profile__head,
+.profile__name {
+  text-align: center;
+}
+.profile__head {
+  margin-bottom: $gap-y-lg;
+}
+.profile__pic {
+  position: relative;
+  margin-bottom: $gap-y-generic;
+}
+.profile__pic-dimmer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  background-color: var(--dark-color);
+  opacity: 0.7;
+}
+.profile__pic-spinner {
+  top: 50%;
+  left: 50%;
+}
+
+.profile__pic-setter {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.profile__table,
+.profile__table-body,
+.profile__table-tfoot,
+.profile__table-row,
+.profile__table-cell {
+  display: block;
+}
+.profile__table-row {
+  // prettier-ignore
+  border-bottom: 1PX solid var(--ui-color);
+
+  @media (min-width: $profile-bp) {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+}
+.profile__table-row:last-child {
+  border-bottom: none;
+}
+.profile__table-cell {
+  @include break-word;
+}
+th.profile__table-cell {
+  font-weight: normal;
+  text-align: left;
+
+  @media (min-width: $profile-bp) {
+    width: 45%;
+  }
+}
+td.profile__table-cell {
+  color: var(--muted-color);
+}
+
+.profile__table-cell:last-child {
+  @media (min-width: $profile-bp) {
+    width: 53%;
+    text-align: right;
+  }
+}
+.profile__table-cell:last-child input {
+  @media (min-width: $profile-bp) {
+    text-align: right;
+  }
+}
+
+.profile__field {
+  display: inline-block;
+  padding: ($field-gap-y * 2.5) 0 $field-gap-y;
+  line-height: $field-line-height;
+
+  @media (min-width: $profile-bp) {
+    padding: $field-gap-y 0 ($field-gap-y * 3);
+  }
+}
+td > .profile__field {
+  padding-top: $field-gap-y;
+}
+
+.profile__input[data-display='inline'] {
+  display: block;
+
+  @media (min-width: $profile-bp) {
+    display: inline-flex;
+    width: 100%;
+  }
+}
+
+.profile__table-tfoot .profile__table-row:first-child {
+  padding-top: 1rem;
+}
+.profile__table-tfoot .profile__table-cell {
+  display: block;
+  width: auto;
+  text-align: left;
+}

@@ -1,0 +1,16 @@
+.icon,
+.icon > * {
+  display: inline-block;
+}
+.icon > svg {
+  position: relative;
+  top: 0.066666667em;
+  vertical-align: baseline;
+  width: 1em;
+  height: 1em;
+  transform: scale(var(--scale));
+}
+.icon > svg,
+.icon > svg path {
+  fill: currentColor;
+}

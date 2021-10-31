@@ -1,0 +1,35 @@
+.game-react-component {
+  position: relative;
+}
+
+.game-react-component_fullscreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 4rem 0;
+}
+
+.game-react-component__canvas {
+  max-width: 100%;
+}
+
+.game-react-component__canvas_fullscreen {
+  object-fit: contain;
+  max-width: 100%;
+  height: 100%;
+}
+
+.game-react-component__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 32px;
+}
+
+.game-react-component__overlay_fullscreen {
+  height: 64px;
+  padding: 0 80px 0 16px;
+}

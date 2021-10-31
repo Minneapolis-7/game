@@ -1,0 +1,16 @@
+@use 'src/css/abstracts/mixins/non-selectable' as *;
+
+@mixin button-reset {
+  @include non-selectable;
+
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  overflow: visible;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+}

@@ -1,0 +1,46 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:13
+    env_file: ./.env
+    ports:
+      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+    volumes:
+      - ./postgresdata:/var/lib/postgresql/data
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4:5.7
+    env_file: ./.env
+    ports:
+      - '${PGADMIN_LISTEN_PORT}:${PGADMIN_LISTEN_PORT}'
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    restart: always
+
+  app:
+    image: andreyvolokitin/minneapolis-game-7:latest
+    env_file: ./.env
+    depends_on:
+      - postgres
+    ports:
+      - '${APP_PORT}:${APP_PORT}'
+    volumes:
+      - db-seed-status:/db
+    restart: always
+
+  nginx:
+    image: nginx:stable
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./etc/nginx:/etc/nginx/conf.d
+      - /etc/letsencrypt:/etc/letsencrypt
+    restart: always
+
+volumes:
+  pgadmin-data:
+  db-seed-status:

@@ -1,0 +1,198 @@
+{
+  "offlineBadgeTitle": "Нет соединения",
+  "nav": {
+    "main": "Главная",
+    "login": "Вход",
+    "register": "Регистрация",
+    "profile": "Профиль",
+    "leaderboard": "Лидеры",
+    "forum": "Форум"
+  },
+  "sidebar": {
+    "header": "Выберите раздел",
+    "closeButtonTitle": "Закрыть"
+  },
+  "login": {
+    "title": "Вход",
+    "header": "Вход",
+    "submitButton": "Войти",
+    "yandexOAuthButton": "Войти через Яндекс",
+    "loginLabel": "Логин",
+    "passwordLabel": "Пароль",
+    "registerLink": "Зарегистрироваться"
+  },
+  "register": {
+    "title": "Регистрация",
+    "header": "Регистрация",
+    "submitButton": "Зарегистрироваться",
+    "emailLabel": "E-mail",
+    "loginLabel": "Логин",
+    "firstNameLabel": "Имя",
+    "secondNameLabel": "Фамилия",
+    "phoneLabel": "Телефон",
+    "passwordLabel": "Пароль",
+    "passwordRepeatLabel": "Повторите пароль",
+    "loginLink": "Войти"
+  },
+  "profile": {
+    "title": "Профиль",
+    "editTitle": "Редактирование профиля",
+    "editPasswordTitle": "Смена пароля",
+    "emailLabel": "Почта",
+    "phoneLabel": "Телефон",
+    "loginLabel": "Логин",
+    "firstNameLabel": "Имя",
+    "secondNameLabel": "Фамилия",
+    "nickNameLabel": "Ник в игре",
+    "oldPasswordLabel": "Старый пароль",
+    "newPasswordLabel": "Новый пароль",
+    "editButton": "Изменить данные",
+    "editPasswordButton": "Изменить пароль",
+    "logoutButton": "Выйти",
+    "saveButton": "Сохранить",
+    "editPlaceholder": "Редактировать",
+    "editAvatarTitle": "Выбрать аватар",
+    "updateAvatarSuccess": "Аватар успешно обновлен",
+    "updateProfileSuccess": "Профиль успешно обновлен",
+    "updatePasswordSuccess": "Пароль успешно обновлен"
+  },
+  "forum": {
+    "title": "Форум",
+    "createNewThreadTitle": "Создать новую тему",
+    "emptyCategoryMsg": "Пусто",
+    "categories": {
+      "game": {
+        "header": "Об игре",
+        "sections": {
+          "gameDiscussion": {
+            "header": "Обсуждение игры",
+            "title": "Обсуждение игры",
+            "description": "Ваши впечатления и вопросы по игре"
+          },
+          "featureRequests": {
+            "header": "Запрос новых фич",
+            "title": "Запрос новых фич",
+            "description": "Предложения по новым функциями и улучшениям"
+          },
+          "bugReports": {
+            "header": "Баг-репорты",
+            "title": "Баг-репорты",
+            "description": "Если вы нашли ошибку, сообщите о ней тут"
+          }
+        }
+      },
+      "general": {
+        "header": "Общий раздел",
+        "sections": {
+          "gameIndustryNews": {
+            "header": "Новости игровой индустрии",
+            "title": "Новости игровой индустрии",
+            "description": "Следите за новостями"
+          },
+          "generalConversation": {
+            "header": "Общение",
+            "title": "Общение",
+            "description": "Здесь вы можете общаться на любые темы"
+          }
+        }
+      }
+    },
+    "stats": {
+      "registered": "Зарегистрировано пользователей:",
+      "online": "Сейчас онлайн:"
+    },
+    "createNewThreadButtonTitle": "Создать новую тему",
+    "emptySectionMessage": "Создайте тему",
+    "backToForumButtonTitle": "Назад в форум",
+    "backToSectionButtonTitle": "Назад в секцию",
+    "newMessageAreaPlaceholder": "Введите сообщение",
+    "newMessageButton": "Отправить",
+    "commentReplyButton": "Ответить",
+    "commentEditButtonTitle": "Редактировать",
+    "commentDeleteButtonTitle": "Удалить",
+    "newThreadHeader": "Создайте тему",
+    "newThreadNameInputPlaceholder": "Название темы",
+    "newThreadMessageAreaPlaceholder": "Введите сообщение",
+    "newThreadButton": "Создать"
+  },
+  "leaderboard": {
+    "title": "Рейтинг",
+    "header": "Рейтинг игроков",
+    "empty": "Пока что тут пусто, ты будешь первым)"
+  },
+  "page404": {
+    "title": "Нет страницы"
+  },
+  "page500": {
+    "title": "Ошибка сервера"
+  },
+  "offlineNoticePage": {
+    "title": "Нет соединения",
+    "message": "Нет соединения с интернетом,",
+    "action": "поиграйте в игру"
+  },
+  "game": {
+    "title": "Играть",
+    "playButton": "Играть",
+    "playMoreButton": "Могу лучше!",
+    "retryButton": "Ещё раз!",
+    "lossText": "Потрачено",
+    "winText": "Победа!",
+    "gamepadConfiguration": "Обнаружен геймпад! Нажмите ОК, затем кнопку на геймпаде, соответствующую действию:",
+    "pointsOnFirstLevel": "Для попадания в таблицу лидеров необходимо пройти хотя бы один уровень",
+    "pointsOnWin": "Вы прошли все %totalLevels% уровня за %time%. Это %points% очков. Поздравляем!",
+    "pointsOnLoss": "Вы прошли %completedLevels% уровня за %time%. Это %points% очков. Попробуйте пройти все уровни",
+    "control": {
+      "left": "Движение влево",
+      "right": "Движение вправо",
+      "jump": "Прыжок"
+    },
+    "errors": {
+      "loadingSprite": "Не удалось получить спрайт",
+      "uniqueSprite": "Идентификатор спрайта должен быть уникальным",
+      "loadingSound": "Не удалось получить звук",
+      "uniqueSound": "Идентификатор звука должен быть уникальным",
+      "uniqueGameObject": "Идентификатор игрового объекта должен быть уникальным",
+      "unregisteredSprite": "Ошибка создания уровня. Не зарегистрирован спрайт",
+      "unregisteredGameObject": "Ошибка создания уровня. Не зарегистрирован игровой объект"
+    }
+  },
+  "pagination": {
+    "prevPageButtonTitle": "Предыдущая страница",
+    "nextPageButtonTitle": "Следующая страница"
+  },
+  "userStamp": {
+    "fromLabel": "от"
+  },
+  "timeDistanceLabel": "назад",
+  "validation": {
+    "errors": {
+      "required": "Заполните поле",
+      "email": "Укажите email",
+      "phone": "Укажите телефон в формате +7(XXX)XXX-XX-XX",
+      "passwordRepeat": "Повторите пароль",
+      "min": "Введите более",
+      "max": "Введите не более",
+      "minMaxLabel": "символов"
+    }
+  },
+  "errorDescriptions": {
+    "generic": "Что-то пошло не так, попробуйте повторить"
+  },
+  "statusCodeDescriptions": {
+    "404": "Не найдено",
+    "401": "Вы не авторизованы. Войдите или зарегистрируйтесь",
+    "500": "Ошибка, попробуйте позже"
+  },
+  "yandexApiErrorReasons": {
+    "User already in system": "Пользователь уже в системе",
+    "Not found": "Не найдено",
+    "login is empty, but required": "Логин не введён, обязательное поле",
+    "Email already exists": "Пользователь с таким email уже существует",
+    "Cookie is not valid": "Вы не авторизованы. Войдите или зарегистрируйтесь",
+    "phone is not valid": "Неверный формат телефона",
+    "No chat": "Не выбран чат",
+    "Login or password is incorrect": "Неправильные логин или пароль",
+    "Error": "Ошибка"
+  }
+}

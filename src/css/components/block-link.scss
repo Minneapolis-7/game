@@ -1,0 +1,13 @@
+@use 'src/css/abstracts/variables' as *;
+
+.block-link {
+  display: block;
+}
+.block-link:link,
+.block-link:visited,
+.block-link:hover,
+.block-link:focus,
+.block-link:active {
+  color: var(--text-color);
+  text-decoration: none;
+}

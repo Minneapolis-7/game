@@ -1,0 +1,28 @@
+@use 'src/css/abstracts/variables' as *;
+
+.toaster {
+  position: fixed;
+  z-index: $z-index-notification;
+  width: 320px;
+  max-width: calc(100% - 2 * var(--section-pad-x-generic));
+}
+
+.toaster_position_top-right {
+  top: var(--section-pad-x-generic);
+  right: var(--section-pad-x-generic);
+}
+
+.toaster_position_bottom-right {
+  right: var(--section-pad-x-generic);
+  bottom: var(--section-pad-x-generic);
+}
+
+.toaster_position_top-left {
+  top: var(--section-pad-x-generic);
+  left: var(--section-pad-x-generic);
+}
+
+.toaster_position_bottom-left {
+  bottom: var(--section-pad-x-generic);
+  left: var(--section-pad-x-generic);
+}

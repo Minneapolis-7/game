@@ -1,0 +1,33 @@
+@use 'src/css/abstracts/variables' as *;
+
+.forum-item-preview {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  @media (min-width: $forum-bp) {
+    flex-wrap: nowrap;
+  }
+}
+
+.forum-item-preview__slot {
+  width: 100%;
+
+  @media (min-width: $forum-bp) {
+    width: 45%;
+  }
+}
+.forum-item-preview__slot_desc > p:last-child {
+  margin-bottom: 0;
+}
+.forum-item-preview__slot_stat {
+  padding-top: 0.4em;
+
+  @media (min-width: $forum-bp) {
+    padding-top: 0.1em;
+    text-align: right;
+  }
+}
+.forum-item-preview.has-no-threads > .forum-item-preview__slot_stat {
+  color: var(--muted-color);
+}

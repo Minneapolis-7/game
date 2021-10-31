@@ -1,0 +1,39 @@
+// Шрифты
+$text-font-stack: system-ui, 'Segoe UI', roboto, helvetica, arial, sans-serif, 'Apple Color Emoji',
+  'Segoe UI Emoji', 'Segoe UI Symbol';
+$font-size-primary: 1em;
+$line-height-primary: 1.6;
+
+$font-size-xs: 0.6rem;
+$font-size-sm: 0.8rem;
+$font-size-md: 1rem;
+$font-size-lg: 1.2em;
+$font-size-xl: 1.5em;
+
+// Длительность css-переходов
+$transition-duration: 0.15s;
+
+// Уровни наложения
+$z-index-primary: 0; // макс. 1999
+$z-index-dropdown: 2000; // макс. 2999
+$z-index-navigation: 3000; // макс. 3999
+$z-index-secondary: 4000; // макс. 4999
+$z-index-misc: 5000; // макс. 7999
+$z-index-modal: 8000; // макс. 8999
+$z-index-notification: 9000; // макс. 9999
+
+// Брейкпоинты
+$narrow-screen-bp: 50 * $font-size-primary; // 800px при шрифте 16px
+$forum-bp: 37.5 * $font-size-primary; // 600px при шрифте 16px
+
+// Кросс-компонентные переменные
+$section-pad-generic: 0.65rem; // общий паддинг для абстрактных секций
+$gap-x-generic: $section-pad-generic;
+$gap-x-generic-lg: $gap-x-generic * 1.5;
+$gap-y-generic: 1.5rem;
+$gap-y-xs: $gap-y-generic * 0.2;
+$gap-y-sm: $gap-y-generic * 0.5;
+$gap-y-lg: $gap-y-generic * 1.5;
+$gap-y-xl: $gap-y-generic * 2;
+
+$page-gap-y: $gap-y-generic;

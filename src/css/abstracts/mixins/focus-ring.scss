@@ -1,0 +1,8 @@
+@use 'src/css/abstracts/variables' as *;
+
+@mixin focus-ring {
+  box-shadow: 0 0 0 0.25rem hsla(var(--brand-color-raw), 0.3);
+}
+@mixin focus-ring-reset {
+  box-shadow: none !important;
+}

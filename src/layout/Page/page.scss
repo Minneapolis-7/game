@@ -1,0 +1,49 @@
+@use 'sass:math';
+@use 'src/css/abstracts/variables' as *;
+
+.page,
+.page_delegated > *:not(.page__sidebar):not(.page__offline-badge) {
+  overflow: hidden;
+  min-height: 100%;
+  padding: $page-gap-y var(--section-pad-x-generic);
+}
+
+.page {
+  display: flow-root;
+}
+.page_delegated {
+  overflow: visible;
+  padding: 0;
+}
+
+.page_centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page__centerer {
+  max-width: 100%;
+}
+
+.page_fullscreen,
+.page_delegated {
+  height: 100%;
+}
+.page_fullscreen {
+  padding: 0;
+}
+
+.page__offline-badge {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $z-index-navigation;
+}
+
+.page__offline-badge,
+.is-offline .page__sidebar:not(.is-opened) > .sidebar__opener {
+  display: none;
+}
+.is-offline .page__offline-badge {
+  display: block;
+}

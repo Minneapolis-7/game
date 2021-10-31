@@ -1,0 +1,36 @@
+@use 'src/css/abstracts/variables' as *;
+
+.game-overlay {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  padding: 0 8px;
+  background: linear-gradient(180deg, var(--dark-color), hsla(var(--dark-color-raw), 0) 100%);
+}
+
+.game-overlay__bar-block {
+  display: flex;
+  align-items: center;
+}
+
+.game-overlay__bar-block:last-of-type {
+  margin: 0 0 0 auto;
+}
+
+.game-overlay__bar-label {
+  margin: 0 8px 0 0;
+  font-weight: bold;
+}
+
+.game-overlay__health-icon,
+.game-overlay__lost-health-icon,
+.game-overlay__key-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.game-overlay__time {
+  font-weight: bold;
+  font-feature-settings: 'tnum';
+  font-variant-numeric: tabular-nums;
+}

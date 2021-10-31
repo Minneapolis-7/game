@@ -1,0 +1,15 @@
+@use 'src/css/abstracts/variables' as *;
+
+.fallback-error {
+  width: 900px;
+  max-width: 100%;
+  margin: 3rem auto;
+  padding: 2rem;
+  border: 10px solid hsla(var(--error-color-raw), 0.2);
+  font-size: $font-size-lg;
+  text-align: center;
+}
+.fallback-error__heading,
+.fallback-error__heading.heading {
+  margin-bottom: 0;
+}
