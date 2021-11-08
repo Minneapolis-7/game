@@ -6,6 +6,8 @@ import { SizeLabels } from '@/shared/const/const';
 import paths from '@/shared/const/paths';
 import useAuth from '@/shared/utils/hooks/useAuth';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
 function ProtectedRoute(props: RouteProps): JSX.Element {
   const { isChecking, isLoggedIn } = useAuth(true);
 
@@ -13,7 +15,11 @@ function ProtectedRoute(props: RouteProps): JSX.Element {
     return <Spinner size={SizeLabels.XL} />;
   }
 
-  return isLoggedIn ? <Route {...props} /> : <Redirect to={paths.LOGIN} />;
+  if (!isLoggedIn) {
+    return isProduction ? <Redirect to={paths.LOGIN} /> : <Spinner size={SizeLabels.XL} />;
+  }
+
+  return <Route {...props} />;
 }
 
 export default ProtectedRoute;
