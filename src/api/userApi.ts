@@ -55,6 +55,12 @@ export default {
     await apiYandex.post('/auth/logout');
   },
 
+  async getLocalUser(yandexUserId: number): Promise<UserLocalProfile> {
+    const { data } = await apiCustom.get(`/user/${yandexUserId}`);
+
+    return data;
+  },
+
   async setLocalUser(user: UserProfile): Promise<UserLocalProfile> {
     const yandexUser: Optional<UserProfile, 'id'> = user;
     const yandexUserId = yandexUser.id as number;
