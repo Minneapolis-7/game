@@ -119,9 +119,11 @@ export const updateProfile = createAsyncThunk(
   'user/updateProfile',
   async (user: UpdateProfileRequest, { dispatch, rejectWithValue }) => {
     try {
-      await api.updateProfile(user);
+      const profile = await api.updateProfile(user);
 
-      return dispatch(push(paths.PROFILE));
+      dispatch(push(paths.PROFILE));
+
+      return profile;
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
