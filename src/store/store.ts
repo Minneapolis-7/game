@@ -9,6 +9,7 @@ import isServer from '@/shared/utils/isServer';
 
 import forumReducers from './reducers/forumReducers';
 import leaderboardReducers from './reducers/leaderboardReducers';
+import profileReducers from './reducers/profileReducers';
 import userReducers from './reducers/userReducers';
 
 function initStore(initialState: RootState, url = '/') {
@@ -19,6 +20,7 @@ function initStore(initialState: RootState, url = '/') {
   const store = configureStore({
     reducer: {
       user: userReducers,
+      profile: profileReducers,
       leaderboard: leaderboardReducers,
       forum: forumReducers,
       router: connectRouter(history) as Reducer,

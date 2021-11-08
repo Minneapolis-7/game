@@ -19,9 +19,9 @@ export const initialState: ProfileState = {
 
 export const getProfile = createAsyncThunk(
   'user/getProfile',
-  async (yandexUserId: number, { rejectWithValue }) => {
+  async (userId: number, { rejectWithValue }) => {
     try {
-      return await userApi.getLocalUser(yandexUserId);
+      return await userApi.getLocalUser(userId);
     } catch (err) {
       return rejectWithValue(err.response?.data);
     }

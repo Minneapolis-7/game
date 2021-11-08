@@ -39,7 +39,7 @@ function ForumMainView(): JSX.Element {
                 userData.id === lastActiveUser.id
                   ? generatePath(paths.PROFILE)
                   : generatePath(paths.PROFILE, {
-                      userId: lastActiveUser.yandexUserId,
+                      userId: lastActiveUser.id,
                     });
               const lastActivePostingPath = lastComment
                 ? generatePath(paths.FORUM_COMMENT, {

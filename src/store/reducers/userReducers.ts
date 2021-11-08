@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import { generatePath } from 'react-router';
 import { createAction, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { push, replace } from 'connected-react-router';
 
@@ -121,7 +122,7 @@ export const updateProfile = createAsyncThunk(
     try {
       const profile = await api.updateProfile(user);
 
-      dispatch(push(paths.PROFILE));
+      dispatch(push(generatePath(paths.PROFILE)));
 
       return profile;
     } catch (err) {
@@ -147,7 +148,7 @@ export const updatePassword = createAsyncThunk(
     try {
       await api.updatePassword(password);
 
-      return dispatch(push(paths.PROFILE));
+      return dispatch(push(generatePath(paths.PROFILE)));
     } catch (err) {
       return rejectWithValue(err.response.data);
     }

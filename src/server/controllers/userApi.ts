@@ -7,13 +7,13 @@ import { HttpStatuses } from '@/shared/const/const';
 export type CreateUserRequest = Request<unknown, unknown, UserCreationAttributes>;
 export type UpdateUserRequest = Request<
   {
-    yandexUserId: string;
+    userId: string;
   },
   unknown,
   UserUpdatePayload
 >;
 export type UserRequest = Request<{
-  yandexUserId: string;
+  userId: string;
 }>;
 
 const userApi = {
@@ -31,10 +31,10 @@ const userApi = {
 
   async update(request: UpdateUserRequest, response: Response): Promise<void> {
     const { body } = request;
-    const { yandexUserId } = request.params;
+    const { userId } = request.params;
 
     try {
-      const record = await userService.update(Number(yandexUserId), body);
+      const record = await userService.update(Number(userId), body);
 
       response.json(record);
     } catch (e) {
@@ -43,10 +43,10 @@ const userApi = {
   },
 
   async request(request: UserRequest, response: Response): Promise<void> {
-    const { yandexUserId } = request.params;
+    const { userId } = request.params;
 
     try {
-      const record = await userService.request(Number(yandexUserId));
+      const record = await userService.request(Number(userId));
 
       response.json(record);
     } catch (e) {
