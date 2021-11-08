@@ -189,6 +189,10 @@ export const userSlice = createSlice({
       })
       .addCase(getUser.fulfilled, (state, action) => {
         Object.assign(state, action.payload);
+
+        if (state.phone === null) {
+          state.phone = '';
+        }
       })
       .addCase(getSelectedTheme.fulfilled, (state, action) => {
         const { name } = action.payload;
