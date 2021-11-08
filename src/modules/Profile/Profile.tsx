@@ -195,6 +195,12 @@ function Profile({ action }: ProfileProps): JSX.Element {
         return;
       }
 
+      if (Number.isNaN(Number(profileUserId))) {
+        dispatch(replace(paths.NOT_FOUND));
+
+        return;
+      }
+
       try {
         const profileData = await dispatch(getProfile(Number(profileUserId))).unwrap();
 
