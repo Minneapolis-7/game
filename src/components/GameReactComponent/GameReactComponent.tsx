@@ -30,7 +30,7 @@ function GameReactComponent({ fullscreen, onStateUpdate }: GameProps): JSX.Eleme
     if (gameState) {
       onStateUpdate(gameState);
 
-      if (!user.id) {
+      if (!user.yandexUserId) {
         return;
       }
 
@@ -38,7 +38,7 @@ function GameReactComponent({ fullscreen, onStateUpdate }: GameProps): JSX.Eleme
         dispatch(
           addToLeaderboard({
             data: {
-              id: user.id,
+              id: user.yandexUserId,
               nickname: user.login,
               points: gameState.points,
             },
