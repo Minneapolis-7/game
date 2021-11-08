@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { block } from 'bem-cn';
 
 import { Button, Icon } from '@/components/ui';
@@ -34,26 +35,24 @@ type SidebarProps = {
 };
 
 function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
-  const pageContext = useContext(PageContext);
+  const pageContext = useRef(useContext(PageContext));
   const { id: userId, selectedTheme } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const sidebarRef = useRef<HTMLDivElement>(null);
   const openerRef = useRef<HTMLElement | null>(null);
 
-  const openSidebar = useCallback(
-    (e) => {
-      openerRef.current = e.target;
-      pageContext?.toggleSidebar(true);
-      sidebarRef.current?.focus();
-      sidebarRef.current?.dispatchEvent(new CustomEvent(SIDEBAR_SHOW_EVENT, { bubbles: true }));
-    },
-    [pageContext]
-  );
+  const openSidebar = useCallback((e) => {
+    openerRef.current = e.target;
+    pageContext.current?.toggleSidebar(true);
+    sidebarRef.current?.focus();
+    sidebarRef.current?.dispatchEvent(new CustomEvent(SIDEBAR_SHOW_EVENT, { bubbles: true }));
+  }, []);
   const closeSidebar = useCallback(() => {
     openerRef.current?.focus();
-    pageContext?.toggleSidebar(false);
+    pageContext.current?.toggleSidebar(false);
     sidebarRef.current?.dispatchEvent(new CustomEvent(SIDEBAR_HIDE_EVENT, { bubbles: true }));
-  }, [pageContext]);
+  }, []);
 
   const isThemeToggled = selectedTheme === togglableTheme.NAME;
   const previousTheme = usePreviousValue(selectedTheme);
@@ -82,6 +81,10 @@ function Sidebar({ className = '', isOpened }: SidebarProps): JSX.Element {
       document.body.classList.add(getThemeClassname(selectedTheme));
     }
   }, [previousTheme, selectedTheme]);
+
+  useEffect(() => {
+    closeSidebar();
+  }, [location, closeSidebar]);
 
   useKeydown('Escape', closeSidebar);
   useFocusTrapping(SIDEBAR_SHOW_EVENT, SIDEBAR_HIDE_EVENT);

@@ -8,7 +8,7 @@ export const APP_DOMAIN = 'https://minneapolis-game-7.ya-praktikum.tech';
 
 export const OAUTH_REDIRECT_URI = APP_DOMAIN;
 
-export const TEAM_NAME = 'minneapolis-777';
+export const TEAM_NAME = 'minneapolis-7777';
 
 export const RATING_FIELD_NAME = 'points';
 
@@ -29,5 +29,3 @@ export const SizeLabels = {
 } as const;
 
 export const DEFAULT_THEME_NAME = 'default';
-
-export const DEFAULT_USER_NICKNAME = 'player';

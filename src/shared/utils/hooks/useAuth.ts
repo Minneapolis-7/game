@@ -49,7 +49,7 @@ export default (notify = false): HookState => {
     };
 
     checkAuth();
-  }, [appContext, isLoggedIn, dispatch, user.id, notify]);
+  }, [isLoggedIn, dispatch, user.id, notify]);
 
   return { isChecking, isLoggedIn };
 };

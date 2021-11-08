@@ -6,6 +6,11 @@ $profile-bp: 37.5 * $font-size-primary; // 600px при шрифте 16px
   max-width: 45rem;
   margin: $gap-y-lg auto;
 }
+.profile__spinner {
+  top: 50%;
+  left: 50%;
+}
+
 .profile__head,
 .profile__name {
   text-align: center;

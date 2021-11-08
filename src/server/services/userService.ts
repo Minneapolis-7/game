@@ -17,21 +17,21 @@ class UserService extends BaseService {
     return user;
   }
 
-  async update(yandexUserId: number, record: UserUpdatePayload): Promise<User> {
+  async update(userId: number, record: UserUpdatePayload): Promise<User> {
     const [_, users] = await User.update(record, {
-      where: { yandexUserId },
+      where: { id: userId },
       returning: true,
     });
 
     return users[0];
   }
 
-  async request(yandexUserId: number): Promise<User | null> {
-    return User.findOne({ where: { yandexUserId } });
+  async request(userId: number): Promise<User | null> {
+    return User.findOne({ where: { id: userId } });
   }
 
-  async requestByLocalId(id: number): Promise<User | null> {
-    return User.findOne({ where: { id } });
+  async requestByYandexId(id: number): Promise<User | null> {
+    return User.findOne({ where: { yandexUserId: id } });
   }
 
   async requestTotal(): Promise<number> {
