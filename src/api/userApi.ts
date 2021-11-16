@@ -3,7 +3,6 @@ import type { Optional } from 'utility-types';
 import { SiteThemeAttributes } from '@/server/sequelize/models/Themes/SiteTheme';
 import { UserCreationAttributes } from '@/server/sequelize/models/User';
 import { UserUpdatePayload } from '@/server/services/userService';
-import { DEFAULT_USER_NICKNAME } from '@/shared/const/const';
 
 import { apiCustom, apiYandex } from './api';
 import {
@@ -45,7 +44,7 @@ export default {
 
     await this.updateProfile({
       ...userCopy,
-      displayName: `${DEFAULT_USER_NICKNAME}-${data.id}`,
+      displayName: data.login,
     });
 
     return data.id;
@@ -55,10 +54,15 @@ export default {
     await apiYandex.post('/auth/logout');
   },
 
+  async getLocalUser(userId: number): Promise<UserLocalProfile> {
+    const { data } = await apiCustom.get(`/user/${userId}`);
+
+    return data;
+  },
+
   async setLocalUser(user: UserProfile): Promise<UserLocalProfile> {
     const yandexUser: Optional<UserProfile, 'id'> = user;
     const yandexUserId = yandexUser.id as number;
-    let { data } = await apiCustom.get(`/user/${yandexUserId}`);
 
     delete yandexUser.id;
 
@@ -67,9 +71,7 @@ export default {
       ...yandexUser,
     } as UserLocalProfile;
 
-    if (!data) {
-      ({ data } = await apiCustom.post('/user', localUserData));
-    }
+    const { data } = await apiCustom.post('/user', localUserData);
 
     localUserData.id = data.id;
 

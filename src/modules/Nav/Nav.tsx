@@ -1,5 +1,5 @@
 import React from 'react';
-import { generatePath } from 'react-router';
+import { generatePath, matchPath } from 'react-router';
 import { Link, useLocation } from 'react-router-dom';
 import { block } from 'bem-cn';
 
@@ -16,7 +16,7 @@ const navItems = [
   },
   {
     label: txt.profile,
-    path: generatePath(paths.PROFILE),
+    path: [paths.PROFILE, paths.PROFILE_EDIT, paths.PROFILE_EDIT_PASSWORD],
   },
   {
     label: txt.leaderboard,
@@ -24,7 +24,7 @@ const navItems = [
   },
   {
     label: txt.forum,
-    path: paths.FORUM,
+    path: [paths.FORUM, paths.FORUM_SECTION, paths.FORUM_THREAD, paths.FORUM_THREAD_CREATE],
   },
 ];
 
@@ -35,15 +35,23 @@ function Nav(): JSX.Element {
     <nav className={b()}>
       <ul className={b('list').mix('nolist')}>
         {navItems.map((item) => {
-          const isCurrent = item.path === pathname;
+          const pathMatch = matchPath(pathname, {
+            path: item.path,
+            exact: true,
+          });
           const basicProps = {
             className: b('item-i'),
             children: item.label,
           };
+          const mainPath = Array.isArray(item.path) ? item.path[0] : item.path;
 
           return (
-            <li key={item.path} className={b('item', { current: isCurrent })}>
-              {isCurrent ? <span {...basicProps} /> : <Link {...basicProps} to={item.path} />}
+            <li key={mainPath} className={b('item', { current: Boolean(pathMatch) })}>
+              {pathMatch ? (
+                <span {...basicProps} />
+              ) : (
+                <Link {...basicProps} to={generatePath(mainPath)} />
+              )}
             </li>
           );
         })}

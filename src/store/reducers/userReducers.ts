@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import { generatePath } from 'react-router';
 import { createAction, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { push, replace } from 'connected-react-router';
 
@@ -119,9 +120,11 @@ export const updateProfile = createAsyncThunk(
   'user/updateProfile',
   async (user: UpdateProfileRequest, { dispatch, rejectWithValue }) => {
     try {
-      await api.updateProfile(user);
+      const profile = await api.updateProfile(user);
 
-      return dispatch(push(paths.PROFILE));
+      dispatch(push(generatePath(paths.PROFILE)));
+
+      return profile;
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -145,7 +148,7 @@ export const updatePassword = createAsyncThunk(
     try {
       await api.updatePassword(password);
 
-      return dispatch(push(paths.PROFILE));
+      return dispatch(push(generatePath(paths.PROFILE)));
     } catch (err) {
       return rejectWithValue(err.response.data);
     }
@@ -186,6 +189,10 @@ export const userSlice = createSlice({
       })
       .addCase(getUser.fulfilled, (state, action) => {
         Object.assign(state, action.payload);
+
+        if (state.phone === null) {
+          state.phone = '';
+        }
       })
       .addCase(getSelectedTheme.fulfilled, (state, action) => {
         const { name } = action.payload;

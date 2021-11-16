@@ -12,6 +12,8 @@ export {
   updateAvatar,
 } from './userReducers';
 
+export { getProfile } from './profileReducers';
+
 export { addToLeaderboard, getTeamLeaderboard } from './leaderboardReducers';
 
 export {

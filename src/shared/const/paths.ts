@@ -1,8 +1,8 @@
 const paths = {
   LOGIN: '/login',
   REGISTER: '/signup',
-  PROFILE: '/profile',
-  PROFILE_EDIT: '/profile/edit',
+  PROFILE: '/profile/:userId?',
+  PROFILE_EDIT: '/profile/edit/info',
   PROFILE_EDIT_PASSWORD: '/profile/edit/password',
   FORUM: '/forum',
   FORUM_SECTION: '/forum/:sectionId',

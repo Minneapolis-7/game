@@ -1,6 +1,8 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useLayoutEffect } from 'react';
+import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { block } from 'bem-cn';
+import { replace } from 'connected-react-router';
 import { Form, Formik } from 'formik';
 
 import AppContext from '@/AppContext';
@@ -13,7 +15,13 @@ import text from '@/shared/const/text';
 import translateError from '@/shared/utils';
 import getResourceURL from '@/shared/utils/getResourceURL';
 import getRoutedButtonLink from '@/shared/utils/getRoutedButtonLink';
-import { logout, updateAvatar, updatePassword, updateProfile } from '@/store/reducers/actions';
+import {
+  getProfile,
+  logout,
+  updateAvatar,
+  updatePassword,
+  updateProfile,
+} from '@/store/reducers/actions';
 import { useAppDispatch, useAppSelector } from '@/store/store';
 
 import { PasswordFieldsSchema, ProfileFieldsSchema } from './schema';
@@ -85,22 +93,19 @@ function ProfileTableRow(props: ProfileTableRowProps): JSX.Element {
 type ProfileProps = {
   action?: 'edit' | 'edit-password';
 };
+type ProfileRouteParams = {
+  userId?: string;
+};
 
 function Profile({ action }: ProfileProps): JSX.Element {
   const appContext = useContext(AppContext);
+  const { userId: profileUserId } = useParams<ProfileRouteParams>();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-  const {
-    firstName,
-    secondName,
-    displayName,
-    login,
-    email,
-    phone,
-    avatar,
-    isLoggingOut,
-    isChangingAvatar,
-  } = user;
+  const profile = useAppSelector((state) => state.profile);
+  const renderedProfile = profileUserId ? profile : user;
+  const { firstName, secondName, displayName, login, email, phone, avatar } = renderedProfile;
+  const { isLoggingOut, isChangingAvatar } = user;
 
   const handleAvatarChange = useCallback(async (e) => {
     const formData = new FormData();
@@ -184,152 +189,195 @@ function Profile({ action }: ProfileProps): JSX.Element {
     }
   }, []);
 
+  useLayoutEffect(() => {
+    const loadProfile = async () => {
+      if (!profileUserId) {
+        return;
+      }
+
+      if (Number.isNaN(Number(profileUserId))) {
+        dispatch(replace(paths.NOT_FOUND));
+
+        return;
+      }
+
+      try {
+        const profileData = await dispatch(getProfile(Number(profileUserId))).unwrap();
+
+        if (!profileData) {
+          dispatch(replace(paths.NOT_FOUND));
+        }
+      } catch (e) {
+        const toast = {
+          type: 'warning',
+          description: translateError(e),
+        };
+
+        appContext?.addToastMessage(toast as ToastItem);
+      }
+    };
+
+    loadProfile();
+  }, [profileUserId, dispatch]);
+
   return (
     <div className={b()}>
-      <header className={b('head')}>
-        <Avatar
-          className={b('pic')}
-          size="10rem"
-          src={avatar && getResourceURL(avatar)}
-          populatable
-        >
-          {isChangingAvatar && (
-            <>
-              <div className={b('pic-dimmer')}></div>
-              <Spinner className={b('pic-spinner')} size={SizeLabels.LG} />
-            </>
-          )}
-          <Filepick
-            className={b('pic-setter')}
-            title={txt.editAvatarTitle}
-            id="avatar"
-            name="avatar"
-            accept="image/jpeg, image/png, image/gif, image/tiff, .jpg, .jpeg, .png, .gif, .tif, .tiff"
-            onChange={handleAvatarChange}
-          />
-        </Avatar>
-      </header>
-      <div className={b('content')}>
-        <h4 className={b('name').mix('heading_4', 'heading')}>{firstName}</h4>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={submitProfile}
-        >
-          {({ isSubmitting }) => (
-            <Form data-action={action} className="js-profile__form" noValidate>
-              <table className={b('table')}>
-                <tbody className={b('table-body')}>
-                  {(action === actionType.edit || !action) && (
-                    <>
-                      <ProfileTableRow
-                        label={txt.emailLabel}
-                        value={email}
-                        id="email"
-                        inputType="email"
-                        action={action}
-                      />
-                      <ProfileTableRow
-                        label={txt.phoneLabel}
-                        value={phone}
-                        id="phone"
-                        inputType="tel"
-                        action={action}
-                      />
-                      <ProfileTableRow
-                        label={txt.loginLabel}
-                        value={login}
-                        id="login"
-                        action={action}
-                      />
-                      <ProfileTableRow
-                        label={txt.firstNameLabel}
-                        value={firstName}
-                        id="firstName"
-                        action={action}
-                      />
-                      <ProfileTableRow
-                        label={txt.secondNameLabel}
-                        value={secondName}
-                        id="secondName"
-                        action={action}
-                      />
-                      <ProfileTableRow
-                        label={txt.nickNameLabel}
-                        value={displayName || ''}
-                        id="displayName"
-                        action={action}
-                      />
-                    </>
-                  )}
-                  {action === actionType.editPassword && (
-                    <>
-                      <ProfileTableRow
-                        label={txt.oldPasswordLabel}
-                        id="oldPassword"
-                        inputType="password"
-                        autoComplete="current-password"
-                        action={action}
-                      />
-                      <ProfileTableRow
-                        label={txt.newPasswordLabel}
-                        id="newPassword"
-                        inputType="password"
-                        autoComplete="new-password"
-                        action={action}
-                      />
-                    </>
-                  )}
-                </tbody>
-                <tfoot className={b('table-tfoot')}>
-                  {!action && (
-                    <>
-                      <tr className={b('table-row')}>
-                        <td colSpan={2} className={b('table-cell')}>
-                          <Link
-                            to={paths.PROFILE_EDIT}
-                            component={getRoutedButtonLink({
-                              theme: 'link',
-                              children: txt.editButton,
-                            })}
+      {profile.isLoading ? (
+        <Spinner className={b('spinner')} size={SizeLabels.LG} />
+      ) : (
+        <>
+          <header className={b('head')}>
+            <Avatar
+              className={b('pic')}
+              size="10rem"
+              src={avatar && getResourceURL(avatar)}
+              populatable
+            >
+              {isChangingAvatar && (
+                <>
+                  <div className={b('pic-dimmer')}></div>
+                  <Spinner className={b('pic-spinner')} size={SizeLabels.LG} />
+                </>
+              )}
+              <Filepick
+                className={b('pic-setter')}
+                title={txt.editAvatarTitle}
+                id="avatar"
+                name="avatar"
+                accept="image/jpeg, image/png, image/gif, image/tiff, .jpg, .jpeg, .png, .gif, .tif, .tiff"
+                onChange={handleAvatarChange}
+              />
+            </Avatar>
+          </header>
+          <div className={b('content')}>
+            <h4 className={b('name').mix('heading_4', 'heading')}>{firstName}</h4>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={submitProfile}
+            >
+              {({ isSubmitting }) => (
+                <Form data-action={action} className="js-profile__form" noValidate>
+                  <table className={b('table')}>
+                    <tbody className={b('table-body')}>
+                      {(action === actionType.edit || !action) && (
+                        <>
+                          <ProfileTableRow
+                            label={txt.emailLabel}
+                            value={email}
+                            id="email"
+                            inputType="email"
+                            action={action}
                           />
-                        </td>
-                      </tr>
-                      <tr className={b('table-row')}>
-                        <td colSpan={2} className={b('table-cell')}>
-                          <Link
-                            to={paths.PROFILE_EDIT_PASSWORD}
-                            component={getRoutedButtonLink({
-                              theme: 'link',
-                              children: txt.editPasswordButton,
-                            })}
+                          <ProfileTableRow
+                            label={txt.phoneLabel}
+                            value={phone}
+                            id="phone"
+                            inputType="tel"
+                            action={action}
                           />
-                        </td>
-                      </tr>
-                      <tr className={b('table-row')}>
-                        <td colSpan={2} className={b('table-cell')}>
-                          <Button onClick={doLogout} waiting={isLoggingOut} theme="link-danger">
-                            {txt.logoutButton}
-                          </Button>
-                        </td>
-                      </tr>
-                    </>
-                  )}
-                  {action && (
-                    <tr className={b('table-row')}>
-                      <td colSpan={2} className={b('table-cell')}>
-                        <Button type="submit" waiting={isSubmitting}>
-                          {txt.saveButton}
-                        </Button>
-                      </td>
-                    </tr>
-                  )}
-                </tfoot>
-              </table>
-            </Form>
-          )}
-        </Formik>
-      </div>
+                          <ProfileTableRow
+                            label={txt.loginLabel}
+                            value={login}
+                            id="login"
+                            action={action}
+                          />
+                          <ProfileTableRow
+                            label={txt.firstNameLabel}
+                            value={firstName}
+                            id="firstName"
+                            action={action}
+                          />
+                          <ProfileTableRow
+                            label={txt.secondNameLabel}
+                            value={secondName}
+                            id="secondName"
+                            action={action}
+                          />
+                          <ProfileTableRow
+                            label={txt.nickNameLabel}
+                            value={displayName || ''}
+                            id="displayName"
+                            action={action}
+                          />
+                        </>
+                      )}
+                      {action === actionType.editPassword && (
+                        <>
+                          <ProfileTableRow
+                            label={txt.oldPasswordLabel}
+                            id="oldPassword"
+                            inputType="password"
+                            autoComplete="current-password"
+                            action={action}
+                          />
+                          <ProfileTableRow
+                            label={txt.newPasswordLabel}
+                            id="newPassword"
+                            inputType="password"
+                            autoComplete="new-password"
+                            action={action}
+                          />
+                        </>
+                      )}
+                    </tbody>
+                    {!profileUserId && (
+                      <tfoot className={b('table-tfoot')}>
+                        {!action && (
+                          <>
+                            <tr className={b('table-row')}>
+                              <td colSpan={2} className={b('table-cell')}>
+                                <Link
+                                  to={paths.PROFILE_EDIT}
+                                  component={getRoutedButtonLink({
+                                    theme: 'link',
+                                    children: txt.editButton,
+                                  })}
+                                />
+                              </td>
+                            </tr>
+                            <tr className={b('table-row')}>
+                              <td colSpan={2} className={b('table-cell')}>
+                                <Link
+                                  to={paths.PROFILE_EDIT_PASSWORD}
+                                  component={getRoutedButtonLink({
+                                    theme: 'link',
+                                    children: txt.editPasswordButton,
+                                  })}
+                                />
+                              </td>
+                            </tr>
+                            <tr className={b('table-row')}>
+                              <td colSpan={2} className={b('table-cell')}>
+                                <Button
+                                  onClick={doLogout}
+                                  waiting={isLoggingOut}
+                                  theme="link-danger"
+                                >
+                                  {txt.logoutButton}
+                                </Button>
+                              </td>
+                            </tr>
+                          </>
+                        )}
+                        {action && (
+                          <tr className={b('table-row')}>
+                            <td colSpan={2} className={b('table-cell')}>
+                              <Button type="submit" waiting={isSubmitting}>
+                                {txt.saveButton}
+                              </Button>
+                            </td>
+                          </tr>
+                        )}
+                      </tfoot>
+                    )}
+                  </table>
+                </Form>
+              )}
+            </Formik>
+          </div>
+        </>
+      )}
     </div>
   );
 }
