@@ -1,6 +1,6 @@
 # game
 
-Дистрибутив на Heroku: https://minneapolis-game.herokuapp.com
+https://minneapolis-game-7.ya-praktikum.tech/
 
 ## Установка
 
